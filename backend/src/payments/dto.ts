@@ -1,0 +1,1 @@
+import { IsString } from 'class-validator'; export class CreatePaymentDto { @IsString() orderId: string; } export class PaymentWebhookDto { @IsString() orderCode: string; @IsString() status: string; }

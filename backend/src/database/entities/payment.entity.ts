@@ -1,0 +1,3 @@
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'; import { Order } from './order.entity';
+export enum PaymentStatus { PENDING = 'pending', PAID = 'paid', FAILED = 'failed', EXPIRED = 'expired' }
+@Entity('payments') export class Payment { @PrimaryGeneratedColumn('uuid') id: string; @ManyToOne(() => Order) order: Order; @Column() orderId: string; @Column({ unique: true }) transactionCode: string; @Column({ default: 'vietqr' }) provider: string; @Column({ type: 'enum', enum: PaymentStatus, default: PaymentStatus.PENDING }) status: PaymentStatus; @Column({ nullable: true }) qrCode?: string; @CreateDateColumn() createdAt: Date; }

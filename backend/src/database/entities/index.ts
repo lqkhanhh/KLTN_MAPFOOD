@@ -1,0 +1,3 @@
+export * from './user.entity'; export * from './restaurant.entity'; export * from './menu-item.entity'; export * from './order.entity'; export * from './order-item.entity'; export * from './payment.entity'; export * from './review.entity'; export * from './route-search-log.entity';
+import { User } from './user.entity'; import { Restaurant } from './restaurant.entity'; import { MenuItem } from './menu-item.entity'; import { Order } from './order.entity'; import { OrderItem } from './order-item.entity'; import { Payment } from './payment.entity'; import { Review } from './review.entity'; import { RouteSearchLog } from './route-search-log.entity';
+export const entities = [User, Restaurant, MenuItem, Order, OrderItem, Payment, Review, RouteSearchLog];

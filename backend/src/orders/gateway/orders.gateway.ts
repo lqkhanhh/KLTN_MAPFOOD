@@ -1,0 +1,2 @@
+import { WebSocketGateway, WebSocketServer } from '@nestjs/websockets'; import { Server } from 'socket.io';
+@WebSocketGateway({ cors: { origin: '*' }, namespace: 'orders' }) export class OrdersGateway { @WebSocketServer() server: Server; emitStatus(order: any) { this.server.emit(`order:${order.id}`, { id:order.id, code:order.code, status:order.status, updatedAt:order.updatedAt }); this.server.emit(`restaurant:${order.restaurantId}`, { type:'ORDER_STATUS_CHANGED', order }); } }

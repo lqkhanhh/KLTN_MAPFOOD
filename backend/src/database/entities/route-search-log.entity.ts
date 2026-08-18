@@ -1,0 +1,2 @@
+import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+@Entity('routes_search_log') export class RouteSearchLog { @PrimaryGeneratedColumn('uuid') id: string; @Column({ type: 'jsonb' }) pointA: object; @Column({ type: 'jsonb' }) pointB: object; @Column({ type: 'text' }) polyline: string; @Column() radiusMeters: number; @Column({ nullable: true }) userId?: string; @CreateDateColumn() createdAt: Date; }

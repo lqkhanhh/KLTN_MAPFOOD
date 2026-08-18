@@ -1,0 +1,2 @@
+import { IsEmail, IsEnum, IsString, MinLength } from 'class-validator'; import { UserRole } from '../database/entities/user.entity';
+export class RegisterDto { @IsEmail() email: string; @IsString() @MinLength(6) password: string; @IsString() fullName: string; @IsEnum(UserRole) role: UserRole = UserRole.CUSTOMER; } export class LoginDto { @IsEmail() email: string; @IsString() password: string; } export class RefreshDto { @IsString() refreshToken: string; }

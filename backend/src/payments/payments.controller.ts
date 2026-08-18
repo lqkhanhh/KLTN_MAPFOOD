@@ -1,0 +1,2 @@
+import { Body, Controller, Post } from '@nestjs/common'; import { ApiTags } from '@nestjs/swagger'; import { PaymentsService } from './payments.service'; import { CreatePaymentDto, PaymentWebhookDto } from './dto';
+@ApiTags('payments') @Controller('payments') export class PaymentsController { constructor(private service:PaymentsService) {} @Post('create') create(@Body() dto:CreatePaymentDto){return this.service.create(dto.orderId)} @Post('webhook') webhook(@Body() dto:PaymentWebhookDto){return this.service.webhook(dto.orderCode,dto.status)} }
