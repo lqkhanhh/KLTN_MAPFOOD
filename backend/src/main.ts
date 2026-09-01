@@ -4,11 +4,18 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { rawBody: true });
   app.setGlobalPrefix('api');
   app.enableCors();
-  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
-  const config = new DocumentBuilder().setTitle('RouteBite API').setVersion('1.0').addBearerAuth().build();
+  app.useGlobalPipes(
+    new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }),
+  );
+  const config = new DocumentBuilder()
+    .setTitle('RouteBite API')
+    .setDescription('Route discovery, booking, takeaway ordering and payments')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
   SwaggerModule.setup('api/docs', app, SwaggerModule.createDocument(app, config));
   await app.listen(process.env.PORT || 3000);
 }

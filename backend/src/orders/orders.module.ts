@@ -1,1 +1,15 @@
-import { Module } from '@nestjs/common'; import { TypeOrmModule } from '@nestjs/typeorm'; import { MenuItem, Order } from '../database/entities'; import { AuthModule } from '../auth/auth.module'; import { OrdersService } from './orders.service'; import { OrdersController } from './orders.controller'; import { OrdersGateway } from './gateway/orders.gateway'; @Module({imports:[TypeOrmModule.forFeature([Order,MenuItem]),AuthModule],providers:[OrdersService,OrdersGateway],controllers:[OrdersController],exports:[OrdersService,OrdersGateway]}) export class OrdersModule {}
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Order, Restaurant } from '../database/entities';
+import { AuthModule } from '../auth/auth.module';
+import { OrdersService } from './orders.service';
+import { OrdersController } from './orders.controller';
+import { OrdersGateway } from './gateway/orders.gateway';
+
+@Module({
+  imports: [TypeOrmModule.forFeature([Order, Restaurant]), AuthModule],
+  providers: [OrdersService, OrdersGateway],
+  controllers: [OrdersController],
+  exports: [OrdersService, OrdersGateway],
+})
+export class OrdersModule {}
