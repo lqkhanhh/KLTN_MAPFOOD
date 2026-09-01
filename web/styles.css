@@ -1,0 +1,151 @@
+:root {
+  --color-bg: #f7f0e8;
+  --color-surface: #fffdf9;
+  --color-primary: #c85a2b;
+  --color-primary-dark: #9e3d18;
+  --color-primary-soft: #f7e1d4;
+  --color-brown: #38251d;
+  --color-text: #2d211c;
+  --color-muted: #78675f;
+  --color-border: #ead9cc;
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-full: 999px;
+  --shadow: 0 16px 40px rgba(75, 43, 26, .12);
+}
+
+* { box-sizing: border-box; }
+html { background: var(--color-bg); }
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+button, input { font: inherit; }
+button { cursor: pointer; }
+a { color: inherit; text-decoration: none; }
+
+.consumer-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 70px;
+  padding: 0 5vw;
+  background: rgba(255, 253, 249, .92);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(14px);
+}
+.brand-logo { color: var(--color-primary-dark); font-size: 23px; font-weight: 900; letter-spacing: -.8px; }
+.main-nav { display: flex; align-items: center; gap: 25px; margin-right: auto; }
+.main-nav a { position: relative; padding: 25px 0 21px; color: #69574e; font-size: 14px; font-weight: 700; }
+.main-nav a:first-child { color: var(--color-primary-dark); }
+.main-nav a:first-child::after { content: ""; position: absolute; right: 0; bottom: 0; left: 0; height: 3px; background: var(--color-primary); border-radius: 3px 3px 0 0; }
+.header-actions { display: flex; align-items: center; gap: 10px; }
+.icon-btn, .avatar-btn { display: grid; place-items: center; border: 0; }
+.icon-btn { width: 38px; height: 38px; background: #f8eee6; border-radius: 50%; color: var(--color-brown); font-size: 18px; }
+.avatar-btn { width: 38px; height: 38px; border-radius: 50%; background: var(--color-primary); color: #fff; font-size: 13px; font-weight: 900; }
+
+.home-route-v2 { width: min(1200px, calc(100% - 40px)); margin: 30px auto 64px; }
+.home-route-hero { overflow: hidden; padding: clamp(28px, 5vw, 58px); border-radius: 30px; background: radial-gradient(circle at 100% 0, #6e4636 0, transparent 34%), var(--color-brown); color: #fff; box-shadow: var(--shadow); }
+.home-route-copy { max-width: 690px; }
+.home-eyebrow { margin: 0 0 12px; color: #f3a26d; font-size: 12px; font-weight: 900; letter-spacing: .16em; }
+.home-route-copy h1 { max-width: 650px; margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(40px, 6vw, 70px); line-height: 1.03; letter-spacing: -2px; }
+.home-route-copy > p:not(.home-eyebrow) { max-width: 590px; margin: 18px 0 28px; color: #eadbd2; font-size: 16px; line-height: 1.65; }
+.place-form { display: grid; grid-template-columns: 1fr 1fr auto; gap: 14px; align-items: end; padding: 17px; border: 1px solid rgba(255,255,255,.13); border-radius: 20px; background: rgba(255,255,255,.09); backdrop-filter: blur(6px); }
+.place-field { display: grid; gap: 8px; }
+.place-field > span { color: #f5dfd1; font-size: 13px; font-weight: 800; }
+.place-input { width: 100%; min-width: 0; padding: 13px 14px; border: 1px solid transparent; border-radius: 12px; outline: none; background: #fff; color: var(--color-text); }
+.place-input:focus { border-color: #f29a69; box-shadow: 0 0 0 3px rgba(242,154,105,.25); }
+.place-actions { display: flex; flex-wrap: wrap; gap: 7px; }
+.place-actions button { padding: 5px 0; border: 0; background: transparent; color: #f8b783; font-size: 12px; font-weight: 800; }
+.find-route-btn, .btn.primary { border: 0; border-radius: 12px; padding: 13px 19px; background: var(--color-primary); color: #fff; font-weight: 850; box-shadow: 0 8px 18px rgba(130, 45, 17, .28); }
+.find-route-btn:hover, .btn.primary:hover { background: var(--color-primary-dark); }
+.quick-categories { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 22px; }
+.quick-categories button, .category-pill { border: 1px solid var(--color-border); border-radius: var(--radius-full); padding: 9px 14px; background: var(--color-surface); color: #5e4940; font-size: 13px; font-weight: 750; }
+
+.route-results { margin-top: 38px; }
+.section-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 15px; margin-bottom: 17px; }
+.section-heading h2 { margin: 0; font-size: clamp(23px, 3vw, 30px); letter-spacing: -.7px; }
+.section-heading p { margin: 0; color: var(--color-muted); font-size: 14px; }
+.route-results-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 19px; }
+.route-food-card { position: relative; display: block; overflow: hidden; border: 1px solid var(--color-border); border-radius: 18px; background: var(--color-surface); box-shadow: 0 6px 20px rgba(75, 43, 26, .06); transition: transform .18s ease, box-shadow .18s ease; }
+.route-food-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+.route-food-card img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; background: #f0ddd0; }
+.bookmark-btn { position: absolute; top: 12px; right: 12px; display: grid; place-items: center; width: 34px; height: 34px; border: 0; border-radius: 50%; background: rgba(255,255,255,.94); color: var(--color-primary-dark); font-size: 16px; }
+.route-card-body { padding: 13px 14px 16px; }
+.route-badge { display: inline-flex; margin-bottom: 9px; border-radius: var(--radius-full); padding: 5px 9px; background: var(--color-primary-soft); color: var(--color-primary-dark); font-size: 11px; font-weight: 850; }
+.route-card-body h3 { overflow: hidden; margin: 0 0 7px; color: var(--color-text); font-size: 16px; line-height: 1.25; text-overflow: ellipsis; white-space: nowrap; }
+.route-card-body p { overflow: hidden; margin: 0; color: var(--color-muted); font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
+
+.app-page { width: min(480px, calc(100% - 36px)); margin: 55px auto; }
+.panel { padding: 28px; border: 1px solid var(--color-border); border-radius: var(--radius-lg); background: var(--color-surface); box-shadow: var(--shadow); }
+.panel h1 { margin-top: 0; }
+.grid-form { display: grid; gap: 14px; }
+.grid-form label { display: grid; gap: 7px; color: #5b463d; font-size: 13px; font-weight: 800; }
+.grid-form input { padding: 12px; border: 1px solid var(--color-border); border-radius: 10px; background: #fff; outline: none; }
+.btn.secondary { border: 1px solid var(--color-border); border-radius: 12px; padding: 12px 16px; background: #fff7f1; color: var(--color-primary-dark); font-weight: 800; }
+.orders-empty-v2 { width: min(800px, calc(100% - 36px)); margin: 70px auto; text-align: center; }
+
+@media (max-width: 760px) {
+  .consumer-header { min-height: 62px; padding: 0 16px; }
+  .main-nav { display: none; }
+  .header-actions { margin-left: auto; }
+  .home-route-v2 { width: min(100% - 24px, 1200px); margin-top: 12px; }
+  .home-route-hero { padding: 27px 18px; border-radius: 22px; }
+  .home-route-copy h1 { font-size: 42px; letter-spacing: -1.3px; }
+  .place-form { grid-template-columns: 1fr; padding: 13px; }
+  .find-route-btn { width: 100%; }
+  .route-results-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 11px; }
+  .route-card-body { padding: 10px; }
+  .route-card-body h3 { font-size: 14px; }
+  .route-card-body p { font-size: 11px; }
+  .route-badge { margin-bottom: 6px; padding: 4px 7px; font-size: 9px; }
+}
+
+/* React customer home: đặt ở cuối để thắng phần style cũ còn lại trong index.html. */
+.home-route-v2 { width: min(1180px, calc(100% - 40px)); margin: 0 auto; padding: 38px 0 72px; }
+.consumer-header .consumer-logo { color: var(--color-primary-dark) !important; font-size: 23px !important; font-weight: 900 !important; letter-spacing: -.8px; }
+.home-route-hero { padding: clamp(28px, 5vw, 58px) !important; border-radius: 30px !important; background: radial-gradient(circle at 95% 0, #714a38 0, transparent 35%), #2b2320 !important; color: #fff !important; }
+.home-route-copy > p { margin: 0 !important; color: #f0a36d !important; font-size: 11px !important; font-weight: 900 !important; letter-spacing: .15em !important; }
+.home-route-copy > h1 { margin: 11px 0 !important; color: #fff !important; font-family: Georgia, "Times New Roman", serif !important; font-size: clamp(42px, 7vw, 74px) !important; line-height: .98 !important; }
+.home-route-copy > span { display: block; max-width: 600px; color: #ead5c5; line-height: 1.6; }
+.home-route-form-v2 { margin-top: 28px; }
+.home-route-form-v2 .place-form { display: grid !important; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto !important; gap: 12px !important; align-items: end !important; padding: 12px !important; border: 1px solid rgba(255,255,255,.2) !important; border-radius: 18px !important; background: rgba(255,255,255,.12) !important; }
+.home-route-form-v2 .place-input { display: grid !important; gap: 7px !important; width: auto !important; padding: 0 !important; border: 0 !important; background: transparent !important; color: #f7e7db !important; font-size: 13px !important; font-weight: 800 !important; }
+.home-route-form-v2 .place-input input { width: 100% !important; min-height: 52px !important; padding: 0 13px !important; border: 0 !important; border-radius: 11px !important; background: #fff !important; color: #2b2320 !important; }
+.home-route-form-v2 .place-input small { display: flex; flex-wrap: wrap; gap: 10px; }
+.home-route-form-v2 .place-input small button { padding: 0 !important; border: 0 !important; background: transparent !important; color: #ffd5ba !important; font-size: 11px !important; font-weight: 800 !important; }
+.home-route-form-v2 .swap-button { width: 38px !important; height: 38px !important; margin-bottom: 8px !important; padding: 0 !important; border: 0 !important; border-radius: 50% !important; background: rgba(255,255,255,.18) !important; color: #fff !important; font-size: 20px !important; }
+.home-route-form-v2 .route-search-button { min-height: 52px !important; margin: 0 !important; border: 0 !important; border-radius: 12px !important; padding: 0 18px !important; background: #c1440e !important; color: #fff !important; font-weight: 900 !important; }
+.quick-category-v2 { margin-top: 30px !important; }
+.quick-category-v2 h2, .featured-home-v2 h2 { color: #2b2320 !important; font-family: Georgia, "Times New Roman", serif !important; font-size: 25px !important; }
+.quick-category-v2 > div { display: flex !important; gap: 9px !important; overflow-x: auto !important; padding-bottom: 5px !important; }
+.quick-category-v2 button { flex: 0 0 auto; border: 0 !important; border-radius: 999px !important; padding: 10px 16px !important; background: #f3d9c5 !important; color: #2b2320 !important; font-weight: 800 !important; }
+.featured-home-v2 { margin-top: 32px !important; }
+.section-heading-v2 { display: flex !important; justify-content: space-between !important; align-items: center !important; }
+.restaurant-grid.route-results-grid { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)) !important; gap: 18px !important; }
+.route-food-card { overflow: hidden !important; border: 1px solid #eaded4 !important; border-radius: 20px !important; background: #fff !important; box-shadow: 0 12px 30px rgba(53,32,20,.08) !important; cursor: pointer !important; }
+.route-food-image { position: relative !important; aspect-ratio: 1 / 1 !important; background: #ead4c2 !important; }
+.route-food-image img { width: 100% !important; height: 100% !important; object-fit: cover !important; }
+.save-heart { position: absolute !important; top: 12px !important; right: 12px !important; width: 36px !important; height: 36px !important; border: 0 !important; border-radius: 50% !important; background: rgba(255,255,255,.94) !important; color: #b2492a !important; font-size: 22px !important; }
+.route-food-body { padding: 15px !important; }
+.route-food-title h3 { overflow: hidden; margin: 8px 0 !important; color: #2b2320 !important; font-size: 17px !important; text-overflow: ellipsis; white-space: nowrap; }
+.route-meta-line { display: flex !important; flex-wrap: wrap !important; gap: 7px !important; color: #6d5c51 !important; font-size: 12px !important; }
+.convenience-tag { display: inline-block; border-radius: 8px !important; padding: 6px 8px !important; background: #e1f0e7 !important; color: #31664a !important; font-size: 11px !important; font-weight: 900 !important; }
+
+@media (max-width: 760px) {
+  .home-route-v2 { width: min(100% - 28px, 1180px) !important; padding-top: 22px !important; }
+  .home-route-form-v2 .place-form { grid-template-columns: 1fr !important; }
+  .home-route-form-v2 .swap-button { display: none !important; }
+  .home-route-form-v2 .route-search-button { width: 100% !important; }
+  .restaurant-grid.route-results-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 11px !important; }
+  .route-food-body { padding: 10px !important; }
+  .route-food-title h3 { font-size: 14px !important; }
+  .route-meta-line { font-size: 11px !important; }
+}

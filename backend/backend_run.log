@@ -1,0 +1,717 @@
+
+> routebite-backend@1.0.0 start:dev
+> nest start --watch
+
+[2J[3J[H[[90m1:19:03 PM[0m] Starting compilation in watch mode...
+
+[[90m1:19:22 PM[0m] Found 0 errors. Watching for file changes.
+
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [NestFactory] Starting Nest application...
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [InstanceLoader] AppModule dependencies initialized +76ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [InstanceLoader] TypeOrmModule dependencies initialized +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [InstanceLoader] JwtModule dependencies initialized +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [InstanceLoader] ConfigHostModule dependencies initialized +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [InstanceLoader] ConfigModule dependencies initialized +0ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [InstanceLoader] TypeOrmCoreModule dependencies initialized +501ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [InstanceLoader] TypeOrmModule dependencies initialized +2ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [InstanceLoader] TypeOrmModule dependencies initialized +0ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [InstanceLoader] TypeOrmModule dependencies initialized +2ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [InstanceLoader] TypeOrmModule dependencies initialized +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [InstanceLoader] TypeOrmModule dependencies initialized +0ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [InstanceLoader] AuthModule dependencies initialized +8ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [InstanceLoader] ReviewsModule dependencies initialized +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [InstanceLoader] SearchModule dependencies initialized +2ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [InstanceLoader] RestaurantsModule dependencies initialized +0ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [InstanceLoader] AdminModule dependencies initialized +0ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [InstanceLoader] OrdersModule dependencies initialized +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [InstanceLoader] PaymentsModule dependencies initialized +0ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [WebSocketsController] OrdersGateway subscribed to the "order.subscribe" message +208ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [WebSocketsController] OrdersGateway subscribed to the "merchant.subscribe" message +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RoutesResolver] AuthController {/api/auth}: +5ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/auth/register, POST} route +7ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/auth/login, POST} route +2ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/auth/refresh, POST} route +0ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RoutesResolver] RestaurantsController {/api/restaurants}: +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/restaurants/mine, GET} route +2ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/restaurants/:id, GET} route +2ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/restaurants, POST} route +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/restaurants/:id, PUT} route +2ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RoutesResolver] SearchController {/api/search}: +0ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/search/route, POST} route +2ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/search/route, GET} route +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RoutesResolver] OrdersController {/api/orders}: +0ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/orders, POST} route +2ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/orders, GET} route +0ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/orders/:id, GET} route +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/orders/:id/status, PATCH} route +2ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RoutesResolver] PaymentsController {/api/payments}: +0ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/payments/create, POST} route +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/payments/webhook, POST} route +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RoutesResolver] ReviewsController {/api/reviews}: +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/reviews, POST} route +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/reviews/:id, DELETE} route +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RoutesResolver] AdminController {/api/admin}: +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/admin/dashboard/overview, GET} route +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/admin/search-analytics, GET} route +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/admin/restaurants, GET} route +0ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/admin/users, GET} route +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/admin/restaurants/:id/suspend, PATCH} route +0ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [RouterExplorer] Mapped {/api/admin/restaurants/:id/activate, PATCH} route +1ms
+[Nest] 12696  - 09/01/2026, 1:19:31 PM     LOG [NestApplication] Nest application successfully started +11ms
+[2J[3J[H[[90m1:29:47 PM[0m] File change detected. Starting incremental compilation...
+
+[2J[3J[H[[90m1:29:47 PM[0m] File change detected. Starting incremental compilation...
+
+[2J[3J[H[[90m1:30:57 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/orders/dto/create-order.dto.ts[0m:[93m21[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"../../database/entities"' has no exported member 'OrderType'.
+
+[7m21[0m import { OrderType } from '../../database/entities';
+[7m  [0m [91m         ~~~~~~~~~[0m
+
+[96msrc/orders/dto/list-orders-query.dto.ts[0m:[93m3[0m:[93m23[0m - [91merror[0m[90m TS2305: [0mModule '"../../database/entities"' has no exported member 'OrderType'.
+
+[7m3[0m import { OrderStatus, OrderType } from '../../database/entities';
+[7m [0m [91m                      ~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m17[0m:[93m3[0m - [91merror[0m[90m TS2305: [0mModule '"../database/entities"' has no exported member 'OrderType'.
+
+[7m17[0m   OrderType,
+[7m  [0m [91m  ~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m129[0m:[93m27[0m - [91merror[0m[90m TS2339: [0mProperty 'type' does not exist on type 'FindOptionsWhere<Order>'.
+
+[7m129[0m     if (query.type) where.type = query.type;
+[7m   [0m [91m                          ~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m214[0m:[93m19[0m - [91merror[0m[90m TS2339: [0mProperty 'type' does not exist on type 'Order'.
+
+[7m214[0m       type: order.type,
+[7m   [0m [91m                  ~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m223[0m:[93m26[0m - [91merror[0m[90m TS2339: [0mProperty 'bookingTime' does not exist on type 'Order'.
+
+[7m223[0m       bookingTime: order.bookingTime,
+[7m   [0m [91m                         ~~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m224[0m:[93m25[0m - [91merror[0m[90m TS2339: [0mProperty 'guestCount' does not exist on type 'Order'.
+
+[7m224[0m       guestCount: order.guestCount,
+[7m   [0m [91m                        ~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m225[0m:[93m25[0m - [91merror[0m[90m TS2551: [0mProperty 'pickupTime' does not exist on type 'Order'. Did you mean 'pickupType'?
+
+[7m225[0m       pickupTime: order.pickupTime,
+[7m   [0m [91m                        ~~~~~~~~~~[0m
+
+  [96msrc/database/entities/order.entity.ts[0m:[93m65[0m:[93m3[0m
+    [7m65[0m   pickupType: PickupType;
+    [7m  [0m [96m  ~~~~~~~~~~[0m
+    'pickupType' is declared here.
+
+[[90m1:31:00 PM[0m] Found 8 errors. Watching for file changes.
+
+[2J[3J[H[[90m1:31:01 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/orders/dto/create-order.dto.ts[0m:[93m21[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"../../database/entities"' has no exported member 'OrderType'.
+
+[7m21[0m import { OrderType } from '../../database/entities';
+[7m  [0m [91m         ~~~~~~~~~[0m
+
+[96msrc/orders/dto/list-orders-query.dto.ts[0m:[93m3[0m:[93m23[0m - [91merror[0m[90m TS2305: [0mModule '"../../database/entities"' has no exported member 'OrderType'.
+
+[7m3[0m import { OrderStatus, OrderType } from '../../database/entities';
+[7m [0m [91m                      ~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m17[0m:[93m3[0m - [91merror[0m[90m TS2305: [0mModule '"../database/entities"' has no exported member 'OrderType'.
+
+[7m17[0m   OrderType,
+[7m  [0m [91m  ~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m129[0m:[93m27[0m - [91merror[0m[90m TS2339: [0mProperty 'type' does not exist on type 'FindOptionsWhere<Order>'.
+
+[7m129[0m     if (query.type) where.type = query.type;
+[7m   [0m [91m                          ~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m214[0m:[93m19[0m - [91merror[0m[90m TS2339: [0mProperty 'type' does not exist on type 'Order'.
+
+[7m214[0m       type: order.type,
+[7m   [0m [91m                  ~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m223[0m:[93m26[0m - [91merror[0m[90m TS2339: [0mProperty 'bookingTime' does not exist on type 'Order'.
+
+[7m223[0m       bookingTime: order.bookingTime,
+[7m   [0m [91m                         ~~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m224[0m:[93m25[0m - [91merror[0m[90m TS2339: [0mProperty 'guestCount' does not exist on type 'Order'.
+
+[7m224[0m       guestCount: order.guestCount,
+[7m   [0m [91m                        ~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m225[0m:[93m25[0m - [91merror[0m[90m TS2551: [0mProperty 'pickupTime' does not exist on type 'Order'. Did you mean 'pickupType'?
+
+[7m225[0m       pickupTime: order.pickupTime,
+[7m   [0m [91m                        ~~~~~~~~~~[0m
+
+  [96msrc/database/entities/order.entity.ts[0m:[93m65[0m:[93m3[0m
+    [7m65[0m   pickupType: PickupType;
+    [7m  [0m [96m  ~~~~~~~~~~[0m
+    'pickupType' is declared here.
+
+[[90m1:31:01 PM[0m] Found 8 errors. Watching for file changes.
+
+[2J[3J[H[[90m1:33:13 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/orders/dto/create-order.dto.ts[0m:[93m21[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"../../database/entities"' has no exported member 'OrderType'.
+
+[7m21[0m import { OrderType } from '../../database/entities';
+[7m  [0m [91m         ~~~~~~~~~[0m
+
+[96msrc/orders/dto/list-orders-query.dto.ts[0m:[93m3[0m:[93m23[0m - [91merror[0m[90m TS2305: [0mModule '"../../database/entities"' has no exported member 'OrderType'.
+
+[7m3[0m import { OrderStatus, OrderType } from '../../database/entities';
+[7m [0m [91m                      ~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m17[0m:[93m3[0m - [91merror[0m[90m TS2305: [0mModule '"../database/entities"' has no exported member 'OrderType'.
+
+[7m17[0m   OrderType,
+[7m  [0m [91m  ~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m129[0m:[93m27[0m - [91merror[0m[90m TS2339: [0mProperty 'type' does not exist on type 'FindOptionsWhere<Order>'.
+
+[7m129[0m     if (query.type) where.type = query.type;
+[7m   [0m [91m                          ~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m214[0m:[93m19[0m - [91merror[0m[90m TS2339: [0mProperty 'type' does not exist on type 'Order'.
+
+[7m214[0m       type: order.type,
+[7m   [0m [91m                  ~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m223[0m:[93m26[0m - [91merror[0m[90m TS2339: [0mProperty 'bookingTime' does not exist on type 'Order'.
+
+[7m223[0m       bookingTime: order.bookingTime,
+[7m   [0m [91m                         ~~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m224[0m:[93m25[0m - [91merror[0m[90m TS2339: [0mProperty 'guestCount' does not exist on type 'Order'.
+
+[7m224[0m       guestCount: order.guestCount,
+[7m   [0m [91m                        ~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m225[0m:[93m25[0m - [91merror[0m[90m TS2551: [0mProperty 'pickupTime' does not exist on type 'Order'. Did you mean 'pickupType'?
+
+[7m225[0m       pickupTime: order.pickupTime,
+[7m   [0m [91m                        ~~~~~~~~~~[0m
+
+  [96msrc/database/entities/order.entity.ts[0m:[93m65[0m:[93m3[0m
+    [7m65[0m   pickupType: PickupType;
+    [7m  [0m [96m  ~~~~~~~~~~[0m
+    'pickupType' is declared here.
+
+[[90m1:33:13 PM[0m] Found 8 errors. Watching for file changes.
+
+[2J[3J[H[[90m1:33:14 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/orders/dto/create-order.dto.ts[0m:[93m21[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"../../database/entities"' has no exported member 'OrderType'.
+
+[7m21[0m import { OrderType } from '../../database/entities';
+[7m  [0m [91m         ~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m17[0m:[93m3[0m - [91merror[0m[90m TS2305: [0mModule '"../database/entities"' has no exported member 'OrderType'.
+
+[7m17[0m   OrderType,
+[7m  [0m [91m  ~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m129[0m:[93m15[0m - [91merror[0m[90m TS2339: [0mProperty 'type' does not exist on type 'ListOrdersQueryDto'.
+
+[7m129[0m     if (query.type) where.type = query.type;
+[7m   [0m [91m              ~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m129[0m:[93m27[0m - [91merror[0m[90m TS2339: [0mProperty 'type' does not exist on type 'FindOptionsWhere<Order>'.
+
+[7m129[0m     if (query.type) where.type = query.type;
+[7m   [0m [91m                          ~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m129[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'type' does not exist on type 'ListOrdersQueryDto'.
+
+[7m129[0m     if (query.type) where.type = query.type;
+[7m   [0m [91m                                       ~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m214[0m:[93m19[0m - [91merror[0m[90m TS2339: [0mProperty 'type' does not exist on type 'Order'.
+
+[7m214[0m       type: order.type,
+[7m   [0m [91m                  ~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m223[0m:[93m26[0m - [91merror[0m[90m TS2339: [0mProperty 'bookingTime' does not exist on type 'Order'.
+
+[7m223[0m       bookingTime: order.bookingTime,
+[7m   [0m [91m                         ~~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m224[0m:[93m25[0m - [91merror[0m[90m TS2339: [0mProperty 'guestCount' does not exist on type 'Order'.
+
+[7m224[0m       guestCount: order.guestCount,
+[7m   [0m [91m                        ~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m225[0m:[93m25[0m - [91merror[0m[90m TS2551: [0mProperty 'pickupTime' does not exist on type 'Order'. Did you mean 'pickupType'?
+
+[7m225[0m       pickupTime: order.pickupTime,
+[7m   [0m [91m                        ~~~~~~~~~~[0m
+
+  [96msrc/database/entities/order.entity.ts[0m:[93m65[0m:[93m3[0m
+    [7m65[0m   pickupType: PickupType;
+    [7m  [0m [96m  ~~~~~~~~~~[0m
+    'pickupType' is declared here.
+
+[[90m1:33:14 PM[0m] Found 9 errors. Watching for file changes.
+
+[2J[3J[H[[90m1:33:15 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/orders/dto/create-order.dto.ts[0m:[93m87[0m:[93m4[0m - [91merror[0m[90m TS2552: [0mCannot find name 'ArrayMaxSize'. Did you mean 'ArrayMinSize'?
+
+[7m87[0m   @ArrayMaxSize(100)
+[7m  [0m [91m   ~~~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m17[0m:[93m3[0m - [91merror[0m[90m TS2305: [0mModule '"../database/entities"' has no exported member 'OrderType'.
+
+[7m17[0m   OrderType,
+[7m  [0m [91m  ~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m45[0m:[93m13[0m - [91merror[0m[90m TS2339: [0mProperty 'type' does not exist on type 'CreateOrderDto'.
+
+[7m45[0m     if (dto.type === OrderType.TAKE_AWAY && itemRequests.length === 0) {
+[7m  [0m [91m            ~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m104[0m:[93m19[0m - [91merror[0m[90m TS2339: [0mProperty 'type' does not exist on type 'CreateOrderDto'.
+
+[7m104[0m         type: dto.type,
+[7m   [0m [91m                  ~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m110[0m:[93m27[0m - [91merror[0m[90m TS2339: [0mProperty 'customerName' does not exist on type 'CreateOrderDto'.
+
+[7m110[0m         customerName: dto.customerName.trim(),
+[7m   [0m [91m                          ~~~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m111[0m:[93m28[0m - [91merror[0m[90m TS2339: [0mProperty 'customerPhone' does not exist on type 'CreateOrderDto'.
+
+[7m111[0m         customerPhone: dto.customerPhone.trim(),
+[7m   [0m [91m                           ~~~~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m113[0m:[93m26[0m - [91merror[0m[90m TS2339: [0mProperty 'bookingTime' does not exist on type 'CreateOrderDto'.
+
+[7m113[0m         bookingTime: dto.bookingTime ? new Date(dto.bookingTime) : undefined,
+[7m   [0m [91m                         ~~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m113[0m:[93m53[0m - [91merror[0m[90m TS2339: [0mProperty 'bookingTime' does not exist on type 'CreateOrderDto'.
+
+[7m113[0m         bookingTime: dto.bookingTime ? new Date(dto.bookingTime) : undefined,
+[7m   [0m [91m                                                    ~~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m114[0m:[93m25[0m - [91merror[0m[90m TS2339: [0mProperty 'guestCount' does not exist on type 'CreateOrderDto'.
+
+[7m114[0m         guestCount: dto.guestCount,
+[7m   [0m [91m                        ~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m115[0m:[93m25[0m - [91merror[0m[90m TS2339: [0mProperty 'pickupTime' does not exist on type 'CreateOrderDto'.
+
+[7m115[0m         pickupTime: dto.pickupTime ? new Date(dto.pickupTime) : undefined,
+[7m   [0m [91m                        ~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m115[0m:[93m51[0m - [91merror[0m[90m TS2339: [0mProperty 'pickupTime' does not exist on type 'CreateOrderDto'.
+
+[7m115[0m         pickupTime: dto.pickupTime ? new Date(dto.pickupTime) : undefined,
+[7m   [0m [91m                                                  ~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m129[0m:[93m15[0m - [91merror[0m[90m TS2339: [0mProperty 'type' does not exist on type 'ListOrdersQueryDto'.
+
+[7m129[0m     if (query.type) where.type = query.type;
+[7m   [0m [91m              ~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m129[0m:[93m27[0m - [91merror[0m[90m TS2339: [0mProperty 'type' does not exist on type 'FindOptionsWhere<Order>'.
+
+[7m129[0m     if (query.type) where.type = query.type;
+[7m   [0m [91m                          ~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m129[0m:[93m40[0m - [91merror[0m[90m TS2339: [0mProperty 'type' does not exist on type 'ListOrdersQueryDto'.
+
+[7m129[0m     if (query.type) where.type = query.type;
+[7m   [0m [91m                                       ~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m214[0m:[93m19[0m - [91merror[0m[90m TS2339: [0mProperty 'type' does not exist on type 'Order'.
+
+[7m214[0m       type: order.type,
+[7m   [0m [91m                  ~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m223[0m:[93m26[0m - [91merror[0m[90m TS2339: [0mProperty 'bookingTime' does not exist on type 'Order'.
+
+[7m223[0m       bookingTime: order.bookingTime,
+[7m   [0m [91m                         ~~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m224[0m:[93m25[0m - [91merror[0m[90m TS2339: [0mProperty 'guestCount' does not exist on type 'Order'.
+
+[7m224[0m       guestCount: order.guestCount,
+[7m   [0m [91m                        ~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m225[0m:[93m25[0m - [91merror[0m[90m TS2551: [0mProperty 'pickupTime' does not exist on type 'Order'. Did you mean 'pickupType'?
+
+[7m225[0m       pickupTime: order.pickupTime,
+[7m   [0m [91m                        ~~~~~~~~~~[0m
+
+  [96msrc/database/entities/order.entity.ts[0m:[93m65[0m:[93m3[0m
+    [7m65[0m   pickupType: PickupType;
+    [7m  [0m [96m  ~~~~~~~~~~[0m
+    'pickupType' is declared here.
+
+[96msrc/orders/orders.service.ts[0m:[93m278[0m:[93m13[0m - [91merror[0m[90m TS2339: [0mProperty 'type' does not exist on type 'CreateOrderDto'.
+
+[7m278[0m     if (dto.type === OrderType.BOOKING) {
+[7m   [0m [91m            ~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m279[0m:[93m16[0m - [91merror[0m[90m TS2339: [0mProperty 'bookingTime' does not exist on type 'CreateOrderDto'.
+
+[7m279[0m       if (!dto.bookingTime || !dto.guestCount) {
+[7m   [0m [91m               ~~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m279[0m:[93m36[0m - [91merror[0m[90m TS2339: [0mProperty 'guestCount' does not exist on type 'CreateOrderDto'.
+
+[7m279[0m       if (!dto.bookingTime || !dto.guestCount) {
+[7m   [0m [91m                                   ~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m282[0m:[93m24[0m - [91merror[0m[90m TS2339: [0mProperty 'bookingTime' does not exist on type 'CreateOrderDto'.
+
+[7m282[0m       if (new Date(dto.bookingTime).getTime() <= now) {
+[7m   [0m [91m                       ~~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m285[0m:[93m15[0m - [91merror[0m[90m TS2339: [0mProperty 'pickupTime' does not exist on type 'CreateOrderDto'.
+
+[7m285[0m       if (dto.pickupTime) throw new BadRequestException('Đơn đặt bàn không dùng pickupTime');
+[7m   [0m [91m              ~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m287[0m:[93m16[0m - [91merror[0m[90m TS2339: [0mProperty 'pickupTime' does not exist on type 'CreateOrderDto'.
+
+[7m287[0m       if (!dto.pickupTime) throw new BadRequestException('Đơn mang đi cần pickupTime');
+[7m   [0m [91m               ~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m288[0m:[93m24[0m - [91merror[0m[90m TS2339: [0mProperty 'pickupTime' does not exist on type 'CreateOrderDto'.
+
+[7m288[0m       if (new Date(dto.pickupTime).getTime() <= now) {
+[7m   [0m [91m                       ~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m291[0m:[93m15[0m - [91merror[0m[90m TS2339: [0mProperty 'bookingTime' does not exist on type 'CreateOrderDto'.
+
+[7m291[0m       if (dto.bookingTime || dto.guestCount) {
+[7m   [0m [91m              ~~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m291[0m:[93m34[0m - [91merror[0m[90m TS2339: [0mProperty 'guestCount' does not exist on type 'CreateOrderDto'.
+
+[7m291[0m       if (dto.bookingTime || dto.guestCount) {
+[7m   [0m [91m                                 ~~~~~~~~~~[0m
+
+[[90m1:33:15 PM[0m] Found 27 errors. Watching for file changes.
+
+[2J[3J[H[[90m1:34:03 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/orders/dto/create-order.dto.ts[0m:[93m87[0m:[93m4[0m - [91merror[0m[90m TS2552: [0mCannot find name 'ArrayMaxSize'. Did you mean 'ArrayMinSize'?
+
+[7m87[0m   @ArrayMaxSize(100)
+[7m  [0m [91m   ~~~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m46[0m:[93m25[0m - [91merror[0m[90m TS2339: [0mProperty 'resolvePickupOption' does not exist on type 'OrdersService'.
+
+[7m46[0m     const pickup = this.resolvePickupOption(dto);
+[7m  [0m [91m                        ~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m284[0m:[93m13[0m - [91merror[0m[90m TS2339: [0mProperty 'type' does not exist on type 'CreateOrderDto'.
+
+[7m284[0m     if (dto.type === OrderType.BOOKING) {
+[7m   [0m [91m            ~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m284[0m:[93m22[0m - [91merror[0m[90m TS2304: [0mCannot find name 'OrderType'.
+
+[7m284[0m     if (dto.type === OrderType.BOOKING) {
+[7m   [0m [91m                     ~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m285[0m:[93m16[0m - [91merror[0m[90m TS2339: [0mProperty 'bookingTime' does not exist on type 'CreateOrderDto'.
+
+[7m285[0m       if (!dto.bookingTime || !dto.guestCount) {
+[7m   [0m [91m               ~~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m285[0m:[93m36[0m - [91merror[0m[90m TS2339: [0mProperty 'guestCount' does not exist on type 'CreateOrderDto'.
+
+[7m285[0m       if (!dto.bookingTime || !dto.guestCount) {
+[7m   [0m [91m                                   ~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m288[0m:[93m24[0m - [91merror[0m[90m TS2339: [0mProperty 'bookingTime' does not exist on type 'CreateOrderDto'.
+
+[7m288[0m       if (new Date(dto.bookingTime).getTime() <= now) {
+[7m   [0m [91m                       ~~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m291[0m:[93m15[0m - [91merror[0m[90m TS2339: [0mProperty 'pickupTime' does not exist on type 'CreateOrderDto'.
+
+[7m291[0m       if (dto.pickupTime) throw new BadRequestException('Đơn đặt bàn không dùng pickupTime');
+[7m   [0m [91m              ~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m293[0m:[93m16[0m - [91merror[0m[90m TS2339: [0mProperty 'pickupTime' does not exist on type 'CreateOrderDto'.
+
+[7m293[0m       if (!dto.pickupTime) throw new BadRequestException('Đơn mang đi cần pickupTime');
+[7m   [0m [91m               ~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m294[0m:[93m24[0m - [91merror[0m[90m TS2339: [0mProperty 'pickupTime' does not exist on type 'CreateOrderDto'.
+
+[7m294[0m       if (new Date(dto.pickupTime).getTime() <= now) {
+[7m   [0m [91m                       ~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m297[0m:[93m15[0m - [91merror[0m[90m TS2339: [0mProperty 'bookingTime' does not exist on type 'CreateOrderDto'.
+
+[7m297[0m       if (dto.bookingTime || dto.guestCount) {
+[7m   [0m [91m              ~~~~~~~~~~~[0m
+
+[96msrc/orders/orders.service.ts[0m:[93m297[0m:[93m34[0m - [91merror[0m[90m TS2339: [0mProperty 'guestCount' does not exist on type 'CreateOrderDto'.
+
+[7m297[0m       if (dto.bookingTime || dto.guestCount) {
+[7m   [0m [91m                                 ~~~~~~~~~~[0m
+
+[[90m1:34:04 PM[0m] Found 12 errors. Watching for file changes.
+
+[2J[3J[H[[90m1:34:20 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/orders/dto/create-order.dto.ts[0m:[93m87[0m:[93m4[0m - [91merror[0m[90m TS2552: [0mCannot find name 'ArrayMaxSize'. Did you mean 'ArrayMinSize'?
+
+[7m87[0m   @ArrayMaxSize(100)
+[7m  [0m [91m   ~~~~~~~~~~~~[0m
+
+[[90m1:34:21 PM[0m] Found 1 error. Watching for file changes.
+
+[2J[3J[H[[90m1:35:04 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/orders/dto/create-order.dto.ts[0m:[93m87[0m:[93m4[0m - [91merror[0m[90m TS2552: [0mCannot find name 'ArrayMaxSize'. Did you mean 'ArrayMinSize'?
+
+[7m87[0m   @ArrayMaxSize(100)
+[7m  [0m [91m   ~~~~~~~~~~~~[0m
+
+[96msrc/payments/payments.module.ts[0m:[93m25[0m:[93m26[0m - [91merror[0m[90m TS2532: [0mObject is possibly 'undefined'.
+
+[7m25[0m         const provider = config.get<string>('PAYMENT_PROVIDER', PaymentProvider.VIETQR).toUpperCase();
+[7m  [0m [91m                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/payments/payments.module.ts[0m:[93m25[0m:[93m81[0m - [91merror[0m[90m TS2339: [0mProperty 'VIETQR' does not exist on type 'typeof PaymentProvider'.
+
+[7m25[0m         const provider = config.get<string>('PAYMENT_PROVIDER', PaymentProvider.VIETQR).toUpperCase();
+[7m  [0m [91m                                                                                ~~~~~~[0m
+
+[96msrc/payments/payments.module.ts[0m:[93m26[0m:[93m42[0m - [91merror[0m[90m TS2339: [0mProperty 'PAYOS' does not exist on type 'typeof PaymentProvider'.
+
+[7m26[0m         if (provider === PaymentProvider.PAYOS) return new PayOSProvider(config);
+[7m  [0m [91m                                         ~~~~~[0m
+
+[96msrc/payments/payments.module.ts[0m:[93m27[0m:[93m42[0m - [91merror[0m[90m TS2339: [0mProperty 'VIETQR' does not exist on type 'typeof PaymentProvider'.
+
+[7m27[0m         if (provider === PaymentProvider.VIETQR) return new VietQrProvider(config);
+[7m  [0m [91m                                         ~~~~~~[0m
+
+[96msrc/payments/providers/payos.provider.ts[0m:[93m13[0m:[93m39[0m - [91merror[0m[90m TS2339: [0mProperty 'PAYOS' does not exist on type 'typeof PaymentProvider'.
+
+[7m13[0m   readonly provider = PaymentProvider.PAYOS;
+[7m  [0m [91m                                      ~~~~~[0m
+
+[96msrc/payments/providers/vietqr.provider.ts[0m:[93m22[0m:[93m39[0m - [91merror[0m[90m TS2339: [0mProperty 'VIETQR' does not exist on type 'typeof PaymentProvider'.
+
+[7m22[0m   readonly provider = PaymentProvider.VIETQR;
+[7m  [0m [91m                                      ~~~~~~[0m
+
+[[90m1:35:06 PM[0m] Found 7 errors. Watching for file changes.
+
+[2J[3J[H[[90m1:35:06 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/orders/dto/create-order.dto.ts[0m:[93m87[0m:[93m4[0m - [91merror[0m[90m TS2552: [0mCannot find name 'ArrayMaxSize'. Did you mean 'ArrayMinSize'?
+
+[7m87[0m   @ArrayMaxSize(100)
+[7m  [0m [91m   ~~~~~~~~~~~~[0m
+
+[96msrc/payments/payments.module.ts[0m:[93m25[0m:[93m26[0m - [91merror[0m[90m TS2532: [0mObject is possibly 'undefined'.
+
+[7m25[0m         const provider = config.get<string>('PAYMENT_PROVIDER', PaymentProvider.VIETQR).toUpperCase();
+[7m  [0m [91m                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/payments/payments.module.ts[0m:[93m25[0m:[93m81[0m - [91merror[0m[90m TS2339: [0mProperty 'VIETQR' does not exist on type 'typeof PaymentProvider'.
+
+[7m25[0m         const provider = config.get<string>('PAYMENT_PROVIDER', PaymentProvider.VIETQR).toUpperCase();
+[7m  [0m [91m                                                                                ~~~~~~[0m
+
+[96msrc/payments/payments.module.ts[0m:[93m26[0m:[93m42[0m - [91merror[0m[90m TS2339: [0mProperty 'PAYOS' does not exist on type 'typeof PaymentProvider'.
+
+[7m26[0m         if (provider === PaymentProvider.PAYOS) return new PayOSProvider(config);
+[7m  [0m [91m                                         ~~~~~[0m
+
+[96msrc/payments/payments.module.ts[0m:[93m27[0m:[93m42[0m - [91merror[0m[90m TS2339: [0mProperty 'VIETQR' does not exist on type 'typeof PaymentProvider'.
+
+[7m27[0m         if (provider === PaymentProvider.VIETQR) return new VietQrProvider(config);
+[7m  [0m [91m                                         ~~~~~~[0m
+
+[96msrc/payments/providers/payos.provider.ts[0m:[93m13[0m:[93m39[0m - [91merror[0m[90m TS2339: [0mProperty 'PAYOS' does not exist on type 'typeof PaymentProvider'.
+
+[7m13[0m   readonly provider = PaymentProvider.PAYOS;
+[7m  [0m [91m                                      ~~~~~[0m
+
+[96msrc/payments/providers/vietqr.provider.ts[0m:[93m22[0m:[93m39[0m - [91merror[0m[90m TS2339: [0mProperty 'VIETQR' does not exist on type 'typeof PaymentProvider'.
+
+[7m22[0m   readonly provider = PaymentProvider.VIETQR;
+[7m  [0m [91m                                      ~~~~~~[0m
+
+[[90m1:35:07 PM[0m] Found 7 errors. Watching for file changes.
+
+[2J[3J[H[[90m1:35:08 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/orders/dto/create-order.dto.ts[0m:[93m87[0m:[93m4[0m - [91merror[0m[90m TS2552: [0mCannot find name 'ArrayMaxSize'. Did you mean 'ArrayMinSize'?
+
+[7m87[0m   @ArrayMaxSize(100)
+[7m  [0m [91m   ~~~~~~~~~~~~[0m
+
+[96msrc/payments/providers/payos.provider.ts[0m:[93m13[0m:[93m39[0m - [91merror[0m[90m TS2339: [0mProperty 'PAYOS' does not exist on type 'typeof PaymentProvider'.
+
+[7m13[0m   readonly provider = PaymentProvider.PAYOS;
+[7m  [0m [91m                                      ~~~~~[0m
+
+[96msrc/payments/providers/vietqr.provider.ts[0m:[93m22[0m:[93m39[0m - [91merror[0m[90m TS2339: [0mProperty 'VIETQR' does not exist on type 'typeof PaymentProvider'.
+
+[7m22[0m   readonly provider = PaymentProvider.VIETQR;
+[7m  [0m [91m                                      ~~~~~~[0m
+
+[[90m1:35:08 PM[0m] Found 3 errors. Watching for file changes.
+
+[2J[3J[H[[90m1:35:27 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/orders/dto/create-order.dto.ts[0m:[93m87[0m:[93m4[0m - [91merror[0m[90m TS2552: [0mCannot find name 'ArrayMaxSize'. Did you mean 'ArrayMinSize'?
+
+[7m87[0m   @ArrayMaxSize(100)
+[7m  [0m [91m   ~~~~~~~~~~~~[0m
+
+[96msrc/payments/providers/payos.provider.ts[0m:[93m13[0m:[93m39[0m - [91merror[0m[90m TS2339: [0mProperty 'PAYOS' does not exist on type 'typeof PaymentProvider'.
+
+[7m13[0m   readonly provider = PaymentProvider.PAYOS;
+[7m  [0m [91m                                      ~~~~~[0m
+
+[96msrc/payments/providers/vietqr.provider.ts[0m:[93m22[0m:[93m39[0m - [91merror[0m[90m TS2339: [0mProperty 'VIETQR' does not exist on type 'typeof PaymentProvider'.
+
+[7m22[0m   readonly provider = PaymentProvider.VIETQR;
+[7m  [0m [91m                                      ~~~~~~[0m
+
+[[90m1:35:27 PM[0m] Found 3 errors. Watching for file changes.
+
+[2J[3J[H[[90m1:36:17 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/orders/dto/create-order.dto.ts[0m:[93m87[0m:[93m4[0m - [91merror[0m[90m TS2552: [0mCannot find name 'ArrayMaxSize'. Did you mean 'ArrayMinSize'?
+
+[7m87[0m   @ArrayMaxSize(100)
+[7m  [0m [91m   ~~~~~~~~~~~~[0m
+
+[96msrc/payments/providers/payos.provider.ts[0m:[93m13[0m:[93m39[0m - [91merror[0m[90m TS2339: [0mProperty 'PAYOS' does not exist on type 'typeof PaymentProvider'.
+
+[7m13[0m   readonly provider = PaymentProvider.PAYOS;
+[7m  [0m [91m                                      ~~~~~[0m
+
+[96msrc/payments/providers/vietqr.provider.ts[0m:[93m22[0m:[93m39[0m - [91merror[0m[90m TS2339: [0mProperty 'VIETQR' does not exist on type 'typeof PaymentProvider'.
+
+[7m22[0m   readonly provider = PaymentProvider.VIETQR;
+[7m  [0m [91m                                      ~~~~~~[0m
+
+[[90m1:36:17 PM[0m] Found 3 errors. Watching for file changes.
+
+[2J[3J[H[[90m1:36:24 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/orders/dto/create-order.dto.ts[0m:[93m87[0m:[93m4[0m - [91merror[0m[90m TS2552: [0mCannot find name 'ArrayMaxSize'. Did you mean 'ArrayMinSize'?
+
+[7m87[0m   @ArrayMaxSize(100)
+[7m  [0m [91m   ~~~~~~~~~~~~[0m
+
+[96msrc/payments/providers/payos.provider.ts[0m:[93m13[0m:[93m39[0m - [91merror[0m[90m TS2339: [0mProperty 'PAYOS' does not exist on type 'typeof PaymentProvider'.
+
+[7m13[0m   readonly provider = PaymentProvider.PAYOS;
+[7m  [0m [91m                                      ~~~~~[0m
+
+[96msrc/payments/providers/vietqr.provider.ts[0m:[93m22[0m:[93m39[0m - [91merror[0m[90m TS2339: [0mProperty 'VIETQR' does not exist on type 'typeof PaymentProvider'.
+
+[7m22[0m   readonly provider = PaymentProvider.VIETQR;
+[7m  [0m [91m                                      ~~~~~~[0m
+
+[[90m1:36:24 PM[0m] Found 3 errors. Watching for file changes.
+
+[2J[3J[H[[90m1:36:29 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/orders/dto/create-order.dto.ts[0m:[93m87[0m:[93m4[0m - [91merror[0m[90m TS2552: [0mCannot find name 'ArrayMaxSize'. Did you mean 'ArrayMinSize'?
+
+[7m87[0m   @ArrayMaxSize(100)
+[7m  [0m [91m   ~~~~~~~~~~~~[0m
+
+[96msrc/payments/providers/payos.provider.ts[0m:[93m13[0m:[93m39[0m - [91merror[0m[90m TS2339: [0mProperty 'PAYOS' does not exist on type 'typeof PaymentProvider'.
+
+[7m13[0m   readonly provider = PaymentProvider.PAYOS;
+[7m  [0m [91m                                      ~~~~~[0m
+
+[96msrc/payments/providers/vietqr.provider.ts[0m:[93m22[0m:[93m39[0m - [91merror[0m[90m TS2339: [0mProperty 'VIETQR' does not exist on type 'typeof PaymentProvider'.
+
+[7m22[0m   readonly provider = PaymentProvider.VIETQR;
+[7m  [0m [91m                                      ~~~~~~[0m
+
+[[90m1:36:34 PM[0m] Found 3 errors. Watching for file changes.
+
+[2J[3J[H[[90m1:36:38 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/payments/providers/payos.provider.ts[0m:[93m13[0m:[93m39[0m - [91merror[0m[90m TS2339: [0mProperty 'PAYOS' does not exist on type 'typeof PaymentProvider'.
+
+[7m13[0m   readonly provider = PaymentProvider.PAYOS;
+[7m  [0m [91m                                      ~~~~~[0m
+
+[96msrc/payments/providers/vietqr.provider.ts[0m:[93m22[0m:[93m39[0m - [91merror[0m[90m TS2339: [0mProperty 'VIETQR' does not exist on type 'typeof PaymentProvider'.
+
+[7m22[0m   readonly provider = PaymentProvider.VIETQR;
+[7m  [0m [91m                                      ~~~~~~[0m
+
+[[90m1:36:38 PM[0m] Found 2 errors. Watching for file changes.
+
+[2J[3J[H[[90m1:36:38 PM[0m] File change detected. Starting incremental compilation...
+
+[[90m1:36:40 PM[0m] Found 0 errors. Watching for file changes.
+
+[Nest] 27240  - 09/01/2026, 1:36:47 PM     LOG [NestFactory] Starting Nest application...
+[Nest] 27240  - 09/01/2026, 1:36:47 PM     LOG [InstanceLoader] AppModule dependencies initialized +26ms
+[Nest] 27240  - 09/01/2026, 1:36:47 PM     LOG [InstanceLoader] TypeOrmModule dependencies initialized +0ms
+[Nest] 27240  - 09/01/2026, 1:36:47 PM     LOG [InstanceLoader] JwtModule dependencies initialized +1ms
+[Nest] 27240  - 09/01/2026, 1:36:47 PM     LOG [InstanceLoader] ConfigHostModule dependencies initialized +0ms
+[Nest] 27240  - 09/01/2026, 1:36:47 PM     LOG [InstanceLoader] ConfigModule dependencies initialized +0ms
+[Nest] 27240  - 09/01/2026, 1:36:48 PM   ERROR [ExceptionHandler] PAYMENT_PROVIDER must be PAYOS or VIETQR
+Error: PAYMENT_PROVIDER must be PAYOS or VIETQR
+    at InstanceWrapper.useFactory (D:\Download\KLTNGHIEP\KLTN_MAPFOOD\backend\src\payments\payments.module.ts:28:15)
+    at Injector.instantiateClass (D:\Download\KLTNGHIEP\KLTN_MAPFOOD\backend\node_modules\@nestjs\core\injector\injector.js:376:55)
+    at callback (D:\Download\KLTNGHIEP\KLTN_MAPFOOD\backend\node_modules\@nestjs\core\injector\injector.js:65:45)
+    at async Injector.resolveConstructorParams (D:\Download\KLTNGHIEP\KLTN_MAPFOOD\backend\node_modules\@nestjs\core\injector\injector.js:145:24)
+    at async Injector.loadInstance (D:\Download\KLTNGHIEP\KLTN_MAPFOOD\backend\node_modules\@nestjs\core\injector\injector.js:70:13)
+    at async Injector.loadProvider (D:\Download\KLTNGHIEP\KLTN_MAPFOOD\backend\node_modules\@nestjs\core\injector\injector.js:98:9)
+    at async D:\Download\KLTNGHIEP\KLTN_MAPFOOD\backend\node_modules\@nestjs\core\injector\instance-loader.js:56:13
+    at async Promise.all (index 4)
+    at async InstanceLoader.createInstancesOfProviders (D:\Download\KLTNGHIEP\KLTN_MAPFOOD\backend\node_modules\@nestjs\core\injector\instance-loader.js:55:9)
+    at async D:\Download\KLTNGHIEP\KLTN_MAPFOOD\backend\node_modules\@nestjs\core\injector\instance-loader.js:40:13
+[2J[3J[H[[90m1:40:35 PM[0m] File change detected. Starting incremental compilation...
+
+[[90m1:40:36 PM[0m] Found 0 errors. Watching for file changes.
+
+[Nest] 9552  - 09/01/2026, 1:40:38 PM     LOG [NestFactory] Starting Nest application...
+[Nest] 9552  - 09/01/2026, 1:40:38 PM     LOG [InstanceLoader] AppModule dependencies initialized +14ms
+[Nest] 9552  - 09/01/2026, 1:40:38 PM     LOG [InstanceLoader] TypeOrmModule dependencies initialized +0ms
+[Nest] 9552  - 09/01/2026, 1:40:38 PM     LOG [InstanceLoader] JwtModule dependencies initialized +0ms
+[Nest] 9552  - 09/01/2026, 1:40:38 PM     LOG [InstanceLoader] ConfigHostModule dependencies initialized +0ms
+[Nest] 9552  - 09/01/2026, 1:40:38 PM     LOG [InstanceLoader] ConfigModule dependencies initialized +0ms
+[Nest] 9552  - 09/01/2026, 1:40:38 PM   ERROR [ExceptionHandler] PAYMENT_PROVIDER must be PAYOS or VIETQR
+Error: PAYMENT_PROVIDER must be PAYOS or VIETQR
+    at InstanceWrapper.useFactory (D:\Download\KLTNGHIEP\KLTN_MAPFOOD\backend\src\payments\payments.module.ts:28:15)
+    at Injector.instantiateClass (D:\Download\KLTNGHIEP\KLTN_MAPFOOD\backend\node_modules\@nestjs\core\injector\injector.js:376:55)
+    at callback (D:\Download\KLTNGHIEP\KLTN_MAPFOOD\backend\node_modules\@nestjs\core\injector\injector.js:65:45)
+    at async Injector.resolveConstructorParams (D:\Download\KLTNGHIEP\KLTN_MAPFOOD\backend\node_modules\@nestjs\core\injector\injector.js:145:24)
+    at async Injector.loadInstance (D:\Download\KLTNGHIEP\KLTN_MAPFOOD\backend\node_modules\@nestjs\core\injector\injector.js:70:13)
+    at async Injector.loadProvider (D:\Download\KLTNGHIEP\KLTN_MAPFOOD\backend\node_modules\@nestjs\core\injector\injector.js:98:9)
+    at async D:\Download\KLTNGHIEP\KLTN_MAPFOOD\backend\node_modules\@nestjs\core\injector\instance-loader.js:56:13
+    at async Promise.all (index 4)
+    at async InstanceLoader.createInstancesOfProviders (D:\Download\KLTNGHIEP\KLTN_MAPFOOD\backend\node_modules\@nestjs\core\injector\instance-loader.js:55:9)
+    at async D:\Download\KLTNGHIEP\KLTN_MAPFOOD\backend\node_modules\@nestjs\core\injector\instance-loader.js:40:13
+[2J[3J[H[[90m1:55:28 PM[0m] File change detected. Starting incremental compilation...
+
+[2J[3J[H[[90m1:55:42 PM[0m] File change detected. Starting incremental compilation...
+
