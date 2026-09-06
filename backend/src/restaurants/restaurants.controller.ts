@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseUUIDPipe, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { RestaurantsService } from './restaurants.service';
-import { RestaurantDto } from './dto';
+import { PublicRestaurantsQueryDto, RestaurantDto } from './dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { RolesGuard } from '../auth/guards/roles.guard';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
@@ -13,6 +13,11 @@ import { AuthenticatedUser } from '../common/interfaces/authenticated-user.inter
 @Controller('restaurants')
 export class RestaurantsController {
   constructor(private readonly service: RestaurantsService) {}
+
+  @Get()
+  findPublic(@Query() query: PublicRestaurantsQueryDto) {
+    return this.service.findPublic(query);
+  }
 
   @Get('mine')
   @ApiBearerAuth()

@@ -1,4 +1,20 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { API_BASE, TOKEN_KEY } from './api';
-export default function LoginPage() { const navigate = useNavigate(); const [error, setError] = useState(''); const [busy, setBusy] = useState(false); async function submit(e) { e.preventDefault(); setBusy(true); setError(''); try { const f=e.currentTarget; const r=await fetch(`${API_BASE}/auth/login`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({email:f.email.value,password:f.password.value}) }); const d=await r.json(); if(!r.ok) throw new Error(d.message || 'Đăng nhập thất bại'); localStorage.setItem(TOKEN_KEY,d.accessToken); localStorage.setItem('routebite_user', JSON.stringify(d.user)); navigate(d.user?.role === 'customer' ? '/' : '/merchant'); } catch (err) { setError(err.message); } finally { setBusy(false); } } return <main className="app-page"><section className="panel" style={{maxWidth:460,margin:'64px auto',padding:28}}><h2>Đăng nhập RouteBite</h2><p>Đăng nhập để tìm quán và quản lý đơn hàng.</p><form className="grid-form" onSubmit={submit}><input name="email" type="email" placeholder="Email" required /><input name="password" type="password" placeholder="Mật khẩu" required />{error && <small style={{color:'var(--rb-danger)'}}>{error}</small>}<button className="btn primary" disabled={busy}>{busy?'Đang đăng nhập...':'Đăng nhập'}</button></form></section></main>; }
+import { Link, useNavigate } from 'react-router-dom';
+import AuthLayout from './layouts/AuthLayout';
+import { request } from './api';
+import { useAuth } from './contexts/AuthContext';
+
+export default function LoginPage() {
+  const navigate = useNavigate(); const { setSession } = useAuth();
+  const [email, setEmail] = useState(''); const [password, setPassword] = useState(''); const [showPassword, setShowPassword] = useState(false); const [error, setError] = useState(''); const [busy, setBusy] = useState(false);
+  async function submit(event) {
+    event.preventDefault(); setBusy(true); setError('');
+    try {
+      const data = await request('/auth/login', { method: 'POST', body: { email, password }, authorized: false });
+      setSession(data);
+      if (data.user.role === 'merchant') { const restaurants = await request('/restaurants/mine'); navigate(restaurants.length ? '/merchant' : '/merchant/onboarding'); }
+      else if (data.user.role === 'admin') navigate('/admin/overview'); else navigate('/');
+    } catch (err) { setError(err.message || 'Đăng nhập thất bại, vui lòng thử lại.'); } finally { setBusy(false); }
+  }
+  return <AuthLayout><div className="auth-heading"><p>CHÀO MỪNG TRỞ LẠI</p><h2>Đăng nhập</h2><span>Đăng nhập để tiếp tục hành trình của bạn.</span></div>{error && <div className="auth-alert" role="alert">{error}</div>}<form className="auth-form" onSubmit={submit}><label>Email<input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" required autoComplete="email" /></label><label>Mật khẩu<div className="password-field"><input type={showPassword ? 'text' : 'password'} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Nhập mật khẩu" required autoComplete="current-password" /><button type="button" onClick={() => setShowPassword((value) => !value)}>{showPassword ? 'Ẩn' : 'Hiện'}</button></div></label><button className="auth-submit" disabled={busy}>{busy ? 'Đang đăng nhập…' : 'Đăng nhập'}</button></form><p className="auth-switch">Chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link></p></AuthLayout>;
+}

@@ -1,60 +1,89 @@
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { request, TOKEN_KEY } from './api';
+import { request } from './api';
+import { useCurrentLocation } from './hooks/useCurrentLocation';
+import RestaurantCard from './components/RestaurantCard';
+import LocationAutocomplete from './components/LocationAutocomplete';
 
-export const mockRestaurants = [
-  { id: 'mock-com-tam', name: 'Cơm Tấm Mẫu', address: 'Quận 1, TP. Hồ Chí Minh', rating: 4.8, deviation: 'Lệch 2 phút', image: 'https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=800&q=80' },
-  { id: 'mock-bun-bo', name: 'Bún Bò Huế Gia Truyền', address: 'Quận 3, TP. Hồ Chí Minh', rating: 4.7, deviation: 'Lệch 3 phút', image: 'https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=800&q=80' },
-  { id: 'mock-ca-phe', name: 'Cà phê Đất', address: 'Bình Thạnh, TP. Hồ Chí Minh', rating: 4.6, deviation: 'Ngay mặt tiền', image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80' },
+const QUICK_CATEGORIES = [
+  { label: 'Cà phê', value: 'ca-phe' }, { label: 'Cơm', value: 'com' },
+  { label: 'Bún/Phở', value: 'bun-pho' }, { label: 'Đồ uống', value: 'do-uong' },
+  { label: 'Ăn vặt', value: 'an-vat' },
 ];
+const emptyPoint = (address = '') => ({ address, lat: null, lng: null });
 
 export default function Home() {
   const navigate = useNavigate();
-  const [startPoint, setStartPoint] = useState('');
-  const [endPoint, setEndPoint] = useState('');
-  const [restaurants, setRestaurants] = useState(mockRestaurants);
+  const { getCurrentLocation, loading: locating, error: locationError } = useCurrentLocation();
+  const [startPoint, setStartPoint] = useState(emptyPoint());
+  const [endPoint, setEndPoint] = useState(emptyPoint());
+  const [restaurants, setRestaurants] = useState([]);
   const [searched, setSearched] = useState(false);
-  const [searchMessage, setSearchMessage] = useState('');
+  const [searching, setSearching] = useState(false);
+  const [message, setMessage] = useState('');
   const [mapTarget, setMapTarget] = useState(null);
+  const [activeCategory, setActiveCategory] = useState('');
 
-  useEffect(() => { setRestaurants(mockRestaurants); }, []);
+  useEffect(() => {
+    const query = activeCategory ? `?category=${encodeURIComponent(activeCategory)}` : '';
+    request(`/restaurants${query}`, { authorized: false })
+      .then((response) => setRestaurants(Array.isArray(response) ? response : response.data || []))
+      .catch(() => setRestaurants([]));
+  }, [activeCategory]);
+  useEffect(() => { if (locationError) setMessage(locationError); }, [locationError]);
 
-  function useCurrentLocation() {
-    if (!navigator.geolocation) return;
-    navigator.geolocation.getCurrentPosition(({ coords }) => setStartPoint(`${coords.latitude.toFixed(5)}, ${coords.longitude.toFixed(5)}`));
-  }
-  async function pointFromInput(value) {
-    const coordinates = value.split(',').map(Number);
-    if (coordinates.length === 2 && coordinates.every(Number.isFinite)) return { latitude: coordinates[0], longitude: coordinates[1] };
-    const response = await fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${encodeURIComponent(value)}`);
+  async function geocode(point, label) {
+    if (Number.isFinite(point.lat) && Number.isFinite(point.lng)) return point;
+    if (!point.address.trim()) throw new Error(`Vui lòng nhập ${label}.`);
+    const params = new URLSearchParams({ format: 'jsonv2', limit: '1', 'accept-language': 'vi', q: point.address });
+    const response = await fetch(`https://nominatim.openstreetmap.org/search?${params}`);
     const rows = await response.json();
-    if (!rows?.[0]) throw new Error(`Không tìm thấy địa điểm: ${value}`);
-    return { latitude: Number(rows[0].lat), longitude: Number(rows[0].lon) };
+    if (!rows?.[0]) throw new Error(`Không tìm thấy ${label.toLowerCase()}.`);
+    return { address: rows[0].display_name || point.address, lat: Number(rows[0].lat), lng: Number(rows[0].lon) };
   }
-  async function labelFromPoint({ lat, lng }) {
-    const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`);
-    const place = await response.json();
-    return place.display_name || `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+  async function useLocation() { try { setStartPoint(await getCurrentLocation()); } catch { /* Hook đặt thông báo. */ } }
+  async function search(event) {
+    event.preventDefault(); setSearching(true); setSearched(true); setMessage('');
+    try {
+      const [pointA, pointB] = await Promise.all([geocode(startPoint, 'điểm đi'), geocode(endPoint, 'điểm đến')]);
+      setStartPoint(pointA); setEndPoint(pointB);
+      const result = await request('/search/route', { method: 'POST', authorized: false, body: { pointA: { latitude: pointA.lat, longitude: pointA.lng }, pointB: { latitude: pointB.lat, longitude: pointB.lng }, radius: 500 } });
+      const eta = Number(result.route?.travelTimeMinutes);
+      if (Number.isFinite(eta) && eta > 0) localStorage.setItem('routebite_route_eta_minutes', String(eta));
+      setRestaurants(result.restaurants || []); setMessage(`Đã tìm theo tuyến đường · thời gian di chuyển khoảng ${eta || '?'} phút.`);
+    } catch (error) { setRestaurants([]); setMessage(error.message || 'Có lỗi khi tìm quán, vui lòng thử lại.'); } finally { setSearching(false); }
   }
-  async function search(event) { event.preventDefault(); setSearched(true); setSearchMessage(''); if (!localStorage.getItem(TOKEN_KEY)) { setSearchMessage('Vui lòng đăng nhập để tìm quán theo tuyến đường.'); return; } try { const [pointA, pointB] = await Promise.all([pointFromInput(startPoint), pointFromInput(endPoint)]); const result = await request('/search/route', { method: 'POST', body: { pointA, pointB, radius: 1200 } }); const etaMinutes = Number(result.route?.travelTimeMinutes); if (Number.isFinite(etaMinutes) && etaMinutes > 0) localStorage.setItem('routebite_route_eta_minutes', String(etaMinutes)); if (Array.isArray(result.restaurants)) setRestaurants(result.restaurants.map((row) => ({ ...row, deviation: row.distance_meters ? `Lệch ${Math.round(Number(row.distance_meters))}m` : 'Tiện đường' }))); setSearchMessage(`Đã tìm gợi ý theo tuyến (${result.route?.provider || 'backend'}) · thời gian di chuyển khoảng ${etaMinutes || '?'} phút.`); } catch (error) { setRestaurants(mockRestaurants); setSearchMessage(error.message || 'Chưa thể tìm tuyến, đang hiển thị quán mẫu.'); } }
-  function swap() { const previous = startPoint; setStartPoint(endPoint); setEndPoint(previous); }
-
-  return <main className="home-route-v2">
-    <section className="home-route-hero">
-      <div className="home-route-copy"><p>HÀNH TRÌNH ẨM THỰC</p><h1>Tìm quán trên đường đi.</h1><span>Chọn điểm đi và điểm đến. RouteBite sẽ gợi ý điểm dừng phù hợp.</span></div>
-      <form className="home-route-form-v2" onSubmit={search}><div className="place-form">
-        <label className="place-input">Điểm đi<input value={startPoint} onChange={(e) => setStartPoint(e.target.value)} placeholder="Nhập điểm xuất phát" required /><small><button type="button" onClick={() => setMapTarget('start')}>Chọn trên bản đồ</button><button type="button" onClick={useCurrentLocation}>Dùng vị trí hiện tại</button></small></label>
-        <button type="button" className="swap-button" onClick={swap}>⇅</button>
-        <label className="place-input">Điểm đến<input value={endPoint} onChange={(e) => setEndPoint(e.target.value)} placeholder="Nhập điểm đích" required /><small><button type="button" onClick={() => setMapTarget('end')}>Chọn trên bản đồ</button></small></label>
-        <button className="route-search-button">Tìm gợi ý</button>
-      </div></form>
+  const heading = searched ? 'Kết quả gợi ý trên tuyến' : 'Quán nổi bật';
+  return <main className="route-home">
+    <section className="route-hero">
+      <div className="route-hero-copy"><p>HÀNH TRÌNH ẨM THỰC</p><h1>Tìm quán trên đường đi.</h1><span>Chọn điểm đi và điểm đến. RouteBite sẽ gợi ý điểm dừng phù hợp trong phạm vi lệch tuyến 500m.</span></div>
+      <form className="route-form" onSubmit={search}>
+        <div className="route-field"><label>Điểm đi</label><LocationAutocomplete value={startPoint} placeholder="Nhập điểm xuất phát" onChange={setStartPoint} onSelect={setStartPoint}><button type="button" onClick={() => setMapTarget('start')}>📍 Chọn trên bản đồ</button><button className="location-action" type="button" disabled={locating} onClick={useLocation}>{locating ? '⌛ Đang định vị…' : '🎯 Dùng vị trí hiện tại'}</button></LocationAutocomplete></div>
+        <div className="route-field"><label>Điểm đến</label><LocationAutocomplete value={endPoint} placeholder="Nhập điểm đến" onChange={setEndPoint} onSelect={setEndPoint}><button type="button" onClick={() => setMapTarget('end')}>📍 Chọn trên bản đồ</button></LocationAutocomplete></div>
+        <button className="route-submit" disabled={searching}>{searching ? 'Đang tìm…' : 'Tìm gợi ý'}</button>
+      </form>
     </section>
-    <section className="quick-category-v2"><h2>Danh mục nhanh</h2><div>{['Cà phê', 'Cơm', 'Bún/Phở', 'Đồ uống', 'Ăn vặt'].map((name) => <button type="button" key={name}>{name}</button>)}</div></section>
-    <section className="featured-home-v2"><div className="section-heading-v2"><h2>{searched ? 'Kết quả gợi ý' : 'Quán nổi bật gần bạn'}</h2></div>{searchMessage && <p>{searchMessage}</p>}<div className="restaurant-grid route-results-grid">{restaurants.map((restaurant) => <RestaurantCard key={restaurant.id} restaurant={restaurant} onClick={() => navigate(`/restaurant/${restaurant.id}`)} />)}</div></section>
-    {mapTarget && <MapPicker onClose={() => setMapTarget(null)} onPick={async ({ lat, lng }) => { try { const label = await labelFromPoint({ lat, lng }); (mapTarget === 'start' ? setStartPoint : setEndPoint)(label); } catch { (mapTarget === 'start' ? setStartPoint : setEndPoint)(`${lat.toFixed(6)}, ${lng.toFixed(6)}`); } finally { setMapTarget(null); } }} />}
+    <section className="route-categories"><h2>Danh mục nhanh</h2><div><button type="button" className={!activeCategory ? 'active' : ''} onClick={() => { setActiveCategory(''); setSearched(false); }}>Tất cả</button>{QUICK_CATEGORIES.map((category) => <button type="button" className={activeCategory === category.value ? 'active' : ''} key={category.value} onClick={() => { setActiveCategory(category.value); setSearched(false); }}>{category.label}</button>)}</div></section>
+    <section className="route-results"><div className="route-results-heading"><div><p>{searched ? 'TÌM THEO LỘ TRÌNH' : 'KHÁM PHÁ GẦN BẠN'}</p><h2>{heading}</h2></div>{message && <span>{message}</span>}</div>{searching ? <div className="restaurant-result-grid">{[1, 2, 3].map((item) => <div className="restaurant-skeleton" key={item} />)}</div> : restaurants.length ? <div className="restaurant-result-grid">{restaurants.map((restaurant, index) => <RestaurantCard key={restaurant.id} restaurant={restaurant} rank={searched ? index + 1 : undefined} onOpen={() => navigate(`/restaurant/${restaurant.id}`)} />)}</div> : <div className="route-empty">{searched ? 'Không tìm thấy quán phù hợp trong phạm vi 500m quanh tuyến đường này.' : 'Chưa có quán công khai để hiển thị.'}</div>}</section>
+    {mapTarget && <MapPicker initialCenter={mapTarget === 'start' ? startPoint : endPoint} onClose={() => setMapTarget(null)} onPick={(location) => { (mapTarget === 'start' ? setStartPoint : setEndPoint)(location); setMapTarget(null); }} />}
   </main>;
 }
 
-function RestaurantCard({ restaurant, onClick }) { return <article className="route-food-card" onClick={onClick}><div className="route-food-image"><img src={restaurant.image || mockRestaurants[0].image} alt={restaurant.name} /><button className="save-heart" type="button" onClick={(e) => e.stopPropagation()}>♡</button></div><div className="route-food-body"><span className="convenience-tag score-high">{restaurant.deviation || 'Tiện đường +150m'}</span><div className="route-food-title"><h3 title={restaurant.name}>{restaurant.name}</h3></div><div className="route-meta-line"><span>⭐ {restaurant.rating || 4.5}</span><span>🚗 {restaurant.deviation || 'Lệch 2 phút'}</span></div></div></article>; }
-
-function MapPicker({ onClose, onPick }) { const node = useRef(null); useEffect(() => { const L = window.L; if (!L || !node.current) return; const map = L.map(node.current).setView([10.7769, 106.7009], 13); L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors' }).addTo(map); map.on('click', (event) => onPick(event.latlng)); return () => map.remove(); }, [onPick]); return <div className="location-map-modal" role="dialog"><section className="location-map-card"><div className="location-map-head"><div><strong>Chọn điểm trên bản đồ</strong><span>Nhấn vào vị trí mong muốn để chọn.</span></div><button type="button" onClick={onClose}>Đóng</button></div><div className="location-map-canvas" ref={node} /></section></div>; }
+function MapPicker({ initialCenter, onClose, onPick }) {
+  const node = useRef(null); const markerRef = useRef(null);
+  const [selected, setSelected] = useState(null); const [address, setAddress] = useState(''); const [loadingAddress, setLoadingAddress] = useState(false);
+  useEffect(() => {
+    const L = window.L; if (!L || !node.current) return undefined;
+    const center = Number.isFinite(initialCenter?.lat) ? [initialCenter.lat, initialCenter.lng] : [10.7769, 106.7009];
+    const map = L.map(node.current).setView(center, 14);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors' }).addTo(map);
+    map.on('click', async (event) => {
+      const location = { lat: event.latlng.lat, lng: event.latlng.lng }; setSelected(location);
+      if (markerRef.current) markerRef.current.remove(); markerRef.current = L.marker([location.lat, location.lng]).addTo(map);
+      setLoadingAddress(true); setAddress('');
+      try { const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&accept-language=vi&lat=${location.lat}&lon=${location.lng}`); const data = await response.json(); setAddress(data.display_name || `${location.lat.toFixed(5)}, ${location.lng.toFixed(5)}`); } catch { setAddress(`${location.lat.toFixed(5)}, ${location.lng.toFixed(5)}`); } finally { setLoadingAddress(false); }
+    });
+    return () => map.remove();
+  }, [initialCenter]);
+  return <div className="location-map-modal" role="dialog" aria-modal="true"><section className="location-map-card"><header><div><strong>Chọn vị trí trên bản đồ</strong><span>Nhấn vào vị trí mong muốn để đặt ghim.</span></div><button type="button" onClick={onClose}>×</button></header><div className="location-map-canvas" ref={node} /><footer><p>{!selected ? 'Nhấn vào bản đồ để chọn vị trí' : loadingAddress ? 'Đang xác định địa chỉ…' : address}</p><button type="button" disabled={!selected || loadingAddress} onClick={() => onPick({ ...selected, address })}>Xác nhận vị trí</button></footer></section></div>;
+}

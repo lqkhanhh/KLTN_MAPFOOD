@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
-import { User } from '../database/entities/user.entity';
+import { User, UserRole } from '../database/entities/user.entity';
 import { LoginDto, RegisterDto } from './dto';
 
 @Injectable()
@@ -22,7 +22,8 @@ export class AuthService {
         email: dto.email.toLowerCase().trim(),
         fullName: dto.fullName.trim(),
         phone: dto.phone,
-        role: dto.role,
+        // Đăng ký công khai luôn là customer; merchant dùng flow nâng cấp riêng.
+        role: UserRole.CUSTOMER,
         passwordHash: await bcrypt.hash(dto.password, 10),
       }),
     );
@@ -50,6 +51,14 @@ export class AuthService {
     } catch {
       throw new UnauthorizedException('Refresh token không hợp lệ');
     }
+  }
+
+  async upgradeToMerchant(userId: string) {
+    const user = await this.users.findOneByOrFail({ id: userId });
+    if (user.role === UserRole.ADMIN) return this.tokens(user);
+    user.role = UserRole.MERCHANT;
+    await this.users.save(user);
+    return this.tokens(user);
   }
 
   private async tokens(user: User) {

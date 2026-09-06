@@ -1,13 +1,45 @@
 import { ForbiddenException, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Brackets, Repository } from 'typeorm';
 import { MenuItem, Restaurant, UserRole } from '../database/entities';
-import { RestaurantDto } from './dto';
+import { PublicRestaurantsQueryDto, RestaurantDto } from './dto';
 import { AuthenticatedUser } from '../common/interfaces/authenticated-user.interface';
 
 @Injectable()
 export class RestaurantsService {
   constructor(@InjectRepository(Restaurant) private readonly restaurants: Repository<Restaurant>) {}
+
+  async findPublic(query: PublicRestaurantsQueryDto) {
+    const page = query.page ?? 1;
+    const limit = query.limit ?? 20;
+    const qb = this.restaurants
+      .createQueryBuilder('restaurant')
+      .leftJoinAndSelect('restaurant.menuItems', 'menuItems')
+      .where('restaurant.active = :active', { active: true });
+
+    if (query.category?.trim()) {
+      qb.andWhere('restaurant.category = :category', { category: query.category.trim() });
+    }
+    if (query.search?.trim()) {
+      const search = `%${query.search.trim()}%`;
+      qb.andWhere(
+        new Brackets((where) =>
+          where
+            .where('restaurant.name ILIKE :search', { search })
+            .orWhere('menuItems.name ILIKE :search', { search }),
+        ),
+      );
+    }
+
+    const [data, total] = await qb
+      .orderBy('restaurant.rating', 'DESC')
+      .addOrderBy('restaurant.reviewCount', 'DESC')
+      .addOrderBy('restaurant.createdAt', 'DESC')
+      .skip((page - 1) * limit)
+      .take(limit)
+      .getManyAndCount();
+    return { data, total, page, limit };
+  }
 
   findMine(user: AuthenticatedUser) {
     return this.restaurants.find({
@@ -31,6 +63,8 @@ export class RestaurantsService {
       this.restaurants.create({
         name: dto.name,
         address: dto.address,
+        category: dto.category?.trim() || undefined,
+        imageUrl: dto.imageUrl?.trim() || undefined,
         openingHours: dto.openingHours,
         active: dto.active ?? true,
         ownerId: user.sub,
@@ -48,6 +82,8 @@ export class RestaurantsService {
     Object.assign(restaurant, {
       name: dto.name,
       address: dto.address,
+      category: dto.category?.trim() || undefined,
+      imageUrl: dto.imageUrl?.trim() || undefined,
       openingHours: dto.openingHours,
       active: dto.active ?? restaurant.active,
       location: { type: 'Point', coordinates: [dto.longitude, dto.latitude] },

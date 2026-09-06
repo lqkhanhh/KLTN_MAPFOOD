@@ -122,7 +122,8 @@ export class OrdersService {
     });
 
     const created = await this.findEntity(orderId);
-    this.gateway.emitCreated(created);
+    // Tiền mặt cần báo quán ngay; VNPAY chỉ báo đơn mới sau callback thanh toán hợp lệ.
+    if (created.paymentMethod === OrderPaymentMethod.CASH) this.gateway.emitCreated(created);
     return this.toPublicOrder(created);
   }
 

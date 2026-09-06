@@ -23,6 +23,14 @@ export class Restaurant {
   @Column()
   address: string;
 
+  /** Danh mục hiển thị cho bộ lọc khám phá, ví dụ: ca-phe, com, bun-pho. */
+  @Column({ length: 40, nullable: true })
+  category?: string;
+
+  /** Ảnh đại diện quán dùng ở card danh sách và trang chi tiết. */
+  @Column({ type: 'text', nullable: true })
+  imageUrl?: string;
+
   @Column({ type: 'geography', spatialFeatureType: 'Point', srid: 4326 })
   location: object;
 
