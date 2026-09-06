@@ -14,6 +14,31 @@ import {
   ValidateNested,
 } from 'class-validator';
 
+export class PublicRestaurantsQueryDto {
+  @IsOptional()
+  @IsString()
+  @MaxLength(40)
+  category?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(120)
+  search?: string;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  page = 1;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  @Max(100)
+  limit = 20;
+}
+
 export class MenuItemDto {
   @IsOptional()
   @IsUUID()
@@ -43,6 +68,16 @@ export class RestaurantDto {
 
   @IsString()
   address: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(40)
+  category?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(2000)
+  imageUrl?: string;
 
   @IsLatitude()
   latitude: number;

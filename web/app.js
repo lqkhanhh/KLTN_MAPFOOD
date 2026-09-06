@@ -21723,11 +21723,11 @@
   });
 
   // src/entry.jsx
-  var import_react4 = __toESM(require_react(), 1);
+  var import_react10 = __toESM(require_react(), 1);
   var import_client = __toESM(require_client(), 1);
 
   // src/App.jsx
-  var import_react3 = __toESM(require_react(), 1);
+  var import_react9 = __toESM(require_react(), 1);
 
   // node_modules/react-router/dist/development/chunk-BV7QT456.mjs
   var React = __toESM(require_react(), 1);
@@ -23202,6 +23202,44 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       future
     });
   }
+  function Navigate({
+    to,
+    replace: replace2,
+    state,
+    relative
+  }) {
+    invariant(
+      useInRouterContext(),
+      // TODO: This error is probably because they somehow have 2 versions of
+      // the router loaded. We can help them understand how to avoid that.
+      `<Navigate> may be used only in the context of a <Router> component.`
+    );
+    let { static: isStatic, navigator: navigator2 } = React3.useContext(NavigationContext);
+    warning(
+      !isStatic,
+      `<Navigate> must not be used on the initial render in a <StaticRouter>. This is a no-op, but you should modify your code so the <Navigate> is only ever rendered in response to some user interaction or state change.`
+    );
+    let { matches } = React3.useContext(RouteContext);
+    let { pathname: locationPathname } = useLocation();
+    let navigate = useNavigate();
+    let path = resolveTo(
+      to,
+      getResolveToMatches(matches),
+      locationPathname,
+      relative === "path"
+    );
+    validateNavigationTarget(
+      typeof to === "string" ? to : createPath(to),
+      navigator2.createHref(path),
+      getNavigatorCurrentUrl(navigator2),
+      "reject"
+    );
+    let jsonPath = JSON.stringify(path);
+    React3.useEffect(() => {
+      navigate(JSON.parse(jsonPath), { replace: replace2, state, relative });
+    }, [navigate, jsonPath, relative, replace2, state]);
+    return null;
+  }
   function Route(props) {
     invariant(
       false,
@@ -24527,304 +24565,808 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
 
   // src/Home.jsx
-  var import_react = __toESM(require_react(), 1);
+  var import_react3 = __toESM(require_react(), 1);
 
   // src/api.js
   var config = window.ROUTEBITE_CONFIG || {};
   var API_BASE = config.apiBase || "http://127.0.0.1:3000/api";
   var GOOGLE_CLIENT_ID = config.googleClientId || "";
   var TOKEN_KEY = "routebite_access_token";
+  var REFRESH_TOKEN_KEY = "routebite_refresh_token";
   async function request(path, options = {}) {
-    const { method = "GET", body, token = localStorage.getItem(TOKEN_KEY), authorized = true } = options;
+    const { method = "GET", body, token = localStorage.getItem(TOKEN_KEY), authorized = true, retried = false } = options;
     const response = await fetch(`${API_BASE}${path}`, { method, headers: { ...body ? { "Content-Type": "application/json" } : {}, ...authorized && token ? { Authorization: `Bearer ${token}` } : {} }, body: body ? JSON.stringify(body) : void 0 });
     const data2 = await response.json().catch(() => null);
+    if (response.status === 401 && authorized && !retried && path !== "/auth/refresh") {
+      const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
+      if (refreshToken) {
+        try {
+          const refresh = await request("/auth/refresh", { method: "POST", body: { refreshToken }, authorized: false, retried: true });
+          localStorage.setItem(TOKEN_KEY, refresh.accessToken);
+          if (refresh.refreshToken) localStorage.setItem(REFRESH_TOKEN_KEY, refresh.refreshToken);
+          if (refresh.user) localStorage.setItem("routebite_user", JSON.stringify(refresh.user));
+          return request(path, { ...options, token: refresh.accessToken, retried: true });
+        } catch {
+          localStorage.removeItem(TOKEN_KEY);
+          localStorage.removeItem(REFRESH_TOKEN_KEY);
+          localStorage.removeItem("routebite_user");
+        }
+      }
+    }
     if (!response.ok) throw new Error(data2?.message || `Request failed (${response.status})`);
     return data2;
   }
 
-  // src/Home.jsx
-  var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
-  var mockRestaurants = [
-    { id: "mock-com-tam", name: "C\u01A1m T\u1EA5m M\u1EABu", address: "Qu\u1EADn 1, TP. H\u1ED3 Ch\xED Minh", rating: 4.8, deviation: "L\u1EC7ch 2 ph\xFAt", image: "https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=800&q=80" },
-    { id: "mock-bun-bo", name: "B\xFAn B\xF2 Hu\u1EBF Gia Truy\u1EC1n", address: "Qu\u1EADn 3, TP. H\u1ED3 Ch\xED Minh", rating: 4.7, deviation: "L\u1EC7ch 3 ph\xFAt", image: "https://images.unsplash.com/photo-1559314809-0d155014e29e?auto=format&fit=crop&w=800&q=80" },
-    { id: "mock-ca-phe", name: "C\xE0 ph\xEA \u0110\u1EA5t", address: "B\xECnh Th\u1EA1nh, TP. H\u1ED3 Ch\xED Minh", rating: 4.6, deviation: "Ngay m\u1EB7t ti\u1EC1n", image: "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80" }
-  ];
-  function Home() {
-    const navigate = useNavigate();
-    const [startPoint, setStartPoint] = (0, import_react.useState)("");
-    const [endPoint, setEndPoint] = (0, import_react.useState)("");
-    const [restaurants, setRestaurants] = (0, import_react.useState)(mockRestaurants);
-    const [searched, setSearched] = (0, import_react.useState)(false);
-    const [searchMessage, setSearchMessage] = (0, import_react.useState)("");
-    const [mapTarget, setMapTarget] = (0, import_react.useState)(null);
-    (0, import_react.useEffect)(() => {
-      setRestaurants(mockRestaurants);
-    }, []);
-    function useCurrentLocation() {
-      if (!navigator.geolocation) return;
-      navigator.geolocation.getCurrentPosition(({ coords }) => setStartPoint(`${coords.latitude.toFixed(5)}, ${coords.longitude.toFixed(5)}`));
-    }
-    async function pointFromInput(value) {
-      const coordinates = value.split(",").map(Number);
-      if (coordinates.length === 2 && coordinates.every(Number.isFinite)) return { latitude: coordinates[0], longitude: coordinates[1] };
-      const response = await fetch(`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&q=${encodeURIComponent(value)}`);
-      const rows = await response.json();
-      if (!rows?.[0]) throw new Error(`Kh\xF4ng t\xECm th\u1EA5y \u0111\u1ECBa \u0111i\u1EC3m: ${value}`);
-      return { latitude: Number(rows[0].lat), longitude: Number(rows[0].lon) };
-    }
-    async function labelFromPoint({ lat, lng }) {
-      const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lng}`);
-      const place = await response.json();
-      return place.display_name || `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
-    }
-    async function search(event) {
-      event.preventDefault();
-      setSearched(true);
-      setSearchMessage("");
-      if (!localStorage.getItem(TOKEN_KEY)) {
-        setSearchMessage("Vui l\xF2ng \u0111\u0103ng nh\u1EADp \u0111\u1EC3 t\xECm qu\xE1n theo tuy\u1EBFn \u0111\u01B0\u1EDDng.");
-        return;
-      }
-      try {
-        const [pointA, pointB] = await Promise.all([pointFromInput(startPoint), pointFromInput(endPoint)]);
-        const result = await request("/search/route", { method: "POST", body: { pointA, pointB, radius: 1200 } });
-        const etaMinutes = Number(result.route?.travelTimeMinutes);
-        if (Number.isFinite(etaMinutes) && etaMinutes > 0) localStorage.setItem("routebite_route_eta_minutes", String(etaMinutes));
-        if (Array.isArray(result.restaurants)) setRestaurants(result.restaurants.map((row) => ({ ...row, deviation: row.distance_meters ? `L\u1EC7ch ${Math.round(Number(row.distance_meters))}m` : "Ti\u1EC7n \u0111\u01B0\u1EDDng" })));
-        setSearchMessage(`\u0110\xE3 t\xECm g\u1EE3i \xFD theo tuy\u1EBFn (${result.route?.provider || "backend"}) \xB7 th\u1EDDi gian di chuy\u1EC3n kho\u1EA3ng ${etaMinutes || "?"} ph\xFAt.`);
-      } catch (error) {
-        setRestaurants(mockRestaurants);
-        setSearchMessage(error.message || "Ch\u01B0a th\u1EC3 t\xECm tuy\u1EBFn, \u0111ang hi\u1EC3n th\u1ECB qu\xE1n m\u1EABu.");
-      }
-    }
-    function swap() {
-      const previous = startPoint;
-      setStartPoint(endPoint);
-      setEndPoint(previous);
-    }
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("main", { className: "home-route-v2", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "home-route-hero", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "home-route-copy", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: "H\xC0NH TR\xCCNH \u1EA8M TH\u1EF0C" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", { children: "T\xECm qu\xE1n tr\xEAn \u0111\u01B0\u1EDDng \u0111i." }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Ch\u1ECDn \u0111i\u1EC3m \u0111i v\xE0 \u0111i\u1EC3m \u0111\u1EBFn. RouteBite s\u1EBD g\u1EE3i \xFD \u0111i\u1EC3m d\u1EEBng ph\xF9 h\u1EE3p." })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("form", { className: "home-route-form-v2", onSubmit: search, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "place-form", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { className: "place-input", children: [
-            "\u0110i\u1EC3m \u0111i",
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: startPoint, onChange: (e) => setStartPoint(e.target.value), placeholder: "Nh\u1EADp \u0111i\u1EC3m xu\u1EA5t ph\xE1t", required: true }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("small", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => setMapTarget("start"), children: "Ch\u1ECDn tr\xEAn b\u1EA3n \u0111\u1ED3" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: useCurrentLocation, children: "D\xF9ng v\u1ECB tr\xED hi\u1EC7n t\u1EA1i" })
-            ] })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", className: "swap-button", onClick: swap, children: "\u21C5" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { className: "place-input", children: [
-            "\u0110i\u1EC3m \u0111\u1EBFn",
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: endPoint, onChange: (e) => setEndPoint(e.target.value), placeholder: "Nh\u1EADp \u0111i\u1EC3m \u0111\xEDch", required: true }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("small", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => setMapTarget("end"), children: "Ch\u1ECDn tr\xEAn b\u1EA3n \u0111\u1ED3" }) })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "route-search-button", children: "T\xECm g\u1EE3i \xFD" })
-        ] }) })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "quick-category-v2", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { children: "Danh m\u1EE5c nhanh" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { children: ["C\xE0 ph\xEA", "C\u01A1m", "B\xFAn/Ph\u1EDF", "\u0110\u1ED3 u\u1ED1ng", "\u0102n v\u1EB7t"].map((name) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", children: name }, name)) })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "featured-home-v2", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "section-heading-v2", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { children: searched ? "K\u1EBFt qu\u1EA3 g\u1EE3i \xFD" : "Qu\xE1n n\u1ED5i b\u1EADt g\u1EA7n b\u1EA1n" }) }),
-        searchMessage && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: searchMessage }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "restaurant-grid route-results-grid", children: restaurants.map((restaurant) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RestaurantCard, { restaurant, onClick: () => navigate(`/restaurant/${restaurant.id}`) }, restaurant.id)) })
-      ] }),
-      mapTarget && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MapPicker, { onClose: () => setMapTarget(null), onPick: async ({ lat, lng }) => {
-        try {
-          const label = await labelFromPoint({ lat, lng });
-          (mapTarget === "start" ? setStartPoint : setEndPoint)(label);
-        } catch {
-          (mapTarget === "start" ? setStartPoint : setEndPoint)(`${lat.toFixed(6)}, ${lng.toFixed(6)}`);
-        } finally {
-          setMapTarget(null);
+  // src/hooks/useCurrentLocation.js
+  var import_react = __toESM(require_react(), 1);
+  function useCurrentLocation() {
+    const [loading, setLoading] = (0, import_react.useState)(false);
+    const [error, setError] = (0, import_react.useState)("");
+    function getCurrentLocation() {
+      return new Promise((resolve, reject) => {
+        if (!navigator.geolocation) {
+          const message = "Tr\xECnh duy\u1EC7t kh\xF4ng h\u1ED7 tr\u1EE3 \u0111\u1ECBnh v\u1ECB.";
+          setError(message);
+          reject(new Error(message));
+          return;
         }
-      } })
-    ] });
+        setLoading(true);
+        setError("");
+        navigator.geolocation.getCurrentPosition(async ({ coords }) => {
+          const point = { lat: coords.latitude, lng: coords.longitude, address: `${coords.latitude.toFixed(5)}, ${coords.longitude.toFixed(5)}` };
+          try {
+            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&accept-language=vi&lat=${point.lat}&lon=${point.lng}`);
+            const data2 = await response.json();
+            point.address = data2.display_name || point.address;
+          } catch {
+          }
+          setLoading(false);
+          resolve(point);
+        }, (positionError) => {
+          const message = positionError.code === positionError.PERMISSION_DENIED ? "B\u1EA1n c\u1EA7n cho ph\xE9p truy c\u1EADp v\u1ECB tr\xED \u0111\u1EC3 d\xF9ng t\xEDnh n\u0103ng n\xE0y." : "Kh\xF4ng th\u1EC3 l\u1EA5y v\u1ECB tr\xED hi\u1EC7n t\u1EA1i, vui l\xF2ng nh\u1EADp th\u1EE7 c\xF4ng.";
+          setLoading(false);
+          setError(message);
+          reject(new Error(message));
+        }, { enableHighAccuracy: true, timeout: 1e4 });
+      });
+    }
+    return { getCurrentLocation, loading, error };
   }
-  function RestaurantCard({ restaurant, onClick }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("article", { className: "route-food-card", onClick, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "route-food-image", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: restaurant.image || mockRestaurants[0].image, alt: restaurant.name }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "save-heart", type: "button", onClick: (e) => e.stopPropagation(), children: "\u2661" })
+
+  // src/components/RestaurantCard.jsx
+  var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
+  var fallbackImage = "https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=900&q=80";
+  function RestaurantCard({ restaurant, rank, onOpen, onSave }) {
+    const meters = Number(restaurant.distance_meters || 0);
+    const distanceLabel = meters > 0 ? meters < 1e3 ? `${Math.round(meters)}m t\u1EDBi tuy\u1EBFn \u0111\u01B0\u1EDDng` : `${(meters / 1e3).toFixed(1)}km t\u1EDBi tuy\u1EBFn \u0111\u01B0\u1EDDng` : "\u0110i\u1EC3m d\u1EEBng ti\u1EC7n \u0111\u01B0\u1EDDng";
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("article", { className: "restaurant-search-card", onClick: onOpen, tabIndex: "0", role: "button", onKeyDown: (event) => {
+      if (event.key === "Enter") onOpen?.();
+    }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "restaurant-search-image", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: restaurant.imageUrl || restaurant.image || fallbackImage, alt: restaurant.name }),
+        rank && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { className: "restaurant-rank", children: [
+          "#",
+          rank
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", className: "restaurant-save", "aria-label": `L\u01B0u ${restaurant.name}`, onClick: (event) => {
+          event.stopPropagation();
+          onSave?.(restaurant.id);
+        }, children: "\u2661" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "route-food-body", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "convenience-tag score-high", children: restaurant.deviation || "Ti\u1EC7n \u0111\u01B0\u1EDDng +150m" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "route-food-title", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { title: restaurant.name, children: restaurant.name }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "route-meta-line", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "restaurant-search-body", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { title: restaurant.name, children: restaurant.name }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: restaurant.address || "\u0110\u1ECBa \u0111i\u1EC3m \u1EA9m th\u1EF1c ti\u1EC7n \u0111\u01B0\u1EDDng" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
             "\u2B50 ",
-            restaurant.rating || 4.5
+            restaurant.rating || "M\u1EDBi"
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
             "\u{1F697} ",
-            restaurant.deviation || "L\u1EC7ch 2 ph\xFAt"
+            distanceLabel
           ] })
         ] })
       ] })
     ] });
   }
-  function MapPicker({ onClose, onPick }) {
-    const node = (0, import_react.useRef)(null);
-    (0, import_react.useEffect)(() => {
-      const L = window.L;
-      if (!L || !node.current) return;
-      const map = L.map(node.current).setView([10.7769, 106.7009], 13);
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "\xA9 OpenStreetMap contributors" }).addTo(map);
-      map.on("click", (event) => onPick(event.latlng));
-      return () => map.remove();
-    }, [onPick]);
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "location-map-modal", role: "dialog", children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("section", { className: "location-map-card", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "location-map-head", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Ch\u1ECDn \u0111i\u1EC3m tr\xEAn b\u1EA3n \u0111\u1ED3" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Nh\u1EA5n v\xE0o v\u1ECB tr\xED mong mu\u1ED1n \u0111\u1EC3 ch\u1ECDn." })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: onClose, children: "\u0110\xF3ng" })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "location-map-canvas", ref: node })
-    ] }) });
-  }
 
-  // src/LoginPage.jsx
+  // src/components/LocationAutocomplete.jsx
   var import_react2 = __toESM(require_react(), 1);
   var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
-  function LoginPage() {
+  var NOMINATIM_SEARCH_URL = "https://nominatim.openstreetmap.org/search";
+  function LocationAutocomplete({ value, placeholder, onChange, onSelect, children }) {
+    const [suggestions, setSuggestions] = (0, import_react2.useState)([]);
+    const [loading, setLoading] = (0, import_react2.useState)(false);
+    const [focused, setFocused] = (0, import_react2.useState)(false);
+    const timer = (0, import_react2.useRef)(null);
+    (0, import_react2.useEffect)(() => {
+      const text = value?.address?.trim() || "";
+      clearTimeout(timer.current);
+      if (!focused || text.length < 3 || Number.isFinite(value?.lat) && Number.isFinite(value?.lng)) {
+        setSuggestions([]);
+        setLoading(false);
+        return void 0;
+      }
+      const controller = new AbortController();
+      timer.current = setTimeout(async () => {
+        setLoading(true);
+        try {
+          const params = new URLSearchParams({ format: "jsonv2", limit: "5", "accept-language": "vi", q: text });
+          const response = await fetch(`${NOMINATIM_SEARCH_URL}?${params}`, { signal: controller.signal });
+          if (!response.ok) throw new Error("Nominatim unavailable");
+          const rows = await response.json();
+          setSuggestions(Array.isArray(rows) ? rows : []);
+        } catch (error) {
+          if (error.name !== "AbortError") setSuggestions([]);
+        } finally {
+          if (!controller.signal.aborted) setLoading(false);
+        }
+      }, 450);
+      return () => {
+        clearTimeout(timer.current);
+        controller.abort();
+      };
+    }, [focused, value?.address, value?.lat, value?.lng]);
+    function select(place) {
+      onSelect({ address: place.display_name, lat: Number(place.lat), lng: Number(place.lon) });
+      setSuggestions([]);
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "location-autocomplete", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { value: value?.address || "", placeholder, autoComplete: "off", onFocus: () => setFocused(true), onBlur: () => window.setTimeout(() => setFocused(false), 160), onChange: (event) => onChange({ address: event.target.value, lat: null, lng: null }) }),
+      children ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "location-input-actions", children }) : null,
+      focused && (loading || suggestions.length > 0) ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "location-suggestions", role: "listbox", children: loading ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u0110ang t\xECm \u0111\u1ECBa \u0111i\u1EC3m\u2026" }) : suggestions.map((place) => /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", role: "option", onMouseDown: (event) => event.preventDefault(), onClick: () => select(place), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u{1F4CD}" }),
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: place.display_name })
+      ] }, place.place_id)) }) : null
+    ] });
+  }
+
+  // src/Home.jsx
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
+  var QUICK_CATEGORIES = [
+    { label: "C\xE0 ph\xEA", value: "ca-phe" },
+    { label: "C\u01A1m", value: "com" },
+    { label: "B\xFAn/Ph\u1EDF", value: "bun-pho" },
+    { label: "\u0110\u1ED3 u\u1ED1ng", value: "do-uong" },
+    { label: "\u0102n v\u1EB7t", value: "an-vat" }
+  ];
+  var emptyPoint = (address = "") => ({ address, lat: null, lng: null });
+  function Home() {
     const navigate = useNavigate();
-    const [error, setError] = (0, import_react2.useState)("");
-    const [busy, setBusy] = (0, import_react2.useState)(false);
-    async function submit(e) {
-      e.preventDefault();
-      setBusy(true);
-      setError("");
+    const { getCurrentLocation, loading: locating, error: locationError } = useCurrentLocation();
+    const [startPoint, setStartPoint] = (0, import_react3.useState)(emptyPoint());
+    const [endPoint, setEndPoint] = (0, import_react3.useState)(emptyPoint());
+    const [restaurants, setRestaurants] = (0, import_react3.useState)([]);
+    const [searched, setSearched] = (0, import_react3.useState)(false);
+    const [searching, setSearching] = (0, import_react3.useState)(false);
+    const [message, setMessage] = (0, import_react3.useState)("");
+    const [mapTarget, setMapTarget] = (0, import_react3.useState)(null);
+    const [activeCategory, setActiveCategory] = (0, import_react3.useState)("");
+    (0, import_react3.useEffect)(() => {
+      const query = activeCategory ? `?category=${encodeURIComponent(activeCategory)}` : "";
+      request(`/restaurants${query}`, { authorized: false }).then((response) => setRestaurants(Array.isArray(response) ? response : response.data || [])).catch(() => setRestaurants([]));
+    }, [activeCategory]);
+    (0, import_react3.useEffect)(() => {
+      if (locationError) setMessage(locationError);
+    }, [locationError]);
+    async function geocode(point, label) {
+      if (Number.isFinite(point.lat) && Number.isFinite(point.lng)) return point;
+      if (!point.address.trim()) throw new Error(`Vui l\xF2ng nh\u1EADp ${label}.`);
+      const params = new URLSearchParams({ format: "jsonv2", limit: "1", "accept-language": "vi", q: point.address });
+      const response = await fetch(`https://nominatim.openstreetmap.org/search?${params}`);
+      const rows = await response.json();
+      if (!rows?.[0]) throw new Error(`Kh\xF4ng t\xECm th\u1EA5y ${label.toLowerCase()}.`);
+      return { address: rows[0].display_name || point.address, lat: Number(rows[0].lat), lng: Number(rows[0].lon) };
+    }
+    async function useLocation2() {
       try {
-        const f = e.currentTarget;
-        const r = await fetch(`${API_BASE}/auth/login`, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: f.email.value, password: f.password.value }) });
-        const d = await r.json();
-        if (!r.ok) throw new Error(d.message || "\u0110\u0103ng nh\u1EADp th\u1EA5t b\u1EA1i");
-        localStorage.setItem(TOKEN_KEY, d.accessToken);
-        localStorage.setItem("routebite_user", JSON.stringify(d.user));
-        navigate(d.user?.role === "customer" ? "/" : "/merchant");
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setBusy(false);
+        setStartPoint(await getCurrentLocation());
+      } catch {
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("main", { className: "app-page", children: /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("section", { className: "panel", style: { maxWidth: 460, margin: "64px auto", padding: 28 }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("h2", { children: "\u0110\u0103ng nh\u1EADp RouteBite" }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u0110\u0103ng nh\u1EADp \u0111\u1EC3 t\xECm qu\xE1n v\xE0 qu\u1EA3n l\xFD \u0111\u01A1n h\xE0ng." }),
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("form", { className: "grid-form", onSubmit: submit, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { name: "email", type: "email", placeholder: "Email", required: true }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { name: "password", type: "password", placeholder: "M\u1EADt kh\u1EA9u", required: true }),
-        error && /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("small", { style: { color: "var(--rb-danger)" }, children: error }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { className: "btn primary", disabled: busy, children: busy ? "\u0110ang \u0111\u0103ng nh\u1EADp..." : "\u0110\u0103ng nh\u1EADp" })
+    async function search(event) {
+      event.preventDefault();
+      setSearching(true);
+      setSearched(true);
+      setMessage("");
+      try {
+        const [pointA, pointB] = await Promise.all([geocode(startPoint, "\u0111i\u1EC3m \u0111i"), geocode(endPoint, "\u0111i\u1EC3m \u0111\u1EBFn")]);
+        setStartPoint(pointA);
+        setEndPoint(pointB);
+        const result = await request("/search/route", { method: "POST", authorized: false, body: { pointA: { latitude: pointA.lat, longitude: pointA.lng }, pointB: { latitude: pointB.lat, longitude: pointB.lng }, radius: 500 } });
+        const eta = Number(result.route?.travelTimeMinutes);
+        if (Number.isFinite(eta) && eta > 0) localStorage.setItem("routebite_route_eta_minutes", String(eta));
+        setRestaurants(result.restaurants || []);
+        setMessage(`\u0110\xE3 t\xECm theo tuy\u1EBFn \u0111\u01B0\u1EDDng \xB7 th\u1EDDi gian di chuy\u1EC3n kho\u1EA3ng ${eta || "?"} ph\xFAt.`);
+      } catch (error) {
+        setRestaurants([]);
+        setMessage(error.message || "C\xF3 l\u1ED7i khi t\xECm qu\xE1n, vui l\xF2ng th\u1EED l\u1EA1i.");
+      } finally {
+        setSearching(false);
+      }
+    }
+    const heading = searched ? "K\u1EBFt qu\u1EA3 g\u1EE3i \xFD tr\xEAn tuy\u1EBFn" : "Qu\xE1n n\u1ED5i b\u1EADt";
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("main", { className: "route-home", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "route-hero", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "route-hero-copy", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: "H\xC0NH TR\xCCNH \u1EA8M TH\u1EF0C" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h1", { children: "T\xECm qu\xE1n tr\xEAn \u0111\u01B0\u1EDDng \u0111i." }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "Ch\u1ECDn \u0111i\u1EC3m \u0111i v\xE0 \u0111i\u1EC3m \u0111\u1EBFn. RouteBite s\u1EBD g\u1EE3i \xFD \u0111i\u1EC3m d\u1EEBng ph\xF9 h\u1EE3p trong ph\u1EA1m vi l\u1EC7ch tuy\u1EBFn 500m." })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("form", { className: "route-form", onSubmit: search, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "route-field", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("label", { children: "\u0110i\u1EC3m \u0111i" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(LocationAutocomplete, { value: startPoint, placeholder: "Nh\u1EADp \u0111i\u1EC3m xu\u1EA5t ph\xE1t", onChange: setStartPoint, onSelect: setStartPoint, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", onClick: () => setMapTarget("start"), children: "\u{1F4CD} Ch\u1ECDn tr\xEAn b\u1EA3n \u0111\u1ED3" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { className: "location-action", type: "button", disabled: locating, onClick: useLocation2, children: locating ? "\u231B \u0110ang \u0111\u1ECBnh v\u1ECB\u2026" : "\u{1F3AF} D\xF9ng v\u1ECB tr\xED hi\u1EC7n t\u1EA1i" })
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "route-field", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("label", { children: "\u0110i\u1EC3m \u0111\u1EBFn" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(LocationAutocomplete, { value: endPoint, placeholder: "Nh\u1EADp \u0111i\u1EC3m \u0111\u1EBFn", onChange: setEndPoint, onSelect: setEndPoint, children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", onClick: () => setMapTarget("end"), children: "\u{1F4CD} Ch\u1ECDn tr\xEAn b\u1EA3n \u0111\u1ED3" }) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { className: "route-submit", disabled: searching, children: searching ? "\u0110ang t\xECm\u2026" : "T\xECm g\u1EE3i \xFD" })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "route-categories", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h2", { children: "Danh m\u1EE5c nhanh" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", className: !activeCategory ? "active" : "", onClick: () => {
+            setActiveCategory("");
+            setSearched(false);
+          }, children: "T\u1EA5t c\u1EA3" }),
+          QUICK_CATEGORIES.map((category) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", className: activeCategory === category.value ? "active" : "", onClick: () => {
+            setActiveCategory(category.value);
+            setSearched(false);
+          }, children: category.label }, category.value))
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "route-results", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "route-results-heading", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: searched ? "T\xCCM THEO L\u1ED8 TR\xCCNH" : "KH\xC1M PH\xC1 G\u1EA6N B\u1EA0N" }),
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h2", { children: heading })
+          ] }),
+          message && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: message })
+        ] }),
+        searching ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "restaurant-result-grid", children: [1, 2, 3].map((item) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "restaurant-skeleton" }, item)) }) : restaurants.length ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "restaurant-result-grid", children: restaurants.map((restaurant, index) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(RestaurantCard, { restaurant, rank: searched ? index + 1 : void 0, onOpen: () => navigate(`/restaurant/${restaurant.id}`) }, restaurant.id)) }) : /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "route-empty", children: searched ? "Kh\xF4ng t\xECm th\u1EA5y qu\xE1n ph\xF9 h\u1EE3p trong ph\u1EA1m vi 500m quanh tuy\u1EBFn \u0111\u01B0\u1EDDng n\xE0y." : "Ch\u01B0a c\xF3 qu\xE1n c\xF4ng khai \u0111\u1EC3 hi\u1EC3n th\u1ECB." })
+      ] }),
+      mapTarget && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(MapPicker, { initialCenter: mapTarget === "start" ? startPoint : endPoint, onClose: () => setMapTarget(null), onPick: (location) => {
+        (mapTarget === "start" ? setStartPoint : setEndPoint)(location);
+        setMapTarget(null);
+      } })
+    ] });
+  }
+  function MapPicker({ initialCenter, onClose, onPick }) {
+    const node = (0, import_react3.useRef)(null);
+    const markerRef = (0, import_react3.useRef)(null);
+    const [selected, setSelected] = (0, import_react3.useState)(null);
+    const [address, setAddress] = (0, import_react3.useState)("");
+    const [loadingAddress, setLoadingAddress] = (0, import_react3.useState)(false);
+    (0, import_react3.useEffect)(() => {
+      const L = window.L;
+      if (!L || !node.current) return void 0;
+      const center = Number.isFinite(initialCenter?.lat) ? [initialCenter.lat, initialCenter.lng] : [10.7769, 106.7009];
+      const map = L.map(node.current).setView(center, 14);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "\xA9 OpenStreetMap contributors" }).addTo(map);
+      map.on("click", async (event) => {
+        const location = { lat: event.latlng.lat, lng: event.latlng.lng };
+        setSelected(location);
+        if (markerRef.current) markerRef.current.remove();
+        markerRef.current = L.marker([location.lat, location.lng]).addTo(map);
+        setLoadingAddress(true);
+        setAddress("");
+        try {
+          const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&accept-language=vi&lat=${location.lat}&lon=${location.lng}`);
+          const data2 = await response.json();
+          setAddress(data2.display_name || `${location.lat.toFixed(5)}, ${location.lng.toFixed(5)}`);
+        } catch {
+          setAddress(`${location.lat.toFixed(5)}, ${location.lng.toFixed(5)}`);
+        } finally {
+          setLoadingAddress(false);
+        }
+      });
+      return () => map.remove();
+    }, [initialCenter]);
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "location-map-modal", role: "dialog", "aria-modal": "true", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "location-map-card", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("header", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: "Ch\u1ECDn v\u1ECB tr\xED tr\xEAn b\u1EA3n \u0111\u1ED3" }),
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "Nh\u1EA5n v\xE0o v\u1ECB tr\xED mong mu\u1ED1n \u0111\u1EC3 \u0111\u1EB7t ghim." })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", onClick: onClose, children: "\xD7" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "location-map-canvas", ref: node }),
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("footer", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: !selected ? "Nh\u1EA5n v\xE0o b\u1EA3n \u0111\u1ED3 \u0111\u1EC3 ch\u1ECDn v\u1ECB tr\xED" : loadingAddress ? "\u0110ang x\xE1c \u0111\u1ECBnh \u0111\u1ECBa ch\u1EC9\u2026" : address }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", disabled: !selected || loadingAddress, onClick: () => onPick({ ...selected, address }), children: "X\xE1c nh\u1EADn v\u1ECB tr\xED" })
       ] })
     ] }) });
   }
 
+  // src/LoginPage.jsx
+  var import_react5 = __toESM(require_react(), 1);
+
+  // src/layouts/AuthLayout.jsx
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+  function AuthLayout({ children }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("main", { className: "auth-layout", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("section", { className: "auth-brand-panel", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Link, { className: "auth-brand-logo", to: "/", children: "RouteBite" }),
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("p", { className: "auth-eyebrow", children: "H\xC0NH TR\xCCNH \u1EA8M TH\u1EF0C" }),
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("h1", { children: [
+          "\u1EA8m th\u1EF1c tr\xEAn",
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("br", {}),
+          "m\u1ECDi n\u1EBBo \u0111\u01B0\u1EDDng."
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("p", { children: "Kh\xE1m ph\xE1 qu\xE1n ti\u1EC7n \u0111\u01B0\u1EDDng, \u0111\u1EB7t m\xF3n tr\u01B0\u1EDBc v\xE0 gh\xE9 l\u1EA5y \u0111\xFAng l\xFAc b\u1EA1n \u0111\u1EBFn n\u01A1i." }),
+        /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "auth-brand-stats", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { children: "\u{1F4CD} T\xECm qu\xE1n d\u1ECDc tuy\u1EBFn" }),
+          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { children: "\u26A1 \u0110\u1EB7t tr\u01B0\u1EDBc, gh\xE9 l\u1EA5y" })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("section", { className: "auth-form-panel", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: "auth-form-wrap", children }) })
+    ] });
+  }
+
+  // src/contexts/AuthContext.jsx
+  var import_react4 = __toESM(require_react(), 1);
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
+  var REFRESH_TOKEN_KEY2 = "routebite_refresh_token";
+  var USER_KEY = "routebite_user";
+  var AuthContext = (0, import_react4.createContext)(null);
+  function AuthProvider({ children }) {
+    const [currentUser, setCurrentUserState] = (0, import_react4.useState)(() => {
+      try {
+        return JSON.parse(localStorage.getItem(USER_KEY) || "null");
+      } catch {
+        return null;
+      }
+    });
+    function setCurrentUser(user) {
+      setCurrentUserState(user);
+      if (user) localStorage.setItem(USER_KEY, JSON.stringify(user));
+      else localStorage.removeItem(USER_KEY);
+    }
+    function setSession(response) {
+      localStorage.setItem(TOKEN_KEY, response.accessToken);
+      if (response.refreshToken) localStorage.setItem(REFRESH_TOKEN_KEY2, response.refreshToken);
+      setCurrentUser(response.user);
+    }
+    function logout() {
+      localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(REFRESH_TOKEN_KEY2);
+      setCurrentUser(null);
+    }
+    const value = (0, import_react4.useMemo)(() => ({ currentUser, setCurrentUser, setSession, logout }), [currentUser]);
+    return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(AuthContext.Provider, { value, children });
+  }
+  function useAuth() {
+    const context = (0, import_react4.useContext)(AuthContext);
+    if (!context) throw new Error("useAuth ph\u1EA3i \u0111\u01B0\u1EE3c d\xF9ng b\xEAn trong AuthProvider");
+    return context;
+  }
+
+  // src/LoginPage.jsx
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
+  function LoginPage() {
+    const navigate = useNavigate();
+    const { setSession } = useAuth();
+    const [email, setEmail] = (0, import_react5.useState)("");
+    const [password, setPassword] = (0, import_react5.useState)("");
+    const [showPassword, setShowPassword] = (0, import_react5.useState)(false);
+    const [error, setError] = (0, import_react5.useState)("");
+    const [busy, setBusy] = (0, import_react5.useState)(false);
+    async function submit(event) {
+      event.preventDefault();
+      setBusy(true);
+      setError("");
+      try {
+        const data2 = await request("/auth/login", { method: "POST", body: { email, password }, authorized: false });
+        setSession(data2);
+        if (data2.user.role === "merchant") {
+          const restaurants = await request("/restaurants/mine");
+          navigate(restaurants.length ? "/merchant" : "/merchant/onboarding");
+        } else if (data2.user.role === "admin") navigate("/admin/overview");
+        else navigate("/");
+      } catch (err) {
+        setError(err.message || "\u0110\u0103ng nh\u1EADp th\u1EA5t b\u1EA1i, vui l\xF2ng th\u1EED l\u1EA1i.");
+      } finally {
+        setBusy(false);
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(AuthLayout, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "auth-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("p", { children: "CH\xC0O M\u1EEANG TR\u1EDE L\u1EA0I" }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h2", { children: "\u0110\u0103ng nh\u1EADp" }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: "\u0110\u0103ng nh\u1EADp \u0111\u1EC3 ti\u1EBFp t\u1EE5c h\xE0nh tr\xECnh c\u1EE7a b\u1EA1n." })
+      ] }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "auth-alert", role: "alert", children: error }),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("form", { className: "auth-form", onSubmit: submit, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("label", { children: [
+          "Email",
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("input", { type: "email", value: email, onChange: (e) => setEmail(e.target.value), placeholder: "you@example.com", required: true, autoComplete: "email" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("label", { children: [
+          "M\u1EADt kh\u1EA9u",
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "password-field", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("input", { type: showPassword ? "text" : "password", value: password, onChange: (e) => setPassword(e.target.value), placeholder: "Nh\u1EADp m\u1EADt kh\u1EA9u", required: true, autoComplete: "current-password" }),
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { type: "button", onClick: () => setShowPassword((value) => !value), children: showPassword ? "\u1EA8n" : "Hi\u1EC7n" })
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { className: "auth-submit", disabled: busy, children: busy ? "\u0110ang \u0111\u0103ng nh\u1EADp\u2026" : "\u0110\u0103ng nh\u1EADp" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("p", { className: "auth-switch", children: [
+        "Ch\u01B0a c\xF3 t\xE0i kho\u1EA3n? ",
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Link, { to: "/register", children: "\u0110\u0103ng k\xFD ngay" })
+      ] })
+    ] });
+  }
+
+  // src/RegisterPage.jsx
+  var import_react6 = __toESM(require_react(), 1);
+  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
+  function RegisterPage() {
+    const navigate = useNavigate();
+    const { setSession } = useAuth();
+    const [form, setForm] = (0, import_react6.useState)({ fullName: "", email: "", phone: "", password: "", confirmPassword: "" });
+    const [fieldErrors, setFieldErrors] = (0, import_react6.useState)({});
+    const [error, setError] = (0, import_react6.useState)("");
+    const [busy, setBusy] = (0, import_react6.useState)(false);
+    const change = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
+    async function submit(event) {
+      event.preventDefault();
+      setError("");
+      setFieldErrors({});
+      if (form.password.length < 6) return setFieldErrors({ password: "M\u1EADt kh\u1EA9u ph\u1EA3i c\xF3 \xEDt nh\u1EA5t 6 k\xFD t\u1EF1." });
+      if (form.password !== form.confirmPassword) return setFieldErrors({ confirmPassword: "M\u1EADt kh\u1EA9u x\xE1c nh\u1EADn kh\xF4ng kh\u1EDBp." });
+      setBusy(true);
+      try {
+        const data2 = await request("/auth/register", { method: "POST", authorized: false, body: { fullName: form.fullName, email: form.email, phone: form.phone || void 0, password: form.password } });
+        setSession(data2);
+        navigate("/");
+      } catch (err) {
+        if (/email/i.test(err.message || "")) setFieldErrors({ email: "Email n\xE0y \u0111\xE3 \u0111\u01B0\u1EE3c s\u1EED d\u1EE5ng." });
+        else setError(err.message || "\u0110\u0103ng k\xFD th\u1EA5t b\u1EA1i, vui l\xF2ng th\u1EED l\u1EA1i.");
+      } finally {
+        setBusy(false);
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(AuthLayout, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "auth-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { children: "B\u1EAET \u0110\u1EA6U C\xD9NG ROUTEBITE" }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("h2", { children: "T\u1EA1o t\xE0i kho\u1EA3n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { children: "T\xE0i kho\u1EA3n \u0111\u0103ng k\xFD m\u1EDBi m\u1EB7c \u0111\u1ECBnh l\xE0 th\u1EF1c kh\xE1ch." })
+      ] }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "auth-alert", role: "alert", children: error }),
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("form", { className: "auth-form", onSubmit: submit, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { children: [
+          "H\u1ECD v\xE0 t\xEAn",
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("input", { value: form.fullName, onChange: change("fullName"), placeholder: "Nguy\u1EC5n V\u0103n A", required: true, autoComplete: "name" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { children: [
+          "Email",
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("input", { className: fieldErrors.email ? "has-error" : "", type: "email", value: form.email, onChange: change("email"), placeholder: "you@example.com", required: true, autoComplete: "email" }),
+          fieldErrors.email && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("small", { children: fieldErrors.email })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { children: [
+          "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i ",
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("em", { children: "(c\u1EA7n khi \u0111\u1EB7t m\xF3n)" }),
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("input", { type: "tel", value: form.phone, onChange: change("phone"), placeholder: "0900 000 000", autoComplete: "tel" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { children: [
+          "M\u1EADt kh\u1EA9u",
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("input", { className: fieldErrors.password ? "has-error" : "", type: "password", value: form.password, onChange: change("password"), placeholder: "\xCDt nh\u1EA5t 6 k\xFD t\u1EF1", required: true, autoComplete: "new-password" }),
+          fieldErrors.password && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("small", { children: fieldErrors.password })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { children: [
+          "X\xE1c nh\u1EADn m\u1EADt kh\u1EA9u",
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("input", { className: fieldErrors.confirmPassword ? "has-error" : "", type: "password", value: form.confirmPassword, onChange: change("confirmPassword"), placeholder: "Nh\u1EADp l\u1EA1i m\u1EADt kh\u1EA9u", required: true, autoComplete: "new-password" }),
+          fieldErrors.confirmPassword && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("small", { children: fieldErrors.confirmPassword })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("button", { className: "auth-submit", disabled: busy, children: busy ? "\u0110ang \u0111\u0103ng k\xFD\u2026" : "\u0110\u0103ng k\xFD" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("p", { className: "auth-switch", children: [
+        "\u0110\xE3 c\xF3 t\xE0i kho\u1EA3n? ",
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Link, { to: "/login", children: "\u0110\u0103ng nh\u1EADp" })
+      ] })
+    ] });
+  }
+
+  // src/ProfilePage.jsx
+  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
+  var ROLE_LABELS = { customer: "Kh\xE1ch h\xE0ng", merchant: "Ch\u1EE7 qu\xE1n", admin: "Qu\u1EA3n tr\u1ECB vi\xEAn" };
+  function ProfilePage() {
+    const { currentUser } = useAuth();
+    if (!currentUser) return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Navigate, { to: "/login", replace: true });
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("main", { className: "profile-page", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("section", { className: "profile-card", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { children: "TH\xD4NG TIN T\xC0I KHO\u1EA2N" }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h1", { children: "H\u1ED3 s\u01A1 c\u1EE7a b\u1EA1n" }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "profile-avatar", children: currentUser.fullName.split(" ").filter(Boolean).slice(-2).map((word) => word[0]).join("").toUpperCase() }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "profile-rows", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(InfoRow, { label: "H\u1ECD v\xE0 t\xEAn", value: currentUser.fullName }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(InfoRow, { label: "Email", value: currentUser.email }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(InfoRow, { label: "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i", value: currentUser.phone || "Ch\u01B0a c\u1EADp nh\u1EADt" }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(InfoRow, { label: "Vai tr\xF2", value: ROLE_LABELS[currentUser.role] || currentUser.role })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("small", { children: "Ch\u1EE9c n\u0103ng ch\u1EC9nh s\u1EEDa th\xF4ng tin v\xE0 \u0111\u1ED5i m\u1EADt kh\u1EA9u s\u1EBD \u0111\u01B0\u1EE3c b\u1ED5 sung trong b\u1EA3n c\u1EADp nh\u1EADt ti\u1EBFp theo." })
+    ] }) });
+  }
+  function InfoRow({ label, value }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { children: label }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("strong", { children: value })
+    ] });
+  }
+
+  // src/components/AvatarDropdown.jsx
+  var import_react7 = __toESM(require_react(), 1);
+  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+  var ROLE_LABELS2 = { customer: "Kh\xE1ch h\xE0ng", merchant: "Ch\u1EE7 qu\xE1n", admin: "Qu\u1EA3n tr\u1ECB vi\xEAn" };
+  function AvatarDropdown() {
+    const { currentUser, logout } = useAuth();
+    const navigate = useNavigate();
+    const [open, setOpen] = (0, import_react7.useState)(false);
+    const ref = (0, import_react7.useRef)(null);
+    (0, import_react7.useEffect)(() => {
+      const close = (event) => {
+        if (ref.current && !ref.current.contains(event.target)) setOpen(false);
+      };
+      document.addEventListener("mousedown", close);
+      return () => document.removeEventListener("mousedown", close);
+    }, []);
+    if (!currentUser) return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { className: "header-login", type: "button", onClick: () => navigate("/login"), children: "\u0110\u0103ng nh\u1EADp" });
+    const initials = currentUser.fullName.split(" ").filter(Boolean).slice(-2).map((word) => word[0]).join("").toUpperCase() || "RB";
+    const go = (path) => {
+      setOpen(false);
+      navigate(path);
+    };
+    return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "avatar-dropdown", ref, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { className: "profile-trigger", type: "button", "aria-haspopup": "menu", "aria-expanded": open, onClick: () => setOpen((value) => !value), children: initials }),
+      open && /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "avatar-menu", role: "menu", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("header", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("strong", { children: currentUser.fullName }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { children: ROLE_LABELS2[currentUser.role] || currentUser.role })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "avatar-menu-items", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(MenuItem, { icon: "\u{1F464}", label: "Th\xF4ng tin t\xE0i kho\u1EA3n", onClick: () => go("/profile") }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(MenuItem, { icon: "\u{1F512}", label: "\u0110\u1ED5i m\u1EADt kh\u1EA9u", disabled: true, badge: "S\u1EAFp ra m\u1EAFt" }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(MenuItem, { icon: "\u{1F4E6}", label: "\u0110\u01A1n c\u1EE7a t\xF4i", onClick: () => go("/my-orders") })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "avatar-menu-logout", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(MenuItem, { icon: "\u{1F6AA}", label: "\u0110\u0103ng xu\u1EA5t", danger: true, onClick: () => {
+          logout();
+          navigate("/login");
+        } }) })
+      ] })
+    ] });
+  }
+  function MenuItem({ icon, label, onClick, disabled, danger, badge }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("button", { type: "button", role: "menuitem", disabled, className: danger ? "danger" : "", onClick, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { children: icon }),
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("b", { children: label }),
+      badge && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("em", { children: badge })
+    ] });
+  }
+
+  // src/components/OrderStatusBadge.tsx
+  var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
+  var STATUS_CONFIG = {
+    PENDING: { label: "Ch\u1EDD x\xE1c nh\u1EADn", bg: "#FEF3C7", color: "#92400E" },
+    CONFIRMED: { label: "\u0110\xE3 x\xE1c nh\u1EADn", bg: "var(--color-primary-soft)", color: "var(--color-accent-dark)" },
+    PREPARING: { label: "\u0110ang chu\u1EA9n b\u1ECB", bg: "var(--color-primary-soft)", color: "var(--color-accent-dark)" },
+    READY: { label: "S\u1EB5n s\xE0ng l\u1EA5y", bg: "rgba(60,140,94,.15)", color: "var(--color-success)" },
+    COMPLETED: { label: "Ho\xE0n th\xE0nh", bg: "#E5E7EB", color: "#4B5563" },
+    CANCELLED: { label: "\u0110\xE3 h\u1EE7y", bg: "rgba(179,38,30,.1)", color: "var(--color-danger)" }
+  };
+  function OrderStatusBadge({ status }) {
+    const config2 = STATUS_CONFIG[String(status).toUpperCase()] ?? {
+      label: "Ch\u01B0a x\xE1c \u0111\u1ECBnh",
+      bg: "#E5E7EB",
+      color: "#374151"
+    };
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { className: "rb-order-status", style: { backgroundColor: config2.bg, color: config2.color }, children: config2.label });
+  }
+
+  // src/components/PickupCountdown.tsx
+  var import_react8 = __toESM(require_react(), 1);
+  var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
+  function PickupCountdown({ estimatedPickupAt, pickupType }) {
+    const [now, setNow] = (0, import_react8.useState)(() => Date.now());
+    (0, import_react8.useEffect)(() => {
+      setNow(Date.now());
+      const interval = setInterval(() => setNow(Date.now()), 3e4);
+      return () => clearInterval(interval);
+    }, [estimatedPickupAt]);
+    const target = estimatedPickupAt ? new Date(estimatedPickupAt).getTime() : NaN;
+    if (!Number.isFinite(target)) return null;
+    if (pickupType === "scheduled") {
+      const time = new Date(target).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
+      return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("span", { children: [
+        "H\u1EB9n l\u1EA5y l\xFAc ",
+        time
+      ] });
+    }
+    const remainingMinutes = Math.max(0, Math.ceil((target - now) / 6e4));
+    return remainingMinutes > 0 ? /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("span", { children: [
+      "L\u1EA5y sau kho\u1EA3ng ",
+      remainingMinutes,
+      " ph\xFAt"
+    ] }) : /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "rb-pickup-due", children: "C\xF3 th\u1EC3 \u0111\xE3 s\u1EB5n s\xE0ng, gh\xE9 l\u1EA5y nh\xE9!" });
+  }
+
+  // src/components/QuantityStepper.tsx
+  var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
+  function QuantityStepper({ quantity, onIncrease, onDecrease, name = "m\xF3n", disabled = false }) {
+    if (quantity <= 0) {
+      return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("button", { type: "button", className: "rb-quantity-add", "aria-label": `Th\xEAm ${name}`, onClick: onIncrease, disabled, children: "+" });
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "rb-quantity-stepper", role: "group", "aria-label": `S\u1ED1 l\u01B0\u1EE3ng ${name}`, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("button", { type: "button", "aria-label": `Gi\u1EA3m ${name}`, onClick: onDecrease, disabled, children: "\u2212" }),
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { "aria-live": "polite", "aria-atomic": "true", children: quantity }),
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("button", { type: "button", className: "rb-quantity-increase", "aria-label": `T\u0103ng ${name}`, onClick: onIncrease, disabled: disabled || quantity >= 100, children: "+" })
+    ] });
+  }
+
+  // src/components/FoodThumbnail.tsx
+  var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
+  function FoodThumbnail({ src, name, className = "" }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+      "img",
+      {
+        className: `rb-food-thumbnail ${className}`,
+        src: src || "/placeholder-food.svg",
+        alt: name,
+        loading: "lazy",
+        onError: (event) => {
+          const image = event.currentTarget;
+          if (image.getAttribute("src") !== "/placeholder-food.svg") image.src = "/placeholder-food.svg";
+        }
+      }
+    );
+  }
+
   // src/App.jsx
-  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
-  var CartContext = (0, import_react3.createContext)(null);
+  var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
+  var CartContext = (0, import_react9.createContext)(null);
   var CART_KEY = "routebite_cart";
   var formatMoney = (value) => `${Number(value || 0).toLocaleString("vi-VN")}\u0111`;
   var demoMenu = { id: "mock-com-tam", name: "C\u01A1m T\u1EA5m M\u1EABu", address: "Qu\u1EADn 1, TP. H\u1ED3 Ch\xED Minh", rating: 4.8, menuItems: [{ id: "demo-com-tam", name: "C\u01A1m t\u1EA5m s\u01B0\u1EDDn b\xEC ch\u1EA3", description: "S\u01B0\u1EDDn n\u01B0\u1EDBng, b\xEC, ch\u1EA3 tr\u1EE9ng v\xE0 \u0111\u1ED3 chua", price: 6e4, available: true }, { id: "demo-tra-dao", name: "Tr\xE0 \u0111\xE0o cam s\u1EA3", description: "Ly m\xE1t l\u1EA1nh", price: 25e3, available: true }] };
   function Header() {
     const navigate = useNavigate();
-    const { cart } = (0, import_react3.useContext)(CartContext);
-    const user = JSON.parse(localStorage.getItem("routebite_user") || "null");
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("header", { className: "consumer-header", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Link, { className: "consumer-logo", to: "/", children: "RouteBite" }),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("nav", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Link, { className: "consumer-nav active", to: "/", children: "Trang ch\u1EE7" }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Link, { className: "consumer-nav", to: "/kham-pha", children: "Kh\xE1m ph\xE1" }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Link, { className: "consumer-nav", to: "/my-orders", children: "\u0110\u01A1n c\u1EE7a t\xF4i" }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(Link, { className: "consumer-nav", to: "/my-carts", children: [
+    const { cart } = (0, import_react9.useContext)(CartContext);
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("header", { className: "consumer-header", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Link, { className: "consumer-logo", to: "/", children: "RouteBite" }),
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("nav", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Link, { className: "consumer-nav active", to: "/", children: "Trang ch\u1EE7" }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Link, { className: "consumer-nav", to: "/kham-pha", children: "Kh\xE1m ph\xE1" }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Link, { className: "consumer-nav", to: "/my-orders", children: "\u0110\u01A1n c\u1EE7a t\xF4i" }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(Link, { className: "consumer-nav", to: "/my-carts", children: [
           "Gi\u1ECF c\u1EE7a t\xF4i",
           cart.length ? ` (${cart.reduce((s, item) => s + item.quantity, 0)})` : ""
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "account-menu", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { className: "bell-icon", type: "button", "aria-label": "Th\xF4ng b\xE1o", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { className: "profile-trigger", type: "button", onClick: () => navigate(user ? user.role === "customer" ? "/my-orders" : "/merchant" : "/login"), children: user?.fullName?.slice(0, 2).toUpperCase() || "DC" })
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "account-menu", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("button", { className: "bell-icon", type: "button", "aria-label": "Th\xF4ng b\xE1o", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(AvatarDropdown, {})
       ] })
     ] });
   }
   function RestaurantMenu() {
     const { id } = useParams();
     const navigate = useNavigate();
-    const { add } = (0, import_react3.useContext)(CartContext);
-    const isDemo = id.startsWith("mock-");
-    const [restaurant, setRestaurant] = (0, import_react3.useState)(isDemo ? demoMenu : null);
-    const [error, setError] = (0, import_react3.useState)("");
-    const [pickup, setPickup] = (0, import_react3.useState)("15");
-    (0, import_react3.useState)(() => {
-      if (!isDemo) request(`/restaurants/${id}`, { authorized: false }).then(setRestaurant).catch((e) => setError(e.message));
-    });
-    if (error) return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Page, { title: "Kh\xF4ng m\u1EDF \u0111\u01B0\u1EE3c menu", children: error });
-    if (!restaurant) return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Page, { title: "\u0110ang t\u1EA3i menu\u2026" });
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("main", { className: "app-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { className: "back-link", onClick: () => navigate(-1), children: "\u2190 Quay l\u1EA1i" }),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "restaurant-hero", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: "GH\xC9 L\u1EA4Y MANG \u0110I" }),
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h1", { children: restaurant.name }),
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
-            restaurant.address,
-            " \xB7 \u2B50 ",
+    const { cart, add, change } = (0, import_react9.useContext)(CartContext);
+    const [restaurant, setRestaurant] = (0, import_react9.useState)(null);
+    const [error, setError] = (0, import_react9.useState)("");
+    const [pickup, setPickup] = (0, import_react9.useState)("15");
+    (0, import_react9.useEffect)(() => {
+      let active = true;
+      setError("");
+      setRestaurant(null);
+      if (id.startsWith("mock-")) {
+        setRestaurant({ ...demoMenu, id });
+      } else {
+        request("/restaurants/" + id, { authorized: false }).then((data2) => {
+          if (active) setRestaurant(data2);
+        }).catch((e) => {
+          if (active) setError(e.message);
+        });
+      }
+      return () => {
+        active = false;
+      };
+    }, [id]);
+    if (error) return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Page, { title: "Kh\xF4ng m\u1EDF \u0111\u01B0\u1EE3c menu", children: error });
+    if (!restaurant) return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Page, { title: "Menu qu\xE1n", children: "\u0110ang t\u1EA3i menu\u2026" });
+    const menu = (restaurant.menuItems || []).filter((item) => item.available);
+    const selected = cart.filter((item) => item.restaurantId === restaurant.id);
+    const count = selected.reduce((sum, item) => sum + item.quantity, 0);
+    const total = selected.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("main", { className: "app-page rb-commerce-page rb-menu-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("button", { type: "button", className: "back-link", onClick: () => navigate(-1), children: "\u2190 Quay l\u1EA1i" }),
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("section", { className: "item-card rb-restaurant-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(FoodThumbnail, { src: restaurant.imageUrl, name: restaurant.name, className: "rb-restaurant-image" }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "rb-eyebrow", children: "GH\xC9 L\u1EA4Y MANG \u0110I" }),
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h1", { children: restaurant.name }),
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { children: restaurant.address }),
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("span", { children: [
+            "\u2B50 ",
             restaurant.rating || "M\u1EDBi"
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("a", { className: "btn secondary", target: "_blank", rel: "noreferrer", href: `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(restaurant.address)}`, children: "Ch\u1EC9 \u0111\u01B0\u1EDDng" })
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("a", { className: "btn secondary", target: "_blank", rel: "noreferrer", href: "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(restaurant.address), children: "Ch\u1EC9 \u0111\u01B0\u1EDDng" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "booking-card", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: "Th\u1EDDi gian gh\xE9 l\u1EA5y" }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("select", { value: pickup, onChange: (e) => setPickup(e.target.value), children: [
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: "15", children: "Sau 15 ph\xFAt" }),
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: "30", children: "Sau 30 ph\xFAt" }),
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: "45", children: "Sau 45 ph\xFAt" })
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("section", { className: "item-card rb-pickup-choice", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("label", { htmlFor: "menu-pickup", children: "Th\u1EDDi gian gh\xE9 l\u1EA5y" }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("select", { id: "menu-pickup", value: pickup, onChange: (e) => setPickup(e.target.value), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("option", { value: "15", children: "Sau 15 ph\xFAt" }),
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("option", { value: "30", children: "Sau 30 ph\xFAt" }),
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("option", { value: "45", children: "Sau 45 ph\xFAt" })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "food-category", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h2", { children: "\u{1F525} M\xF3n b\xE1n ch\u1EA1y nh\u1EA5t" }),
-        (restaurant.menuItems || []).filter((item) => item.available).map((item) => /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("article", { className: "food-menu-row", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h3", { children: item.name }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: item.description || "M\xF3n ngon c\u1EE7a qu\xE1n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: formatMoney(item.price) })
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("section", { className: "rb-menu-list", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h2", { children: "Menu m\xF3n \u0103n" }),
+        menu.length ? menu.map((item) => /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("article", { className: "item-card rb-product-row", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(FoodThumbnail, { src: item.imageUrl, name: item.name }),
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "rb-product-copy", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h3", { children: item.name }),
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { children: item.description || "M\xF3n ngon c\u1EE7a qu\xE1n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("strong", { children: formatMoney(item.price) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { className: "add-food", onClick: () => add({ ...item, restaurantId: restaurant.id, restaurantName: restaurant.name, pickupMinutes: Number(pickup) }), children: "+" })
-        ] }, item.id))
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+            QuantityStepper,
+            {
+              name: item.name,
+              quantity: selected.find((entry) => entry.id === item.id)?.quantity || 0,
+              onIncrease: () => add({ ...item, restaurantId: restaurant.id, restaurantName: restaurant.name, pickupMinutes: Number(pickup) }),
+              onDecrease: () => change(item.id, -1)
+            }
+          )
+        ] }, item.id)) : /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "item-card rb-empty", children: "Qu\xE1n ch\u01B0a c\xF3 m\xF3n \u0111ang b\xE1n." })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Link, { className: "floating-cart", to: "/my-carts", children: "Xem gi\u1ECF h\xE0ng" })
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(Link, { className: "rb-menu-cart", to: "/my-carts", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("span", { children: [
+          "Xem gi\u1ECF h\xE0ng \xB7 ",
+          count,
+          " m\xF3n"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("strong", { children: formatMoney(total) })
+      ] })
     ] });
   }
   function CartPage() {
     const navigate = useNavigate();
-    const { cart, change, clear } = (0, import_react3.useContext)(CartContext);
+    const { cart, change, clear } = (0, import_react9.useContext)(CartContext);
     const routeEta = Math.max(1, Number(localStorage.getItem("routebite_route_eta_minutes")) || 15);
-    const [method, setMethod] = (0, import_react3.useState)("cash");
-    const [pickupType, setPickupType] = (0, import_react3.useState)("asap");
-    const [minutes, setMinutes] = (0, import_react3.useState)(routeEta);
-    const [scheduledTime, setScheduledTime] = (0, import_react3.useState)("");
-    const [busy, setBusy] = (0, import_react3.useState)(false);
-    const [message, setMessage] = (0, import_react3.useState)("");
+    const [method, setMethod] = (0, import_react9.useState)("cash");
+    const [pickupType, setPickupType] = (0, import_react9.useState)("asap");
+    const [minutes, setMinutes] = (0, import_react9.useState)(cart[0]?.pickupMinutes || routeEta);
+    const [scheduledTime, setScheduledTime] = (0, import_react9.useState)("");
+    const [busy, setBusy] = (0, import_react9.useState)(false);
+    const [message, setMessage] = (0, import_react9.useState)("");
     const total = cart.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
+    const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+    const minuteOptions = [.../* @__PURE__ */ new Set([routeEta, Number(minutes), 15, 30, 45])];
     async function checkout() {
-      if (!cart.length) return;
+      if (!cart.length || busy) return;
       if (!localStorage.getItem(TOKEN_KEY)) return navigate("/login");
       setBusy(true);
       setMessage("");
       try {
-        const first = cart[0];
-        const pickupOption = pickupType === "asap" ? { type: "asap", estimatedPickupMinutes: Number(minutes) } : { type: "scheduled", scheduledTime: new Date(scheduledTime).toISOString() };
-        const order = await request("/orders", { method: "POST", body: { restaurantId: first.restaurantId, pickupOption, payment: { method }, items: cart.map((item) => ({ menuItemId: item.id, quantity: item.quantity })) } });
+        const scheduled = new Date(scheduledTime);
+        if (pickupType === "scheduled" && (!Number.isFinite(scheduled.getTime()) || scheduled.getTime() <= Date.now())) {
+          throw new Error("Vui l\xF2ng ch\u1ECDn gi\u1EDD l\u1EA5y m\xF3n trong t\u01B0\u01A1ng lai.");
+        }
+        const pickupOption = pickupType === "asap" ? { type: "asap", estimatedPickupMinutes: Number(minutes) } : { type: "scheduled", scheduledTime: scheduled.toISOString() };
+        const order = await request("/orders", {
+          method: "POST",
+          body: {
+            restaurantId: cart[0].restaurantId,
+            pickupOption,
+            payment: { method },
+            items: cart.map((item) => ({ menuItemId: item.id, quantity: item.quantity }))
+          }
+        });
         if (method === "vnpay") {
           const payment = await request("/payments/create", { method: "POST", body: { orderId: order.id } });
           if (!payment.checkoutUrl) throw new Error("Kh\xF4ng t\u1EA1o \u0111\u01B0\u1EE3c li\xEAn k\u1EBFt thanh to\xE1n VNPAY");
@@ -24832,7 +25374,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           window.location.assign(payment.checkoutUrl);
           return;
         }
-        setMessage(`\u0110\u01A1n ${order.orderCode} \u0111\xE3 \u0111\u1EB7t. Thanh to\xE1n ti\u1EC1n m\u1EB7t khi gh\xE9 l\u1EA5y.`);
+        setMessage("\u0110\u01A1n " + order.orderCode + " \u0111\xE3 \u0111\u1EB7t. Thanh to\xE1n ti\u1EC1n m\u1EB7t khi gh\xE9 l\u1EA5y.");
         clear();
       } catch (e) {
         setMessage(e.message);
@@ -24840,129 +25382,172 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setBusy(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("main", { className: "app-page cart-page-v2", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "page-intro", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: "GI\u1ECE H\xC0NG" }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h1", { children: "Gh\xE9 l\u1EA5y mang \u0111i" })
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("main", { className: "app-page rb-commerce-page rb-cart-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "page-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "rb-eyebrow", children: "GI\u1ECE H\xC0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h1", { children: "Gh\xE9 l\u1EA5y mang \u0111i" }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { children: "Ki\u1EC3m tra m\xF3n, ch\u1ECDn gi\u1EDD l\u1EA5y v\xE0 ph\u01B0\u01A1ng th\u1EE9c thanh to\xE1n." })
       ] }),
-      cart.length ? /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "cart-layout-v2", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("section", { className: "cart-lines", children: cart.map((item) => /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("article", { className: "cart-line", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h3", { children: item.name }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: formatMoney(item.price) })
+      message && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "item-card rb-feedback", role: "status", children: message }),
+      cart.length ? /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "rb-cart-layout", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("section", { className: "item-card rb-cart-items", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h2", { children: cart[0].restaurantName || "M\xF3n \u0111\xE3 ch\u1ECDn" }),
+          cart.map((item) => /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("article", { className: "rb-product-row rb-cart-row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(FoodThumbnail, { src: item.imageUrl, name: item.name }),
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "rb-product-copy", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h3", { children: item.name }),
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("p", { children: [
+                formatMoney(item.price),
+                " / m\xF3n"
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("strong", { children: formatMoney(Number(item.price) * item.quantity) })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+              QuantityStepper,
+              {
+                name: item.name,
+                quantity: item.quantity,
+                disabled: busy,
+                onIncrease: () => change(item.id, 1),
+                onDecrease: () => change(item.id, -1)
+              }
+            )
+          ] }, item.id))
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("aside", { className: "item-card rb-cart-summary", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "rb-cart-total", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h2", { children: "T\u1ED5ng c\u1ED9ng" }),
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("span", { children: [
+                count,
+                " m\xF3n"
+              ] })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("strong", { children: formatMoney(total) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "qty-control", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { onClick: () => change(item.id, -1), children: "\u2212" }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: item.quantity }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { onClick: () => change(item.id, 1), children: "+" })
-          ] })
-        ] }, item.id)) }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("aside", { className: "cart-summary-v2", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("strong", { children: [
-            "T\u1ED5ng c\u1ED9ng: ",
-            formatMoney(total)
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("fieldset", { className: "payment-methods", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("legend", { children: "Gi\u1EDD l\u1EA5y h\xE0ng" }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("input", { type: "radio", checked: pickupType === "asap", onChange: () => setPickupType("asap") }),
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("fieldset", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("legend", { children: "Gi\u1EDD l\u1EA5y h\xE0ng" }),
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("label", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("input", { name: "pickup-type", type: "radio", disabled: busy, checked: pickupType === "asap", onChange: () => setPickupType("asap") }),
               " L\u1EA5y s\u1EDBm nh\u1EA5t"
             ] }),
-            pickupType === "asap" && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("select", { value: minutes, onChange: (e) => setMinutes(e.target.value), children: [
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("option", { value: routeEta, children: [
-                "Theo l\u1ED9 tr\xECnh: kho\u1EA3ng ",
-                routeEta,
-                " ph\xFAt"
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: "15", children: "Sau kho\u1EA3ng 15 ph\xFAt" }),
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: "30", children: "Sau kho\u1EA3ng 30 ph\xFAt" }),
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("option", { value: "45", children: "Sau kho\u1EA3ng 45 ph\xFAt" })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("input", { type: "radio", checked: pickupType === "scheduled", onChange: () => setPickupType("scheduled") }),
+            pickupType === "asap" && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("select", { "aria-label": "Th\u1EDDi gian l\u1EA5y m\xF3n", disabled: busy, value: minutes, onChange: (e) => setMinutes(Number(e.target.value)), children: minuteOptions.map((value) => /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("option", { value, children: [
+              value === routeEta ? "Theo l\u1ED9 tr\xECnh: kho\u1EA3ng " : "Sau kho\u1EA3ng ",
+              value,
+              " ph\xFAt"
+            ] }, value)) }),
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("label", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("input", { name: "pickup-type", type: "radio", disabled: busy, checked: pickupType === "scheduled", onChange: () => setPickupType("scheduled") }),
               " H\u1EB9n gi\u1EDD l\u1EA5y m\xF3n"
             ] }),
-            pickupType === "scheduled" && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("input", { type: "datetime-local", value: scheduledTime, onChange: (e) => setScheduledTime(e.target.value), required: true })
+            pickupType === "scheduled" && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("input", { "aria-label": "Gi\u1EDD h\u1EB9n l\u1EA5y m\xF3n", type: "datetime-local", disabled: busy, value: scheduledTime, onChange: (e) => setScheduledTime(e.target.value), required: true })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("fieldset", { className: "payment-methods", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("legend", { children: "Ph\u01B0\u01A1ng th\u1EE9c thanh to\xE1n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("input", { type: "radio", checked: method === "cash", onChange: () => setMethod("cash") }),
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("fieldset", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("legend", { children: "Ph\u01B0\u01A1ng th\u1EE9c thanh to\xE1n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("label", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("input", { name: "payment-method", type: "radio", disabled: busy, checked: method === "cash", onChange: () => setMethod("cash") }),
               " Ti\u1EC1n m\u1EB7t khi gh\xE9 l\u1EA5y"
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("label", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("input", { type: "radio", checked: method === "vnpay", onChange: () => setMethod("vnpay") }),
-              " C\u1ED5ng VNPAY (QR / Th\u1EBB ATM / Visa)"
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("label", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("input", { name: "payment-method", type: "radio", disabled: busy, checked: method === "vnpay", onChange: () => setMethod("vnpay") }),
+              " VNPAY (QR / Th\u1EBB ATM / Visa)"
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { disabled: busy || pickupType === "scheduled" && !scheduledTime, onClick: checkout, children: busy ? "\u0110ang t\u1EA1o \u0111\u01A1n\u2026" : method === "vnpay" ? "Ti\u1EBFp t\u1EE5c \u0111\u1EBFn VNPAY" : "\u0110\u1EB7t h\xE0ng" }),
-          message && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: message })
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("button", { type: "button", className: "rb-checkout-button", disabled: busy || pickupType === "scheduled" && !scheduledTime, onClick: checkout, children: busy ? "\u0110ang t\u1EA1o \u0111\u01A1n\u2026" : method === "vnpay" ? "Ti\u1EBFp t\u1EE5c \u0111\u1EBFn VNPAY" : "\u0110\u1EB7t h\xE0ng" })
         ] })
-      ] }) : /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("section", { className: "orders-empty-v2", children: "Gi\u1ECF h\xE0ng \u0111ang tr\u1ED1ng. H\xE3y ch\u1ECDn m\xF3n t\u1EEB menu qu\xE1n." })
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("section", { className: "item-card rb-empty", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { children: "Gi\u1ECF h\xE0ng \u0111ang tr\u1ED1ng. H\xE3y ch\u1ECDn m\xF3n t\u1EEB menu qu\xE1n." }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Link, { to: "/", children: "Kh\xE1m ph\xE1 qu\xE1n" }),
+        message && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Link, { to: "/my-orders", children: "Xem \u0111\u01A1n c\u1EE7a t\xF4i" })
+      ] })
     ] });
   }
   function OrdersPage() {
-    const [orders, setOrders] = (0, import_react3.useState)(null);
-    const [error, setError] = (0, import_react3.useState)("");
-    (0, import_react3.useState)(() => {
-      if (!localStorage.getItem(TOKEN_KEY)) {
+    const [orders, setOrders] = (0, import_react9.useState)(null);
+    const [error, setError] = (0, import_react9.useState)("");
+    const token = localStorage.getItem(TOKEN_KEY);
+    (0, import_react9.useEffect)(() => {
+      let active = true;
+      setError("");
+      if (!token) {
         setOrders([]);
         return;
       }
-      request("/orders").then(setOrders).catch((e) => setError(e.message));
-    });
-    if (!localStorage.getItem(TOKEN_KEY)) return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: [
+      request("/orders").then((data2) => {
+        if (active) setOrders(Array.isArray(data2) ? data2 : data2.data || []);
+      }).catch((e) => {
+        if (active) setError(e.message);
+      });
+      return () => {
+        active = false;
+      };
+    }, [token]);
+    if (!token) return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: [
       "Vui l\xF2ng ",
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Link, { to: "/login", children: "\u0111\u0103ng nh\u1EADp" }),
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Link, { to: "/login", children: "\u0111\u0103ng nh\u1EADp" }),
       " \u0111\u1EC3 xem \u0111\u01A1n h\xE0ng."
     ] });
-    if (!orders) return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: "\u0110ang t\u1EA3i\u2026" });
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("main", { className: "app-page orders-page-v2", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "page-intro", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: "\u0110\u01A0N H\xC0NG" }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h1", { children: "\u0110\u01A1n c\u1EE7a t\xF4i" })
+    if (error) return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: error });
+    if (!orders) return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: "\u0110ang t\u1EA3i\u2026" });
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("main", { className: "app-page rb-commerce-page rb-orders-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "page-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "rb-eyebrow", children: "\u0110\u01A0N H\xC0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h1", { children: "\u0110\u01A1n c\u1EE7a t\xF4i" }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { children: "Theo d\xF5i tr\u1EA1ng th\xE1i v\xE0 ti\u1EBFn \u0111\u1ED9 \u0111\u01A1n h\xE0ng c\u1EE7a b\u1EA1n." })
       ] }),
-      error ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: error }) : orders.length ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("section", { className: "orders-list-v2", children: orders.map((order) => /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("article", { className: "order-card-v2", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "order-card-top", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("small", { children: new Date(order.createdAt).toLocaleString("vi-VN") }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h3", { children: order.restaurant?.name }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: order.orderCode })
+      orders.length ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("section", { className: "rb-orders-list", children: orders.map((order) => {
+        const status = String(order.status).toUpperCase();
+        const first = order.items?.[0];
+        return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("article", { className: "item-card rb-order-card", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "rb-order-heading", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(FoodThumbnail, { src: first?.imageUrl, name: first?.itemName || first?.name || "M\xF3n trong \u0111\u01A1n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "rb-order-copy", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("small", { children: new Date(order.createdAt).toLocaleString("vi-VN") }),
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "rb-order-code", children: order.orderCode }),
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h3", { children: order.restaurant?.name || order.restaurantName || "Qu\xE1n \u0103n" }),
+              /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("p", { children: [
+                first?.itemName || first?.name || "M\xF3n \u0111\xE3 \u0111\u1EB7t",
+                order.items?.length > 1 ? " v\xE0 " + (order.items.length - 1) + " m\xF3n kh\xE1c" : ""
+              ] })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(OrderStatusBadge, { status: order.status })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { className: `order-status-v2 status-${order.status}`, children: order.status })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "order-card-foot", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: formatMoney(order.totalAmount) }),
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: order.pickupType === "scheduled" ? `H\u1EB9n l\u1EA5y l\xFAc ${new Date(order.estimatedPickupAt).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}` : `L\u1EA5y sau kho\u1EA3ng ${Math.max(0, Math.ceil((new Date(order.estimatedPickupAt).getTime() - Date.now()) / 6e4))} ph\xFAt` })
-        ] })
-      ] }, order.id)) }) : /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("section", { className: "orders-empty-v2", children: "B\u1EA1n ch\u01B0a c\xF3 \u0111\u01A1n h\xE0ng n\xE0o." })
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "rb-order-footer", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("strong", { children: formatMoney(order.totalAmount) }),
+            status === "COMPLETED" ? /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("span", { children: [
+              (order.items || []).reduce((sum, item) => sum + item.quantity, 0),
+              " m\xF3n"
+            ] }) : status === "CANCELLED" ? null : status === "READY" ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: "rb-pickup-due", children: "M\xF3n \u0111\xE3 s\u1EB5n s\xE0ng, gh\xE9 l\u1EA5y nh\xE9!" }) : ["PENDING", "CONFIRMED", "PREPARING"].includes(status) ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }) : null
+          ] })
+        ] }, order.id);
+      }) }) : /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("section", { className: "item-card rb-empty", children: "B\u1EA1n ch\u01B0a c\xF3 \u0111\u01A1n h\xE0ng n\xE0o." })
     ] });
   }
   function Page({ title, children }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("main", { className: "app-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "page-intro", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: "ROUTEBITE" }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h1", { children: title })
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("main", { className: "app-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "page-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { children: "ROUTEBITE" }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h1", { children: title })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("section", { className: "orders-empty-v2", children: children || "T\xEDnh n\u0103ng \u0111ang \u0111\u01B0\u1EE3c \u0111\u1ED3ng b\u1ED9." })
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("section", { className: "orders-empty-v2", children: children || "T\xEDnh n\u0103ng \u0111ang \u0111\u01B0\u1EE3c \u0111\u1ED3ng b\u1ED9." })
     ] });
   }
   function MerchantPage() {
     const user = JSON.parse(localStorage.getItem("routebite_user") || "null");
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Page, { title: "Khu v\u1EF1c qu\u1EA3n l\xFD", children: user?.role === "merchant" || user?.role === "admin" ? "B\u1EA1n \u0111\xE3 \u0111\u0103ng nh\u1EADp v\u1EDBi quy\u1EC1n qu\u1EA3n l\xFD qu\xE1n. API t\u1EA1o/s\u1EEDa qu\xE1n \u0111\xE3 \u0111\u01B0\u1EE3c backend b\u1EA3o v\u1EC7 theo role." : "Trang n\xE0y ch\u1EC9 d\xE0nh cho merchant ho\u1EB7c admin." });
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Page, { title: "Khu v\u1EF1c qu\u1EA3n l\xFD", children: user?.role === "merchant" || user?.role === "admin" ? "B\u1EA1n \u0111\xE3 \u0111\u0103ng nh\u1EADp v\u1EDBi quy\u1EC1n qu\u1EA3n l\xFD qu\xE1n. API t\u1EA1o/s\u1EEDa qu\xE1n \u0111\xE3 \u0111\u01B0\u1EE3c backend b\u1EA3o v\u1EC7 theo role." : "Trang n\xE0y ch\u1EC9 d\xE0nh cho merchant ho\u1EB7c admin." });
   }
   function AppShell() {
-    const [cart, setCart] = (0, import_react3.useState)(() => JSON.parse(localStorage.getItem(CART_KEY) || "[]"));
-    const value = (0, import_react3.useMemo)(() => ({ cart, add(item) {
+    const [cart, setCart] = (0, import_react9.useState)(() => JSON.parse(localStorage.getItem(CART_KEY) || "[]"));
+    const value = (0, import_react9.useMemo)(() => ({ cart, add(item) {
       setCart((old) => {
         const same = old.find((entry) => entry.id === item.id);
-        const next = same ? old.map((entry) => entry.id === item.id ? { ...entry, quantity: entry.quantity + 1 } : entry) : [...old.filter((entry) => entry.restaurantId === item.restaurantId), { ...item, quantity: 1 }];
+        const next = same ? old.map((entry) => entry.id === item.id ? { ...entry, quantity: Math.min(100, entry.quantity + 1) } : entry) : [...old.filter((entry) => entry.restaurantId === item.restaurantId), { ...item, quantity: 1 }];
         localStorage.setItem(CART_KEY, JSON.stringify(next));
         return next;
       });
     }, change(id, step) {
       setCart((old) => {
-        const next = old.map((entry) => entry.id === id ? { ...entry, quantity: entry.quantity + step } : entry).filter((entry) => entry.quantity > 0);
+        const next = old.map((entry) => entry.id === id ? { ...entry, quantity: Math.min(100, entry.quantity + step) } : entry).filter((entry) => entry.quantity > 0);
         localStorage.setItem(CART_KEY, JSON.stringify(next));
         return next;
       });
@@ -24970,26 +25555,30 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       localStorage.removeItem(CART_KEY);
       setCart([]);
     } }), [cart]);
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(CartContext.Provider, { value, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Header, {}),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(Routes, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Route, { path: "/", element: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Home, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Route, { path: "/login", element: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(LoginPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Route, { path: "/restaurant/:id", element: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(RestaurantMenu, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Route, { path: "/my-carts", element: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(CartPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Route, { path: "/my-orders", element: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(OrdersPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Route, { path: "/merchant", element: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(MerchantPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Route, { path: "/kham-pha", element: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(Page, { title: "Kh\xE1m ph\xE1 qu\xE1n" }) })
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(CartContext.Provider, { value, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Header, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(Routes, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Home, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/login", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(LoginPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/register", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(RegisterPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/profile", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(ProfilePage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/restaurant/:id", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(RestaurantMenu, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/my-carts", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CartPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/my-orders", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(OrdersPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/merchant", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(MerchantPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/merchant/onboarding", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Page, { title: "\u0110\u0103ng k\xFD qu\xE1n" }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/admin/overview", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Page, { title: "Qu\u1EA3n tr\u1ECB h\u1EC7 th\u1ED1ng" }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/kham-pha", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Page, { title: "Kh\xE1m ph\xE1 qu\xE1n" }) })
       ] })
     ] });
   }
   function App() {
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(BrowserRouter, { children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(AppShell, {}) });
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(AuthProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(BrowserRouter, { children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(AppShell, {}) }) });
   }
 
   // src/entry.jsx
-  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
-  import_client.default.createRoot(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime4.jsx)(App, {}));
+  var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
+  import_client.default.createRoot(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime15.jsx)(App, {}));
 })();
 /*! Bundled license information:
 

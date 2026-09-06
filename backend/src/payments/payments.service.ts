@@ -236,6 +236,7 @@ export class PaymentsService {
     if ('orderId' in result && result.orderId && result.changed) {
       const order = await this.ordersService.findEntity(result.orderId);
       this.gateway.emitPaymentStatusUpdated(order, verified.status);
+      if (verified.status === PaymentStatus.PAID) this.gateway.emitCreated(order);
       this.logger.log(
         `payment.webhook.updated orderId=${order.id} status=${verified.status} provider=${this.provider.provider}`,
       );
