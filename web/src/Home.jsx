@@ -4,6 +4,7 @@ import { request } from './api';
 import { useCurrentLocation } from './hooks/useCurrentLocation';
 import RestaurantCard from './components/RestaurantCard';
 import LocationAutocomplete from './components/LocationAutocomplete';
+import { routeQuery } from './utils/routeContext';
 
 const QUICK_CATEGORIES = [
   { label: 'Cà phê', value: 'ca-phe' }, { label: 'Cơm', value: 'com' },
@@ -18,6 +19,7 @@ export default function Home() {
   const [startPoint, setStartPoint] = useState(emptyPoint());
   const [endPoint, setEndPoint] = useState(emptyPoint());
   const [restaurants, setRestaurants] = useState([]);
+  const [resultOrigin, setResultOrigin] = useState(undefined);
   const [searched, setSearched] = useState(false);
   const [searching, setSearching] = useState(false);
   const [message, setMessage] = useState('');
@@ -26,6 +28,7 @@ export default function Home() {
 
   useEffect(() => {
     const query = activeCategory ? `?category=${encodeURIComponent(activeCategory)}` : '';
+    setResultOrigin(undefined);
     request(`/restaurants${query}`, { authorized: false })
       .then((response) => setRestaurants(Array.isArray(response) ? response : response.data || []))
       .catch(() => setRestaurants([]));
@@ -49,6 +52,7 @@ export default function Home() {
       setStartPoint(pointA); setEndPoint(pointB);
       const result = await request('/search/route', { method: 'POST', authorized: false, body: { pointA: { latitude: pointA.lat, longitude: pointA.lng }, pointB: { latitude: pointB.lat, longitude: pointB.lng }, radius: 500 } });
       const eta = Number(result.route?.travelTimeMinutes);
+      setResultOrigin(pointA);
       if (Number.isFinite(eta) && eta > 0) localStorage.setItem('routebite_route_eta_minutes', String(eta));
       setRestaurants(result.restaurants || []); setMessage(`Đã tìm theo tuyến đường · thời gian di chuyển khoảng ${eta || '?'} phút.`);
     } catch (error) { setRestaurants([]); setMessage(error.message || 'Có lỗi khi tìm quán, vui lòng thử lại.'); } finally { setSearching(false); }
@@ -58,13 +62,13 @@ export default function Home() {
     <section className="route-hero">
       <div className="route-hero-copy"><p>HÀNH TRÌNH ẨM THỰC</p><h1>Tìm quán trên đường đi.</h1><span>Chọn điểm đi và điểm đến. RouteBite sẽ gợi ý điểm dừng phù hợp trong phạm vi lệch tuyến 500m.</span></div>
       <form className="route-form" onSubmit={search}>
-        <div className="route-field"><label>Điểm đi</label><LocationAutocomplete value={startPoint} placeholder="Nhập điểm xuất phát" onChange={setStartPoint} onSelect={setStartPoint}><button type="button" onClick={() => setMapTarget('start')}>📍 Chọn trên bản đồ</button><button className="location-action" type="button" disabled={locating} onClick={useLocation}>{locating ? '⌛ Đang định vị…' : '🎯 Dùng vị trí hiện tại'}</button></LocationAutocomplete></div>
-        <div className="route-field"><label>Điểm đến</label><LocationAutocomplete value={endPoint} placeholder="Nhập điểm đến" onChange={setEndPoint} onSelect={setEndPoint}><button type="button" onClick={() => setMapTarget('end')}>📍 Chọn trên bản đồ</button></LocationAutocomplete></div>
+        <div className="route-field"><label>Điểm đi</label><LocationAutocomplete value={startPoint} placeholder="Nhập điểm xuất phát" onChange={setStartPoint} onSelect={setStartPoint}><button type="button" onClick={() => setMapTarget('start')}>Chọn trên bản đồ</button><button className="location-action" type="button" disabled={locating} onClick={useLocation}>{locating ? 'Đang định vị…' : 'Dùng vị trí hiện tại'}</button></LocationAutocomplete></div>
+        <div className="route-field"><label>Điểm đến</label><LocationAutocomplete value={endPoint} placeholder="Nhập điểm đến" onChange={setEndPoint} onSelect={setEndPoint}><button type="button" onClick={() => setMapTarget('end')}>Chọn trên bản đồ</button></LocationAutocomplete></div>
         <button className="route-submit" disabled={searching}>{searching ? 'Đang tìm…' : 'Tìm gợi ý'}</button>
       </form>
     </section>
     <section className="route-categories"><h2>Danh mục nhanh</h2><div><button type="button" className={!activeCategory ? 'active' : ''} onClick={() => { setActiveCategory(''); setSearched(false); }}>Tất cả</button>{QUICK_CATEGORIES.map((category) => <button type="button" className={activeCategory === category.value ? 'active' : ''} key={category.value} onClick={() => { setActiveCategory(category.value); setSearched(false); }}>{category.label}</button>)}</div></section>
-    <section className="route-results"><div className="route-results-heading"><div><p>{searched ? 'TÌM THEO LỘ TRÌNH' : 'KHÁM PHÁ GẦN BẠN'}</p><h2>{heading}</h2></div>{message && <span>{message}</span>}</div>{searching ? <div className="restaurant-result-grid">{[1, 2, 3].map((item) => <div className="restaurant-skeleton" key={item} />)}</div> : restaurants.length ? <div className="restaurant-result-grid">{restaurants.map((restaurant, index) => <RestaurantCard key={restaurant.id} restaurant={restaurant} rank={searched ? index + 1 : undefined} onOpen={() => navigate(`/restaurant/${restaurant.id}`)} />)}</div> : <div className="route-empty">{searched ? 'Không tìm thấy quán phù hợp trong phạm vi 500m quanh tuyến đường này.' : 'Chưa có quán công khai để hiển thị.'}</div>}</section>
+    <section className="route-results"><div className="route-results-heading"><div><p>{searched ? 'TÌM THEO LỘ TRÌNH' : 'KHÁM PHÁ GẦN BẠN'}</p><h2>{heading}</h2></div>{message && <span>{message}</span>}</div>{searching ? <div className="restaurant-result-grid">{[1, 2, 3].map((item) => <div className="restaurant-skeleton" key={item} />)}</div> : restaurants.length ? <div className="restaurant-result-grid">{restaurants.map((restaurant, index) => <RestaurantCard key={restaurant.id} restaurant={restaurant} rank={searched ? index + 1 : undefined} onOpen={() => navigate(`/restaurant/${restaurant.id}${routeQuery(resultOrigin)}`)} />)}</div> : <div className="route-empty">{searched ? 'Không tìm thấy quán phù hợp trong phạm vi 500m quanh tuyến đường này.' : 'Chưa có quán công khai để hiển thị.'}</div>}</section>
     {mapTarget && <MapPicker initialCenter={mapTarget === 'start' ? startPoint : endPoint} onClose={() => setMapTarget(null)} onPick={(location) => { (mapTarget === 'start' ? setStartPoint : setEndPoint)(location); setMapTarget(null); }} />}
   </main>;
 }

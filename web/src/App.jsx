@@ -1,32 +1,70 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { BrowserRouter, Link, Route, Routes, useNavigate, useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { BrowserRouter, Link, Navigate, NavLink, Route, Routes, useLocation, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import Home from './Home';
 import LoginPage from './LoginPage';
 import RegisterPage from './RegisterPage';
 import ProfilePage from './ProfilePage';
 import AvatarDropdown from './components/AvatarDropdown';
 import { request, TOKEN_KEY } from './api';
-import { AuthProvider } from './contexts/AuthContext';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { OrderStatusBadge } from './components/OrderStatusBadge';
 import { PickupCountdown } from './components/PickupCountdown';
 import { QuantityStepper } from './components/QuantityStepper';
 import { FoodThumbnail } from './components/FoodThumbnail';
+import { RouteSummaryCard } from './components/RouteSummaryCard';
+import { PaymentMethodSelector, usePaymentMethod } from './components/PaymentMethodSelector';
+import { validateOrderPayload } from './types/checkout';
+import { readRouteOrigin, restaurantPoint, routeQuery } from './utils/routeContext';
 
-const CartContext = createContext(null);
-const CART_KEY = 'routebite_cart';
+import { CartProvider, useCart } from './contexts/CartContext';
+import { MyCartsPage } from './pages/MyCartsPage';
+import { OrderDetailPage } from './pages/OrderDetailPage';
+import { ExplorePage } from './pages/ExplorePage';
+import { SocketProvider } from './contexts/SocketContext';
+import { NotificationsProvider } from './contexts/NotificationsContext';
+import { NotificationBell } from './components/NotificationBell';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { MerchantProvider } from './contexts/MerchantContext';
+import { MerchantLayout } from './layouts/MerchantLayout';
+import { DashboardPage } from './pages/merchant/DashboardPage';
+import { MenuManagementPage } from './pages/merchant/MenuManagementPage';
+import { OrdersKanbanPage } from './pages/merchant/OrdersKanbanPage';
+import { OnboardingPage } from './pages/merchant/OnboardingPage';
+import { AdminLayout } from './layouts/AdminLayout';
+import { AdminOverviewPage } from './pages/admin/AdminOverviewPage';
+import { AdminRestaurantsPage } from './pages/admin/AdminRestaurantsPage';
+import { AdminUsersPage } from './pages/admin/AdminUsersPage';
+import { AdminMerchantApplicationsPage } from './pages/admin/AdminMerchantApplicationsPage';
+import { PartnerRegistrationPage } from './pages/partner/PartnerRegistrationPage';
 const formatMoney = (value) => `${Number(value || 0).toLocaleString('vi-VN')}đ`;
 const demoMenu = { id: 'mock-com-tam', name: 'Cơm Tấm Mẫu', address: 'Quận 1, TP. Hồ Chí Minh', rating: 4.8, menuItems: [{ id: 'demo-com-tam', name: 'Cơm tấm sườn bì chả', description: 'Sườn nướng, bì, chả trứng và đồ chua', price: 60000, available: true }, { id: 'demo-tra-dao', name: 'Trà đào cam sả', description: 'Ly mát lạnh', price: 25000, available: true }] };
 
 function Header() {
-  const navigate = useNavigate();
-  const { cart } = useContext(CartContext);
-  return <header className="consumer-header"><Link className="consumer-logo" to="/">RouteBite</Link><nav><Link className="consumer-nav active" to="/">Trang chủ</Link><Link className="consumer-nav" to="/kham-pha">Khám phá</Link><Link className="consumer-nav" to="/my-orders">Đơn của tôi</Link><Link className="consumer-nav" to="/my-carts">Giỏ của tôi{cart.length ? ` (${cart.reduce((s, item) => s + item.quantity, 0)})` : ''}</Link></nav><div className="account-menu"><button className="bell-icon" type="button" aria-label="Thông báo"><span /></button><AvatarDropdown /></div></header>;
+  const { carts } = useCart();
+  const navItems = [
+    { path: '/', label: 'Trang chủ' },
+    { path: '/kham-pha', label: 'Khám phá' },
+    { path: '/my-orders', label: 'Đơn của tôi' },
+    { path: '/my-carts', label: `Giỏ của tôi${carts.length ? ` (${carts.length})` : ''}` },
+  ];
+  return <header className="consumer-header">
+    <Link className="consumer-logo" to="/">RouteBite</Link>
+    <nav aria-label="Điều hướng chính">
+      {navItems.map((item) => <NavLink key={item.path} to={item.path} end={item.path === '/'}
+        className={({ isActive }) => `consumer-nav${isActive ? ' active' : ''}`}>
+        {item.label}
+      </NavLink>)}
+    </nav>
+    <div className="account-menu"><NotificationBell /><AvatarDropdown /></div>
+  </header>;
 }
 
 function RestaurantMenu() {
   const { id } = useParams();
+  const [params] = useSearchParams();
+  const origin = readRouteOrigin(params);
   const navigate = useNavigate();
-  const { cart, add, change } = useContext(CartContext);
+  const { cart, add, change } = useCart();
   const [restaurant, setRestaurant] = useState(null);
   const [error, setError] = useState('');
   const [pickup, setPickup] = useState('15');
@@ -69,19 +107,37 @@ function RestaurantMenu() {
         <FoodThumbnail src={item.imageUrl} name={item.name} />
         <div className="rb-product-copy"><h3>{item.name}</h3><p>{item.description || 'Món ngon của quán'}</p><strong>{formatMoney(item.price)}</strong></div>
         <QuantityStepper name={item.name} quantity={selected.find((entry) => entry.id === item.id)?.quantity || 0}
-          onIncrease={() => add({ ...item, restaurantId: restaurant.id, restaurantName: restaurant.name, pickupMinutes: Number(pickup) })}
-          onDecrease={() => change(item.id, -1)} />
+          onIncrease={() => add({ ...item, restaurantId: restaurant.id, restaurantName: restaurant.name, restaurantImage: restaurant.imageUrl, pickupMinutes: Number(pickup), routeOrigin: origin, destination: restaurantPoint(restaurant), restaurantAddress: restaurant.address })}
+          onDecrease={() => change(restaurant.id, item.id, -1)} />
       </article>) : <div className="item-card rb-empty">Quán chưa có món đang bán.</div>}
     </section>
-    <Link className="rb-menu-cart" to="/my-carts"><span>Xem giỏ hàng · {count} món</span><strong>{formatMoney(total)}</strong></Link>
+    <Link className="rb-menu-cart" to={'/restaurants/' + restaurant.id + '/cart' + routeQuery(origin)}><span>Xem giỏ hàng · {count} món</span><strong>{formatMoney(total)}</strong></Link>
   </main>;
 }
 
 function CartPage() {
   const navigate = useNavigate();
-  const { cart, change, clear } = useContext(CartContext);
+  const { id } = useParams();
+  const { carts, change, clear, rememberOrigin } = useCart();
+  const [params] = useSearchParams();
+  const savedCart = carts.find((entry) => entry.restaurantId === id);
+  const cart = savedCart?.items || [];
+  const [restaurant, setRestaurant] = useState(null);
+  useEffect(() => {
+    const origin = readRouteOrigin(params);
+    if (origin) rememberOrigin(id, origin);
+  }, [id, params, rememberOrigin]);
+  useEffect(() => {
+    let active = true;
+    setRestaurant(null);
+    // Giỏ cũ chưa có tọa độ/địa chỉ: lấy thông tin quán, giữ nguyên các món đã lưu.
+    if (savedCart && !savedCart.destination) request('/restaurants/' + id, { authorized: false })
+      .then((data) => { if (active) setRestaurant(data); }).catch(() => {});
+    return () => { active = false; };
+  }, [id, !!savedCart, savedCart?.destination]);
+  const [createdOrder, setCreatedOrder] = useState(null);
   const routeEta = Math.max(1, Number(localStorage.getItem('routebite_route_eta_minutes')) || 15);
-  const [method, setMethod] = useState('cash');
+  const [method, setMethod] = usePaymentMethod();
   const [pickupType, setPickupType] = useState('asap');
   const [minutes, setMinutes] = useState(cart[0]?.pickupMinutes || routeEta);
   const [scheduledTime, setScheduledTime] = useState('');
@@ -106,24 +162,24 @@ function CartPage() {
         : { type: 'scheduled', scheduledTime: scheduled.toISOString() };
       const order = await request('/orders', {
         method: 'POST',
-        body: { restaurantId: cart[0].restaurantId, pickupOption, payment: { method },
-          items: cart.map((item) => ({ menuItemId: item.id, quantity: item.quantity })) },
+        body: validateOrderPayload({ restaurantId: cart[0].restaurantId, pickupOption, payment: { method },
+          items: cart.map((item) => ({ menuItemId: item.id, quantity: item.quantity })) }),
       });
+      setCreatedOrder(order);
+      clear(id);
       if (method === 'vnpay') {
         const payment = await request('/payments/create', { method: 'POST', body: { orderId: order.id } });
         if (!payment.checkoutUrl) throw new Error('Không tạo được liên kết thanh toán VNPAY');
-        clear();
         window.location.assign(payment.checkoutUrl);
         return;
       }
       setMessage('Đơn ' + order.orderCode + ' đã đặt. Thanh toán tiền mặt khi ghé lấy.');
-      clear();
     } catch (e) { setMessage(e.message); }
     finally { setBusy(false); }
   }
 
   return <main className="app-page rb-commerce-page rb-cart-page">
-    <div className="page-intro"><p className="rb-eyebrow">GIỎ HÀNG</p><h1>Ghé lấy mang đi</h1><p>Kiểm tra món, chọn giờ lấy và phương thức thanh toán.</p></div>
+    <Link className="back-link" to="/my-carts">← Giỏ hàng của tôi</Link><div className="page-intro"><p className="rb-eyebrow">GIỎ HÀNG</p><h1>Ghé lấy mang đi</h1><p>Kiểm tra món, chọn giờ lấy và phương thức thanh toán.</p></div>
     {message && <p className="item-card rb-feedback" role="status">{message}</p>}
     {cart.length ? <div className="rb-cart-layout">
       <section className="item-card rb-cart-items"><h2>{cart[0].restaurantName || 'Món đã chọn'}</h2>
@@ -131,10 +187,12 @@ function CartPage() {
           <FoodThumbnail src={item.imageUrl} name={item.name} />
           <div className="rb-product-copy"><h3>{item.name}</h3><p>{formatMoney(item.price)} / món</p><strong>{formatMoney(Number(item.price) * item.quantity)}</strong></div>
           <QuantityStepper name={item.name} quantity={item.quantity} disabled={busy}
-            onIncrease={() => change(item.id, 1)} onDecrease={() => change(item.id, -1)} />
+            onIncrease={() => change(id, item.id, 1)} onDecrease={() => change(id, item.id, -1)} />
         </article>)}
       </section>
       <aside className="item-card rb-cart-summary">
+        <RouteSummaryCard restaurantName={savedCart.restaurantName} restaurantAddress={savedCart.restaurantAddress || restaurant?.address}
+          destination={savedCart.destination || restaurantPoint(restaurant)} origin={savedCart.routeOrigin} />
         <div className="rb-cart-total"><div><h2>Tổng cộng</h2><span>{count} món</span></div><strong>{formatMoney(total)}</strong></div>
         <fieldset><legend>Giờ lấy hàng</legend>
           <label><input name="pickup-type" type="radio" disabled={busy} checked={pickupType === 'asap'} onChange={() => setPickupType('asap')} /> Lấy sớm nhất</label>
@@ -144,19 +202,27 @@ function CartPage() {
           <label><input name="pickup-type" type="radio" disabled={busy} checked={pickupType === 'scheduled'} onChange={() => setPickupType('scheduled')} /> Hẹn giờ lấy món</label>
           {pickupType === 'scheduled' && <input aria-label="Giờ hẹn lấy món" type="datetime-local" disabled={busy} value={scheduledTime} onChange={(e) => setScheduledTime(e.target.value)} required />}
         </fieldset>
-        <fieldset><legend>Phương thức thanh toán</legend>
-          <label><input name="payment-method" type="radio" disabled={busy} checked={method === 'cash'} onChange={() => setMethod('cash')} /> Tiền mặt khi ghé lấy</label>
-          <label><input name="payment-method" type="radio" disabled={busy} checked={method === 'vnpay'} onChange={() => setMethod('vnpay')} /> VNPAY (QR / Thẻ ATM / Visa)</label>
-        </fieldset>
+        <PaymentMethodSelector value={method} onChange={setMethod} disabled={busy} />
         <button type="button" className="rb-checkout-button" disabled={busy || (pickupType === 'scheduled' && !scheduledTime)} onClick={checkout}>
           {busy ? 'Đang tạo đơn…' : method === 'vnpay' ? 'Tiếp tục đến VNPAY' : 'Đặt hàng'}
         </button>
       </aside>
-    </div> : <section className="item-card rb-empty"><p>Giỏ hàng đang trống. Hãy chọn món từ menu quán.</p><Link to="/">Khám phá quán</Link>{message && <Link to="/my-orders">Xem đơn của tôi</Link>}</section>}
+    </div> : <section className="item-card rb-empty"><p>Giỏ hàng đang trống. Hãy chọn món từ menu quán.</p><Link to="/">Khám phá quán</Link>{createdOrder && <Link to={'/orders/' + createdOrder.id}>Xem đơn vừa đặt</Link>}</section>}
   </main>;
 }
 
+const ORDER_FILTERS = [
+  { key: 'all', label: 'Tất cả', statuses: [], empty: 'Bạn chưa có đơn hàng nào.' },
+  { key: 'processing', label: 'Đang xử lý', statuses: ['PENDING', 'CONFIRMED', 'PREPARING', 'READY'], empty: 'Bạn không có đơn nào đang xử lý.' },
+  { key: 'completed', label: 'Hoàn thành', statuses: ['COMPLETED'], empty: 'Bạn chưa có đơn hàng hoàn thành.' },
+  { key: 'cancelled', label: 'Đã hủy', statuses: ['CANCELLED'], empty: 'Bạn không có đơn hàng đã hủy.' },
+];
 function OrdersPage() {
+  const navigate = useNavigate();
+  const { currentUser } = useAuth();
+  const [activeFilter, setActiveFilter] = useState('all');
+  const [cancelling, setCancelling] = useState(null);
+  const [cancelError, setCancelError] = useState('');
   const [orders, setOrders] = useState(null);
   const [error, setError] = useState('');
   const token = localStorage.getItem(TOKEN_KEY);
@@ -173,17 +239,35 @@ function OrdersPage() {
   if (!token) return <Page title="Đơn của tôi">Vui lòng <Link to="/login">đăng nhập</Link> để xem đơn hàng.</Page>;
   if (error) return <Page title="Đơn của tôi">{error}</Page>;
   if (!orders) return <Page title="Đơn của tôi">Đang tải…</Page>;
+  const matches = (filter, order) => filter.key === 'all' || filter.statuses.includes(String(order.status).toUpperCase());
+  const filter = ORDER_FILTERS.find((entry) => entry.key === activeFilter);
+  const filteredOrders = orders.filter((order) => matches(filter, order));
+  async function cancelOrder(id) {
+    if (cancelling || !window.confirm('Bạn chắc chắn muốn hủy đơn này?')) return;
+    setCancelling(id); setCancelError('');
+    try {
+      const updated = await request('/orders/' + id + '/status', { method: 'PATCH', body: { status: 'CANCELLED' } });
+      setOrders((old) => old.map((order) => order.id === id ? updated : order));
+    } catch (e) { setCancelError(e.message); }
+    finally { setCancelling(null); }
+  }
   return <main className="app-page rb-commerce-page rb-orders-page">
     <div className="page-intro"><p className="rb-eyebrow">ĐƠN HÀNG</p><h1>Đơn của tôi</h1><p>Theo dõi trạng thái và tiến độ đơn hàng của bạn.</p></div>
-    {orders.length ? <section className="rb-orders-list">{orders.map((order) => {
+    <div className="rb-order-filters" aria-label="Lọc trạng thái đơn">
+      {ORDER_FILTERS.map((entry) => <button key={entry.key} type="button" aria-pressed={entry.key === activeFilter} onClick={() => setActiveFilter(entry.key)}>
+        {entry.label} ({orders.filter((order) => matches(entry, order)).length})
+      </button>)}
+    </div>
+    {cancelError && <p className="auth-alert" role="alert">{cancelError}</p>}
+    {filteredOrders.length ? <section className="rb-orders-list">{filteredOrders.map((order) => {
       const status = String(order.status).toUpperCase();
       const first = order.items?.[0];
-      return <article className="item-card rb-order-card" key={order.id}>
+      return <article className="item-card rb-order-card rb-clickable-order" key={order.id} onClick={() => navigate('/orders/' + order.id)}>
         <div className="rb-order-heading">
-          <FoodThumbnail src={first?.imageUrl} name={first?.itemName || first?.name || 'Món trong đơn'} />
+          <FoodThumbnail src={first?.imageUrl || order.restaurant?.imageUrl} name={first?.itemName || first?.name || 'Món trong đơn'} />
           <div className="rb-order-copy">
             <small>{new Date(order.createdAt).toLocaleString('vi-VN')}</small>
-            <p className="rb-order-code">{order.orderCode}</p>
+            <p className="rb-order-code"><Link to={'/orders/' + order.id}>{order.orderCode}</Link></p>
             <h3>{order.restaurant?.name || order.restaurantName || 'Quán ăn'}</h3>
             <p>{first?.itemName || first?.name || 'Món đã đặt'}{order.items?.length > 1 ? ' và ' + (order.items.length - 1) + ' món khác' : ''}</p>
           </div>
@@ -195,11 +279,43 @@ function OrdersPage() {
             : status === 'READY' ? <span className="rb-pickup-due">Món đã sẵn sàng, ghé lấy nhé!</span>
             : ['PENDING', 'CONFIRMED', 'PREPARING'].includes(status) ? <PickupCountdown estimatedPickupAt={order.estimatedPickupAt} pickupType={order.pickupType} /> : null}
         </div>
+        {status === 'PENDING' && currentUser?.role === 'customer' && <button type="button" className="rb-danger-button" disabled={!!cancelling}
+          onClick={(event) => { event.stopPropagation(); cancelOrder(order.id); }}>
+          {cancelling === order.id ? 'Đang hủy…' : 'Hủy đơn'}
+        </button>}
       </article>;
-    })}</section> : <section className="item-card rb-empty">Bạn chưa có đơn hàng nào.</section>}
+    })}</section> : <section className="item-card rb-empty">{filter.empty}</section>}
   </main>;
 }
 function Page({ title, children }) { return <main className="app-page"><div className="page-intro"><p>ROUTEBITE</p><h1>{title}</h1></div><section className="orders-empty-v2">{children || 'Tính năng đang được đồng bộ.'}</section></main>; }
-function MerchantPage() { const user = JSON.parse(localStorage.getItem('routebite_user') || 'null'); return <Page title="Khu vực quản lý">{user?.role === 'merchant' || user?.role === 'admin' ? 'Bạn đã đăng nhập với quyền quản lý quán. API tạo/sửa quán đã được backend bảo vệ theo role.' : 'Trang này chỉ dành cho merchant hoặc admin.'}</Page>; }
-function AppShell() { const [cart, setCart] = useState(() => JSON.parse(localStorage.getItem(CART_KEY) || '[]')); const value = useMemo(() => ({ cart, add(item) { setCart((old) => { const same = old.find((entry) => entry.id === item.id); const next = same ? old.map((entry) => entry.id === item.id ? { ...entry, quantity: Math.min(100, entry.quantity + 1) } : entry) : [...old.filter((entry) => entry.restaurantId === item.restaurantId), { ...item, quantity: 1 }]; localStorage.setItem(CART_KEY, JSON.stringify(next)); return next; }); }, change(id, step) { setCart((old) => { const next = old.map((entry) => entry.id === id ? { ...entry, quantity: Math.min(100, entry.quantity + step) } : entry).filter((entry) => entry.quantity > 0); localStorage.setItem(CART_KEY, JSON.stringify(next)); return next; }); }, clear() { localStorage.removeItem(CART_KEY); setCart([]); } }), [cart]); return <CartContext.Provider value={value}><Header /><Routes><Route path="/" element={<Home />} /><Route path="/login" element={<LoginPage />} /><Route path="/register" element={<RegisterPage />} /><Route path="/profile" element={<ProfilePage />} /><Route path="/restaurant/:id" element={<RestaurantMenu />} /><Route path="/my-carts" element={<CartPage />} /><Route path="/my-orders" element={<OrdersPage />} /><Route path="/merchant" element={<MerchantPage />} /><Route path="/merchant/onboarding" element={<Page title="Đăng ký quán" />} /><Route path="/admin/overview" element={<Page title="Quản trị hệ thống" />} /><Route path="/kham-pha" element={<Page title="Khám phá quán" />} /></Routes></CartContext.Provider>; }
-export default function App() { return <AuthProvider><BrowserRouter><AppShell /></BrowserRouter></AuthProvider>; }
+function AppShell() {
+  const { pathname } = useLocation();
+  const merchantRoute = pathname === '/merchant' || pathname.startsWith('/merchant/');
+  const adminRoute = pathname === '/admin' || pathname.startsWith('/admin/');
+  return <CartProvider>{!merchantRoute && !adminRoute && <Header />}<Routes>
+    <Route path="/" element={<Home />} /><Route path="/login" element={<LoginPage />} />
+    <Route path="/register" element={<RegisterPage />} /><Route path="/profile" element={<ProfilePage />} />
+    <Route path="/partner/register" element={<PartnerRegistrationPage />} />
+    <Route path="/restaurant/:id" element={<RestaurantMenu />} />
+    <Route path="/my-carts" element={<MyCartsPage />} />
+    <Route path="/restaurants/:id/cart" element={<CartPage />} />
+    <Route path="/my-orders" element={<OrdersPage />} /><Route path="/orders/:id" element={<OrderDetailPage />} />
+    <Route path="/merchant" element={<ProtectedRoute allowedRoles={['merchant']}><MerchantProvider><MerchantLayout /></MerchantProvider></ProtectedRoute>}>
+      <Route index element={<Navigate to="dashboard" replace />} />
+      <Route path="dashboard" element={<DashboardPage />} /><Route path="menu" element={<MenuManagementPage />} />
+      <Route path="orders" element={<OrdersKanbanPage />} /><Route path="orders/:id" element={<OrderDetailPage />} />
+      <Route path="onboarding" element={<OnboardingPage />} /><Route path="profile" element={<ProfilePage />} />
+      <Route path="*" element={<Navigate to="/merchant/dashboard" replace />} />
+    </Route>
+    <Route path="/admin" element={<ProtectedRoute allowedRoles={['admin']}><AdminLayout /></ProtectedRoute>}>
+      <Route index element={<Navigate to="overview" replace />} />
+      <Route path="overview" element={<AdminOverviewPage />} />
+      <Route path="restaurants" element={<AdminRestaurantsPage />} />
+      <Route path="users" element={<AdminUsersPage />} />
+      <Route path="merchant-applications" element={<AdminMerchantApplicationsPage />} />
+      <Route path="*" element={<Navigate to="/admin/overview" replace />} />
+    </Route>
+    <Route path="/kham-pha" element={<ExplorePage />} />
+  </Routes></CartProvider>;
+}
+export default function App() { return <AuthProvider><BrowserRouter><SocketProvider><NotificationsProvider><AppShell /></NotificationsProvider></SocketProvider></BrowserRouter></AuthProvider>; }

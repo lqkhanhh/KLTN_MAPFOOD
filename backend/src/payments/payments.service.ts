@@ -22,6 +22,8 @@ import {
 } from '../database/entities';
 import { OrdersGateway } from '../orders/gateway/orders.gateway';
 import { OrdersService } from '../orders/orders.service';
+import { NotificationsService } from '../notifications/notifications.service';
+import { Restaurant } from '../database/entities/restaurant.entity';
 import {
   PAYMENT_PROVIDER_ADAPTER,
   PaymentProviderAdapter,
@@ -51,6 +53,7 @@ export class PaymentsService {
     private readonly gateway: OrdersGateway,
     @Inject(PAYMENT_PROVIDER_ADAPTER)
     private readonly provider: PaymentProviderAdapter,
+    private readonly notifications: NotificationsService,
   ) {}
 
   async create(orderId: string, user: AuthenticatedUser) {
@@ -58,6 +61,7 @@ export class PaymentsService {
     if (user.role !== UserRole.ADMIN && accessibleOrder.userId !== user.sub) {
       throw new ForbiddenException('Chỉ khách đặt đơn mới có thể tạo thanh toán');
     }
+    this.provider.validateConfiguration?.();
 
     const reservation = await this.dataSource.transaction(async (manager) => {
       const order = await manager.findOne(Order, {
@@ -92,7 +96,9 @@ export class PaymentsService {
         if (!payment.qrCode && !payment.checkoutUrl) {
           throw new ConflictException('Giao dịch đang được khởi tạo, vui lòng thử lại sau');
         }
-        return { payment, shouldCreateAtProvider: false, order, items: [] as OrderItem[] };
+        if (!this.provider.canReuseCheckout || this.provider.canReuseCheckout(payment.checkoutUrl || '')) {
+          return { payment, shouldCreateAtProvider: false, order, items: [] as OrderItem[] };
+        }
       }
 
       const transactionId = this.createTransactionId();
@@ -204,7 +210,7 @@ export class PaymentsService {
       const webhookOrderCode = verified.safePayload.orderCode;
       if (
         typeof webhookOrderCode === 'string' &&
-        webhookOrderCode !== order.orderCode
+        webhookOrderCode !== (payment.providerPayload?.orderInfo ?? order.orderCode)
       ) {
         throw new BadRequestException('Mã đơn hàng trong webhook không khớp');
       }
@@ -230,10 +236,15 @@ export class PaymentsService {
       order.paymentStatus = this.toOrderPaymentStatus(verified.status);
       await manager.save(Payment, payment);
       await manager.save(Order, order);
-      return { changed: true, ignored: false as const, orderId: order.id };
+      const restaurant = verified.status === PaymentStatus.PAID && ![OrderStatus.CANCELLED, OrderStatus.COMPLETED].includes(order.status)
+        ? await manager.findOneBy(Restaurant, { id: order.restaurantId }) : null;
+      const notification = restaurant ? await this.notifications.create(restaurant.ownerId, 'Bạn có đơn hàng mới',
+        `Đơn ${order.orderCode} đã thanh toán VNPAY, đang chờ xác nhận.`, { orderId: order.id, type: 'order_created' }, manager) : undefined;
+      return { changed: true, ignored: false as const, orderId: order.id, notification };
     });
 
     if ('orderId' in result && result.orderId && result.changed) {
+      if ('notification' in result) this.notifications.publish(result.notification);
       const order = await this.ordersService.findEntity(result.orderId);
       this.gateway.emitPaymentStatusUpdated(order, verified.status);
       if (verified.status === PaymentStatus.PAID) this.gateway.emitCreated(order);

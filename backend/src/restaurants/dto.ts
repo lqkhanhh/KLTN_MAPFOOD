@@ -10,6 +10,7 @@ import {
   IsUUID,
   Max,
   MaxLength,
+  Matches,
   Min,
   ValidateNested,
 } from 'class-validator';
@@ -40,6 +41,12 @@ export class PublicRestaurantsQueryDto {
 }
 
 export class MenuItemDto {
+  @IsOptional()
+  @IsString()
+  @MaxLength(2000)
+  @Matches(/^(https?:\/\/[^\s]+|\/(?!\/)[^\s]*)?$/, { message: 'imageUrl phải là URL HTTP/HTTPS hoặc đường dẫn ảnh nội bộ' })
+  imageUrl?: string | null;
+
   @IsOptional()
   @IsUUID()
   id?: string;
@@ -77,7 +84,8 @@ export class RestaurantDto {
   @IsOptional()
   @IsString()
   @MaxLength(2000)
-  imageUrl?: string;
+  @Matches(/^(https?:\/\/[^\s]+|\/(?!\/)[^\s]*)?$/, { message: 'imageUrl phải là URL HTTP/HTTPS hoặc đường dẫn ảnh nội bộ' })
+  imageUrl?: string | null;
 
   @IsLatitude()
   latitude: number;

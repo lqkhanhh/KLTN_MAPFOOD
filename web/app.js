@@ -12,6 +12,10 @@
       throw mod = 0, e;
     }
   };
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
   var __copyProps = (to, from, except, desc) => {
     if (from && typeof from === "object" || typeof from === "function") {
       for (let key of __getOwnPropNames(from))
@@ -76,12 +80,12 @@
         }
         function noop() {
         }
-        function testStringCoercion(value) {
-          return "" + value;
+        function testStringCoercion(value2) {
+          return "" + value2;
         }
-        function checkKeyStringCoercion(value) {
+        function checkKeyStringCoercion(value2) {
           try {
-            testStringCoercion(value);
+            testStringCoercion(value2);
             var JSCompiler_inline_result = false;
           } catch (e) {
             JSCompiler_inline_result = true;
@@ -89,13 +93,13 @@
           if (JSCompiler_inline_result) {
             JSCompiler_inline_result = console;
             var JSCompiler_temp_const = JSCompiler_inline_result.error;
-            var JSCompiler_inline_result$jscomp$0 = "function" === typeof Symbol && Symbol.toStringTag && value[Symbol.toStringTag] || value.constructor.name || "Object";
+            var JSCompiler_inline_result$jscomp$0 = "function" === typeof Symbol && Symbol.toStringTag && value2[Symbol.toStringTag] || value2.constructor.name || "Object";
             JSCompiler_temp_const.call(
               JSCompiler_inline_result,
               "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
               JSCompiler_inline_result$jscomp$0
             );
-            return testStringCoercion(value);
+            return testStringCoercion(value2);
           }
         }
         function getComponentNameFromType(type) {
@@ -937,11 +941,11 @@
           );
           return dispatcher.useContext(Context);
         };
-        exports.useDebugValue = function(value, formatterFn) {
-          return resolveDispatcher().useDebugValue(value, formatterFn);
+        exports.useDebugValue = function(value2, formatterFn) {
+          return resolveDispatcher().useDebugValue(value2, formatterFn);
         };
-        exports.useDeferredValue = function(value, initialValue) {
-          return resolveDispatcher().useDeferredValue(value, initialValue);
+        exports.useDeferredValue = function(value2, initialValue) {
+          return resolveDispatcher().useDeferredValue(value2, initialValue);
         };
         exports.useEffect = function(create, deps) {
           null == create && console.warn(
@@ -1291,8 +1295,8 @@
       (function() {
         function noop() {
         }
-        function testStringCoercion(value) {
-          return "" + value;
+        function testStringCoercion(value2) {
+          return "" + value2;
         }
         function createPortal$1(children, containerInfo, implementation) {
           var key = 3 < arguments.length && void 0 !== arguments[3] ? arguments[3] : null;
@@ -1551,10 +1555,10 @@
             fiber = fiber.next, id--;
           return fiber;
         }
-        function copyWithSetImpl(obj, path, index, value) {
-          if (index >= path.length) return value;
+        function copyWithSetImpl(obj, path, index, value2) {
+          if (index >= path.length) return value2;
           var key = path[index], updated = isArrayImpl(obj) ? obj.slice() : assign({}, obj);
-          updated[key] = copyWithSetImpl(obj[key], path, index + 1, value);
+          updated[key] = copyWithSetImpl(obj[key], path, index + 1, value2);
           return updated;
         }
         function copyWithRename(obj, oldPath, newPath) {
@@ -1610,8 +1614,8 @@
         }
         function setToSortedString(set) {
           var array = [];
-          set.forEach(function(value) {
-            array.push(value);
+          set.forEach(function(value2) {
+            array.push(value2);
           });
           return array.sort().join(", ");
         }
@@ -1880,11 +1884,11 @@
         function pop(cursor, fiber) {
           0 > index$jscomp$0 ? console.error("Unexpected pop.") : (fiber !== fiberStack[index$jscomp$0] && console.error("Unexpected Fiber popped."), cursor.current = valueStack[index$jscomp$0], valueStack[index$jscomp$0] = null, fiberStack[index$jscomp$0] = null, index$jscomp$0--);
         }
-        function push(cursor, value, fiber) {
+        function push(cursor, value2, fiber) {
           index$jscomp$0++;
           valueStack[index$jscomp$0] = cursor.current;
           fiberStack[index$jscomp$0] = fiber;
-          cursor.current = value;
+          cursor.current = value2;
         }
         function requiredContext(c) {
           null === c && console.error(
@@ -2168,9 +2172,9 @@
                   if ("string" === typeof entry.name) {
                     var JSCompiler_temp_const = info;
                     a: {
-                      var name = entry.name, env = entry.env, location = entry.debugLocation;
-                      if (null != location) {
-                        var childStack = formatOwnerStack(location), idx = childStack.lastIndexOf("\n"), lastLine = -1 === idx ? childStack : childStack.slice(idx + 1);
+                      var name = entry.name, env = entry.env, location2 = entry.debugLocation;
+                      if (null != location2) {
+                        var childStack = formatOwnerStack(location2), idx = childStack.lastIndexOf("\n"), lastLine = -1 === idx ? childStack : childStack.slice(idx + 1);
                         if (-1 !== lastLine.indexOf(name)) {
                           var JSCompiler_inline_result = "\n" + lastLine;
                           break a;
@@ -2271,41 +2275,41 @@
           isRendering = false;
           current = fiber;
         }
-        function typeName(value) {
-          return "function" === typeof Symbol && Symbol.toStringTag && value[Symbol.toStringTag] || value.constructor.name || "Object";
+        function typeName(value2) {
+          return "function" === typeof Symbol && Symbol.toStringTag && value2[Symbol.toStringTag] || value2.constructor.name || "Object";
         }
-        function willCoercionThrow(value) {
+        function willCoercionThrow(value2) {
           try {
-            return testStringCoercion(value), false;
+            return testStringCoercion(value2), false;
           } catch (e) {
             return true;
           }
         }
-        function testStringCoercion(value) {
-          return "" + value;
+        function testStringCoercion(value2) {
+          return "" + value2;
         }
-        function checkAttributeStringCoercion(value, attributeName) {
-          if (willCoercionThrow(value))
+        function checkAttributeStringCoercion(value2, attributeName) {
+          if (willCoercionThrow(value2))
             return console.error(
               "The provided `%s` attribute is an unsupported type %s. This value must be coerced to a string before using it here.",
               attributeName,
-              typeName(value)
-            ), testStringCoercion(value);
+              typeName(value2)
+            ), testStringCoercion(value2);
         }
-        function checkCSSPropertyStringCoercion(value, propName) {
-          if (willCoercionThrow(value))
+        function checkCSSPropertyStringCoercion(value2, propName) {
+          if (willCoercionThrow(value2))
             return console.error(
               "The provided `%s` CSS property is an unsupported type %s. This value must be coerced to a string before using it here.",
               propName,
-              typeName(value)
-            ), testStringCoercion(value);
+              typeName(value2)
+            ), testStringCoercion(value2);
         }
-        function checkFormFieldValueStringCoercion(value) {
-          if (willCoercionThrow(value))
+        function checkFormFieldValueStringCoercion(value2) {
+          if (willCoercionThrow(value2))
             return console.error(
               "Form field values (value, checked, defaultValue, or defaultChecked props) must be strings, not %s. This value must be coerced to a string before using it here.",
-              typeName(value)
-            ), testStringCoercion(value);
+              typeName(value2)
+            ), testStringCoercion(value2);
         }
         function injectInternals(internals) {
           if ("undefined" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__) return false;
@@ -2693,11 +2697,11 @@
             return node === "" + expected ? expected : node;
           }
         }
-        function setValueForAttribute(node, name, value) {
+        function setValueForAttribute(node, name, value2) {
           if (isAttributeNameSafe(name))
-            if (null === value) node.removeAttribute(name);
+            if (null === value2) node.removeAttribute(name);
             else {
-              switch (typeof value) {
+              switch (typeof value2) {
                 case "undefined":
                 case "function":
                 case "symbol":
@@ -2710,14 +2714,14 @@
                     return;
                   }
               }
-              checkAttributeStringCoercion(value, name);
-              node.setAttribute(name, "" + value);
+              checkAttributeStringCoercion(value2, name);
+              node.setAttribute(name, "" + value2);
             }
         }
-        function setValueForKnownAttribute(node, name, value) {
-          if (null === value) node.removeAttribute(name);
+        function setValueForKnownAttribute(node, name, value2) {
+          if (null === value2) node.removeAttribute(name);
           else {
-            switch (typeof value) {
+            switch (typeof value2) {
               case "undefined":
               case "function":
               case "symbol":
@@ -2725,14 +2729,14 @@
                 node.removeAttribute(name);
                 return;
             }
-            checkAttributeStringCoercion(value, name);
-            node.setAttribute(name, "" + value);
+            checkAttributeStringCoercion(value2, name);
+            node.setAttribute(name, "" + value2);
           }
         }
-        function setValueForNamespacedAttribute(node, namespace, name, value) {
-          if (null === value) node.removeAttribute(name);
+        function setValueForNamespacedAttribute(node, namespace, name, value2) {
+          if (null === value2) node.removeAttribute(name);
           else {
-            switch (typeof value) {
+            switch (typeof value2) {
               case "undefined":
               case "function":
               case "symbol":
@@ -2740,20 +2744,20 @@
                 node.removeAttribute(name);
                 return;
             }
-            checkAttributeStringCoercion(value, name);
-            node.setAttributeNS(namespace, name, "" + value);
+            checkAttributeStringCoercion(value2, name);
+            node.setAttributeNS(namespace, name, "" + value2);
           }
         }
-        function getToStringValue(value) {
-          switch (typeof value) {
+        function getToStringValue(value2) {
+          switch (typeof value2) {
             case "bigint":
             case "boolean":
             case "number":
             case "string":
             case "undefined":
-              return value;
+              return value2;
             case "object":
-              return checkFormFieldValueStringCoercion(value), value;
+              return checkFormFieldValueStringCoercion(value2), value2;
             default:
               return "";
           }
@@ -2774,10 +2778,10 @@
               get: function() {
                 return get.call(this);
               },
-              set: function(value) {
-                checkFormFieldValueStringCoercion(value);
-                currentValue = "" + value;
-                set.call(this, value);
+              set: function(value2) {
+                checkFormFieldValueStringCoercion(value2);
+                currentValue = "" + value2;
+                set.call(this, value2);
               }
             });
             Object.defineProperty(node, valueField, {
@@ -2787,9 +2791,9 @@
               getValue: function() {
                 return currentValue;
               },
-              setValue: function(value) {
-                checkFormFieldValueStringCoercion(value);
-                currentValue = "" + value;
+              setValue: function(value2) {
+                checkFormFieldValueStringCoercion(value2);
+                currentValue = "" + value2;
               },
               stopTracking: function() {
                 node._valueTracker = null;
@@ -2813,9 +2817,9 @@
           var tracker = node._valueTracker;
           if (!tracker) return true;
           var lastValue = tracker.getValue();
-          var value = "";
-          node && (value = isCheckable(node) ? node.checked ? "true" : "false" : node.value);
-          node = value;
+          var value2 = "";
+          node && (value2 = isCheckable(node) ? node.checked ? "true" : "false" : node.value);
+          node = value2;
           return node !== lastValue ? (tracker.setValue(node), true) : false;
         }
         function getActiveElement(doc) {
@@ -2827,8 +2831,8 @@
             return doc.body;
           }
         }
-        function escapeSelectorAttributeValueInsideDoubleQuotes(value) {
-          return value.replace(
+        function escapeSelectorAttributeValueInsideDoubleQuotes(value2) {
+          return value2.replace(
             escapeSelectorAttributeValueInsideDoubleQuotesRegex,
             function(ch) {
               return "\\" + ch.charCodeAt(0).toString(16) + " ";
@@ -2847,33 +2851,33 @@
             props.type
           ), didWarnValueDefaultValue$1 = true);
         }
-        function updateInput(element, value, defaultValue, lastDefaultValue, checked, defaultChecked, type, name) {
+        function updateInput(element, value2, defaultValue, lastDefaultValue, checked, defaultChecked, type, name) {
           element.name = "";
           null != type && "function" !== typeof type && "symbol" !== typeof type && "boolean" !== typeof type ? (checkAttributeStringCoercion(type, "type"), element.type = type) : element.removeAttribute("type");
-          if (null != value)
+          if (null != value2)
             if ("number" === type) {
-              if (0 === value && "" === element.value || element.value != value)
-                element.value = "" + getToStringValue(value);
+              if (0 === value2 && "" === element.value || element.value != value2)
+                element.value = "" + getToStringValue(value2);
             } else
-              element.value !== "" + getToStringValue(value) && (element.value = "" + getToStringValue(value));
+              element.value !== "" + getToStringValue(value2) && (element.value = "" + getToStringValue(value2));
           else
             "submit" !== type && "reset" !== type || element.removeAttribute("value");
-          null != value ? setDefaultValue(element, type, getToStringValue(value)) : null != defaultValue ? setDefaultValue(element, type, getToStringValue(defaultValue)) : null != lastDefaultValue && element.removeAttribute("value");
+          null != value2 ? setDefaultValue(element, type, getToStringValue(value2)) : null != defaultValue ? setDefaultValue(element, type, getToStringValue(defaultValue)) : null != lastDefaultValue && element.removeAttribute("value");
           null == checked && null != defaultChecked && (element.defaultChecked = !!defaultChecked);
           null != checked && (element.checked = checked && "function" !== typeof checked && "symbol" !== typeof checked);
           null != name && "function" !== typeof name && "symbol" !== typeof name && "boolean" !== typeof name ? (checkAttributeStringCoercion(name, "name"), element.name = "" + getToStringValue(name)) : element.removeAttribute("name");
         }
-        function initInput(element, value, defaultValue, checked, defaultChecked, type, name, isHydrating2) {
+        function initInput(element, value2, defaultValue, checked, defaultChecked, type, name, isHydrating2) {
           null != type && "function" !== typeof type && "symbol" !== typeof type && "boolean" !== typeof type && (checkAttributeStringCoercion(type, "type"), element.type = type);
-          if (null != value || null != defaultValue) {
-            if (!("submit" !== type && "reset" !== type || void 0 !== value && null !== value)) {
+          if (null != value2 || null != defaultValue) {
+            if (!("submit" !== type && "reset" !== type || void 0 !== value2 && null !== value2)) {
               track(element);
               return;
             }
             defaultValue = null != defaultValue ? "" + getToStringValue(defaultValue) : "";
-            value = null != value ? "" + getToStringValue(value) : defaultValue;
-            isHydrating2 || value === element.value || (element.value = value);
-            element.defaultValue = value;
+            value2 = null != value2 ? "" + getToStringValue(value2) : defaultValue;
+            isHydrating2 || value2 === element.value || (element.value = value2);
+            element.defaultValue = value2;
           }
           checked = null != checked ? checked : defaultChecked;
           checked = "function" !== typeof checked && "symbol" !== typeof checked && !!checked;
@@ -2882,8 +2886,8 @@
           null != name && "function" !== typeof name && "symbol" !== typeof name && "boolean" !== typeof name && (checkAttributeStringCoercion(name, "name"), element.name = name);
           track(element);
         }
-        function setDefaultValue(node, type, value) {
-          "number" === type && getActiveElement(node.ownerDocument) === node || node.defaultValue === "" + value || (node.defaultValue = "" + value);
+        function setDefaultValue(node, type, value2) {
+          "number" === type && getActiveElement(node.ownerDocument) === node || node.defaultValue === "" + value2 || (node.defaultValue = "" + value2);
         }
         function validateOptionProps(element, props) {
           null == props.value && ("object" === typeof props.children && null !== props.children ? React13.Children.forEach(props.children, function(child) {
@@ -2952,15 +2956,15 @@
             "Use the `defaultValue` or `value` props instead of setting children on <textarea>."
           );
         }
-        function updateTextarea(element, value, defaultValue) {
-          if (null != value && (value = "" + getToStringValue(value), value !== element.value && (element.value = value), null == defaultValue)) {
-            element.defaultValue !== value && (element.defaultValue = value);
+        function updateTextarea(element, value2, defaultValue) {
+          if (null != value2 && (value2 = "" + getToStringValue(value2), value2 !== element.value && (element.value = value2), null == defaultValue)) {
+            element.defaultValue !== value2 && (element.defaultValue = value2);
             return;
           }
           element.defaultValue = null != defaultValue ? "" + getToStringValue(defaultValue) : "";
         }
-        function initTextarea(element, value, defaultValue, children) {
-          if (null == value) {
+        function initTextarea(element, value2, defaultValue, children) {
+          if (null == value2) {
             if (null != children) {
               if (null != defaultValue)
                 throw Error(
@@ -2974,9 +2978,9 @@
               defaultValue = children;
             }
             null == defaultValue && (defaultValue = "");
-            value = defaultValue;
+            value2 = defaultValue;
           }
-          defaultValue = getToStringValue(value);
+          defaultValue = getToStringValue(value2);
           element.defaultValue = defaultValue;
           children = element.textContent;
           children === defaultValue && "" !== children && null !== children && (element.value = children);
@@ -3038,26 +3042,26 @@
             return p0;
           });
         }
-        function describeValue(value, maxLength) {
-          switch (typeof value) {
+        function describeValue(value2, maxLength) {
+          switch (typeof value2) {
             case "string":
-              return value = JSON.stringify(value), value.length > maxLength ? 5 > maxLength ? '"..."' : value.slice(0, maxLength - 4) + '..."' : value;
+              return value2 = JSON.stringify(value2), value2.length > maxLength ? 5 > maxLength ? '"..."' : value2.slice(0, maxLength - 4) + '..."' : value2;
             case "object":
-              if (null === value) return "null";
-              if (isArrayImpl(value)) return "[...]";
-              if (value.$$typeof === REACT_ELEMENT_TYPE)
-                return (maxLength = getComponentNameFromType(value.type)) ? "<" + maxLength + ">" : "<...>";
-              var name = objectName(value);
+              if (null === value2) return "null";
+              if (isArrayImpl(value2)) return "[...]";
+              if (value2.$$typeof === REACT_ELEMENT_TYPE)
+                return (maxLength = getComponentNameFromType(value2.type)) ? "<" + maxLength + ">" : "<...>";
+              var name = objectName(value2);
               if ("Object" === name) {
                 name = "";
                 maxLength -= 2;
-                for (var propName in value)
-                  if (value.hasOwnProperty(propName)) {
+                for (var propName in value2)
+                  if (value2.hasOwnProperty(propName)) {
                     var jsonPropName = JSON.stringify(propName);
                     jsonPropName !== '"' + propName + '"' && (propName = jsonPropName);
                     maxLength -= propName.length - 2;
                     jsonPropName = describeValue(
-                      value[propName],
+                      value2[propName],
                       15 > maxLength ? maxLength : 15
                     );
                     maxLength -= jsonPropName.length;
@@ -3071,13 +3075,13 @@
               }
               return name;
             case "function":
-              return (maxLength = value.displayName || value.name) ? "function " + maxLength : "function";
+              return (maxLength = value2.displayName || value2.name) ? "function " + maxLength : "function";
             default:
-              return String(value);
+              return String(value2);
           }
         }
-        function describePropValue(value, maxLength) {
-          return "string" !== typeof value || needsEscaping.test(value) ? "{" + describeValue(value, maxLength - 2) + "}" : value.length > maxLength - 2 ? 5 > maxLength ? '"..."' : '"' + value.slice(0, maxLength - 5) + '..."' : '"' + value + '"';
+        function describePropValue(value2, maxLength) {
+          return "string" !== typeof value2 || needsEscaping.test(value2) ? "{" + describeValue(value2, maxLength - 2) + "}" : value2.length > maxLength - 2 ? 5 > maxLength ? '"..."' : '"' + value2.slice(0, maxLength - 5) + '..."' : '"' + value2 + '"';
         }
         function describeExpandedElement(type, props, rowPrefix) {
           var remainingRowLength = 120 - rowPrefix.length - type.length, properties = [], propName;
@@ -3468,7 +3472,7 @@
             return character.toUpperCase();
           });
         }
-        function setValueForStyle(style2, styleName, value) {
+        function setValueForStyle(style2, styleName, value2) {
           var isCustomProperty = 0 === styleName.indexOf("--");
           isCustomProperty || (-1 < styleName.indexOf("-") ? warnedStyleNames.hasOwnProperty(styleName) && warnedStyleNames[styleName] || (warnedStyleNames[styleName] = true, console.error(
             "Unsupported style property %s. Did you mean %s?",
@@ -3478,18 +3482,18 @@
             "Unsupported vendor-prefixed style property %s. Did you mean %s?",
             styleName,
             styleName.charAt(0).toUpperCase() + styleName.slice(1)
-          )) : !badStyleValueWithSemicolonPattern.test(value) || warnedStyleValues.hasOwnProperty(value) && warnedStyleValues[value] || (warnedStyleValues[value] = true, console.error(
+          )) : !badStyleValueWithSemicolonPattern.test(value2) || warnedStyleValues.hasOwnProperty(value2) && warnedStyleValues[value2] || (warnedStyleValues[value2] = true, console.error(
             `Style property values shouldn't contain a semicolon. Try "%s: %s" instead.`,
             styleName,
-            value.replace(badStyleValueWithSemicolonPattern, "")
-          )), "number" === typeof value && (isNaN(value) ? warnedForNaNValue || (warnedForNaNValue = true, console.error(
+            value2.replace(badStyleValueWithSemicolonPattern, "")
+          )), "number" === typeof value2 && (isNaN(value2) ? warnedForNaNValue || (warnedForNaNValue = true, console.error(
             "`NaN` is an invalid value for the `%s` css style property.",
             styleName
-          )) : isFinite(value) || warnedForInfinityValue || (warnedForInfinityValue = true, console.error(
+          )) : isFinite(value2) || warnedForInfinityValue || (warnedForInfinityValue = true, console.error(
             "`Infinity` is an invalid value for the `%s` css style property.",
             styleName
           ))));
-          null == value || "boolean" === typeof value || "" === value ? isCustomProperty ? style2.setProperty(styleName, "") : "float" === styleName ? style2.cssFloat = "" : style2[styleName] = "" : isCustomProperty ? style2.setProperty(styleName, value) : "number" !== typeof value || 0 === value || unitlessNumbers.has(styleName) ? "float" === styleName ? style2.cssFloat = value : (checkCSSPropertyStringCoercion(value, styleName), style2[styleName] = ("" + value).trim()) : style2[styleName] = value + "px";
+          null == value2 || "boolean" === typeof value2 || "" === value2 ? isCustomProperty ? style2.setProperty(styleName, "") : "float" === styleName ? style2.cssFloat = "" : style2[styleName] = "" : isCustomProperty ? style2.setProperty(styleName, value2) : "number" !== typeof value2 || 0 === value2 || unitlessNumbers.has(styleName) ? "float" === styleName ? style2.cssFloat = value2 : (checkCSSPropertyStringCoercion(value2, styleName), style2[styleName] = ("" + value2).trim()) : style2[styleName] = value2 + "px";
         }
         function setValueForStyles(node, styles, prevStyles) {
           if (null != styles && "object" !== typeof styles)
@@ -3520,11 +3524,11 @@
                 if (key = expandedUpdates[_key2], (longhands = _key[_key2]) && key !== longhands && (i = key + "," + longhands, !key$jscomp$0[i])) {
                   key$jscomp$0[i] = true;
                   i = console;
-                  var value = styles[key];
+                  var value2 = styles[key];
                   i.error.call(
                     i,
                     "%s a style property during rerender (%s) when a conflicting property is set (%s) can lead to styling bugs. To avoid this, don't mix shorthand and non-shorthand properties for the same value; instead, replace the shorthand with separate values.",
-                    null == value || "boolean" === typeof value || "" === value ? "Removing" : "Updating",
+                    null == value2 || "boolean" === typeof value2 || "" === value2 ? "Removing" : "Updating",
                     key,
                     longhands
                   );
@@ -3604,7 +3608,7 @@
             type
           );
         }
-        function validateProperty(tagName, name, value, eventRegistry) {
+        function validateProperty(tagName, name, value2, eventRegistry) {
           if (hasOwnProperty.call(warnedProperties, name) && warnedProperties[name])
             return true;
           var lowerCasedName = name.toLowerCase();
@@ -3612,7 +3616,7 @@
             return console.error(
               "React uses onFocus and onBlur instead of onFocusIn and onFocusOut. All React events are normalized to bubble, so onFocusIn and onFocusOut are not needed/supported by React."
             ), warnedProperties[name] = true;
-          if ("function" === typeof value && ("form" === tagName && "action" === name || "input" === tagName && "formAction" === name || "button" === tagName && "formAction" === name))
+          if ("function" === typeof value2 && ("form" === tagName && "action" === name || "input" === tagName && "formAction" === name || "button" === tagName && "formAction" === name))
             return true;
           if (null != eventRegistry) {
             tagName = eventRegistry.possibleRegistrationNames;
@@ -3644,12 +3648,12 @@
             return console.error(
               "The `aria` attribute is reserved for future use in React. Pass individual `aria-` attributes instead."
             ), warnedProperties[name] = true;
-          if ("is" === lowerCasedName && null !== value && void 0 !== value && "string" !== typeof value)
+          if ("is" === lowerCasedName && null !== value2 && void 0 !== value2 && "string" !== typeof value2)
             return console.error(
               "Received a `%s` for a string attribute `is`. If this is expected, cast the value to a string.",
-              typeof value
+              typeof value2
             ), warnedProperties[name] = true;
-          if ("number" === typeof value && isNaN(value))
+          if ("number" === typeof value2 && isNaN(value2))
             return console.error(
               "Received NaN for the `%s` attribute. If this is expected, cast the value to a string.",
               name
@@ -3682,7 +3686,7 @@
             case "textContent":
               return true;
           }
-          switch (typeof value) {
+          switch (typeof value2) {
             case "boolean":
               switch (name) {
                 case "autoFocus":
@@ -3728,19 +3732,19 @@
                   lowerCasedName = name.toLowerCase().slice(0, 5);
                   if ("data-" === lowerCasedName || "aria-" === lowerCasedName)
                     return true;
-                  value ? console.error(
+                  value2 ? console.error(
                     'Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s="%s" or %s={value.toString()}.',
-                    value,
+                    value2,
                     name,
                     name,
-                    value,
+                    value2,
                     name
                   ) : console.error(
                     'Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s="%s" or %s={value.toString()}.\n\nIf you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead.',
-                    value,
+                    value2,
                     name,
                     name,
-                    value,
+                    value2,
                     name,
                     name,
                     name
@@ -3751,7 +3755,7 @@
             case "symbol":
               return warnedProperties[name] = true, false;
             case "string":
-              if ("false" === value || "true" === value) {
+              if ("false" === value2 || "true" === value2) {
                 switch (name) {
                   case "checked":
                   case "selected":
@@ -3786,11 +3790,11 @@
                 }
                 console.error(
                   "Received the string `%s` for the boolean attribute `%s`. %s Did you mean %s={%s}?",
-                  value,
+                  value2,
                   name,
-                  "false" === value ? "The browser will interpret it as a truthy value." : 'Although this works, it will not work as expected if you pass the string "false".',
+                  "false" === value2 ? "The browser will interpret it as a truthy value." : 'Although this works, it will not work as expected if you pass the string "false".',
                   name,
-                  value
+                  value2
                 );
                 warnedProperties[name] = true;
               }
@@ -3814,8 +3818,8 @@
             type
           );
         }
-        function sanitizeURL(url) {
-          return isJavaScriptProtocol.test("" + url) ? "javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')" : url;
+        function sanitizeURL(url2) {
+          return isJavaScriptProtocol.test("" + url2) ? "javascript:throw new Error('React has blocked a javascript: URL as a security precaution.')" : url2;
         }
         function noop$1() {
         }
@@ -4196,15 +4200,15 @@
         }
         function getArrayKind(array) {
           for (var kind = EMPTY_ARRAY, i = 0; i < array.length; i++) {
-            var value = array[i];
-            if ("object" === typeof value && null !== value)
-              if (isArrayImpl(value) && 2 === value.length && "string" === typeof value[0]) {
+            var value2 = array[i];
+            if ("object" === typeof value2 && null !== value2)
+              if (isArrayImpl(value2) && 2 === value2.length && "string" === typeof value2[0]) {
                 if (kind !== EMPTY_ARRAY && kind !== ENTRIES_ARRAY)
                   return COMPLEX_ARRAY;
                 kind = ENTRIES_ARRAY;
               } else return COMPLEX_ARRAY;
             else {
-              if ("function" === typeof value || "string" === typeof value && 50 < value.length || kind !== EMPTY_ARRAY && kind !== PRIMITIVE_ARRAY)
+              if ("function" === typeof value2 || "string" === typeof value2 && 50 < value2.length || kind !== EMPTY_ARRAY && kind !== PRIMITIVE_ARRAY)
                 return COMPLEX_ARRAY;
               kind = PRIMITIVE_ARRAY;
             }
@@ -4215,23 +4219,23 @@
           for (var key in object)
             hasOwnProperty.call(object, key) && "_" !== key[0] && addValueToProperties(key, object[key], properties, indent, prefix2);
         }
-        function addValueToProperties(propertyName, value, properties, indent, prefix2) {
-          switch (typeof value) {
+        function addValueToProperties(propertyName, value2, properties, indent, prefix2) {
+          switch (typeof value2) {
             case "object":
-              if (null === value) {
-                value = "null";
+              if (null === value2) {
+                value2 = "null";
                 break;
               } else {
-                if (value.$$typeof === REACT_ELEMENT_TYPE) {
-                  var typeName2 = getComponentNameFromType(value.type) || "\u2026", key = value.key;
-                  value = value.props;
-                  var propsKeys = Object.keys(value), propsLength = propsKeys.length;
+                if (value2.$$typeof === REACT_ELEMENT_TYPE) {
+                  var typeName2 = getComponentNameFromType(value2.type) || "\u2026", key = value2.key;
+                  value2 = value2.props;
+                  var propsKeys = Object.keys(value2), propsLength = propsKeys.length;
                   if (null == key && 0 === propsLength) {
-                    value = "<" + typeName2 + " />";
+                    value2 = "<" + typeName2 + " />";
                     break;
                   }
                   if (3 > indent || 1 === propsLength && "children" === propsKeys[0] && null == key) {
-                    value = "<" + typeName2 + " \u2026 />";
+                    value2 = "<" + typeName2 + " \u2026 />";
                     break;
                   }
                   properties.push([
@@ -4246,10 +4250,10 @@
                     prefix2
                   );
                   propertyName = false;
-                  for (var propKey in value)
-                    "children" === propKey ? null != value.children && (!isArrayImpl(value.children) || 0 < value.children.length) && (propertyName = true) : hasOwnProperty.call(value, propKey) && "_" !== propKey[0] && addValueToProperties(
+                  for (var propKey in value2)
+                    "children" === propKey ? null != value2.children && (!isArrayImpl(value2.children) || 0 < value2.children.length) && (propertyName = true) : hasOwnProperty.call(value2, propKey) && "_" !== propKey[0] && addValueToProperties(
                       propKey,
-                      value[propKey],
+                      value2[propKey],
                       properties,
                       indent + 1,
                       prefix2
@@ -4260,19 +4264,19 @@
                   ]);
                   return;
                 }
-                typeName2 = Object.prototype.toString.call(value);
+                typeName2 = Object.prototype.toString.call(value2);
                 typeName2 = typeName2.slice(8, typeName2.length - 1);
                 if ("Array" === typeName2) {
-                  if (propKey = getArrayKind(value), propKey === PRIMITIVE_ARRAY || propKey === EMPTY_ARRAY) {
-                    value = JSON.stringify(value);
+                  if (propKey = getArrayKind(value2), propKey === PRIMITIVE_ARRAY || propKey === EMPTY_ARRAY) {
+                    value2 = JSON.stringify(value2);
                     break;
                   } else if (propKey === ENTRIES_ARRAY) {
                     properties.push([
                       prefix2 + "\xA0\xA0".repeat(indent) + propertyName,
                       ""
                     ]);
-                    for (propertyName = 0; propertyName < value.length; propertyName++)
-                      typeName2 = value[propertyName], addValueToProperties(
+                    for (propertyName = 0; propertyName < value2.length; propertyName++)
+                      typeName2 = value2[propertyName], addValueToProperties(
                         typeName2[0],
                         typeName2[1],
                         properties,
@@ -4283,10 +4287,10 @@
                   }
                 }
                 if ("Promise" === typeName2) {
-                  if ("fulfilled" === value.status) {
+                  if ("fulfilled" === value2.status) {
                     if (typeName2 = properties.length, addValueToProperties(
                       propertyName,
-                      value.value,
+                      value2.value,
                       properties,
                       indent,
                       prefix2
@@ -4295,9 +4299,9 @@
                       properties[1] = "Promise<" + (properties[1] || "Object") + ">";
                       return;
                     }
-                  } else if ("rejected" === value.status && (typeName2 = properties.length, addValueToProperties(
+                  } else if ("rejected" === value2.status && (typeName2 = properties.length, addValueToProperties(
                     propertyName,
-                    value.reason,
+                    value2.reason,
                     properties,
                     indent,
                     prefix2
@@ -4312,45 +4316,45 @@
                   ]);
                   return;
                 }
-                "Object" === typeName2 && (propKey = Object.getPrototypeOf(value)) && "function" === typeof propKey.constructor && (typeName2 = propKey.constructor.name);
+                "Object" === typeName2 && (propKey = Object.getPrototypeOf(value2)) && "function" === typeof propKey.constructor && (typeName2 = propKey.constructor.name);
                 properties.push([
                   prefix2 + "\xA0\xA0".repeat(indent) + propertyName,
                   "Object" === typeName2 ? 3 > indent ? "" : "\u2026" : typeName2
                 ]);
-                3 > indent && addObjectToProperties(value, properties, indent + 1, prefix2);
+                3 > indent && addObjectToProperties(value2, properties, indent + 1, prefix2);
                 return;
               }
             case "function":
-              value = "" === value.name ? "() => {}" : value.name + "() {}";
+              value2 = "" === value2.name ? "() => {}" : value2.name + "() {}";
               break;
             case "string":
-              value = value === OMITTED_PROP_ERROR ? "\u2026" : JSON.stringify(value);
+              value2 = value2 === OMITTED_PROP_ERROR ? "\u2026" : JSON.stringify(value2);
               break;
             case "undefined":
-              value = "undefined";
+              value2 = "undefined";
               break;
             case "boolean":
-              value = value ? "true" : "false";
+              value2 = value2 ? "true" : "false";
               break;
             default:
-              value = String(value);
+              value2 = String(value2);
           }
           properties.push([
             prefix2 + "\xA0\xA0".repeat(indent) + propertyName,
-            value
+            value2
           ]);
         }
-        function addObjectDiffToProperties(prev, next, properties, indent) {
+        function addObjectDiffToProperties(prev, next2, properties, indent) {
           var isDeeplyEqual = true;
           for (key in prev)
-            key in next || (properties.push([
+            key in next2 || (properties.push([
               REMOVED + "\xA0\xA0".repeat(indent) + key,
               "\u2026"
             ]), isDeeplyEqual = false);
-          for (var _key in next)
+          for (var _key in next2)
             if (_key in prev) {
               var key = prev[_key];
-              var nextValue = next[_key];
+              var nextValue = next2[_key];
               if (key !== nextValue) {
                 if (0 === indent && "children" === _key)
                   isDeeplyEqual = "\xA0\xA0".repeat(indent) + _key, properties.push(
@@ -5056,20 +5060,20 @@
           };
           return mode;
         }
-        function createCapturedValueAtFiber(value, source) {
-          if ("object" === typeof value && null !== value) {
-            var existing = CapturedStacks.get(value);
+        function createCapturedValueAtFiber(value2, source) {
+          if ("object" === typeof value2 && null !== value2) {
+            var existing = CapturedStacks.get(value2);
             if (void 0 !== existing) return existing;
             source = {
-              value,
+              value: value2,
               source,
               stack: getStackByFiberInDevAndProd(source)
             };
-            CapturedStacks.set(value, source);
+            CapturedStacks.set(value2, source);
             return source;
           }
           return {
-            value,
+            value: value2,
             source,
             stack: getStackByFiberInDevAndProd(source)
           };
@@ -5491,8 +5495,8 @@
           return readContextForConsumer(consumer, context);
         }
         function readContextForConsumer(consumer, context) {
-          var value = context._currentValue;
-          context = { context, memoizedValue: value, next: null };
+          var value2 = context._currentValue;
+          context = { context, memoizedValue: value2, next: null };
           if (null === lastContextDependency) {
             if (null === consumer)
               throw Error(
@@ -5506,7 +5510,7 @@
             };
             consumer.flags |= 524288;
           } else lastContextDependency = lastContextDependency.next = context;
-          return value;
+          return value2;
         }
         function createCache() {
           return {
@@ -5515,19 +5519,19 @@
             refCount: 0
           };
         }
-        function retainCache(cache) {
-          cache.controller.signal.aborted && console.warn(
+        function retainCache(cache2) {
+          cache2.controller.signal.aborted && console.warn(
             "A cache instance was retained after it was already freed. This likely indicates a bug in React."
           );
-          cache.refCount++;
+          cache2.refCount++;
         }
-        function releaseCache(cache) {
-          cache.refCount--;
-          0 > cache.refCount && console.warn(
+        function releaseCache(cache2) {
+          cache2.refCount--;
+          0 > cache2.refCount && console.warn(
             "A cache instance was released after it was already freed. This likely indicates a bug in React."
           );
-          0 === cache.refCount && scheduleCallback$2(NormalPriority, function() {
-            cache.controller.abort();
+          0 === cache2.refCount && scheduleCallback$2(NormalPriority, function() {
+            cache2.controller.abort();
           });
         }
         function startUpdateTimerByLane(lane, method, fiber) {
@@ -7816,43 +7820,43 @@
           hook.memoizedState = [prevState, deps];
           return prevState;
         }
-        function mountDeferredValue(value, initialValue) {
+        function mountDeferredValue(value2, initialValue) {
           var hook = mountWorkInProgressHook();
-          return mountDeferredValueImpl(hook, value, initialValue);
+          return mountDeferredValueImpl(hook, value2, initialValue);
         }
-        function updateDeferredValue(value, initialValue) {
+        function updateDeferredValue(value2, initialValue) {
           var hook = updateWorkInProgressHook();
           return updateDeferredValueImpl(
             hook,
             currentHook.memoizedState,
-            value,
+            value2,
             initialValue
           );
         }
-        function rerenderDeferredValue(value, initialValue) {
+        function rerenderDeferredValue(value2, initialValue) {
           var hook = updateWorkInProgressHook();
-          return null === currentHook ? mountDeferredValueImpl(hook, value, initialValue) : updateDeferredValueImpl(
+          return null === currentHook ? mountDeferredValueImpl(hook, value2, initialValue) : updateDeferredValueImpl(
             hook,
             currentHook.memoizedState,
-            value,
+            value2,
             initialValue
           );
         }
-        function mountDeferredValueImpl(hook, value, initialValue) {
+        function mountDeferredValueImpl(hook, value2, initialValue) {
           if (void 0 === initialValue || 0 !== (renderLanes & 1073741824) && 0 === (workInProgressRootRenderLanes & 261930))
-            return hook.memoizedState = value;
+            return hook.memoizedState = value2;
           hook.memoizedState = initialValue;
           hook = requestDeferredLane();
           currentlyRenderingFiber.lanes |= hook;
           workInProgressRootSkippedLanes |= hook;
           return initialValue;
         }
-        function updateDeferredValueImpl(hook, prevValue, value, initialValue) {
-          if (objectIs(value, prevValue)) return value;
+        function updateDeferredValueImpl(hook, prevValue, value2, initialValue) {
+          if (objectIs(value2, prevValue)) return value2;
           if (null !== currentTreeHiddenStackCursor.current)
-            return hook = mountDeferredValueImpl(hook, value, initialValue), objectIs(hook, prevValue) || (didReceiveUpdate = true), hook;
+            return hook = mountDeferredValueImpl(hook, value2, initialValue), objectIs(hook, prevValue) || (didReceiveUpdate = true), hook;
           if (0 === (renderLanes & 42) || 0 !== (renderLanes & 1073741824) && 0 === (workInProgressRootRenderLanes & 261930))
-            return didReceiveUpdate = true, hook.memoizedState = value;
+            return didReceiveUpdate = true, hook.memoizedState = value2;
           hook = requestDeferredLane();
           currentlyRenderingFiber.lanes |= hook;
           workInProgressRootSkippedLanes |= hook;
@@ -8352,10 +8356,10 @@
             );
           });
         }
-        function throwException(root2, returnFiber, sourceFiber, value, rootRenderLanes) {
+        function throwException(root2, returnFiber, sourceFiber, value2, rootRenderLanes) {
           sourceFiber.flags |= 32768;
           isDevToolsPresent && restorePendingUpdaters(root2, rootRenderLanes);
-          if (null !== value && "object" === typeof value && "function" === typeof value.then) {
+          if (null !== value2 && "object" === typeof value2 && "function" === typeof value2.then) {
             returnFiber = sourceFiber.alternate;
             null !== returnFiber && propagateParentContextChanges(
               returnFiber,
@@ -8369,62 +8373,62 @@
               switch (sourceFiber.tag) {
                 case 31:
                 case 13:
-                  return null === shellBoundary ? renderDidSuspendDelayIfPossible() : null === sourceFiber.alternate && workInProgressRootExitStatus === RootInProgress && (workInProgressRootExitStatus = RootSuspended), sourceFiber.flags &= -257, sourceFiber.flags |= 65536, sourceFiber.lanes = rootRenderLanes, value === noopSuspenseyCommitThenable ? sourceFiber.flags |= 16384 : (returnFiber = sourceFiber.updateQueue, null === returnFiber ? sourceFiber.updateQueue = /* @__PURE__ */ new Set([value]) : returnFiber.add(value), attachPingListener(root2, value, rootRenderLanes)), false;
+                  return null === shellBoundary ? renderDidSuspendDelayIfPossible() : null === sourceFiber.alternate && workInProgressRootExitStatus === RootInProgress && (workInProgressRootExitStatus = RootSuspended), sourceFiber.flags &= -257, sourceFiber.flags |= 65536, sourceFiber.lanes = rootRenderLanes, value2 === noopSuspenseyCommitThenable ? sourceFiber.flags |= 16384 : (returnFiber = sourceFiber.updateQueue, null === returnFiber ? sourceFiber.updateQueue = /* @__PURE__ */ new Set([value2]) : returnFiber.add(value2), attachPingListener(root2, value2, rootRenderLanes)), false;
                 case 22:
-                  return sourceFiber.flags |= 65536, value === noopSuspenseyCommitThenable ? sourceFiber.flags |= 16384 : (returnFiber = sourceFiber.updateQueue, null === returnFiber ? (returnFiber = {
+                  return sourceFiber.flags |= 65536, value2 === noopSuspenseyCommitThenable ? sourceFiber.flags |= 16384 : (returnFiber = sourceFiber.updateQueue, null === returnFiber ? (returnFiber = {
                     transitions: null,
                     markerInstances: null,
-                    retryQueue: /* @__PURE__ */ new Set([value])
-                  }, sourceFiber.updateQueue = returnFiber) : (sourceFiber = returnFiber.retryQueue, null === sourceFiber ? returnFiber.retryQueue = /* @__PURE__ */ new Set([value]) : sourceFiber.add(value)), attachPingListener(root2, value, rootRenderLanes)), false;
+                    retryQueue: /* @__PURE__ */ new Set([value2])
+                  }, sourceFiber.updateQueue = returnFiber) : (sourceFiber = returnFiber.retryQueue, null === sourceFiber ? returnFiber.retryQueue = /* @__PURE__ */ new Set([value2]) : sourceFiber.add(value2)), attachPingListener(root2, value2, rootRenderLanes)), false;
               }
               throw Error(
                 "Unexpected Suspense handler tag (" + sourceFiber.tag + "). This is a bug in React."
               );
             }
-            attachPingListener(root2, value, rootRenderLanes);
+            attachPingListener(root2, value2, rootRenderLanes);
             renderDidSuspendDelayIfPossible();
             return false;
           }
           if (isHydrating)
-            return didSuspendOrErrorDEV = true, returnFiber = suspenseHandlerStackCursor.current, null !== returnFiber ? (0 === (returnFiber.flags & 65536) && (returnFiber.flags |= 256), returnFiber.flags |= 65536, returnFiber.lanes = rootRenderLanes, value !== HydrationMismatchException && queueHydrationError(
+            return didSuspendOrErrorDEV = true, returnFiber = suspenseHandlerStackCursor.current, null !== returnFiber ? (0 === (returnFiber.flags & 65536) && (returnFiber.flags |= 256), returnFiber.flags |= 65536, returnFiber.lanes = rootRenderLanes, value2 !== HydrationMismatchException && queueHydrationError(
               createCapturedValueAtFiber(
                 Error(
                   "There was an error while hydrating but React was able to recover by instead client rendering from the nearest Suspense boundary.",
-                  { cause: value }
+                  { cause: value2 }
                 ),
                 sourceFiber
               )
-            )) : (value !== HydrationMismatchException && queueHydrationError(
+            )) : (value2 !== HydrationMismatchException && queueHydrationError(
               createCapturedValueAtFiber(
                 Error(
                   "There was an error while hydrating but React was able to recover by instead client rendering the entire root.",
-                  { cause: value }
+                  { cause: value2 }
                 ),
                 sourceFiber
               )
-            ), root2 = root2.current.alternate, root2.flags |= 65536, rootRenderLanes &= -rootRenderLanes, root2.lanes |= rootRenderLanes, value = createCapturedValueAtFiber(value, sourceFiber), rootRenderLanes = createRootErrorUpdate(
+            ), root2 = root2.current.alternate, root2.flags |= 65536, rootRenderLanes &= -rootRenderLanes, root2.lanes |= rootRenderLanes, value2 = createCapturedValueAtFiber(value2, sourceFiber), rootRenderLanes = createRootErrorUpdate(
               root2.stateNode,
-              value,
+              value2,
               rootRenderLanes
             ), enqueueCapturedUpdate(root2, rootRenderLanes), workInProgressRootExitStatus !== RootSuspendedWithDelay && (workInProgressRootExitStatus = RootErrored)), false;
           var error = createCapturedValueAtFiber(
             Error(
               "There was an error during concurrent rendering but React was able to recover by instead synchronously rendering the entire root.",
-              { cause: value }
+              { cause: value2 }
             ),
             sourceFiber
           );
           null === workInProgressRootConcurrentErrors ? workInProgressRootConcurrentErrors = [error] : workInProgressRootConcurrentErrors.push(error);
           workInProgressRootExitStatus !== RootSuspendedWithDelay && (workInProgressRootExitStatus = RootErrored);
           if (null === returnFiber) return true;
-          value = createCapturedValueAtFiber(value, sourceFiber);
+          value2 = createCapturedValueAtFiber(value2, sourceFiber);
           sourceFiber = returnFiber;
           do {
             switch (sourceFiber.tag) {
               case 3:
                 return sourceFiber.flags |= 65536, root2 = rootRenderLanes & -rootRenderLanes, sourceFiber.lanes |= root2, root2 = createRootErrorUpdate(
                   sourceFiber.stateNode,
-                  value,
+                  value2,
                   root2
                 ), enqueueCapturedUpdate(sourceFiber, root2), false;
               case 1:
@@ -8433,7 +8437,7 @@
                     rootRenderLanes,
                     root2,
                     sourceFiber,
-                    value
+                    value2
                   ), enqueueCapturedUpdate(sourceFiber, rootRenderLanes), false;
             }
             sourceFiber = sourceFiber.return;
@@ -11070,23 +11074,23 @@
                   }
                   var length = 0, start = -1, end = -1, indexWithinAnchor = 0, indexWithinFocus = 0, node = root2, parentNode = null;
                   b: for (; ; ) {
-                    for (var next; ; ) {
+                    for (var next2; ; ) {
                       node !== JSCompiler_temp || 0 !== anchorOffset && 3 !== node.nodeType || (start = length + anchorOffset);
                       node !== focusNode || 0 !== selection && 3 !== node.nodeType || (end = length + selection);
                       3 === node.nodeType && (length += node.nodeValue.length);
-                      if (null === (next = node.firstChild)) break;
+                      if (null === (next2 = node.firstChild)) break;
                       parentNode = node;
-                      node = next;
+                      node = next2;
                     }
                     for (; ; ) {
                       if (node === root2) break b;
                       parentNode === JSCompiler_temp && ++indexWithinAnchor === anchorOffset && (start = length);
                       parentNode === focusNode && ++indexWithinFocus === selection && (end = length);
-                      if (null !== (next = node.nextSibling)) break;
+                      if (null !== (next2 = node.nextSibling)) break;
                       node = parentNode;
                       parentNode = node.parentNode;
                     }
-                    node = next;
+                    node = next2;
                   }
                   JSCompiler_temp = -1 === start || -1 === end ? null : { start, end };
                 } else JSCompiler_temp = null;
@@ -13837,9 +13841,9 @@
           null === current2 ? completeUnitOfWork(unitOfWork) : workInProgress = current2;
         }
         function replaySuspendedUnitOfWork(unitOfWork) {
-          var next = runWithFiberInDEV(unitOfWork, replayBeginWork, unitOfWork);
+          var next2 = runWithFiberInDEV(unitOfWork, replayBeginWork, unitOfWork);
           unitOfWork.memoizedProps = unitOfWork.pendingProps;
-          null === next ? completeUnitOfWork(unitOfWork) : workInProgress = next;
+          null === next2 ? completeUnitOfWork(unitOfWork) : workInProgress = next2;
         }
         function replayBeginWork(unitOfWork) {
           var current2 = unitOfWork.alternate, isProfilingMode = (unitOfWork.mode & ProfileMode) !== NoMode;
@@ -13951,26 +13955,26 @@
         }
         function unwindUnitOfWork(unitOfWork, skipSiblings) {
           do {
-            var next = unwindWork(unitOfWork.alternate, unitOfWork);
-            if (null !== next) {
-              next.flags &= 32767;
-              workInProgress = next;
+            var next2 = unwindWork(unitOfWork.alternate, unitOfWork);
+            if (null !== next2) {
+              next2.flags &= 32767;
+              workInProgress = next2;
               return;
             }
             if ((unitOfWork.mode & ProfileMode) !== NoMode) {
               stopProfilerTimerIfRunningAndRecordIncompleteDuration(unitOfWork);
-              next = unitOfWork.actualDuration;
+              next2 = unitOfWork.actualDuration;
               for (var child = unitOfWork.child; null !== child; )
-                next += child.actualDuration, child = child.sibling;
-              unitOfWork.actualDuration = next;
+                next2 += child.actualDuration, child = child.sibling;
+              unitOfWork.actualDuration = next2;
             }
-            next = unitOfWork.return;
-            null !== next && (next.flags |= 32768, next.subtreeFlags = 0, next.deletions = null);
+            next2 = unitOfWork.return;
+            null !== next2 && (next2.flags |= 32768, next2.subtreeFlags = 0, next2.deletions = null);
             if (!skipSiblings && (unitOfWork = unitOfWork.sibling, null !== unitOfWork)) {
               workInProgress = unitOfWork;
               return;
             }
-            workInProgress = unitOfWork = next;
+            workInProgress = unitOfWork = next2;
           } while (null !== unitOfWork);
           workInProgressRootExitStatus = RootSuspendedAtTheShell;
           workInProgress = null;
@@ -14689,12 +14693,12 @@
           var syncTransitionLanes = 0;
           0 !== currentEventTransitionLane && shouldAttemptEagerTransition() && (syncTransitionLanes = currentEventTransitionLane);
           for (var currentTime = now$1(), prev = null, root2 = firstScheduledRoot; null !== root2; ) {
-            var next = root2.next, nextLanes = scheduleTaskForRootDuringMicrotask(root2, currentTime);
+            var next2 = root2.next, nextLanes = scheduleTaskForRootDuringMicrotask(root2, currentTime);
             if (0 === nextLanes)
-              root2.next = null, null === prev ? firstScheduledRoot = next : prev.next = next, null === next && (lastScheduledRoot = prev);
+              root2.next = null, null === prev ? firstScheduledRoot = next2 : prev.next = next2, null === next2 && (lastScheduledRoot = prev);
             else if (prev = root2, 0 !== syncTransitionLanes || 0 !== (nextLanes & 3))
               mightHavePendingSyncWork = true;
-            root2 = next;
+            root2 = next2;
           }
           pendingEffectsStatus !== NO_PENDING_EFFECTS && pendingEffectsStatus !== PENDING_PASSIVE_PHASE || flushSyncWorkAcrossRoots_impl(syncTransitionLanes, false);
           0 !== currentEventTransitionLane && (currentEventTransitionLane = 0);
@@ -15432,38 +15436,38 @@
           clientText = normalizeMarkupForTextOrAttribute(clientText);
           return normalizeMarkupForTextOrAttribute(serverText) === clientText ? true : false;
         }
-        function setProp(domElement, tag, key, value, props, prevValue) {
+        function setProp(domElement, tag, key, value2, props, prevValue) {
           switch (key) {
             case "children":
-              if ("string" === typeof value)
-                validateTextNesting(value, tag, false), "body" === tag || "textarea" === tag && "" === value || setTextContent(domElement, value);
-              else if ("number" === typeof value || "bigint" === typeof value)
-                validateTextNesting("" + value, tag, false), "body" !== tag && setTextContent(domElement, "" + value);
+              if ("string" === typeof value2)
+                validateTextNesting(value2, tag, false), "body" === tag || "textarea" === tag && "" === value2 || setTextContent(domElement, value2);
+              else if ("number" === typeof value2 || "bigint" === typeof value2)
+                validateTextNesting("" + value2, tag, false), "body" !== tag && setTextContent(domElement, "" + value2);
               break;
             case "className":
-              setValueForKnownAttribute(domElement, "class", value);
+              setValueForKnownAttribute(domElement, "class", value2);
               break;
             case "tabIndex":
-              setValueForKnownAttribute(domElement, "tabindex", value);
+              setValueForKnownAttribute(domElement, "tabindex", value2);
               break;
             case "dir":
             case "role":
             case "viewBox":
             case "width":
             case "height":
-              setValueForKnownAttribute(domElement, key, value);
+              setValueForKnownAttribute(domElement, key, value2);
               break;
             case "style":
-              setValueForStyles(domElement, value, prevValue);
+              setValueForStyles(domElement, value2, prevValue);
               break;
             case "data":
               if ("object" !== tag) {
-                setValueForKnownAttribute(domElement, "data", value);
+                setValueForKnownAttribute(domElement, "data", value2);
                 break;
               }
             case "src":
             case "href":
-              if ("" === value && ("a" !== tag || "href" !== key)) {
+              if ("" === value2 && ("a" !== tag || "href" !== key)) {
                 "src" === key ? console.error(
                   'An empty string ("") was passed to the %s attribute. This may cause the browser to download the whole page again over the network. To fix this, either do not render the element at all or pass null to %s instead of an empty string.',
                   key,
@@ -15476,25 +15480,25 @@
                 domElement.removeAttribute(key);
                 break;
               }
-              if (null == value || "function" === typeof value || "symbol" === typeof value || "boolean" === typeof value) {
+              if (null == value2 || "function" === typeof value2 || "symbol" === typeof value2 || "boolean" === typeof value2) {
                 domElement.removeAttribute(key);
                 break;
               }
-              checkAttributeStringCoercion(value, key);
-              value = sanitizeURL("" + value);
-              domElement.setAttribute(key, value);
+              checkAttributeStringCoercion(value2, key);
+              value2 = sanitizeURL("" + value2);
+              domElement.setAttribute(key, value2);
               break;
             case "action":
             case "formAction":
-              null != value && ("form" === tag ? "formAction" === key ? console.error(
+              null != value2 && ("form" === tag ? "formAction" === key ? console.error(
                 "You can only pass the formAction prop to <input> or <button>. Use the action prop on <form>."
-              ) : "function" === typeof value && (null == props.encType && null == props.method || didWarnFormActionMethod || (didWarnFormActionMethod = true, console.error(
+              ) : "function" === typeof value2 && (null == props.encType && null == props.method || didWarnFormActionMethod || (didWarnFormActionMethod = true, console.error(
                 "Cannot specify a encType or method for a form that specifies a function as the action. React provides those automatically. They will get overridden."
               )), null == props.target || didWarnFormActionTarget || (didWarnFormActionTarget = true, console.error(
                 "Cannot specify a target for a form that specifies a function as the action. The function will always be executed in the same window."
               ))) : "input" === tag || "button" === tag ? "action" === key ? console.error(
                 "You can only pass the action prop to <form>. Use the formAction prop on <input> or <button>."
-              ) : "input" !== tag || "submit" === props.type || "image" === props.type || didWarnFormActionType ? "button" !== tag || null == props.type || "submit" === props.type || didWarnFormActionType ? "function" === typeof value && (null == props.name || didWarnFormActionName || (didWarnFormActionName = true, console.error(
+              ) : "input" !== tag || "submit" === props.type || "image" === props.type || didWarnFormActionType ? "button" !== tag || null == props.type || "submit" === props.type || didWarnFormActionType ? "function" === typeof value2 && (null == props.name || didWarnFormActionName || (didWarnFormActionName = true, console.error(
                 'Cannot specify a "name" prop for a button that specifies a function as a formAction. React needs it to encode which action should be invoked. It will get overridden.'
               )), null == props.formEncType && null == props.formMethod || didWarnFormActionMethod || (didWarnFormActionMethod = true, console.error(
                 "Cannot specify a formEncType or formMethod for a button that specifies a function as a formAction. React provides those automatically. They will get overridden."
@@ -15509,7 +15513,7 @@
               ) : console.error(
                 "You can only pass the formAction prop to <input> or <button>."
               ));
-              if ("function" === typeof value) {
+              if ("function" === typeof value2) {
                 domElement.setAttribute(
                   key,
                   "javascript:throw new Error('A React form was unexpectedly submitted. If you called form.submit() manually, consider using form.requestSubmit() instead. If you\\'re trying to use event.stopPropagation() in a submit event handler, consider also calling event.preventDefault().')"
@@ -15552,30 +15556,30 @@
                   props,
                   null
                 )));
-              if (null == value || "symbol" === typeof value || "boolean" === typeof value) {
+              if (null == value2 || "symbol" === typeof value2 || "boolean" === typeof value2) {
                 domElement.removeAttribute(key);
                 break;
               }
-              checkAttributeStringCoercion(value, key);
-              value = sanitizeURL("" + value);
-              domElement.setAttribute(key, value);
+              checkAttributeStringCoercion(value2, key);
+              value2 = sanitizeURL("" + value2);
+              domElement.setAttribute(key, value2);
               break;
             case "onClick":
-              null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), domElement.onclick = noop$1);
+              null != value2 && ("function" !== typeof value2 && warnForInvalidEventListener(key, value2), domElement.onclick = noop$1);
               break;
             case "onScroll":
-              null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), listenToNonDelegatedEvent("scroll", domElement));
+              null != value2 && ("function" !== typeof value2 && warnForInvalidEventListener(key, value2), listenToNonDelegatedEvent("scroll", domElement));
               break;
             case "onScrollEnd":
-              null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), listenToNonDelegatedEvent("scrollend", domElement));
+              null != value2 && ("function" !== typeof value2 && warnForInvalidEventListener(key, value2), listenToNonDelegatedEvent("scrollend", domElement));
               break;
             case "dangerouslySetInnerHTML":
-              if (null != value) {
-                if ("object" !== typeof value || !("__html" in value))
+              if (null != value2) {
+                if ("object" !== typeof value2 || !("__html" in value2))
                   throw Error(
                     "`props.dangerouslySetInnerHTML` must be in the form `{__html: ...}`. Please visit https://react.dev/link/dangerously-set-inner-html for more information."
                   );
-                key = value.__html;
+                key = value2.__html;
                 if (null != key) {
                   if (null != props.children)
                     throw Error(
@@ -15586,10 +15590,10 @@
               }
               break;
             case "multiple":
-              domElement.multiple = value && "function" !== typeof value && "symbol" !== typeof value;
+              domElement.multiple = value2 && "function" !== typeof value2 && "symbol" !== typeof value2;
               break;
             case "muted":
-              domElement.muted = value && "function" !== typeof value && "symbol" !== typeof value;
+              domElement.muted = value2 && "function" !== typeof value2 && "symbol" !== typeof value2;
               break;
             case "suppressContentEditableWarning":
             case "suppressHydrationWarning":
@@ -15601,12 +15605,12 @@
             case "autoFocus":
               break;
             case "xlinkHref":
-              if (null == value || "function" === typeof value || "boolean" === typeof value || "symbol" === typeof value) {
+              if (null == value2 || "function" === typeof value2 || "boolean" === typeof value2 || "symbol" === typeof value2) {
                 domElement.removeAttribute("xlink:href");
                 break;
               }
-              checkAttributeStringCoercion(value, key);
-              key = sanitizeURL("" + value);
+              checkAttributeStringCoercion(value2, key);
+              key = sanitizeURL("" + value2);
               domElement.setAttributeNS(xlinkNamespace, "xlink:href", key);
               break;
             case "contentEditable":
@@ -15617,10 +15621,10 @@
             case "externalResourcesRequired":
             case "focusable":
             case "preserveAlpha":
-              null != value && "function" !== typeof value && "symbol" !== typeof value ? (checkAttributeStringCoercion(value, key), domElement.setAttribute(key, "" + value)) : domElement.removeAttribute(key);
+              null != value2 && "function" !== typeof value2 && "symbol" !== typeof value2 ? (checkAttributeStringCoercion(value2, key), domElement.setAttribute(key, "" + value2)) : domElement.removeAttribute(key);
               break;
             case "inert":
-              "" !== value || didWarnForNewBooleanPropsWithEmptyValue[key] || (didWarnForNewBooleanPropsWithEmptyValue[key] = true, console.error(
+              "" !== value2 || didWarnForNewBooleanPropsWithEmptyValue[key] || (didWarnForNewBooleanPropsWithEmptyValue[key] = true, console.error(
                 "Received an empty string for a boolean attribute `%s`. This will treat the attribute as if it were false. Either pass `false` to silence this warning, or pass `true` if you used an empty string in earlier versions of React to indicate this attribute is true.",
                 key
               ));
@@ -15646,33 +15650,33 @@
             case "scoped":
             case "seamless":
             case "itemScope":
-              value && "function" !== typeof value && "symbol" !== typeof value ? domElement.setAttribute(key, "") : domElement.removeAttribute(key);
+              value2 && "function" !== typeof value2 && "symbol" !== typeof value2 ? domElement.setAttribute(key, "") : domElement.removeAttribute(key);
               break;
             case "capture":
             case "download":
-              true === value ? domElement.setAttribute(key, "") : false !== value && null != value && "function" !== typeof value && "symbol" !== typeof value ? (checkAttributeStringCoercion(value, key), domElement.setAttribute(key, value)) : domElement.removeAttribute(key);
+              true === value2 ? domElement.setAttribute(key, "") : false !== value2 && null != value2 && "function" !== typeof value2 && "symbol" !== typeof value2 ? (checkAttributeStringCoercion(value2, key), domElement.setAttribute(key, value2)) : domElement.removeAttribute(key);
               break;
             case "cols":
             case "rows":
             case "size":
             case "span":
-              null != value && "function" !== typeof value && "symbol" !== typeof value && !isNaN(value) && 1 <= value ? (checkAttributeStringCoercion(value, key), domElement.setAttribute(key, value)) : domElement.removeAttribute(key);
+              null != value2 && "function" !== typeof value2 && "symbol" !== typeof value2 && !isNaN(value2) && 1 <= value2 ? (checkAttributeStringCoercion(value2, key), domElement.setAttribute(key, value2)) : domElement.removeAttribute(key);
               break;
             case "rowSpan":
             case "start":
-              null == value || "function" === typeof value || "symbol" === typeof value || isNaN(value) ? domElement.removeAttribute(key) : (checkAttributeStringCoercion(value, key), domElement.setAttribute(key, value));
+              null == value2 || "function" === typeof value2 || "symbol" === typeof value2 || isNaN(value2) ? domElement.removeAttribute(key) : (checkAttributeStringCoercion(value2, key), domElement.setAttribute(key, value2));
               break;
             case "popover":
               listenToNonDelegatedEvent("beforetoggle", domElement);
               listenToNonDelegatedEvent("toggle", domElement);
-              setValueForAttribute(domElement, "popover", value);
+              setValueForAttribute(domElement, "popover", value2);
               break;
             case "xlinkActuate":
               setValueForNamespacedAttribute(
                 domElement,
                 xlinkNamespace,
                 "xlink:actuate",
-                value
+                value2
               );
               break;
             case "xlinkArcrole":
@@ -15680,7 +15684,7 @@
                 domElement,
                 xlinkNamespace,
                 "xlink:arcrole",
-                value
+                value2
               );
               break;
             case "xlinkRole":
@@ -15688,7 +15692,7 @@
                 domElement,
                 xlinkNamespace,
                 "xlink:role",
-                value
+                value2
               );
               break;
             case "xlinkShow":
@@ -15696,7 +15700,7 @@
                 domElement,
                 xlinkNamespace,
                 "xlink:show",
-                value
+                value2
               );
               break;
             case "xlinkTitle":
@@ -15704,7 +15708,7 @@
                 domElement,
                 xlinkNamespace,
                 "xlink:title",
-                value
+                value2
               );
               break;
             case "xlinkType":
@@ -15712,7 +15716,7 @@
                 domElement,
                 xlinkNamespace,
                 "xlink:type",
-                value
+                value2
               );
               break;
             case "xmlBase":
@@ -15720,7 +15724,7 @@
                 domElement,
                 xmlNamespace,
                 "xml:base",
-                value
+                value2
               );
               break;
             case "xmlLang":
@@ -15728,7 +15732,7 @@
                 domElement,
                 xmlNamespace,
                 "xml:lang",
-                value
+                value2
               );
               break;
             case "xmlSpace":
@@ -15736,39 +15740,39 @@
                 domElement,
                 xmlNamespace,
                 "xml:space",
-                value
+                value2
               );
               break;
             case "is":
               null != prevValue && console.error(
                 'Cannot update the "is" prop after it has been initialized.'
               );
-              setValueForAttribute(domElement, "is", value);
+              setValueForAttribute(domElement, "is", value2);
               break;
             case "innerText":
             case "textContent":
               break;
             case "popoverTarget":
-              didWarnPopoverTargetObject || null == value || "object" !== typeof value || (didWarnPopoverTargetObject = true, console.error(
+              didWarnPopoverTargetObject || null == value2 || "object" !== typeof value2 || (didWarnPopoverTargetObject = true, console.error(
                 "The `popoverTarget` prop expects the ID of an Element as a string. Received %s instead.",
-                value
+                value2
               ));
             default:
-              !(2 < key.length) || "o" !== key[0] && "O" !== key[0] || "n" !== key[1] && "N" !== key[1] ? (key = getAttributeAlias(key), setValueForAttribute(domElement, key, value)) : registrationNameDependencies.hasOwnProperty(key) && null != value && "function" !== typeof value && warnForInvalidEventListener(key, value);
+              !(2 < key.length) || "o" !== key[0] && "O" !== key[0] || "n" !== key[1] && "N" !== key[1] ? (key = getAttributeAlias(key), setValueForAttribute(domElement, key, value2)) : registrationNameDependencies.hasOwnProperty(key) && null != value2 && "function" !== typeof value2 && warnForInvalidEventListener(key, value2);
           }
         }
-        function setPropOnCustomElement(domElement, tag, key, value, props, prevValue) {
+        function setPropOnCustomElement(domElement, tag, key, value2, props, prevValue) {
           switch (key) {
             case "style":
-              setValueForStyles(domElement, value, prevValue);
+              setValueForStyles(domElement, value2, prevValue);
               break;
             case "dangerouslySetInnerHTML":
-              if (null != value) {
-                if ("object" !== typeof value || !("__html" in value))
+              if (null != value2) {
+                if ("object" !== typeof value2 || !("__html" in value2))
                   throw Error(
                     "`props.dangerouslySetInnerHTML` must be in the form `{__html: ...}`. Please visit https://react.dev/link/dangerously-set-inner-html for more information."
                   );
-                key = value.__html;
+                key = value2.__html;
                 if (null != key) {
                   if (null != props.children)
                     throw Error(
@@ -15779,16 +15783,16 @@
               }
               break;
             case "children":
-              "string" === typeof value ? setTextContent(domElement, value) : ("number" === typeof value || "bigint" === typeof value) && setTextContent(domElement, "" + value);
+              "string" === typeof value2 ? setTextContent(domElement, value2) : ("number" === typeof value2 || "bigint" === typeof value2) && setTextContent(domElement, "" + value2);
               break;
             case "onScroll":
-              null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), listenToNonDelegatedEvent("scroll", domElement));
+              null != value2 && ("function" !== typeof value2 && warnForInvalidEventListener(key, value2), listenToNonDelegatedEvent("scroll", domElement));
               break;
             case "onScrollEnd":
-              null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), listenToNonDelegatedEvent("scrollend", domElement));
+              null != value2 && ("function" !== typeof value2 && warnForInvalidEventListener(key, value2), listenToNonDelegatedEvent("scrollend", domElement));
               break;
             case "onClick":
-              null != value && ("function" !== typeof value && warnForInvalidEventListener(key, value), domElement.onclick = noop$1);
+              null != value2 && ("function" !== typeof value2 && warnForInvalidEventListener(key, value2), domElement.onclick = noop$1);
               break;
             case "suppressContentEditableWarning":
             case "suppressHydrationWarning":
@@ -15800,15 +15804,15 @@
               break;
             default:
               if (registrationNameDependencies.hasOwnProperty(key))
-                null != value && "function" !== typeof value && warnForInvalidEventListener(key, value);
+                null != value2 && "function" !== typeof value2 && warnForInvalidEventListener(key, value2);
               else
                 a: {
-                  if ("o" === key[0] && "n" === key[1] && (props = key.endsWith("Capture"), tag = key.slice(2, props ? key.length - 7 : void 0), prevValue = domElement[internalPropsKey] || null, prevValue = null != prevValue ? prevValue[key] : null, "function" === typeof prevValue && domElement.removeEventListener(tag, prevValue, props), "function" === typeof value)) {
+                  if ("o" === key[0] && "n" === key[1] && (props = key.endsWith("Capture"), tag = key.slice(2, props ? key.length - 7 : void 0), prevValue = domElement[internalPropsKey] || null, prevValue = null != prevValue ? prevValue[key] : null, "function" === typeof prevValue && domElement.removeEventListener(tag, prevValue, props), "function" === typeof value2)) {
                     "function" !== typeof prevValue && null !== prevValue && (key in domElement ? domElement[key] = null : domElement.hasAttribute(key) && domElement.removeAttribute(key));
-                    domElement.addEventListener(tag, value, props);
+                    domElement.addEventListener(tag, value2, props);
                     break a;
                   }
-                  key in domElement ? domElement[key] = value : true === value ? domElement.setAttribute(key, "") : setValueForAttribute(domElement, key, value);
+                  key in domElement ? domElement[key] = value2 : true === value2 ? domElement.setAttribute(key, "") : setValueForAttribute(domElement, key, value2);
                 }
           }
         }
@@ -16058,7 +16062,7 @@
             case "li":
               break;
             case "input":
-              var name = null, type = null, value = null, defaultValue = null, lastDefaultValue = null, checked = null, defaultChecked = null;
+              var name = null, type = null, value2 = null, defaultValue = null, lastDefaultValue = null, checked = null, defaultChecked = null;
               for (propKey in lastProps) {
                 var lastProp = lastProps[propKey];
                 if (lastProps.hasOwnProperty(propKey) && null != lastProp)
@@ -16098,7 +16102,7 @@
                       defaultChecked = propKey;
                       break;
                     case "value":
-                      value = propKey;
+                      value2 = propKey;
                       break;
                     case "defaultValue":
                       defaultValue = propKey;
@@ -16131,7 +16135,7 @@
               ), didWarnControlledToUncontrolled = true);
               updateInput(
                 domElement,
-                value,
+                value2,
                 defaultValue,
                 lastDefaultValue,
                 checked,
@@ -16141,7 +16145,7 @@
               );
               return;
             case "select":
-              propKey = value = defaultValue = _propKey8 = null;
+              propKey = value2 = defaultValue = _propKey8 = null;
               for (type in lastProps)
                 if (lastDefaultValue = lastProps[type], lastProps.hasOwnProperty(type) && null != lastDefaultValue)
                   switch (type) {
@@ -16169,7 +16173,7 @@
                       defaultValue = type;
                       break;
                     case "multiple":
-                      value = type;
+                      value2 = type;
                     default:
                       type !== lastDefaultValue && setProp(
                         domElement,
@@ -16181,7 +16185,7 @@
                       );
                   }
               nextProps = defaultValue;
-              tag = value;
+              tag = value2;
               lastProps = propKey;
               null != _propKey8 ? updateOptions(domElement, !!tag, _propKey8, false) : !!lastProps !== !!tag && (null != nextProps ? updateOptions(domElement, !!tag, nextProps, true) : updateOptions(domElement, !!tag, tag ? [] : "", false));
               return;
@@ -16197,9 +16201,9 @@
                     default:
                       setProp(domElement, tag, defaultValue, null, nextProps, name);
                   }
-              for (value in nextProps)
-                if (name = nextProps[value], type = lastProps[value], nextProps.hasOwnProperty(value) && (null != name || null != type))
-                  switch (value) {
+              for (value2 in nextProps)
+                if (name = nextProps[value2], type = lastProps[value2], nextProps.hasOwnProperty(value2) && (null != name || null != type))
+                  switch (value2) {
                     case "value":
                       _propKey8 = name;
                       break;
@@ -16215,7 +16219,7 @@
                         );
                       break;
                     default:
-                      name !== type && setProp(domElement, tag, value, name, nextProps, type);
+                      name !== type && setProp(domElement, tag, value2, name, nextProps, type);
                   }
               updateTextarea(domElement, _propKey8, propKey);
               return;
@@ -16355,125 +16359,125 @@
             var delimiter = clientValue = "", styleName;
             for (styleName in value$jscomp$0)
               if (value$jscomp$0.hasOwnProperty(styleName)) {
-                var value = value$jscomp$0[styleName];
-                null != value && "boolean" !== typeof value && "" !== value && (0 === styleName.indexOf("--") ? (checkCSSPropertyStringCoercion(value, styleName), clientValue += delimiter + styleName + ":" + ("" + value).trim()) : "number" !== typeof value || 0 === value || unitlessNumbers.has(styleName) ? (checkCSSPropertyStringCoercion(value, styleName), clientValue += delimiter + styleName.replace(uppercasePattern, "-$1").toLowerCase().replace(msPattern$1, "-ms-") + ":" + ("" + value).trim()) : clientValue += delimiter + styleName.replace(uppercasePattern, "-$1").toLowerCase().replace(msPattern$1, "-ms-") + ":" + value + "px", delimiter = ";");
+                var value2 = value$jscomp$0[styleName];
+                null != value2 && "boolean" !== typeof value2 && "" !== value2 && (0 === styleName.indexOf("--") ? (checkCSSPropertyStringCoercion(value2, styleName), clientValue += delimiter + styleName + ":" + ("" + value2).trim()) : "number" !== typeof value2 || 0 === value2 || unitlessNumbers.has(styleName) ? (checkCSSPropertyStringCoercion(value2, styleName), clientValue += delimiter + styleName.replace(uppercasePattern, "-$1").toLowerCase().replace(msPattern$1, "-ms-") + ":" + ("" + value2).trim()) : clientValue += delimiter + styleName.replace(uppercasePattern, "-$1").toLowerCase().replace(msPattern$1, "-ms-") + ":" + value2 + "px", delimiter = ";");
               }
             clientValue = clientValue || null;
             value$jscomp$0 = domElement.getAttribute("style");
             value$jscomp$0 !== clientValue && (clientValue = normalizeMarkupForTextOrAttribute(clientValue), normalizeMarkupForTextOrAttribute(value$jscomp$0) !== clientValue && (serverDifferences.style = getStylesObjectFromElement(domElement)));
           }
         }
-        function hydrateAttribute(domElement, propKey, attributeName, value, extraAttributes, serverDifferences) {
+        function hydrateAttribute(domElement, propKey, attributeName, value2, extraAttributes, serverDifferences) {
           extraAttributes.delete(attributeName);
           domElement = domElement.getAttribute(attributeName);
           if (null === domElement)
-            switch (typeof value) {
+            switch (typeof value2) {
               case "undefined":
               case "function":
               case "symbol":
               case "boolean":
                 return;
             }
-          else if (null != value)
-            switch (typeof value) {
+          else if (null != value2)
+            switch (typeof value2) {
               case "function":
               case "symbol":
               case "boolean":
                 break;
               default:
-                if (checkAttributeStringCoercion(value, propKey), domElement === "" + value)
+                if (checkAttributeStringCoercion(value2, propKey), domElement === "" + value2)
                   return;
             }
-          warnForPropDifference(propKey, domElement, value, serverDifferences);
+          warnForPropDifference(propKey, domElement, value2, serverDifferences);
         }
-        function hydrateBooleanAttribute(domElement, propKey, attributeName, value, extraAttributes, serverDifferences) {
+        function hydrateBooleanAttribute(domElement, propKey, attributeName, value2, extraAttributes, serverDifferences) {
           extraAttributes.delete(attributeName);
           domElement = domElement.getAttribute(attributeName);
           if (null === domElement) {
-            switch (typeof value) {
+            switch (typeof value2) {
               case "function":
               case "symbol":
                 return;
             }
-            if (!value) return;
+            if (!value2) return;
           } else
-            switch (typeof value) {
+            switch (typeof value2) {
               case "function":
               case "symbol":
                 break;
               default:
-                if (value) return;
+                if (value2) return;
             }
-          warnForPropDifference(propKey, domElement, value, serverDifferences);
+          warnForPropDifference(propKey, domElement, value2, serverDifferences);
         }
-        function hydrateBooleanishAttribute(domElement, propKey, attributeName, value, extraAttributes, serverDifferences) {
+        function hydrateBooleanishAttribute(domElement, propKey, attributeName, value2, extraAttributes, serverDifferences) {
           extraAttributes.delete(attributeName);
           domElement = domElement.getAttribute(attributeName);
           if (null === domElement)
-            switch (typeof value) {
+            switch (typeof value2) {
               case "undefined":
               case "function":
               case "symbol":
                 return;
             }
-          else if (null != value)
-            switch (typeof value) {
+          else if (null != value2)
+            switch (typeof value2) {
               case "function":
               case "symbol":
                 break;
               default:
-                if (checkAttributeStringCoercion(value, attributeName), domElement === "" + value)
+                if (checkAttributeStringCoercion(value2, attributeName), domElement === "" + value2)
                   return;
             }
-          warnForPropDifference(propKey, domElement, value, serverDifferences);
+          warnForPropDifference(propKey, domElement, value2, serverDifferences);
         }
-        function hydrateNumericAttribute(domElement, propKey, attributeName, value, extraAttributes, serverDifferences) {
+        function hydrateNumericAttribute(domElement, propKey, attributeName, value2, extraAttributes, serverDifferences) {
           extraAttributes.delete(attributeName);
           domElement = domElement.getAttribute(attributeName);
           if (null === domElement)
-            switch (typeof value) {
+            switch (typeof value2) {
               case "undefined":
               case "function":
               case "symbol":
               case "boolean":
                 return;
               default:
-                if (isNaN(value)) return;
+                if (isNaN(value2)) return;
             }
-          else if (null != value)
-            switch (typeof value) {
+          else if (null != value2)
+            switch (typeof value2) {
               case "function":
               case "symbol":
               case "boolean":
                 break;
               default:
-                if (!isNaN(value) && (checkAttributeStringCoercion(value, propKey), domElement === "" + value))
+                if (!isNaN(value2) && (checkAttributeStringCoercion(value2, propKey), domElement === "" + value2))
                   return;
             }
-          warnForPropDifference(propKey, domElement, value, serverDifferences);
+          warnForPropDifference(propKey, domElement, value2, serverDifferences);
         }
-        function hydrateSanitizedAttribute(domElement, propKey, attributeName, value, extraAttributes, serverDifferences) {
+        function hydrateSanitizedAttribute(domElement, propKey, attributeName, value2, extraAttributes, serverDifferences) {
           extraAttributes.delete(attributeName);
           domElement = domElement.getAttribute(attributeName);
           if (null === domElement)
-            switch (typeof value) {
+            switch (typeof value2) {
               case "undefined":
               case "function":
               case "symbol":
               case "boolean":
                 return;
             }
-          else if (null != value)
-            switch (typeof value) {
+          else if (null != value2)
+            switch (typeof value2) {
               case "function":
               case "symbol":
               case "boolean":
                 break;
               default:
-                if (checkAttributeStringCoercion(value, propKey), attributeName = sanitizeURL("" + value), domElement === attributeName)
+                if (checkAttributeStringCoercion(value2, propKey), attributeName = sanitizeURL("" + value2), domElement === attributeName)
                   return;
             }
-          warnForPropDifference(propKey, domElement, value, serverDifferences);
+          warnForPropDifference(propKey, domElement, value2, serverDifferences);
         }
         function diffHydratedProperties(domElement, tag, props, hostContext) {
           for (var serverDifferences = {}, extraAttributes = /* @__PURE__ */ new Set(), attributes = domElement.attributes, i = 0; i < attributes.length; i++)
@@ -16490,17 +16494,17 @@
           if (isCustomElement(tag))
             for (var propKey in props) {
               if (props.hasOwnProperty(propKey)) {
-                var value = props[propKey];
-                if (null != value) {
+                var value2 = props[propKey];
+                if (null != value2) {
                   if (registrationNameDependencies.hasOwnProperty(propKey))
-                    "function" !== typeof value && warnForInvalidEventListener(propKey, value);
+                    "function" !== typeof value2 && warnForInvalidEventListener(propKey, value2);
                   else if (true !== props.suppressHydrationWarning)
                     switch (propKey) {
                       case "children":
-                        "string" !== typeof value && "number" !== typeof value || warnForPropDifference(
+                        "string" !== typeof value2 && "number" !== typeof value2 || warnForPropDifference(
                           "children",
                           domElement.textContent,
-                          value,
+                          value2,
                           serverDifferences
                         );
                         continue;
@@ -16513,17 +16517,17 @@
                         continue;
                       case "dangerouslySetInnerHTML":
                         attributes = domElement.innerHTML;
-                        value = value ? value.__html : void 0;
-                        null != value && (value = normalizeHTML(domElement, value), warnForPropDifference(
+                        value2 = value2 ? value2.__html : void 0;
+                        null != value2 && (value2 = normalizeHTML(domElement, value2), warnForPropDifference(
                           propKey,
                           attributes,
-                          value,
+                          value2,
                           serverDifferences
                         ));
                         continue;
                       case "style":
                         extraAttributes.delete(propKey);
-                        diffHydratedStyles(domElement, value, serverDifferences);
+                        diffHydratedStyles(domElement, value2, serverDifferences);
                         continue;
                       case "offsetParent":
                       case "offsetTop":
@@ -16544,12 +16548,12 @@
                         attributes = getValueForAttributeOnCustomComponent(
                           domElement,
                           "class",
-                          value
+                          value2
                         );
                         warnForPropDifference(
                           "className",
                           attributes,
-                          value,
+                          value2,
                           serverDifferences
                         );
                         continue;
@@ -16557,11 +16561,11 @@
                         hostContext.context === HostContextNamespaceNone && "svg" !== tag && "math" !== tag ? extraAttributes.delete(propKey.toLowerCase()) : extraAttributes.delete(propKey), attributes = getValueForAttributeOnCustomComponent(
                           domElement,
                           propKey,
-                          value
+                          value2
                         ), warnForPropDifference(
                           propKey,
                           attributes,
-                          value,
+                          value2,
                           serverDifferences
                         );
                     }
@@ -16569,12 +16573,12 @@
               }
             }
           else
-            for (value in props)
-              if (props.hasOwnProperty(value) && (propKey = props[value], null != propKey)) {
-                if (registrationNameDependencies.hasOwnProperty(value))
-                  "function" !== typeof propKey && warnForInvalidEventListener(value, propKey);
+            for (value2 in props)
+              if (props.hasOwnProperty(value2) && (propKey = props[value2], null != propKey)) {
+                if (registrationNameDependencies.hasOwnProperty(value2))
+                  "function" !== typeof propKey && warnForInvalidEventListener(value2, propKey);
                 else if (true !== props.suppressHydrationWarning)
-                  switch (value) {
+                  switch (value2) {
                     case "children":
                       "string" !== typeof propKey && "number" !== typeof propKey || warnForPropDifference(
                         "children",
@@ -16596,12 +16600,12 @@
                     case "dangerouslySetInnerHTML":
                       attributes = domElement.innerHTML;
                       propKey = propKey ? propKey.__html : void 0;
-                      null != propKey && (propKey = normalizeHTML(domElement, propKey), attributes !== propKey && (serverDifferences[value] = { __html: attributes }));
+                      null != propKey && (propKey = normalizeHTML(domElement, propKey), attributes !== propKey && (serverDifferences[value2] = { __html: attributes }));
                       continue;
                     case "className":
                       hydrateAttribute(
                         domElement,
-                        value,
+                        value2,
                         "class",
                         propKey,
                         extraAttributes,
@@ -16611,7 +16615,7 @@
                     case "tabIndex":
                       hydrateAttribute(
                         domElement,
-                        value,
+                        value2,
                         "tabindex",
                         propKey,
                         extraAttributes,
@@ -16619,22 +16623,22 @@
                       );
                       continue;
                     case "style":
-                      extraAttributes.delete(value);
+                      extraAttributes.delete(value2);
                       diffHydratedStyles(domElement, propKey, serverDifferences);
                       continue;
                     case "multiple":
-                      extraAttributes.delete(value);
+                      extraAttributes.delete(value2);
                       warnForPropDifference(
-                        value,
+                        value2,
                         domElement.multiple,
                         propKey,
                         serverDifferences
                       );
                       continue;
                     case "muted":
-                      extraAttributes.delete(value);
+                      extraAttributes.delete(value2);
                       warnForPropDifference(
-                        value,
+                        value2,
                         domElement.muted,
                         propKey,
                         serverDifferences
@@ -16643,7 +16647,7 @@
                     case "autoFocus":
                       extraAttributes.delete("autofocus");
                       warnForPropDifference(
-                        value,
+                        value2,
                         domElement.autofocus,
                         propKey,
                         serverDifferences
@@ -16651,10 +16655,10 @@
                       continue;
                     case "data":
                       if ("object" !== tag) {
-                        extraAttributes.delete(value);
+                        extraAttributes.delete(value2);
                         attributes = domElement.getAttribute("data");
                         warnForPropDifference(
-                          value,
+                          value2,
                           attributes,
                           propKey,
                           serverDifferences
@@ -16663,22 +16667,22 @@
                       }
                     case "src":
                     case "href":
-                      if (!("" !== propKey || "a" === tag && "href" === value || "object" === tag && "data" === value)) {
-                        "src" === value ? console.error(
+                      if (!("" !== propKey || "a" === tag && "href" === value2 || "object" === tag && "data" === value2)) {
+                        "src" === value2 ? console.error(
                           'An empty string ("") was passed to the %s attribute. This may cause the browser to download the whole page again over the network. To fix this, either do not render the element at all or pass null to %s instead of an empty string.',
-                          value,
-                          value
+                          value2,
+                          value2
                         ) : console.error(
                           'An empty string ("") was passed to the %s attribute. To fix this, either do not render the element at all or pass null to %s instead of an empty string.',
-                          value,
-                          value
+                          value2,
+                          value2
                         );
                         continue;
                       }
                       hydrateSanitizedAttribute(
                         domElement,
-                        value,
-                        value,
+                        value2,
+                        value2,
                         propKey,
                         extraAttributes,
                         serverDifferences
@@ -16686,15 +16690,15 @@
                       continue;
                     case "action":
                     case "formAction":
-                      attributes = domElement.getAttribute(value);
+                      attributes = domElement.getAttribute(value2);
                       if ("function" === typeof propKey) {
-                        extraAttributes.delete(value.toLowerCase());
-                        "formAction" === value ? (extraAttributes.delete("name"), extraAttributes.delete("formenctype"), extraAttributes.delete("formmethod"), extraAttributes.delete("formtarget")) : (extraAttributes.delete("enctype"), extraAttributes.delete("method"), extraAttributes.delete("target"));
+                        extraAttributes.delete(value2.toLowerCase());
+                        "formAction" === value2 ? (extraAttributes.delete("name"), extraAttributes.delete("formenctype"), extraAttributes.delete("formmethod"), extraAttributes.delete("formtarget")) : (extraAttributes.delete("enctype"), extraAttributes.delete("method"), extraAttributes.delete("target"));
                         continue;
                       } else if (attributes === EXPECTED_FORM_ACTION_URL) {
-                        extraAttributes.delete(value.toLowerCase());
+                        extraAttributes.delete(value2.toLowerCase());
                         warnForPropDifference(
-                          value,
+                          value2,
                           "function",
                           propKey,
                           serverDifferences
@@ -16703,8 +16707,8 @@
                       }
                       hydrateSanitizedAttribute(
                         domElement,
-                        value,
-                        value.toLowerCase(),
+                        value2,
+                        value2.toLowerCase(),
                         propKey,
                         extraAttributes,
                         serverDifferences
@@ -16713,7 +16717,7 @@
                     case "xlinkHref":
                       hydrateSanitizedAttribute(
                         domElement,
-                        value,
+                        value2,
                         "xlink:href",
                         propKey,
                         extraAttributes,
@@ -16723,7 +16727,7 @@
                     case "contentEditable":
                       hydrateBooleanishAttribute(
                         domElement,
-                        value,
+                        value2,
                         "contenteditable",
                         propKey,
                         extraAttributes,
@@ -16733,7 +16737,7 @@
                     case "spellCheck":
                       hydrateBooleanishAttribute(
                         domElement,
-                        value,
+                        value2,
                         "spellcheck",
                         propKey,
                         extraAttributes,
@@ -16747,8 +16751,8 @@
                     case "preserveAlpha":
                       hydrateBooleanishAttribute(
                         domElement,
-                        value,
-                        value,
+                        value2,
+                        value2,
                         propKey,
                         extraAttributes,
                         serverDifferences
@@ -16778,8 +16782,8 @@
                     case "itemScope":
                       hydrateBooleanAttribute(
                         domElement,
-                        value,
-                        value.toLowerCase(),
+                        value2,
+                        value2.toLowerCase(),
                         propKey,
                         extraAttributes,
                         serverDifferences
@@ -16789,7 +16793,7 @@
                     case "download":
                       a: {
                         i = domElement;
-                        var attributeName = attributes = value, serverDifferences$jscomp$0 = serverDifferences;
+                        var attributeName = attributes = value2, serverDifferences$jscomp$0 = serverDifferences;
                         extraAttributes.delete(attributeName);
                         i = i.getAttribute(attributeName);
                         if (null === i)
@@ -16827,7 +16831,7 @@
                     case "span":
                       a: {
                         i = domElement;
-                        attributeName = attributes = value;
+                        attributeName = attributes = value2;
                         serverDifferences$jscomp$0 = serverDifferences;
                         extraAttributes.delete(attributeName);
                         i = i.getAttribute(attributeName);
@@ -16862,7 +16866,7 @@
                     case "rowSpan":
                       hydrateNumericAttribute(
                         domElement,
-                        value,
+                        value2,
                         "rowspan",
                         propKey,
                         extraAttributes,
@@ -16872,8 +16876,8 @@
                     case "start":
                       hydrateNumericAttribute(
                         domElement,
-                        value,
-                        value,
+                        value2,
+                        value2,
                         propKey,
                         extraAttributes,
                         serverDifferences
@@ -16882,7 +16886,7 @@
                     case "xHeight":
                       hydrateAttribute(
                         domElement,
-                        value,
+                        value2,
                         "x-height",
                         propKey,
                         extraAttributes,
@@ -16892,7 +16896,7 @@
                     case "xlinkActuate":
                       hydrateAttribute(
                         domElement,
-                        value,
+                        value2,
                         "xlink:actuate",
                         propKey,
                         extraAttributes,
@@ -16902,7 +16906,7 @@
                     case "xlinkArcrole":
                       hydrateAttribute(
                         domElement,
-                        value,
+                        value2,
                         "xlink:arcrole",
                         propKey,
                         extraAttributes,
@@ -16912,7 +16916,7 @@
                     case "xlinkRole":
                       hydrateAttribute(
                         domElement,
-                        value,
+                        value2,
                         "xlink:role",
                         propKey,
                         extraAttributes,
@@ -16922,7 +16926,7 @@
                     case "xlinkShow":
                       hydrateAttribute(
                         domElement,
-                        value,
+                        value2,
                         "xlink:show",
                         propKey,
                         extraAttributes,
@@ -16932,7 +16936,7 @@
                     case "xlinkTitle":
                       hydrateAttribute(
                         domElement,
-                        value,
+                        value2,
                         "xlink:title",
                         propKey,
                         extraAttributes,
@@ -16942,7 +16946,7 @@
                     case "xlinkType":
                       hydrateAttribute(
                         domElement,
-                        value,
+                        value2,
                         "xlink:type",
                         propKey,
                         extraAttributes,
@@ -16952,7 +16956,7 @@
                     case "xmlBase":
                       hydrateAttribute(
                         domElement,
-                        value,
+                        value2,
                         "xml:base",
                         propKey,
                         extraAttributes,
@@ -16962,7 +16966,7 @@
                     case "xmlLang":
                       hydrateAttribute(
                         domElement,
-                        value,
+                        value2,
                         "xml:lang",
                         propKey,
                         extraAttributes,
@@ -16972,7 +16976,7 @@
                     case "xmlSpace":
                       hydrateAttribute(
                         domElement,
-                        value,
+                        value2,
                         "xml:space",
                         propKey,
                         extraAttributes,
@@ -16980,26 +16984,26 @@
                       );
                       continue;
                     case "inert":
-                      "" !== propKey || didWarnForNewBooleanPropsWithEmptyValue[value] || (didWarnForNewBooleanPropsWithEmptyValue[value] = true, console.error(
+                      "" !== propKey || didWarnForNewBooleanPropsWithEmptyValue[value2] || (didWarnForNewBooleanPropsWithEmptyValue[value2] = true, console.error(
                         "Received an empty string for a boolean attribute `%s`. This will treat the attribute as if it were false. Either pass `false` to silence this warning, or pass `true` if you used an empty string in earlier versions of React to indicate this attribute is true.",
-                        value
+                        value2
                       ));
                       hydrateBooleanAttribute(
                         domElement,
-                        value,
-                        value,
+                        value2,
+                        value2,
                         propKey,
                         extraAttributes,
                         serverDifferences
                       );
                       continue;
                     default:
-                      if (!(2 < value.length) || "o" !== value[0] && "O" !== value[0] || "n" !== value[1] && "N" !== value[1]) {
-                        i = getAttributeAlias(value);
+                      if (!(2 < value2.length) || "o" !== value2[0] && "O" !== value2[0] || "n" !== value2[1] && "N" !== value2[1]) {
+                        i = getAttributeAlias(value2);
                         attributes = false;
-                        hostContext.context === HostContextNamespaceNone && "svg" !== tag && "math" !== tag ? extraAttributes.delete(i.toLowerCase()) : (attributeName = value.toLowerCase(), attributeName = possibleStandardNames.hasOwnProperty(
+                        hostContext.context === HostContextNamespaceNone && "svg" !== tag && "math" !== tag ? extraAttributes.delete(i.toLowerCase()) : (attributeName = value2.toLowerCase(), attributeName = possibleStandardNames.hasOwnProperty(
                           attributeName
-                        ) ? possibleStandardNames[attributeName] || null : null, null !== attributeName && attributeName !== value && (attributes = true, extraAttributes.delete(attributeName)), extraAttributes.delete(i));
+                        ) ? possibleStandardNames[attributeName] || null : null, null !== attributeName && attributeName !== value2 && (attributes = true, extraAttributes.delete(attributeName)), extraAttributes.delete(i));
                         a: if (attributeName = domElement, serverDifferences$jscomp$0 = i, i = propKey, isAttributeNameSafe(serverDifferences$jscomp$0))
                           if (attributeName.hasAttribute(serverDifferences$jscomp$0))
                             attributeName = attributeName.getAttribute(
@@ -17021,7 +17025,7 @@
                           }
                         else i = void 0;
                         attributes || warnForPropDifference(
-                          value,
+                          value2,
                           i,
                           propKey,
                           serverDifferences
@@ -17690,24 +17694,24 @@
         }
         function getHydratableHoistableCache(type, keyAttribute, ownerDocument) {
           if (null === tagCaches) {
-            var cache = /* @__PURE__ */ new Map();
+            var cache2 = /* @__PURE__ */ new Map();
             var caches = tagCaches = /* @__PURE__ */ new Map();
-            caches.set(ownerDocument, cache);
+            caches.set(ownerDocument, cache2);
           } else
-            caches = tagCaches, cache = caches.get(ownerDocument), cache || (cache = /* @__PURE__ */ new Map(), caches.set(ownerDocument, cache));
-          if (cache.has(type)) return cache;
-          cache.set(type, null);
+            caches = tagCaches, cache2 = caches.get(ownerDocument), cache2 || (cache2 = /* @__PURE__ */ new Map(), caches.set(ownerDocument, cache2));
+          if (cache2.has(type)) return cache2;
+          cache2.set(type, null);
           ownerDocument = ownerDocument.getElementsByTagName(type);
           for (caches = 0; caches < ownerDocument.length; caches++) {
             var node = ownerDocument[caches];
             if (!(node[internalHoistableMarker] || node[internalInstanceKey] || "link" === type && "stylesheet" === node.getAttribute("rel")) && node.namespaceURI !== SVG_NAMESPACE) {
               var nodeKey = node.getAttribute(keyAttribute) || "";
               nodeKey = type + nodeKey;
-              var existing = cache.get(nodeKey);
-              existing ? existing.push(node) : cache.set(nodeKey, [node]);
+              var existing = cache2.get(nodeKey);
+              existing ? existing.push(node) : cache2.set(nodeKey, [node]);
             }
           }
-          return cache;
+          return cache2;
         }
         function mountHoistable(hoistableRoot, type, instance) {
           hoistableRoot = hoistableRoot.ownerDocument || hoistableRoot;
@@ -20004,10 +20008,10 @@
             currentHookNameInDev = "useDebugValue";
             mountHookTypesDev();
           },
-          useDeferredValue: function(value, initialValue) {
+          useDeferredValue: function(value2, initialValue) {
             currentHookNameInDev = "useDeferredValue";
             mountHookTypesDev();
-            return mountDeferredValue(value, initialValue);
+            return mountDeferredValue(value2, initialValue);
           },
           useTransition: function() {
             currentHookNameInDev = "useTransition";
@@ -20134,10 +20138,10 @@
             currentHookNameInDev = "useDebugValue";
             updateHookTypesDev();
           },
-          useDeferredValue: function(value, initialValue) {
+          useDeferredValue: function(value2, initialValue) {
             currentHookNameInDev = "useDeferredValue";
             updateHookTypesDev();
-            return mountDeferredValue(value, initialValue);
+            return mountDeferredValue(value2, initialValue);
           },
           useTransition: function() {
             currentHookNameInDev = "useTransition";
@@ -20264,10 +20268,10 @@
             currentHookNameInDev = "useDebugValue";
             updateHookTypesDev();
           },
-          useDeferredValue: function(value, initialValue) {
+          useDeferredValue: function(value2, initialValue) {
             currentHookNameInDev = "useDeferredValue";
             updateHookTypesDev();
-            return updateDeferredValue(value, initialValue);
+            return updateDeferredValue(value2, initialValue);
           },
           useTransition: function() {
             currentHookNameInDev = "useTransition";
@@ -20394,10 +20398,10 @@
             currentHookNameInDev = "useDebugValue";
             updateHookTypesDev();
           },
-          useDeferredValue: function(value, initialValue) {
+          useDeferredValue: function(value2, initialValue) {
             currentHookNameInDev = "useDeferredValue";
             updateHookTypesDev();
-            return rerenderDeferredValue(value, initialValue);
+            return rerenderDeferredValue(value2, initialValue);
           },
           useTransition: function() {
             currentHookNameInDev = "useTransition";
@@ -20539,11 +20543,11 @@
             warnInvalidHookAccess();
             mountHookTypesDev();
           },
-          useDeferredValue: function(value, initialValue) {
+          useDeferredValue: function(value2, initialValue) {
             currentHookNameInDev = "useDeferredValue";
             warnInvalidHookAccess();
             mountHookTypesDev();
-            return mountDeferredValue(value, initialValue);
+            return mountDeferredValue(value2, initialValue);
           },
           useTransition: function() {
             currentHookNameInDev = "useTransition";
@@ -20694,11 +20698,11 @@
             warnInvalidHookAccess();
             updateHookTypesDev();
           },
-          useDeferredValue: function(value, initialValue) {
+          useDeferredValue: function(value2, initialValue) {
             currentHookNameInDev = "useDeferredValue";
             warnInvalidHookAccess();
             updateHookTypesDev();
-            return updateDeferredValue(value, initialValue);
+            return updateDeferredValue(value2, initialValue);
           },
           useTransition: function() {
             currentHookNameInDev = "useTransition";
@@ -20849,11 +20853,11 @@
             warnInvalidHookAccess();
             updateHookTypesDev();
           },
-          useDeferredValue: function(value, initialValue) {
+          useDeferredValue: function(value2, initialValue) {
             currentHookNameInDev = "useDeferredValue";
             warnInvalidHookAccess();
             updateHookTypesDev();
-            return rerenderDeferredValue(value, initialValue);
+            return rerenderDeferredValue(value2, initialValue);
           },
           useTransition: function() {
             currentHookNameInDev = "useTransition";
@@ -20969,8 +20973,8 @@
         didWarnAboutUndefinedSnapshotBeforeUpdate = /* @__PURE__ */ new Set();
         var offscreenSubtreeIsHidden = false, offscreenSubtreeWasHidden = false, needsFormReset = false, PossiblyWeakSet = "function" === typeof WeakSet ? WeakSet : Set, nextEffect = null, inProgressLanes = null, inProgressRoot = null, hostParent = null, hostParentIsContainer = false, currentHoistableRoot = null, inHydratedSubtree = false, suspenseyCommitFlag = 8192, DefaultAsyncDispatcher = {
           getCacheForType: function(resourceType) {
-            var cache = readContext(CacheContext), cacheForType = cache.data.get(resourceType);
-            void 0 === cacheForType && (cacheForType = resourceType(), cache.data.set(resourceType, cacheForType));
+            var cache2 = readContext(CacheContext), cacheForType = cache2.data.get(resourceType);
+            void 0 === cacheForType && (cacheForType = resourceType(), cache2.data.set(resourceType, cacheForType));
             return cacheForType;
           },
           cacheSignal: function() {
@@ -21220,9 +21224,9 @@
         }, badgeFormat = "%c%s%c", badgeStyle = "background: #e6e6e6;background: light-dark(rgba(0,0,0,0.1), rgba(255,255,255,0.25));color: #000000;color: light-dark(#000000, #ffffff);border-radius: 2px", resetStyle = "", pad = " ", bind = Function.prototype.bind;
         var didWarnAboutNestedUpdates = false;
         var overrideHookState = null, overrideHookStateDeletePath = null, overrideHookStateRenamePath = null, overrideProps = null, overridePropsDeletePath = null, overridePropsRenamePath = null, scheduleUpdate = null, scheduleRetry = null, setErrorHandler = null, setSuspenseHandler = null;
-        overrideHookState = function(fiber, id, path, value) {
+        overrideHookState = function(fiber, id, path, value2) {
           id = findHook(fiber, id);
-          null !== id && (path = copyWithSetImpl(id.memoizedState, path, 0, value), id.memoizedState = path, id.baseState = path, fiber.memoizedProps = assign({}, fiber.memoizedProps), path = enqueueConcurrentRenderForLane(fiber, 2), null !== path && scheduleUpdateOnFiber(path, fiber, 2));
+          null !== id && (path = copyWithSetImpl(id.memoizedState, path, 0, value2), id.memoizedState = path, id.baseState = path, fiber.memoizedProps = assign({}, fiber.memoizedProps), path = enqueueConcurrentRenderForLane(fiber, 2), null !== path && scheduleUpdateOnFiber(path, fiber, 2));
         };
         overrideHookStateDeletePath = function(fiber, id, path) {
           id = findHook(fiber, id);
@@ -21232,8 +21236,8 @@
           id = findHook(fiber, id);
           null !== id && (oldPath = copyWithRename(id.memoizedState, oldPath, newPath), id.memoizedState = oldPath, id.baseState = oldPath, fiber.memoizedProps = assign({}, fiber.memoizedProps), oldPath = enqueueConcurrentRenderForLane(fiber, 2), null !== oldPath && scheduleUpdateOnFiber(oldPath, fiber, 2));
         };
-        overrideProps = function(fiber, path, value) {
-          fiber.pendingProps = copyWithSetImpl(fiber.memoizedProps, path, 0, value);
+        overrideProps = function(fiber, path, value2) {
+          fiber.pendingProps = copyWithSetImpl(fiber.memoizedProps, path, 0, value2);
           fiber.alternate && (fiber.alternate.pendingProps = fiber.pendingProps);
           path = enqueueConcurrentRenderForLane(fiber, 2);
           null !== path && scheduleUpdateOnFiber(path, fiber, 2);
@@ -21361,9 +21365,9 @@
           internals.getCurrentFiber = getCurrentFiberForDevTools;
           return injectInternals(internals);
         })() && canUseDOM && window.top === window.self && (-1 < navigator.userAgent.indexOf("Chrome") && -1 === navigator.userAgent.indexOf("Edge") || -1 < navigator.userAgent.indexOf("Firefox"))) {
-          var protocol = window.location.protocol;
-          /^(https?|file):$/.test(protocol) && console.info(
-            "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools" + ("file:" === protocol ? "\nYou might need to use a local HTTP server (instead of file://): https://react.dev/link/react-devtools-faq" : ""),
+          var protocol4 = window.location.protocol;
+          /^(https?|file):$/.test(protocol4) && console.info(
+            "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools" + ("file:" === protocol4 ? "\nYou might need to use a local HTTP server (instead of file://): https://react.dev/link/react-devtools-faq" : ""),
             "font-weight:bold"
           );
         }
@@ -21504,12 +21508,12 @@
             }
           return null;
         }
-        function testStringCoercion(value) {
-          return "" + value;
+        function testStringCoercion(value2) {
+          return "" + value2;
         }
-        function checkKeyStringCoercion(value) {
+        function checkKeyStringCoercion(value2) {
           try {
-            testStringCoercion(value);
+            testStringCoercion(value2);
             var JSCompiler_inline_result = false;
           } catch (e) {
             JSCompiler_inline_result = true;
@@ -21517,13 +21521,13 @@
           if (JSCompiler_inline_result) {
             JSCompiler_inline_result = console;
             var JSCompiler_temp_const = JSCompiler_inline_result.error;
-            var JSCompiler_inline_result$jscomp$0 = "function" === typeof Symbol && Symbol.toStringTag && value[Symbol.toStringTag] || value.constructor.name || "Object";
+            var JSCompiler_inline_result$jscomp$0 = "function" === typeof Symbol && Symbol.toStringTag && value2[Symbol.toStringTag] || value2.constructor.name || "Object";
             JSCompiler_temp_const.call(
               JSCompiler_inline_result,
               "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
               JSCompiler_inline_result$jscomp$0
             );
-            return testStringCoercion(value);
+            return testStringCoercion(value2);
           }
         }
         function getTaskName(type) {
@@ -21723,11 +21727,11 @@
   });
 
   // src/entry.jsx
-  var import_react10 = __toESM(require_react(), 1);
+  var import_react31 = __toESM(require_react(), 1);
   var import_client = __toESM(require_client(), 1);
 
   // src/App.jsx
-  var import_react9 = __toESM(require_react(), 1);
+  var import_react30 = __toESM(require_react(), 1);
 
   // node_modules/react-router/dist/development/chunk-BV7QT456.mjs
   var React = __toESM(require_react(), 1);
@@ -21744,8 +21748,8 @@
   var import_meta = {};
   var ABSOLUTE_URL_REGEX = /^(?:[a-z][a-z0-9+.-]*:|[\\/]{2})/i;
   var PROTOCOL_RELATIVE_URL_REGEX = /^[\\/]{2}/;
-  function normalizeProtocolRelativeUrl(url, protocol) {
-    return protocol + url.replace(/\\/g, "/");
+  function normalizeProtocolRelativeUrl(url2, protocol4) {
+    return protocol4 + url2.replace(/\\/g, "/");
   }
   var PopStateEventType = "popstate";
   function isLocation(obj) {
@@ -21778,8 +21782,8 @@
       options
     );
   }
-  function invariant(value, message) {
-    if (value === false || value === null || typeof value === "undefined") {
+  function invariant(value2, message) {
+    if (value2 === false || value2 === null || typeof value2 === "undefined") {
       throw new Error(message);
     }
   }
@@ -21795,20 +21799,20 @@
   function createKey() {
     return Math.random().toString(36).substring(2, 10);
   }
-  function getHistoryState(location, index) {
+  function getHistoryState(location2, index) {
     return {
-      usr: location.state,
-      key: location.key,
+      usr: location2.state,
+      key: location2.key,
       idx: index,
-      masked: location.mask ? {
-        pathname: location.pathname,
-        search: location.search,
-        hash: location.hash
+      masked: location2.mask ? {
+        pathname: location2.pathname,
+        search: location2.search,
+        hash: location2.hash
       } : void 0
     };
   }
   function createLocation(current, to, state = null, key, mask) {
-    let location = {
+    let location2 = {
       pathname: typeof current === "string" ? current : current.pathname,
       search: "",
       hash: "",
@@ -21821,7 +21825,7 @@
       key: to && to.key || key || createKey(),
       mask
     };
-    return location;
+    return location2;
   }
   function createPath({
     pathname = "/",
@@ -21878,18 +21882,18 @@
     }
     function push(to, state) {
       action = "PUSH";
-      let location = isLocation(to) ? to : createLocation(history.location, to, state);
-      if (validateLocation) validateLocation(location, to);
+      let location2 = isLocation(to) ? to : createLocation(history.location, to, state);
+      if (validateLocation) validateLocation(location2, to);
       index = getIndex() + 1;
-      let historyState = getHistoryState(location, index);
-      let url = history.createHref(location.mask || location);
+      let historyState = getHistoryState(location2, index);
+      let url2 = history.createHref(location2.mask || location2);
       try {
-        globalHistory.pushState(historyState, "", url);
+        globalHistory.pushState(historyState, "", url2);
       } catch (error) {
         if (error instanceof DOMException && error.name === "DataCloneError") {
           throw error;
         }
-        window2.location.assign(url);
+        window2.location.assign(url2);
       }
       if (v5Compat && listener) {
         listener({ action, location: history.location, delta: 1 });
@@ -21897,12 +21901,12 @@
     }
     function replace2(to, state) {
       action = "REPLACE";
-      let location = isLocation(to) ? to : createLocation(history.location, to, state);
-      if (validateLocation) validateLocation(location, to);
+      let location2 = isLocation(to) ? to : createLocation(history.location, to, state);
+      if (validateLocation) validateLocation(location2, to);
       index = getIndex();
-      let historyState = getHistoryState(location, index);
-      let url = history.createHref(location.mask || location);
-      globalHistory.replaceState(historyState, "", url);
+      let historyState = getHistoryState(location2, index);
+      let url2 = history.createHref(location2.mask || location2);
+      globalHistory.replaceState(historyState, "", url2);
       if (v5Compat && listener) {
         listener({ action, location: history.location, delta: 0 });
       }
@@ -21933,11 +21937,11 @@
       },
       createURL,
       encodeLocation(to) {
-        let url = createURL(to);
+        let url2 = createURL(to);
         return {
-          pathname: url.pathname,
-          search: url.search,
-          hash: url.hash
+          pathname: url2.pathname,
+          search: url2.search,
+          hash: url2.hash
         };
       },
       push,
@@ -21967,8 +21971,8 @@
     return matchRoutesImpl(routes, locationArg, basename, false);
   }
   function matchRoutesImpl(routes, locationArg, basename, allowPartial, precomputedBranches) {
-    let location = typeof locationArg === "string" ? parsePath(locationArg) : locationArg;
-    let pathname = stripBasename(location.pathname || "/", basename);
+    let location2 = typeof locationArg === "string" ? parsePath(locationArg) : locationArg;
+    let pathname = stripBasename(location2.pathname || "/", basename);
     if (pathname == null) {
       return null;
     }
@@ -22211,11 +22215,11 @@
             1
           );
         }
-        const value = captureGroups[index];
-        if (isOptional && !value) {
+        const value2 = captureGroups[index];
+        if (isOptional && !value2) {
           memo2[paramName] = void 0;
         } else {
-          memo2[paramName] = (value || "").replace(/%2F/g, "/");
+          memo2[paramName] = (value2 || "").replace(/%2F/g, "/");
         }
         return memo2;
       },
@@ -22260,15 +22264,15 @@
     let matcher = new RegExp(regexpSource, caseSensitive ? void 0 : "i");
     return [matcher, params];
   }
-  function decodePath(value) {
+  function decodePath(value2) {
     try {
-      return value.split("/").map((v) => decodeURIComponent(v).replace(/\//g, "%2F")).join("/");
+      return value2.split("/").map((v) => decodeURIComponent(v).replace(/\//g, "%2F")).join("/");
     } catch (error) {
       warning(
         false,
-        `The URL path "${value}" could not be decoded because it is a malformed URL segment. This is probably due to a bad percent encoding (${error}).`
+        `The URL path "${value2}" could not be decoded because it is a malformed URL segment. This is probably due to a bad percent encoding (${error}).`
       );
-      return value;
+      return value2;
     }
   }
   function stripBasename(pathname, basename) {
@@ -22407,8 +22411,8 @@
     return error != null && typeof error.status === "number" && typeof error.statusText === "string" && typeof error.internal === "boolean" && "data" in error;
   }
   function getRoutePattern(matches) {
-    let parts = matches.map((m) => m.route.path).filter(Boolean);
-    return joinPaths(parts) || "/";
+    let parts2 = matches.map((m) => m.route.path).filter(Boolean);
+    return joinPaths(parts2) || "/";
   }
   var isBrowser = typeof window !== "undefined" && typeof window.document !== "undefined" && typeof window.document.createElement !== "undefined";
   function parseToInfo(_to, basename) {
@@ -22464,11 +22468,11 @@
     if (destination.startsWith("//")) {
       return true;
     }
-    let protocol = target.protocol.toLowerCase();
-    if (!destination.toLowerCase().startsWith(protocol)) {
+    let protocol4 = target.protocol.toLowerCase();
+    if (!destination.toLowerCase().startsWith(protocol4)) {
       return false;
     }
-    return target.host === "" || destination.slice(protocol.length).startsWith("//");
+    return target.host === "" || destination.slice(protocol4.length).startsWith("//");
   }
   function validateNavigationTarget(original, resolved, currentUrl, externalPolicy) {
     let originalUrl = null;
@@ -22524,9 +22528,9 @@
     // eslint-disable-next-line no-script-url
     "javascript:"
   ];
-  function hasInvalidProtocol(location) {
+  function hasInvalidProtocol(location2) {
     try {
-      return invalidProtocols.includes(new URL(location).protocol);
+      return invalidProtocols.includes(new URL(location2).protocol);
     } catch {
       return false;
     }
@@ -22691,6 +22695,13 @@
     return navigate;
   }
   var OutletContext = React2.createContext(null);
+  function useOutlet(context) {
+    let outlet = React2.useContext(RouteContext).outlet;
+    return React2.useMemo(
+      () => outlet && /* @__PURE__ */ React2.createElement(OutletContext.Provider, { value: context }, outlet),
+      [outlet, context]
+    );
+  }
   function useParams() {
     let { matches } = React2.useContext(RouteContext);
     let routeMatch = matches[matches.length - 1];
@@ -22738,18 +22749,18 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       );
     }
     let locationFromContext = useLocation();
-    let location;
+    let location2;
     if (locationArg) {
       let parsedLocationArg = typeof locationArg === "string" ? parsePath(locationArg) : locationArg;
       invariant(
         parentPathnameBase === "/" || parsedLocationArg.pathname?.startsWith(parentPathnameBase),
         `When overriding the location using \`<Routes location>\` or \`useRoutes(routes, location)\`, the location pathname must begin with the portion of the URL pathname that was matched by all parent routes. The current pathname base is "${parentPathnameBase}" but pathname "${parsedLocationArg.pathname}" was given in the \`location\` prop.`
       );
-      location = parsedLocationArg;
+      location2 = parsedLocationArg;
     } else {
-      location = locationFromContext;
+      location2 = locationFromContext;
     }
-    let pathname = location.pathname || "/";
+    let pathname = location2.pathname || "/";
     let remainingPathname = pathname;
     if (parentPathnameBase !== "/") {
       let parentSegments = parentPathnameBase.replace(/^\//, "").split("/");
@@ -22768,11 +22779,11 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     if (ENABLE_DEV_WARNINGS) {
       warning(
         parentRoute || matches != null,
-        `No routes matched location "${location.pathname}${location.search}${location.hash}" `
+        `No routes matched location "${location2.pathname}${location2.search}${location2.hash}" `
       );
       warning(
         matches == null || matches[matches.length - 1].route.element !== void 0 || matches[matches.length - 1].route.Component !== void 0 || matches[matches.length - 1].route.lazy !== void 0,
-        `Matched leaf route at location "${location.pathname}${location.search}${location.hash}" does not have an element or Component. This means it will render an <Outlet /> with a null value by default resulting in an "empty" page.`
+        `Matched leaf route at location "${location2.pathname}${location2.search}${location2.hash}" does not have an element or Component. This means it will render an <Outlet /> with a null value by default resulting in an "empty" page.`
       );
     }
     let renderedMatches = _renderMatches(
@@ -22816,7 +22827,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
               state: null,
               key: "default",
               mask: void 0,
-              ...location
+              ...location2
             },
             navigationType: "POP"
             /* Pop */
@@ -23240,6 +23251,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     }, [navigate, jsonPath, relative, replace2, state]);
     return null;
   }
+  function Outlet(props) {
+    return useOutlet(props.context);
+  }
   function Route(props) {
     invariant(
       false,
@@ -23309,9 +23323,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
   function Routes({
     children,
-    location
+    location: location2
   }) {
-    return useRoutes(createRoutesFromChildren(children), location);
+    return useRoutes(createRoutesFromChildren(children), location2);
   }
   function createRoutesFromChildren(children, parentPath = []) {
     let routes = [];
@@ -23386,6 +23400,29 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     (!target || target === "_self") && // Let browser handle "target=_blank" etc.
     !isModifiedEvent(event);
   }
+  function createSearchParams(init = "") {
+    return new URLSearchParams(
+      typeof init === "string" || Array.isArray(init) || init instanceof URLSearchParams ? init : Object.keys(init).reduce((memo2, key) => {
+        let value2 = init[key];
+        return memo2.concat(
+          Array.isArray(value2) ? value2.map((v) => [key, v]) : [[key, value2]]
+        );
+      }, [])
+    );
+  }
+  function getSearchParamsForLocation(locationSearch, defaultSearchParams) {
+    let searchParams = createSearchParams(locationSearch);
+    if (defaultSearchParams) {
+      defaultSearchParams.forEach((_, key) => {
+        if (!searchParams.has(key)) {
+          defaultSearchParams.getAll(key).forEach((value2) => {
+            searchParams.append(key, value2);
+          });
+        }
+      });
+    }
+    return searchParams;
+  }
   var _formDataSupportsSubmitter = null;
   function isFormDataSubmitterSupported() {
     if (_formDataSupportsSubmitter === null) {
@@ -23442,13 +23479,13 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       encType = getFormEncType(target.getAttribute("formenctype")) || getFormEncType(form.getAttribute("enctype")) || defaultEncType;
       formData = new FormData(form, target);
       if (!isFormDataSubmitterSupported()) {
-        let { name, type, value } = target;
+        let { name, type, value: value2 } = target;
         if (type === "image") {
           let prefix = name ? `${name}.` : "";
           formData.append(`${prefix}x`, "0");
           formData.append(`${prefix}y`, "0");
         } else if (name) {
-          formData.append(name, value);
+          formData.append(name, value2);
         }
       }
     } else if (isHtmlElement(target)) {
@@ -23479,34 +23516,34 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   function escapeHtml(html) {
     return html.replace(ESCAPE_REGEX, (match) => ESCAPE_LOOKUP[match]);
   }
-  function invariant2(value, message) {
-    if (value === false || value === null || typeof value === "undefined") {
+  function invariant2(value2, message) {
+    if (value2 === false || value2 === null || typeof value2 === "undefined") {
       throw new Error(message);
     }
   }
   function singleFetchUrl(reqUrl, basename, trailingSlashAware, extension) {
-    let url = typeof reqUrl === "string" ? new URL(
+    let url2 = typeof reqUrl === "string" ? new URL(
       reqUrl,
       // This can be called during the SSR flow via PrefetchPageLinksImpl so
       // don't assume window is available
       typeof window === "undefined" ? "server://singlefetch/" : window.location.origin
     ) : reqUrl;
     if (trailingSlashAware) {
-      if (url.pathname.endsWith("/")) {
-        url.pathname = `${url.pathname}_.${extension}`;
+      if (url2.pathname.endsWith("/")) {
+        url2.pathname = `${url2.pathname}_.${extension}`;
       } else {
-        url.pathname = `${url.pathname}.${extension}`;
+        url2.pathname = `${url2.pathname}.${extension}`;
       }
     } else {
-      if (url.pathname === "/") {
-        url.pathname = `_root.${extension}`;
-      } else if (basename && stripBasename(url.pathname, basename) === "/") {
-        url.pathname = `${removeTrailingSlash(basename)}/_root.${extension}`;
+      if (url2.pathname === "/") {
+        url2.pathname = `_root.${extension}`;
+      } else if (basename && stripBasename(url2.pathname, basename) === "/") {
+        url2.pathname = `${removeTrailingSlash(basename)}/_root.${extension}`;
       } else {
-        url.pathname = `${removeTrailingSlash(url.pathname)}.${extension}`;
+        url2.pathname = `${removeTrailingSlash(url2.pathname)}.${extension}`;
       }
     }
-    return url;
+    return url2;
   }
   async function loadRouteModule(route, routeModulesCache) {
     if (route.id in routeModulesCache) {
@@ -23563,7 +23600,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       )
     );
   }
-  function getNewMatchesForLinks(page, nextMatches, currentMatches, manifest, location, mode) {
+  function getNewMatchesForLinks(page, nextMatches, currentMatches, manifest, location2, mode) {
     let isNew = (match, index) => {
       if (!currentMatches[index]) return true;
       return match.route.id !== currentMatches[index].route.id;
@@ -23593,7 +23630,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         if (match.route.shouldRevalidate) {
           let routeChoice = match.route.shouldRevalidate({
             currentUrl: new URL(
-              location.pathname + location.search + location.hash,
+              location2.pathname + location2.search + location2.hash,
               window.origin
             ),
             currentParams: currentMatches[0]?.params || {},
@@ -23793,14 +23830,14 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     matches: nextMatches,
     ...linkProps
   }) {
-    let location = useLocation();
+    let location2 = useLocation();
     let { future } = useFrameworkContext();
     let { basename } = useDataRouterContext2();
     let dataHrefs = React8.useMemo(() => {
-      if (page === location.pathname + location.search + location.hash) {
+      if (page === location2.pathname + location2.search + location2.hash) {
         return [];
       }
-      let url = singleFetchUrl(
+      let url2 = singleFetchUrl(
         page,
         basename,
         future.v8_trailingSlashAwareDataRequests,
@@ -23816,14 +23853,14 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         }
       }
       if (hasSomeRoutesWithShouldRevalidate && targetRoutes.length > 0) {
-        url.searchParams.set("_routes", targetRoutes.join(","));
+        url2.searchParams.set("_routes", targetRoutes.join(","));
       }
-      return [url.pathname + url.search];
+      return [url2.pathname + url2.search];
     }, [
       basename,
       future.v8_trailingSlashAwareDataRequests,
       page,
-      location,
+      location2,
       nextMatches
     ]);
     return /* @__PURE__ */ React8.createElement(React8.Fragment, null, dataHrefs.map((href) => /* @__PURE__ */ React8.createElement("link", { key: href, rel: "prefetch", as: "fetch", href, ...linkProps })));
@@ -23833,7 +23870,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     matches: nextMatches,
     ...linkProps
   }) {
-    let location = useLocation();
+    let location2 = useLocation();
     let { future, manifest, routeModules } = useFrameworkContext();
     let { basename } = useDataRouterContext2();
     let { loaderData, matches } = useDataRouterStateContext();
@@ -23843,10 +23880,10 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         nextMatches,
         matches,
         manifest,
-        location,
+        location2,
         "data"
       ),
-      [page, nextMatches, matches, manifest, location]
+      [page, nextMatches, matches, manifest, location2]
     );
     let newMatchesForAssets = React8.useMemo(
       () => getNewMatchesForLinks(
@@ -23854,13 +23891,13 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         nextMatches,
         matches,
         manifest,
-        location,
+        location2,
         "assets"
       ),
-      [page, nextMatches, matches, manifest, location]
+      [page, nextMatches, matches, manifest, location2]
     );
     let dataHrefs = React8.useMemo(() => {
-      if (page === location.pathname + location.search + location.hash) {
+      if (page === location2.pathname + location2.search + location2.hash) {
         return [];
       }
       let routesParams = /* @__PURE__ */ new Set();
@@ -23881,24 +23918,24 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       if (routesParams.size === 0) {
         return [];
       }
-      let url = singleFetchUrl(
+      let url2 = singleFetchUrl(
         page,
         basename,
         future.v8_trailingSlashAwareDataRequests,
         "data"
       );
       if (foundOptOutRoute && routesParams.size > 0) {
-        url.searchParams.set(
+        url2.searchParams.set(
           "_routes",
           nextMatches.filter((m) => routesParams.has(m.route.id)).map((m) => m.route.id).join(",")
         );
       }
-      return [url.pathname + url.search];
+      return [url2.pathname + url2.search];
     }, [
       basename,
       future.v8_trailingSlashAwareDataRequests,
       loaderData,
-      location,
+      location2,
       manifest,
       newMatchesForData,
       nextMatches,
@@ -23925,12 +23962,12 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     )));
   }
   function mergeRefs(...refs) {
-    return (value) => {
+    return (value2) => {
       refs.forEach((ref) => {
         if (typeof ref === "function") {
-          ref(value);
+          ref(value2);
         } else if (ref != null) {
-          ref.current = value;
+          ref.current = value2;
         }
       });
     };
@@ -24037,13 +24074,13 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       let parsed = parseToInfo(to, basename);
       to = parsed.to;
       let href = useHref(to, { relative });
-      let location = useLocation();
+      let location2 = useLocation();
       let maskedHref = null;
       if (mask) {
         let resolved = resolveTo(
           mask,
           [],
-          location.mask ? location.mask.pathname : "/",
+          location2.mask ? location2.mask.pathname : "/",
           true
         );
         if (basename !== "/") {
@@ -24105,14 +24142,14 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       ...rest
     }, ref) {
       let path = useResolvedPath(to, { relative: rest.relative });
-      let location = useLocation();
+      let location2 = useLocation();
       let routerState = React10.useContext(DataRouterStateContext);
       let { navigator: navigator2, basename } = React10.useContext(NavigationContext);
       let isTransitioning = routerState != null && // Conditional usage is OK here because the usage of a data router is static
       // eslint-disable-next-line react-hooks/rules-of-hooks
       useViewTransitionState(path) && viewTransition === true;
       let toPathname = navigator2.encodeLocation ? navigator2.encodeLocation(path).pathname : path.pathname;
-      let locationPathname = location.pathname;
+      let locationPathname = location2.pathname;
       let nextLocationPathname = routerState && routerState.navigation && routerState.navigation.location ? routerState.navigation.location.pathname : null;
       if (!caseSensitive) {
         locationPathname = locationPathname.toLowerCase();
@@ -24225,19 +24262,19 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }) {
     let remixContext = React10.useContext(FrameworkContext);
     let { basename } = React10.useContext(NavigationContext);
-    let location = useLocation();
+    let location2 = useLocation();
     let matches = useMatches();
     useScrollRestoration({ getKey, storageKey });
     let ssrKey = React10.useMemo(
       () => {
         if (!remixContext || !getKey) return null;
         let userKey = getScrollRestorationKey(
-          location,
+          location2,
           matches,
           basename,
           getKey
         );
-        return userKey !== location.key ? userKey : null;
+        return userKey !== location2.key ? userKey : null;
       },
       // Nah, we only need this the first time for the SSR render
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -24304,13 +24341,13 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     useTransitions
   } = {}) {
     let navigate = useNavigate();
-    let location = useLocation();
+    let location2 = useLocation();
     let path = useResolvedPath(to, { relative });
     return React10.useCallback(
       (event) => {
         if (shouldProcessLinkClick(event, target)) {
           event.preventDefault();
-          let replace2 = replaceProp !== void 0 ? replaceProp : createPath(location) === createPath(path);
+          let replace2 = replaceProp !== void 0 ? replaceProp : createPath(location2) === createPath(path);
           let doNavigate = () => navigate(to, {
             replace: replace2,
             mask,
@@ -24328,7 +24365,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         }
       },
       [
-        location,
+        location2,
         navigate,
         path,
         replaceProp,
@@ -24343,6 +24380,39 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         useTransitions
       ]
     );
+  }
+  function useSearchParams(defaultInit) {
+    warning(
+      typeof URLSearchParams !== "undefined",
+      `You cannot use the \`useSearchParams\` hook in a browser that does not support the URLSearchParams API. If you need to support Internet Explorer 11, we recommend you load a polyfill such as https://github.com/ungap/url-search-params.`
+    );
+    let defaultSearchParamsRef = React10.useRef(createSearchParams(defaultInit));
+    let hasSetSearchParamsRef = React10.useRef(false);
+    let location2 = useLocation();
+    let searchParams = React10.useMemo(
+      () => (
+        // Only merge in the defaults if we haven't yet called setSearchParams.
+        // Once we call that we want those to take precedence, otherwise you can't
+        // remove a param with setSearchParams({}) if it has an initial value
+        getSearchParamsForLocation(
+          location2.search,
+          hasSetSearchParamsRef.current ? null : defaultSearchParamsRef.current
+        )
+      ),
+      [location2.search]
+    );
+    let navigate = useNavigate();
+    let setSearchParams = React10.useCallback(
+      (nextInit, navigateOptions) => {
+        const newSearchParams = createSearchParams(
+          typeof nextInit === "function" ? nextInit(new URLSearchParams(searchParams)) : nextInit
+        );
+        hasSetSearchParamsRef.current = true;
+        navigate("?" + newSearchParams, navigateOptions);
+      },
+      [navigate, searchParams]
+    );
+    return [searchParams, setSearchParams];
   }
   var fetcherId = 0;
   var getUniqueFetcherId = () => `__${String(++fetcherId)}__`;
@@ -24397,9 +24467,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     invariant(routeContext, "useFormAction must be used inside a RouteContext");
     let [match] = routeContext.matches.slice(-1);
     let path = { ...useResolvedPath(action ? action : ".", { relative }) };
-    let location = useLocation();
+    let location2 = useLocation();
     if (action == null) {
-      path.search = location.search;
+      path.search = location2.search;
       let params = new URLSearchParams(path.search);
       let indexValues = params.getAll("index");
       let hasNakedIndexParam = indexValues.some((v) => v === "");
@@ -24420,23 +24490,23 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
   var SCROLL_RESTORATION_STORAGE_KEY = "react-router-scroll-positions";
   var savedScrollPositions = {};
-  function getScrollRestorationKey(location, matches, basename, getKey) {
+  function getScrollRestorationKey(location2, matches, basename, getKey) {
     let key = null;
     if (getKey) {
       if (basename !== "/") {
         key = getKey(
           {
-            ...location,
-            pathname: stripBasename(location.pathname, basename) || location.pathname
+            ...location2,
+            pathname: stripBasename(location2.pathname, basename) || location2.pathname
           },
           matches
         );
       } else {
-        key = getKey(location, matches);
+        key = getKey(location2, matches);
       }
     }
     if (key == null) {
-      key = location.key;
+      key = location2.key;
     }
     return key;
   }
@@ -24453,7 +24523,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       /* UseScrollRestoration */
     );
     let { basename } = React10.useContext(NavigationContext);
-    let location = useLocation();
+    let location2 = useLocation();
     let matches = useMatches();
     let navigation2 = useNavigation();
     React10.useEffect(() => {
@@ -24465,7 +24535,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     usePageHide(
       React10.useCallback(() => {
         if (navigation2.state === "idle") {
-          let key = getScrollRestorationKey(location, matches, basename, getKey);
+          let key = getScrollRestorationKey(location2, matches, basename, getKey);
           savedScrollPositions[key] = window.scrollY;
         }
         try {
@@ -24480,7 +24550,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           );
         }
         window.history.scrollRestoration = "auto";
-      }, [navigation2.state, getKey, basename, location, matches, storageKey])
+      }, [navigation2.state, getKey, basename, location2, matches, storageKey])
     );
     if (typeof document !== "undefined") {
       React10.useLayoutEffect(() => {
@@ -24498,7 +24568,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         let disableScrollRestoration = router?.enableScrollRestoration(
           savedScrollPositions,
           () => window.scrollY,
-          getKey ? (location2, matches2) => getScrollRestorationKey(location2, matches2, basename, getKey) : void 0
+          getKey ? (location22, matches2) => getScrollRestorationKey(location22, matches2, basename, getKey) : void 0
         );
         return () => disableScrollRestoration && disableScrollRestoration();
       }, [router, basename, getKey]);
@@ -24511,9 +24581,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           return;
         }
         try {
-          if (location.hash) {
+          if (location2.hash) {
             let el = document.getElementById(
-              decodeURIComponent(location.hash.slice(1))
+              decodeURIComponent(location2.hash.slice(1))
             );
             if (el) {
               el.scrollIntoView();
@@ -24523,7 +24593,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         } catch {
           warning(
             false,
-            `"${location.hash.slice(
+            `"${location2.hash.slice(
               1
             )}" is not a decodable element ID. The view will not scroll to it.`
           );
@@ -24532,7 +24602,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           return;
         }
         window.scrollTo(0, 0);
-      }, [location, restoreScrollPosition, preventScrollReset]);
+      }, [location2, restoreScrollPosition, preventScrollReset]);
     }
   }
   function usePageHide(callback, options) {
@@ -24574,9 +24644,10 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   var TOKEN_KEY = "routebite_access_token";
   var REFRESH_TOKEN_KEY = "routebite_refresh_token";
   async function request(path, options = {}) {
-    const { method = "GET", body, token = localStorage.getItem(TOKEN_KEY), authorized = true, retried = false } = options;
-    const response = await fetch(`${API_BASE}${path}`, { method, headers: { ...body ? { "Content-Type": "application/json" } : {}, ...authorized && token ? { Authorization: `Bearer ${token}` } : {} }, body: body ? JSON.stringify(body) : void 0 });
-    const data2 = await response.json().catch(() => null);
+    const { method = "GET", body, token = localStorage.getItem(TOKEN_KEY), authorized = true, retried = false, responseType = "json" } = options;
+    const multipart = body instanceof FormData;
+    const response = await fetch(`${API_BASE}${path}`, { method, headers: { ...body && !multipart ? { "Content-Type": "application/json" } : {}, ...authorized && token ? { Authorization: `Bearer ${token}` } : {} }, body: body ? multipart ? body : JSON.stringify(body) : void 0 });
+    const data2 = response.ok && responseType === "blob" ? await response.blob() : await response.json().catch(() => null);
     if (response.status === 401 && authorized && !retried && path !== "/auth/refresh") {
       const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
       if (refreshToken) {
@@ -24585,6 +24656,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           localStorage.setItem(TOKEN_KEY, refresh.accessToken);
           if (refresh.refreshToken) localStorage.setItem(REFRESH_TOKEN_KEY, refresh.refreshToken);
           if (refresh.user) localStorage.setItem("routebite_user", JSON.stringify(refresh.user));
+          window.dispatchEvent(new Event("routebite:session-changed"));
           return request(path, { ...options, token: refresh.accessToken, retried: true });
         } catch {
           localStorage.removeItem(TOKEN_KEY);
@@ -24593,7 +24665,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         }
       }
     }
-    if (!response.ok) throw new Error(data2?.message || `Request failed (${response.status})`);
+    if (!response.ok) throw Object.assign(new Error(data2?.message || `Request failed (${response.status})`), { status: response.status });
     return data2;
   }
 
@@ -24635,7 +24707,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
 
   // src/components/RestaurantCard.jsx
   var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
-  var fallbackImage = "https://images.unsplash.com/photo-1515003197210-e0cd71810b5f?auto=format&fit=crop&w=900&q=80";
+  var fallbackImage = "/placeholder-food.svg";
   function RestaurantCard({ restaurant, rank, onOpen, onSave }) {
     const meters = Number(restaurant.distance_meters || 0);
     const distanceLabel = meters > 0 ? meters < 1e3 ? `${Math.round(meters)}m t\u1EDBi tuy\u1EBFn \u0111\u01B0\u1EDDng` : `${(meters / 1e3).toFixed(1)}km t\u1EDBi tuy\u1EBFn \u0111\u01B0\u1EDDng` : "\u0110i\u1EC3m d\u1EEBng ti\u1EC7n \u0111\u01B0\u1EDDng";
@@ -24643,7 +24715,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       if (event.key === "Enter") onOpen?.();
     }, children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "restaurant-search-image", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: restaurant.imageUrl || restaurant.image || fallbackImage, alt: restaurant.name }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: restaurant.imageUrl || restaurant.image || fallbackImage, alt: restaurant.name, onError: (event) => {
+          if (event.currentTarget.getAttribute("src") !== fallbackImage) event.currentTarget.src = fallbackImage;
+        } }),
         rank && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { className: "restaurant-rank", children: [
           "#",
           rank
@@ -24674,15 +24748,15 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   var import_react2 = __toESM(require_react(), 1);
   var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
   var NOMINATIM_SEARCH_URL = "https://nominatim.openstreetmap.org/search";
-  function LocationAutocomplete({ value, placeholder, onChange, onSelect, children }) {
+  function LocationAutocomplete({ value: value2, placeholder, onChange, onSelect, children }) {
     const [suggestions, setSuggestions] = (0, import_react2.useState)([]);
     const [loading, setLoading] = (0, import_react2.useState)(false);
     const [focused, setFocused] = (0, import_react2.useState)(false);
     const timer = (0, import_react2.useRef)(null);
     (0, import_react2.useEffect)(() => {
-      const text = value?.address?.trim() || "";
+      const text = value2?.address?.trim() || "";
       clearTimeout(timer.current);
-      if (!focused || text.length < 3 || Number.isFinite(value?.lat) && Number.isFinite(value?.lng)) {
+      if (!focused || text.length < 3 || Number.isFinite(value2?.lat) && Number.isFinite(value2?.lng)) {
         setSuggestions([]);
         setLoading(false);
         return void 0;
@@ -24706,19 +24780,48 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         clearTimeout(timer.current);
         controller.abort();
       };
-    }, [focused, value?.address, value?.lat, value?.lng]);
+    }, [focused, value2?.address, value2?.lat, value2?.lng]);
     function select(place) {
       onSelect({ address: place.display_name, lat: Number(place.lat), lng: Number(place.lon) });
       setSuggestions([]);
     }
     return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "location-autocomplete", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { value: value?.address || "", placeholder, autoComplete: "off", onFocus: () => setFocused(true), onBlur: () => window.setTimeout(() => setFocused(false), 160), onChange: (event) => onChange({ address: event.target.value, lat: null, lng: null }) }),
-      children ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "location-input-actions", children }) : null,
+      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "location-input-row", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { value: value2?.address || "", placeholder, autoComplete: "off", onFocus: () => setFocused(true), onBlur: () => window.setTimeout(() => setFocused(false), 160), onChange: (event) => onChange({ address: event.target.value, lat: null, lng: null }) }),
+        children ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "location-input-actions", children }) : null
+      ] }),
       focused && (loading || suggestions.length > 0) ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "location-suggestions", role: "listbox", children: loading ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u0110ang t\xECm \u0111\u1ECBa \u0111i\u1EC3m\u2026" }) : suggestions.map((place) => /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", role: "option", onMouseDown: (event) => event.preventDefault(), onClick: () => select(place), children: [
         /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u{1F4CD}" }),
         /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: place.display_name })
       ] }, place.place_id)) }) : null
     ] });
+  }
+
+  // src/utils/routeContext.ts
+  function validPoint(point) {
+    const value2 = point;
+    return !!value2 && Number.isFinite(value2.lat) && Number.isFinite(value2.lng) && Math.abs(value2.lat) <= 90 && Math.abs(value2.lng) <= 180;
+  }
+  function readRouteOrigin(params) {
+    const lat = params.get("fromLat");
+    const lng = params.get("fromLng");
+    if (!lat?.trim() || !lng?.trim()) return void 0;
+    const point = { lat: Number(lat), lng: Number(lng), address: params.get("fromAddress") || "\u0110i\u1EC3m xu\u1EA5t ph\xE1t" };
+    return validPoint(point) ? point : void 0;
+  }
+  function routeQuery(origin) {
+    return validPoint(origin) ? "?" + new URLSearchParams({
+      fromLat: String(origin.lat),
+      fromLng: String(origin.lng),
+      fromAddress: origin.address || "\u0110i\u1EC3m xu\u1EA5t ph\xE1t"
+    }).toString() : "";
+  }
+  function restaurantPoint(restaurant) {
+    const lat = restaurant?.latitude ?? restaurant?.location?.coordinates?.[1];
+    const lng = restaurant?.longitude ?? restaurant?.location?.coordinates?.[0];
+    if (lat == null || lng == null || lat === "" || lng === "") return void 0;
+    const point = { lat: Number(lat), lng: Number(lng), address: restaurant.address || "" };
+    return validPoint(point) ? point : void 0;
   }
 
   // src/Home.jsx
@@ -24737,6 +24840,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     const [startPoint, setStartPoint] = (0, import_react3.useState)(emptyPoint());
     const [endPoint, setEndPoint] = (0, import_react3.useState)(emptyPoint());
     const [restaurants, setRestaurants] = (0, import_react3.useState)([]);
+    const [resultOrigin, setResultOrigin] = (0, import_react3.useState)(void 0);
     const [searched, setSearched] = (0, import_react3.useState)(false);
     const [searching, setSearching] = (0, import_react3.useState)(false);
     const [message, setMessage] = (0, import_react3.useState)("");
@@ -24744,6 +24848,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     const [activeCategory, setActiveCategory] = (0, import_react3.useState)("");
     (0, import_react3.useEffect)(() => {
       const query = activeCategory ? `?category=${encodeURIComponent(activeCategory)}` : "";
+      setResultOrigin(void 0);
       request(`/restaurants${query}`, { authorized: false }).then((response) => setRestaurants(Array.isArray(response) ? response : response.data || [])).catch(() => setRestaurants([]));
     }, [activeCategory]);
     (0, import_react3.useEffect)(() => {
@@ -24775,6 +24880,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setEndPoint(pointB);
         const result = await request("/search/route", { method: "POST", authorized: false, body: { pointA: { latitude: pointA.lat, longitude: pointA.lng }, pointB: { latitude: pointB.lat, longitude: pointB.lng }, radius: 500 } });
         const eta = Number(result.route?.travelTimeMinutes);
+        setResultOrigin(pointA);
         if (Number.isFinite(eta) && eta > 0) localStorage.setItem("routebite_route_eta_minutes", String(eta));
         setRestaurants(result.restaurants || []);
         setMessage(`\u0110\xE3 t\xECm theo tuy\u1EBFn \u0111\u01B0\u1EDDng \xB7 th\u1EDDi gian di chuy\u1EC3n kho\u1EA3ng ${eta || "?"} ph\xFAt.`);
@@ -24797,13 +24903,13 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "route-field", children: [
             /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("label", { children: "\u0110i\u1EC3m \u0111i" }),
             /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(LocationAutocomplete, { value: startPoint, placeholder: "Nh\u1EADp \u0111i\u1EC3m xu\u1EA5t ph\xE1t", onChange: setStartPoint, onSelect: setStartPoint, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", onClick: () => setMapTarget("start"), children: "\u{1F4CD} Ch\u1ECDn tr\xEAn b\u1EA3n \u0111\u1ED3" }),
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { className: "location-action", type: "button", disabled: locating, onClick: useLocation2, children: locating ? "\u231B \u0110ang \u0111\u1ECBnh v\u1ECB\u2026" : "\u{1F3AF} D\xF9ng v\u1ECB tr\xED hi\u1EC7n t\u1EA1i" })
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", onClick: () => setMapTarget("start"), children: "Ch\u1ECDn tr\xEAn b\u1EA3n \u0111\u1ED3" }),
+              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { className: "location-action", type: "button", disabled: locating, onClick: useLocation2, children: locating ? "\u0110ang \u0111\u1ECBnh v\u1ECB\u2026" : "D\xF9ng v\u1ECB tr\xED hi\u1EC7n t\u1EA1i" })
             ] })
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "route-field", children: [
             /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("label", { children: "\u0110i\u1EC3m \u0111\u1EBFn" }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(LocationAutocomplete, { value: endPoint, placeholder: "Nh\u1EADp \u0111i\u1EC3m \u0111\u1EBFn", onChange: setEndPoint, onSelect: setEndPoint, children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", onClick: () => setMapTarget("end"), children: "\u{1F4CD} Ch\u1ECDn tr\xEAn b\u1EA3n \u0111\u1ED3" }) })
+            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(LocationAutocomplete, { value: endPoint, placeholder: "Nh\u1EADp \u0111i\u1EC3m \u0111\u1EBFn", onChange: setEndPoint, onSelect: setEndPoint, children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", onClick: () => setMapTarget("end"), children: "Ch\u1ECDn tr\xEAn b\u1EA3n \u0111\u1ED3" }) })
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { className: "route-submit", disabled: searching, children: searching ? "\u0110ang t\xECm\u2026" : "T\xECm g\u1EE3i \xFD" })
         ] })
@@ -24829,10 +24935,10 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           ] }),
           message && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: message })
         ] }),
-        searching ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "restaurant-result-grid", children: [1, 2, 3].map((item) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "restaurant-skeleton" }, item)) }) : restaurants.length ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "restaurant-result-grid", children: restaurants.map((restaurant, index) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(RestaurantCard, { restaurant, rank: searched ? index + 1 : void 0, onOpen: () => navigate(`/restaurant/${restaurant.id}`) }, restaurant.id)) }) : /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "route-empty", children: searched ? "Kh\xF4ng t\xECm th\u1EA5y qu\xE1n ph\xF9 h\u1EE3p trong ph\u1EA1m vi 500m quanh tuy\u1EBFn \u0111\u01B0\u1EDDng n\xE0y." : "Ch\u01B0a c\xF3 qu\xE1n c\xF4ng khai \u0111\u1EC3 hi\u1EC3n th\u1ECB." })
+        searching ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "restaurant-result-grid", children: [1, 2, 3].map((item) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "restaurant-skeleton" }, item)) }) : restaurants.length ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "restaurant-result-grid", children: restaurants.map((restaurant, index) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(RestaurantCard, { restaurant, rank: searched ? index + 1 : void 0, onOpen: () => navigate(`/restaurant/${restaurant.id}${routeQuery(resultOrigin)}`) }, restaurant.id)) }) : /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "route-empty", children: searched ? "Kh\xF4ng t\xECm th\u1EA5y qu\xE1n ph\xF9 h\u1EE3p trong ph\u1EA1m vi 500m quanh tuy\u1EBFn \u0111\u01B0\u1EDDng n\xE0y." : "Ch\u01B0a c\xF3 qu\xE1n c\xF4ng khai \u0111\u1EC3 hi\u1EC3n th\u1ECB." })
       ] }),
-      mapTarget && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(MapPicker, { initialCenter: mapTarget === "start" ? startPoint : endPoint, onClose: () => setMapTarget(null), onPick: (location) => {
-        (mapTarget === "start" ? setStartPoint : setEndPoint)(location);
+      mapTarget && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(MapPicker, { initialCenter: mapTarget === "start" ? startPoint : endPoint, onClose: () => setMapTarget(null), onPick: (location2) => {
+        (mapTarget === "start" ? setStartPoint : setEndPoint)(location2);
         setMapTarget(null);
       } })
     ] });
@@ -24850,18 +24956,18 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       const map = L.map(node.current).setView(center, 14);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "\xA9 OpenStreetMap contributors" }).addTo(map);
       map.on("click", async (event) => {
-        const location = { lat: event.latlng.lat, lng: event.latlng.lng };
-        setSelected(location);
+        const location2 = { lat: event.latlng.lat, lng: event.latlng.lng };
+        setSelected(location2);
         if (markerRef.current) markerRef.current.remove();
-        markerRef.current = L.marker([location.lat, location.lng]).addTo(map);
+        markerRef.current = L.marker([location2.lat, location2.lng]).addTo(map);
         setLoadingAddress(true);
         setAddress("");
         try {
-          const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&accept-language=vi&lat=${location.lat}&lon=${location.lng}`);
+          const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&accept-language=vi&lat=${location2.lat}&lon=${location2.lng}`);
           const data2 = await response.json();
-          setAddress(data2.display_name || `${location.lat.toFixed(5)}, ${location.lng.toFixed(5)}`);
+          setAddress(data2.display_name || `${location2.lat.toFixed(5)}, ${location2.lng.toFixed(5)}`);
         } catch {
-          setAddress(`${location.lat.toFixed(5)}, ${location.lng.toFixed(5)}`);
+          setAddress(`${location2.lat.toFixed(5)}, ${location2.lng.toFixed(5)}`);
         } finally {
           setLoadingAddress(false);
         }
@@ -24938,8 +25044,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       localStorage.removeItem(REFRESH_TOKEN_KEY2);
       setCurrentUser(null);
     }
-    const value = (0, import_react4.useMemo)(() => ({ currentUser, setCurrentUser, setSession, logout }), [currentUser]);
-    return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(AuthContext.Provider, { value, children });
+    const value2 = (0, import_react4.useMemo)(() => ({ currentUser, setCurrentUser, setSession, logout }), [currentUser]);
+    return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(AuthContext.Provider, { value: value2, children });
   }
   function useAuth() {
     const context = (0, import_react4.useContext)(AuthContext);
@@ -24952,6 +25058,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   function LoginPage() {
     const navigate = useNavigate();
     const { setSession } = useAuth();
+    const location2 = useLocation();
     const [email, setEmail] = (0, import_react5.useState)("");
     const [password, setPassword] = (0, import_react5.useState)("");
     const [showPassword, setShowPassword] = (0, import_react5.useState)(false);
@@ -24966,9 +25073,12 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setSession(data2);
         if (data2.user.role === "merchant") {
           const restaurants = await request("/restaurants/mine");
-          navigate(restaurants.length ? "/merchant" : "/merchant/onboarding");
+          navigate(restaurants.length ? "/merchant/dashboard" : "/merchant/onboarding");
         } else if (data2.user.role === "admin") navigate("/admin/overview");
-        else navigate("/");
+        else {
+          const application = await request("/merchant-applications/me").catch(() => null);
+          navigate(location2.state?.from === "/partner/register" || application ? "/partner/register" : "/");
+        }
       } catch (err) {
         setError(err.message || "\u0110\u0103ng nh\u1EADp th\u1EA5t b\u1EA1i, vui l\xF2ng th\u1EED l\u1EA1i.");
       } finally {
@@ -24991,7 +25101,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           "M\u1EADt kh\u1EA9u",
           /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "password-field", children: [
             /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("input", { type: showPassword ? "text" : "password", value: password, onChange: (e) => setPassword(e.target.value), placeholder: "Nh\u1EADp m\u1EADt kh\u1EA9u", required: true, autoComplete: "current-password" }),
-            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { type: "button", onClick: () => setShowPassword((value) => !value), children: showPassword ? "\u1EA8n" : "Hi\u1EC7n" })
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { type: "button", onClick: () => setShowPassword((value2) => !value2), children: showPassword ? "\u1EA8n" : "Hi\u1EC7n" })
           ] })
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { className: "auth-submit", disabled: busy, children: busy ? "\u0110ang \u0111\u0103ng nh\u1EADp\u2026" : "\u0110\u0103ng nh\u1EADp" })
@@ -24999,6 +25109,11 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("p", { className: "auth-switch", children: [
         "Ch\u01B0a c\xF3 t\xE0i kho\u1EA3n? ",
         /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Link, { to: "/register", children: "\u0110\u0103ng k\xFD ngay" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("p", { className: "auth-switch rb-partner-entry", children: [
+        "B\u1EA1n mu\u1ED1n b\xE1n h\xE0ng tr\xEAn RouteBite?",
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("br", {}),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Link, { to: "/partner/register", children: "\u0110\u0103ng k\xFD \u0111\u1ED1i t\xE1c Merchant" })
       ] })
     ] });
   }
@@ -25092,64 +25207,147 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("small", { children: "Ch\u1EE9c n\u0103ng ch\u1EC9nh s\u1EEDa th\xF4ng tin v\xE0 \u0111\u1ED5i m\u1EADt kh\u1EA9u s\u1EBD \u0111\u01B0\u1EE3c b\u1ED5 sung trong b\u1EA3n c\u1EADp nh\u1EADt ti\u1EBFp theo." })
     ] }) });
   }
-  function InfoRow({ label, value }) {
+  function InfoRow({ label, value: value2 }) {
     return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { children: [
       /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { children: label }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("strong", { children: value })
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("strong", { children: value2 })
     ] });
   }
 
   // src/components/AvatarDropdown.jsx
+  var import_react8 = __toESM(require_react(), 1);
+
+  // src/components/ChangePasswordModal.tsx
   var import_react7 = __toESM(require_react(), 1);
   var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+  function ChangePasswordModal({ onClose }) {
+    const dialog = (0, import_react7.useRef)(null);
+    const [oldPassword, setOldPassword] = (0, import_react7.useState)("");
+    const [newPassword, setNewPassword] = (0, import_react7.useState)("");
+    const [confirmPassword, setConfirmPassword] = (0, import_react7.useState)("");
+    const [error, setError] = (0, import_react7.useState)("");
+    const [success, setSuccess] = (0, import_react7.useState)(false);
+    const [loading, setLoading] = (0, import_react7.useState)(false);
+    (0, import_react7.useEffect)(() => {
+      dialog.current?.showModal();
+    }, []);
+    (0, import_react7.useEffect)(() => {
+      if (!success) return;
+      const timer = setTimeout(onClose, 1500);
+      return () => clearTimeout(timer);
+    }, [success, onClose]);
+    async function submit(event) {
+      event.preventDefault();
+      setError("");
+      if (newPassword.length < 6) return setError("M\u1EADt kh\u1EA9u m\u1EDBi ph\u1EA3i c\xF3 \xEDt nh\u1EA5t 6 k\xFD t\u1EF1");
+      if (newPassword !== confirmPassword) return setError("M\u1EADt kh\u1EA9u x\xE1c nh\u1EADn kh\xF4ng kh\u1EDBp");
+      if (newPassword === oldPassword) return setError("M\u1EADt kh\u1EA9u m\u1EDBi ph\u1EA3i kh\xE1c m\u1EADt kh\u1EA9u hi\u1EC7n t\u1EA1i");
+      setLoading(true);
+      try {
+        await request("/auth/change-password", { method: "PATCH", body: { oldPassword, newPassword } });
+        localStorage.removeItem("routebite_refresh_token");
+        setSuccess(true);
+      } catch (e) {
+        setError(e instanceof Error ? e.message : "Kh\xF4ng th\u1EC3 \u0111\u1ED5i m\u1EADt kh\u1EA9u. Vui l\xF2ng th\u1EED l\u1EA1i.");
+      } finally {
+        setLoading(false);
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("dialog", { ref: dialog, className: "rb-password-dialog", "aria-labelledby": "password-title", onCancel: (event) => {
+      event.preventDefault();
+      if (!loading) onClose();
+    }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("h2", { id: "password-title", children: "\u0110\u1ED5i m\u1EADt kh\u1EA9u" }),
+      success ? /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { role: "status", className: "rb-pickup-due", children: "\u0110\u1ED5i m\u1EADt kh\u1EA9u th\xE0nh c\xF4ng!" }) : /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("form", { className: "auth-form", onSubmit: submit, children: [
+        error && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { children: [
+          "M\u1EADt kh\u1EA9u hi\u1EC7n t\u1EA1i",
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { type: "password", autoComplete: "current-password", required: true, disabled: loading, value: oldPassword, onChange: (event) => setOldPassword(event.target.value) })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { children: [
+          "M\u1EADt kh\u1EA9u m\u1EDBi",
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { type: "password", autoComplete: "new-password", required: true, disabled: loading, value: newPassword, onChange: (event) => setNewPassword(event.target.value) })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { children: [
+          "X\xE1c nh\u1EADn m\u1EADt kh\u1EA9u m\u1EDBi",
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { type: "password", autoComplete: "new-password", required: true, disabled: loading, value: confirmPassword, onChange: (event) => setConfirmPassword(event.target.value) })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "rb-dialog-actions", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", className: "btn secondary", disabled: loading, onClick: onClose, children: "H\u1EE7y" }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "submit", className: "btn primary", disabled: loading, children: loading ? "\u0110ang l\u01B0u\u2026" : "X\xE1c nh\u1EADn" })
+        ] })
+      ] })
+    ] });
+  }
+
+  // src/components/AvatarDropdown.jsx
+  var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
   var ROLE_LABELS2 = { customer: "Kh\xE1ch h\xE0ng", merchant: "Ch\u1EE7 qu\xE1n", admin: "Qu\u1EA3n tr\u1ECB vi\xEAn" };
   function AvatarDropdown() {
     const { currentUser, logout } = useAuth();
     const navigate = useNavigate();
-    const [open, setOpen] = (0, import_react7.useState)(false);
-    const ref = (0, import_react7.useRef)(null);
-    (0, import_react7.useEffect)(() => {
+    const [open, setOpen] = (0, import_react8.useState)(false);
+    const [showPassword, setShowPassword] = (0, import_react8.useState)(false);
+    const ref = (0, import_react8.useRef)(null);
+    const closePassword = (0, import_react8.useCallback)(() => setShowPassword(false), []);
+    (0, import_react8.useEffect)(() => {
       const close = (event) => {
-        if (ref.current && !ref.current.contains(event.target)) setOpen(false);
+        if (!ref.current?.contains(event.target)) setOpen(false);
+      };
+      const escape = (event) => {
+        if (event.key === "Escape") setOpen(false);
       };
       document.addEventListener("mousedown", close);
-      return () => document.removeEventListener("mousedown", close);
+      document.addEventListener("keydown", escape);
+      return () => {
+        document.removeEventListener("mousedown", close);
+        document.removeEventListener("keydown", escape);
+      };
     }, []);
-    if (!currentUser) return /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { className: "header-login", type: "button", onClick: () => navigate("/login"), children: "\u0110\u0103ng nh\u1EADp" });
-    const initials = currentUser.fullName.split(" ").filter(Boolean).slice(-2).map((word) => word[0]).join("").toUpperCase() || "RB";
+    if (!currentUser) return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("button", { className: "header-login", type: "button", onClick: () => navigate("/login"), children: "\u0110\u0103ng nh\u1EADp" });
+    const initials = (currentUser.fullName || "").split(" ").filter(Boolean).slice(-2).map((word) => word[0]).join("").toUpperCase() || "RB";
     const go = (path) => {
       setOpen(false);
       navigate(path);
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "avatar-dropdown", ref, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { className: "profile-trigger", type: "button", "aria-haspopup": "menu", "aria-expanded": open, onClick: () => setOpen((value) => !value), children: initials }),
-      open && /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "avatar-menu", role: "menu", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("header", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("strong", { children: currentUser.fullName }),
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { children: ROLE_LABELS2[currentUser.role] || currentUser.role })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "avatar-menu-items", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(MenuItem, { icon: "\u{1F464}", label: "Th\xF4ng tin t\xE0i kho\u1EA3n", onClick: () => go("/profile") }),
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(MenuItem, { icon: "\u{1F512}", label: "\u0110\u1ED5i m\u1EADt kh\u1EA9u", disabled: true, badge: "S\u1EAFp ra m\u1EAFt" }),
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(MenuItem, { icon: "\u{1F4E6}", label: "\u0110\u01A1n c\u1EE7a t\xF4i", onClick: () => go("/my-orders") })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "avatar-menu-logout", children: /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(MenuItem, { icon: "\u{1F6AA}", label: "\u0110\u0103ng xu\u1EA5t", danger: true, onClick: () => {
-          logout();
-          navigate("/login");
-        } }) })
-      ] })
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(import_jsx_runtime10.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "avatar-dropdown", ref, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("button", { className: "profile-trigger", type: "button", "aria-label": "M\u1EDF menu t\xE0i kho\u1EA3n", "aria-haspopup": "menu", "aria-expanded": open, onClick: () => setOpen(!open), children: initials }),
+        open && /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "avatar-menu", role: "menu", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("header", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("strong", { children: currentUser.fullName }),
+            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { children: ROLE_LABELS2[currentUser.role] || currentUser.role })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "avatar-menu-items", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuItem, { label: "Th\xF4ng tin t\xE0i kho\u1EA3n", onClick: () => go(currentUser.role === "merchant" ? "/merchant/profile" : "/profile") }),
+            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuItem, { label: "\u0110\u1ED5i m\u1EADt kh\u1EA9u", onClick: () => {
+              setOpen(false);
+              setShowPassword(true);
+            } }),
+            currentUser.role === "merchant" ? /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(import_jsx_runtime10.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuItem, { label: "Qu\u1EA3n l\xFD qu\xE1n", onClick: () => go("/merchant/dashboard") }),
+              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuItem, { label: "\u0110\u01A1n h\xE0ng c\u1EE7a qu\xE1n", onClick: () => go("/merchant/orders") })
+            ] }) : currentUser.role === "admin" ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuItem, { label: "Qu\u1EA3n tr\u1ECB h\u1EC7 th\u1ED1ng", onClick: () => go("/admin/overview") }) : /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(import_jsx_runtime10.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuItem, { label: "\u0110\u01A1n c\u1EE7a t\xF4i", onClick: () => go("/my-orders") }),
+              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuItem, { label: "Gi\u1ECF h\xE0ng c\u1EE7a t\xF4i", onClick: () => go("/my-carts") })
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "avatar-menu-logout", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuItem, { label: "\u0110\u0103ng xu\u1EA5t", danger: true, onClick: () => {
+            setOpen(false);
+            logout();
+            navigate("/login");
+          } }) })
+        ] })
+      ] }),
+      showPassword && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(ChangePasswordModal, { onClose: closePassword })
     ] });
   }
-  function MenuItem({ icon, label, onClick, disabled, danger, badge }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("button", { type: "button", role: "menuitem", disabled, className: danger ? "danger" : "", onClick, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { children: icon }),
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("b", { children: label }),
-      badge && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("em", { children: badge })
-    ] });
+  function MenuItem({ label, onClick, danger }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("button", { type: "button", role: "menuitem", className: danger ? "danger" : "", onClick, children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { children: label }) });
   }
 
   // src/components/OrderStatusBadge.tsx
-  var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
   var STATUS_CONFIG = {
     PENDING: { label: "Ch\u1EDD x\xE1c nh\u1EADn", bg: "#FEF3C7", color: "#92400E" },
     CONFIRMED: { label: "\u0110\xE3 x\xE1c nh\u1EADn", bg: "var(--color-primary-soft)", color: "var(--color-accent-dark)" },
@@ -25164,15 +25362,15 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       bg: "#E5E7EB",
       color: "#374151"
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { className: "rb-order-status", style: { backgroundColor: config2.bg, color: config2.color }, children: config2.label });
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "rb-order-status", style: { backgroundColor: config2.bg, color: config2.color }, children: config2.label });
   }
 
   // src/components/PickupCountdown.tsx
-  var import_react8 = __toESM(require_react(), 1);
-  var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
+  var import_react9 = __toESM(require_react(), 1);
+  var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
   function PickupCountdown({ estimatedPickupAt, pickupType }) {
-    const [now, setNow] = (0, import_react8.useState)(() => Date.now());
-    (0, import_react8.useEffect)(() => {
+    const [now, setNow] = (0, import_react9.useState)(() => Date.now());
+    (0, import_react9.useEffect)(() => {
       setNow(Date.now());
       const interval = setInterval(() => setNow(Date.now()), 3e4);
       return () => clearInterval(interval);
@@ -25181,36 +25379,36 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     if (!Number.isFinite(target)) return null;
     if (pickupType === "scheduled") {
       const time = new Date(target).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
-      return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("span", { children: [
+      return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("span", { children: [
         "H\u1EB9n l\u1EA5y l\xFAc ",
         time
       ] });
     }
     const remainingMinutes = Math.max(0, Math.ceil((target - now) / 6e4));
-    return remainingMinutes > 0 ? /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("span", { children: [
+    return remainingMinutes > 0 ? /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("span", { children: [
       "L\u1EA5y sau kho\u1EA3ng ",
       remainingMinutes,
       " ph\xFAt"
-    ] }) : /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "rb-pickup-due", children: "C\xF3 th\u1EC3 \u0111\xE3 s\u1EB5n s\xE0ng, gh\xE9 l\u1EA5y nh\xE9!" });
+    ] }) : /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { className: "rb-pickup-due", children: "C\xF3 th\u1EC3 \u0111\xE3 s\u1EB5n s\xE0ng, gh\xE9 l\u1EA5y nh\xE9!" });
   }
 
   // src/components/QuantityStepper.tsx
-  var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
   function QuantityStepper({ quantity, onIncrease, onDecrease, name = "m\xF3n", disabled = false }) {
     if (quantity <= 0) {
-      return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("button", { type: "button", className: "rb-quantity-add", "aria-label": `Th\xEAm ${name}`, onClick: onIncrease, disabled, children: "+" });
+      return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("button", { type: "button", className: "rb-quantity-add", "aria-label": `Th\xEAm ${name}`, onClick: onIncrease, disabled, children: "+" });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "rb-quantity-stepper", role: "group", "aria-label": `S\u1ED1 l\u01B0\u1EE3ng ${name}`, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("button", { type: "button", "aria-label": `Gi\u1EA3m ${name}`, onClick: onDecrease, disabled, children: "\u2212" }),
-      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { "aria-live": "polite", "aria-atomic": "true", children: quantity }),
-      /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("button", { type: "button", className: "rb-quantity-increase", "aria-label": `T\u0103ng ${name}`, onClick: onIncrease, disabled: disabled || quantity >= 100, children: "+" })
+    return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "rb-quantity-stepper", role: "group", "aria-label": `S\u1ED1 l\u01B0\u1EE3ng ${name}`, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("button", { type: "button", "aria-label": `Gi\u1EA3m ${name}`, onClick: onDecrease, disabled, children: "\u2212" }),
+      /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { "aria-live": "polite", "aria-atomic": "true", children: quantity }),
+      /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("button", { type: "button", className: "rb-quantity-increase", "aria-label": `T\u0103ng ${name}`, onClick: onIncrease, disabled: disabled || quantity >= 100, children: "+" })
     ] });
   }
 
   // src/components/FoodThumbnail.tsx
-  var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
   function FoodThumbnail({ src, name, className = "" }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
       "img",
       {
         className: `rb-food-thumbnail ${className}`,
@@ -25225,40 +25423,5508 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     );
   }
 
-  // src/App.jsx
-  var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
-  var CartContext = (0, import_react9.createContext)(null);
-  var CART_KEY = "routebite_cart";
-  var formatMoney = (value) => `${Number(value || 0).toLocaleString("vi-VN")}\u0111`;
-  var demoMenu = { id: "mock-com-tam", name: "C\u01A1m T\u1EA5m M\u1EABu", address: "Qu\u1EADn 1, TP. H\u1ED3 Ch\xED Minh", rating: 4.8, menuItems: [{ id: "demo-com-tam", name: "C\u01A1m t\u1EA5m s\u01B0\u1EDDn b\xEC ch\u1EA3", description: "S\u01B0\u1EDDn n\u01B0\u1EDBng, b\xEC, ch\u1EA3 tr\u1EE9ng v\xE0 \u0111\u1ED3 chua", price: 6e4, available: true }, { id: "demo-tra-dao", name: "Tr\xE0 \u0111\xE0o cam s\u1EA3", description: "Ly m\xE1t l\u1EA1nh", price: 25e3, available: true }] };
-  function Header() {
-    const navigate = useNavigate();
-    const { cart } = (0, import_react9.useContext)(CartContext);
-    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("header", { className: "consumer-header", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Link, { className: "consumer-logo", to: "/", children: "RouteBite" }),
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("nav", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Link, { className: "consumer-nav active", to: "/", children: "Trang ch\u1EE7" }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Link, { className: "consumer-nav", to: "/kham-pha", children: "Kh\xE1m ph\xE1" }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Link, { className: "consumer-nav", to: "/my-orders", children: "\u0110\u01A1n c\u1EE7a t\xF4i" }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(Link, { className: "consumer-nav", to: "/my-carts", children: [
-          "Gi\u1ECF c\u1EE7a t\xF4i",
-          cart.length ? ` (${cart.reduce((s, item) => s + item.quantity, 0)})` : ""
+  // src/components/RouteSummaryCard.tsx
+  var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
+  function RouteSummaryCard({ restaurantName, restaurantAddress, destination, origin }) {
+    const [params] = useSearchParams();
+    const start = readRouteOrigin(params) || origin;
+    if (!validPoint(start)) return null;
+    const target = validPoint(destination) ? `${destination.lat},${destination.lng}` : restaurantAddress;
+    const url2 = target ? "https://www.google.com/maps/dir/?" + new URLSearchParams({
+      api: "1",
+      origin: `${start.lat},${start.lng}`,
+      destination: target,
+      travelmode: "driving"
+    }) : void 0;
+    return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("section", { className: "rb-route-summary", "aria-label": "L\u1ED9 tr\xECnh c\u1EE7a b\u1EA1n", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("h2", { children: "L\u1ED8 TR\xCCNH C\u1EE6A B\u1EA0N" }),
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("ol", { className: "rb-route-timeline", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("li", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: "rb-route-label", children: "\u0110i\u1EC3m \u0111i" }),
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { children: start.address || "\u0110i\u1EC3m xu\u1EA5t ph\xE1t" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("li", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: "rb-route-label", children: "Gh\xE9 l\u1EA5y t\u1EA1i" }),
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("strong", { children: restaurantName }),
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { children: restaurantAddress || destination?.address || "\u0110ang c\u1EADp nh\u1EADt \u0111\u1ECBa ch\u1EC9 qu\xE1n" })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "account-menu", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("button", { className: "bell-icon", type: "button", "aria-label": "Th\xF4ng b\xE1o", children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(AvatarDropdown, {})
+      url2 && /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("a", { className: "rb-route-directions", href: url2, target: "_blank", rel: "noopener noreferrer", children: "\u{1F9ED} Ch\u1EC9 \u0111\u01B0\u1EDDng tr\xEAn Google Maps" })
+    ] });
+  }
+
+  // src/components/PaymentMethodSelector.tsx
+  var import_react10 = __toESM(require_react(), 1);
+  var import_jsx_runtime16 = __toESM(require_jsx_runtime(), 1);
+  function usePaymentMethod() {
+    return (0, import_react10.useState)("cash");
+  }
+  function PaymentMethodSelector({ value: value2, onChange, disabled = false }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("fieldset", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("legend", { children: "Ph\u01B0\u01A1ng th\u1EE9c thanh to\xE1n" }),
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+          "input",
+          {
+            name: "payment-method",
+            type: "radio",
+            value: "cash",
+            disabled,
+            checked: value2 === "cash",
+            onChange: () => onChange("cash")
+          }
+        ),
+        " Ti\u1EC1n m\u1EB7t khi gh\xE9 l\u1EA5y"
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
+          "input",
+          {
+            name: "payment-method",
+            type: "radio",
+            value: "vnpay",
+            disabled,
+            checked: value2 === "vnpay",
+            onChange: () => onChange("vnpay")
+          }
+        ),
+        " C\u1ED5ng VNPAY (QR / Th\u1EBB ATM / Visa)"
+      ] })
+    ] });
+  }
+
+  // src/types/checkout.ts
+  function validateOrderPayload(payload) {
+    if (!["cash", "vnpay"].includes(payload.payment.method)) {
+      throw new Error("Vui l\xF2ng ch\u1ECDn Ti\u1EC1n m\u1EB7t ho\u1EB7c VNPAY.");
+    }
+    return payload;
+  }
+
+  // src/contexts/CartContext.jsx
+  var import_react11 = __toESM(require_react(), 1);
+
+  // src/utils/cartStorage.ts
+  var SAVED_CARTS_KEY = "routebite_saved_carts_v1";
+  function getSavedCarts() {
+    try {
+      const saved = localStorage.getItem(SAVED_CARTS_KEY);
+      if (saved !== null) {
+        const carts2 = JSON.parse(saved);
+        return Array.isArray(carts2) ? carts2.filter((cart) => cart?.restaurantId && Array.isArray(cart.items) && cart.items.length).slice(0, 10) : [];
+      }
+      const legacy = JSON.parse(localStorage.getItem("routebite_cart") || "[]");
+      let carts = [];
+      if (Array.isArray(legacy)) for (const item of legacy) {
+        if (!item?.id || !item.restaurantId || !Number.isInteger(item.quantity) || item.quantity <= 0) continue;
+        carts = addCartItem(carts, item, item.quantity);
+      }
+      return carts;
+    } catch {
+      return [];
+    }
+  }
+  function saveCarts(carts) {
+    localStorage.setItem(SAVED_CARTS_KEY, JSON.stringify(carts.filter((cart) => cart.items.length).slice(0, 10)));
+  }
+  function addCartItem(carts, item, amount = 1) {
+    const found = carts.find((cart) => cart.restaurantId === item.restaurantId);
+    if (!found) {
+      return [{
+        restaurantId: item.restaurantId,
+        restaurantName: item.restaurantName || "Qu\xE1n \u0103n",
+        restaurantImage: item.restaurantImage,
+        createdAt: (/* @__PURE__ */ new Date()).toISOString(),
+        routeOrigin: item.routeOrigin,
+        destination: item.destination,
+        restaurantAddress: item.restaurantAddress,
+        items: [{ ...item, quantity: Math.min(100, amount) }]
+      }, ...carts].slice(0, 10);
+    }
+    return carts.map((cart) => cart !== found ? cart : {
+      ...cart,
+      restaurantName: item.restaurantName || cart.restaurantName,
+      restaurantImage: item.restaurantImage || cart.restaurantImage,
+      routeOrigin: item.routeOrigin || cart.routeOrigin,
+      destination: item.destination || cart.destination,
+      restaurantAddress: item.restaurantAddress || cart.restaurantAddress,
+      items: cart.items.some((entry) => entry.id === item.id) ? cart.items.map((entry) => entry.id === item.id ? { ...entry, ...item, quantity: Math.min(100, entry.quantity + amount) } : entry) : [...cart.items, { ...item, quantity: Math.min(100, amount) }]
+    });
+  }
+  function changeCartItem(carts, restaurantId, id, step) {
+    return carts.map((cart) => cart.restaurantId !== restaurantId ? cart : {
+      ...cart,
+      items: cart.items.map((item) => item.id === id ? { ...item, quantity: Math.min(100, item.quantity + step) } : item).filter((item) => item.quantity > 0)
+    }).filter((cart) => cart.items.length);
+  }
+
+  // src/contexts/CartContext.jsx
+  var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
+  var CartContext = (0, import_react11.createContext)(null);
+  function CartProvider({ children }) {
+    const [carts, setCarts] = (0, import_react11.useState)(getSavedCarts);
+    (0, import_react11.useEffect)(() => {
+      saveCarts(carts);
+    }, [carts]);
+    (0, import_react11.useEffect)(() => {
+      const sync = (event) => {
+        if (event.key === SAVED_CARTS_KEY) setCarts(getSavedCarts());
+      };
+      window.addEventListener("storage", sync);
+      return () => window.removeEventListener("storage", sync);
+    }, []);
+    const value2 = (0, import_react11.useMemo)(() => ({
+      carts,
+      cart: carts.flatMap((cart) => cart.items),
+      add: (item) => setCarts((old) => addCartItem(old, item)),
+      rememberOrigin: (restaurantId, origin) => setCarts((old) => {
+        const existing = old.find((cart) => cart.restaurantId === restaurantId);
+        if (!existing || JSON.stringify(existing.routeOrigin) === JSON.stringify(origin)) return old;
+        return old.map((cart) => cart === existing ? { ...cart, routeOrigin: origin } : cart);
+      }),
+      change: (restaurantId, id, step) => setCarts((old) => changeCartItem(old, restaurantId, id, step)),
+      clear: (restaurantId) => {
+        setCarts((old) => {
+          const next2 = old.filter((cart) => cart.restaurantId !== restaurantId);
+          saveCarts(next2);
+          return next2;
+        });
+      }
+    }), [carts]);
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(CartContext.Provider, { value: value2, children });
+  }
+  function useCart() {
+    return (0, import_react11.useContext)(CartContext);
+  }
+
+  // src/pages/MyCartsPage.tsx
+  var import_react12 = __toESM(require_react(), 1);
+  var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
+  function MyCartsPage() {
+    const { carts, clear } = useCart();
+    const [manageMode, setManageMode] = (0, import_react12.useState)(false);
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("main", { className: "app-page rb-commerce-page rb-orders-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "rb-page-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "page-intro", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("p", { className: "rb-eyebrow", children: "GI\u1ECE H\xC0NG" }),
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h1", { children: "Gi\u1ECF h\xE0ng c\u1EE7a t\xF4i" }),
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("p", { children: "L\u01B0u t\u1ED1i \u0111a 10 gi\u1ECF h\xE0ng g\u1EA7n nh\u1EA5t theo qu\xE1n." })
+        ] }),
+        !!carts.length && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("button", { className: "btn secondary", type: "button", onClick: () => setManageMode(!manageMode), children: manageMode ? "Xong" : "Qu\u1EA3n l\xFD" })
+      ] }),
+      !carts.length && /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("section", { className: "item-card rb-empty", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("p", { children: "B\u1EA1n ch\u01B0a c\xF3 gi\u1ECF h\xE0ng n\xE0o, kh\xE1m ph\xE1 qu\xE1n \u0103n \u0111\u1EC3 b\u1EAFt \u0111\u1EA7u." }),
+        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Link, { to: "/", children: "Kh\xE1m ph\xE1 ngay" })
+      ] }),
+      carts.map((cart) => {
+        const content = /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(import_jsx_runtime18.Fragment, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(FoodThumbnail, { src: cart.restaurantImage, name: cart.restaurantName }),
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h2", { children: cart.restaurantName }),
+            /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("p", { children: [
+              cart.items.reduce((sum, item) => sum + item.quantity, 0),
+              " m\xF3n \xB7 ",
+              cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0).toLocaleString("vi-VN"),
+              "\u0111"
+            ] })
+          ] })
+        ] });
+        return manageMode ? /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("article", { className: "item-card rb-saved-cart", children: [
+          content,
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("button", { type: "button", className: "rb-danger-button", "aria-label": "X\xF3a gi\u1ECF " + cart.restaurantName, onClick: () => clear(cart.restaurantId), children: "X\xF3a" })
+        ] }, cart.restaurantId) : /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(Link, { className: "item-card rb-saved-cart", to: "/restaurants/" + cart.restaurantId + "/cart", children: [
+          content,
+          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { "aria-hidden": "true", children: "\u2192" })
+        ] }, cart.restaurantId);
+      })
+    ] });
+  }
+
+  // src/pages/OrderDetailPage.jsx
+  var import_react14 = __toESM(require_react(), 1);
+
+  // src/contexts/SocketContext.jsx
+  var import_react13 = __toESM(require_react(), 1);
+
+  // node_modules/engine.io-parser/build/esm/commons.js
+  var PACKET_TYPES = /* @__PURE__ */ Object.create(null);
+  PACKET_TYPES["open"] = "0";
+  PACKET_TYPES["close"] = "1";
+  PACKET_TYPES["ping"] = "2";
+  PACKET_TYPES["pong"] = "3";
+  PACKET_TYPES["message"] = "4";
+  PACKET_TYPES["upgrade"] = "5";
+  PACKET_TYPES["noop"] = "6";
+  var PACKET_TYPES_REVERSE = /* @__PURE__ */ Object.create(null);
+  Object.keys(PACKET_TYPES).forEach((key) => {
+    PACKET_TYPES_REVERSE[PACKET_TYPES[key]] = key;
+  });
+  var ERROR_PACKET = { type: "error", data: "parser error" };
+
+  // node_modules/engine.io-parser/build/esm/encodePacket.browser.js
+  var withNativeBlob = typeof Blob === "function" || typeof Blob !== "undefined" && Object.prototype.toString.call(Blob) === "[object BlobConstructor]";
+  var withNativeArrayBuffer = typeof ArrayBuffer === "function";
+  var isView = (obj) => {
+    return typeof ArrayBuffer.isView === "function" ? ArrayBuffer.isView(obj) : obj && obj.buffer instanceof ArrayBuffer;
+  };
+  var encodePacket = ({ type, data: data2 }, supportsBinary, callback) => {
+    if (withNativeBlob && data2 instanceof Blob) {
+      if (supportsBinary) {
+        return callback(data2);
+      } else {
+        return encodeBlobAsBase64(data2, callback);
+      }
+    } else if (withNativeArrayBuffer && (data2 instanceof ArrayBuffer || isView(data2))) {
+      if (supportsBinary) {
+        return callback(data2);
+      } else {
+        return encodeBlobAsBase64(new Blob([data2]), callback);
+      }
+    }
+    return callback(PACKET_TYPES[type] + (data2 || ""));
+  };
+  var encodeBlobAsBase64 = (data2, callback) => {
+    const fileReader = new FileReader();
+    fileReader.onload = function() {
+      const content = fileReader.result.split(",")[1];
+      callback("b" + (content || ""));
+    };
+    return fileReader.readAsDataURL(data2);
+  };
+  function toArray(data2) {
+    if (data2 instanceof Uint8Array) {
+      return data2;
+    } else if (data2 instanceof ArrayBuffer) {
+      return new Uint8Array(data2);
+    } else {
+      return new Uint8Array(data2.buffer, data2.byteOffset, data2.byteLength);
+    }
+  }
+  var TEXT_ENCODER;
+  function encodePacketToBinary(packet, callback) {
+    if (withNativeBlob && packet.data instanceof Blob) {
+      return packet.data.arrayBuffer().then(toArray).then(callback);
+    } else if (withNativeArrayBuffer && (packet.data instanceof ArrayBuffer || isView(packet.data))) {
+      return callback(toArray(packet.data));
+    }
+    encodePacket(packet, false, (encoded) => {
+      if (!TEXT_ENCODER) {
+        TEXT_ENCODER = new TextEncoder();
+      }
+      callback(TEXT_ENCODER.encode(encoded));
+    });
+  }
+
+  // node_modules/engine.io-parser/build/esm/contrib/base64-arraybuffer.js
+  var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+  var lookup = typeof Uint8Array === "undefined" ? [] : new Uint8Array(256);
+  for (let i = 0; i < chars.length; i++) {
+    lookup[chars.charCodeAt(i)] = i;
+  }
+  var decode = (base64) => {
+    let bufferLength = base64.length * 0.75, len = base64.length, i, p = 0, encoded1, encoded2, encoded3, encoded4;
+    if (base64[base64.length - 1] === "=") {
+      bufferLength--;
+      if (base64[base64.length - 2] === "=") {
+        bufferLength--;
+      }
+    }
+    const arraybuffer = new ArrayBuffer(bufferLength), bytes = new Uint8Array(arraybuffer);
+    for (i = 0; i < len; i += 4) {
+      encoded1 = lookup[base64.charCodeAt(i)];
+      encoded2 = lookup[base64.charCodeAt(i + 1)];
+      encoded3 = lookup[base64.charCodeAt(i + 2)];
+      encoded4 = lookup[base64.charCodeAt(i + 3)];
+      bytes[p++] = encoded1 << 2 | encoded2 >> 4;
+      bytes[p++] = (encoded2 & 15) << 4 | encoded3 >> 2;
+      bytes[p++] = (encoded3 & 3) << 6 | encoded4 & 63;
+    }
+    return arraybuffer;
+  };
+
+  // node_modules/engine.io-parser/build/esm/decodePacket.browser.js
+  var withNativeArrayBuffer2 = typeof ArrayBuffer === "function";
+  var decodePacket = (encodedPacket, binaryType) => {
+    if (typeof encodedPacket !== "string") {
+      return {
+        type: "message",
+        data: mapBinary(encodedPacket, binaryType)
+      };
+    }
+    const type = encodedPacket.charAt(0);
+    if (type === "b") {
+      return {
+        type: "message",
+        data: decodeBase64Packet(encodedPacket.substring(1), binaryType)
+      };
+    }
+    const packetType = PACKET_TYPES_REVERSE[type];
+    if (!packetType) {
+      return ERROR_PACKET;
+    }
+    return encodedPacket.length > 1 ? {
+      type: PACKET_TYPES_REVERSE[type],
+      data: encodedPacket.substring(1)
+    } : {
+      type: PACKET_TYPES_REVERSE[type]
+    };
+  };
+  var decodeBase64Packet = (data2, binaryType) => {
+    if (withNativeArrayBuffer2) {
+      const decoded = decode(data2);
+      return mapBinary(decoded, binaryType);
+    } else {
+      return { base64: true, data: data2 };
+    }
+  };
+  var mapBinary = (data2, binaryType) => {
+    switch (binaryType) {
+      case "blob":
+        if (data2 instanceof Blob) {
+          return data2;
+        } else {
+          return new Blob([data2]);
+        }
+      case "arraybuffer":
+      default:
+        if (data2 instanceof ArrayBuffer) {
+          return data2;
+        } else {
+          return data2.buffer;
+        }
+    }
+  };
+
+  // node_modules/engine.io-parser/build/esm/index.js
+  var SEPARATOR = String.fromCharCode(30);
+  var encodePayload = (packets, callback) => {
+    const length = packets.length;
+    const encodedPackets = new Array(length);
+    let count = 0;
+    packets.forEach((packet, i) => {
+      encodePacket(packet, false, (encodedPacket) => {
+        encodedPackets[i] = encodedPacket;
+        if (++count === length) {
+          callback(encodedPackets.join(SEPARATOR));
+        }
+      });
+    });
+  };
+  var decodePayload = (encodedPayload, binaryType) => {
+    const encodedPackets = encodedPayload.split(SEPARATOR);
+    const packets = [];
+    for (let i = 0; i < encodedPackets.length; i++) {
+      const decodedPacket = decodePacket(encodedPackets[i], binaryType);
+      packets.push(decodedPacket);
+      if (decodedPacket.type === "error") {
+        break;
+      }
+    }
+    return packets;
+  };
+  function createPacketEncoderStream() {
+    return new TransformStream({
+      transform(packet, controller) {
+        encodePacketToBinary(packet, (encodedPacket) => {
+          const payloadLength = encodedPacket.length;
+          let header;
+          if (payloadLength < 126) {
+            header = new Uint8Array(1);
+            new DataView(header.buffer).setUint8(0, payloadLength);
+          } else if (payloadLength < 65536) {
+            header = new Uint8Array(3);
+            const view = new DataView(header.buffer);
+            view.setUint8(0, 126);
+            view.setUint16(1, payloadLength);
+          } else {
+            header = new Uint8Array(9);
+            const view = new DataView(header.buffer);
+            view.setUint8(0, 127);
+            view.setBigUint64(1, BigInt(payloadLength));
+          }
+          if (packet.data && typeof packet.data !== "string") {
+            header[0] |= 128;
+          }
+          controller.enqueue(header);
+          controller.enqueue(encodedPacket);
+        });
+      }
+    });
+  }
+  var TEXT_DECODER;
+  function totalLength(chunks) {
+    return chunks.reduce((acc, chunk) => acc + chunk.length, 0);
+  }
+  function concatChunks(chunks, size) {
+    if (chunks[0].length === size) {
+      return chunks.shift();
+    }
+    const buffer = new Uint8Array(size);
+    let j = 0;
+    for (let i = 0; i < size; i++) {
+      buffer[i] = chunks[0][j++];
+      if (j === chunks[0].length) {
+        chunks.shift();
+        j = 0;
+      }
+    }
+    if (chunks.length && j < chunks[0].length) {
+      chunks[0] = chunks[0].slice(j);
+    }
+    return buffer;
+  }
+  function createPacketDecoderStream(maxPayload, binaryType) {
+    if (!TEXT_DECODER) {
+      TEXT_DECODER = new TextDecoder();
+    }
+    const chunks = [];
+    let state = 0;
+    let expectedLength = -1;
+    let isBinary2 = false;
+    return new TransformStream({
+      transform(chunk, controller) {
+        chunks.push(chunk);
+        while (true) {
+          if (state === 0) {
+            if (totalLength(chunks) < 1) {
+              break;
+            }
+            const header = concatChunks(chunks, 1);
+            isBinary2 = (header[0] & 128) === 128;
+            expectedLength = header[0] & 127;
+            if (expectedLength < 126) {
+              state = 3;
+            } else if (expectedLength === 126) {
+              state = 1;
+            } else {
+              state = 2;
+            }
+          } else if (state === 1) {
+            if (totalLength(chunks) < 2) {
+              break;
+            }
+            const headerArray = concatChunks(chunks, 2);
+            expectedLength = new DataView(headerArray.buffer, headerArray.byteOffset, headerArray.length).getUint16(0);
+            state = 3;
+          } else if (state === 2) {
+            if (totalLength(chunks) < 8) {
+              break;
+            }
+            const headerArray = concatChunks(chunks, 8);
+            const view = new DataView(headerArray.buffer, headerArray.byteOffset, headerArray.length);
+            const n = view.getUint32(0);
+            if (n > Math.pow(2, 53 - 32) - 1) {
+              controller.enqueue(ERROR_PACKET);
+              break;
+            }
+            expectedLength = n * Math.pow(2, 32) + view.getUint32(4);
+            state = 3;
+          } else {
+            if (totalLength(chunks) < expectedLength) {
+              break;
+            }
+            const data2 = concatChunks(chunks, expectedLength);
+            controller.enqueue(decodePacket(isBinary2 ? data2 : TEXT_DECODER.decode(data2), binaryType));
+            state = 0;
+          }
+          if (expectedLength === 0 || expectedLength > maxPayload) {
+            controller.enqueue(ERROR_PACKET);
+            break;
+          }
+        }
+      }
+    });
+  }
+  var protocol = 4;
+
+  // node_modules/@socket.io/component-emitter/lib/esm/index.js
+  function Emitter(obj) {
+    if (obj) return mixin(obj);
+  }
+  function mixin(obj) {
+    for (var key in Emitter.prototype) {
+      obj[key] = Emitter.prototype[key];
+    }
+    return obj;
+  }
+  Emitter.prototype.on = Emitter.prototype.addEventListener = function(event, fn) {
+    this._callbacks = this._callbacks || {};
+    (this._callbacks["$" + event] = this._callbacks["$" + event] || []).push(fn);
+    return this;
+  };
+  Emitter.prototype.once = function(event, fn) {
+    function on2() {
+      this.off(event, on2);
+      fn.apply(this, arguments);
+    }
+    on2.fn = fn;
+    this.on(event, on2);
+    return this;
+  };
+  Emitter.prototype.off = Emitter.prototype.removeListener = Emitter.prototype.removeAllListeners = Emitter.prototype.removeEventListener = function(event, fn) {
+    this._callbacks = this._callbacks || {};
+    if (0 == arguments.length) {
+      this._callbacks = {};
+      return this;
+    }
+    var callbacks = this._callbacks["$" + event];
+    if (!callbacks) return this;
+    if (1 == arguments.length) {
+      delete this._callbacks["$" + event];
+      return this;
+    }
+    var cb;
+    for (var i = 0; i < callbacks.length; i++) {
+      cb = callbacks[i];
+      if (cb === fn || cb.fn === fn) {
+        callbacks.splice(i, 1);
+        break;
+      }
+    }
+    if (callbacks.length === 0) {
+      delete this._callbacks["$" + event];
+    }
+    return this;
+  };
+  Emitter.prototype.emit = function(event) {
+    this._callbacks = this._callbacks || {};
+    var args = new Array(arguments.length - 1), callbacks = this._callbacks["$" + event];
+    for (var i = 1; i < arguments.length; i++) {
+      args[i - 1] = arguments[i];
+    }
+    if (callbacks) {
+      callbacks = callbacks.slice(0);
+      for (var i = 0, len = callbacks.length; i < len; ++i) {
+        callbacks[i].apply(this, args);
+      }
+    }
+    return this;
+  };
+  Emitter.prototype.emitReserved = Emitter.prototype.emit;
+  Emitter.prototype.listeners = function(event) {
+    this._callbacks = this._callbacks || {};
+    return this._callbacks["$" + event] || [];
+  };
+  Emitter.prototype.hasListeners = function(event) {
+    return !!this.listeners(event).length;
+  };
+
+  // node_modules/engine.io-client/build/esm/globals.js
+  var nextTick = (() => {
+    const isPromiseAvailable = typeof Promise === "function" && typeof Promise.resolve === "function";
+    if (isPromiseAvailable) {
+      return (cb) => Promise.resolve().then(cb);
+    } else {
+      return (cb, setTimeoutFn) => setTimeoutFn(cb, 0);
+    }
+  })();
+  var globalThisShim = (() => {
+    if (typeof self !== "undefined") {
+      return self;
+    } else if (typeof window !== "undefined") {
+      return window;
+    } else {
+      return Function("return this")();
+    }
+  })();
+  var defaultBinaryType = "arraybuffer";
+  function createCookieJar() {
+  }
+
+  // node_modules/engine.io-client/build/esm/util.js
+  function pick(obj, ...attr) {
+    return attr.reduce((acc, k) => {
+      if (obj.hasOwnProperty(k)) {
+        acc[k] = obj[k];
+      }
+      return acc;
+    }, {});
+  }
+  var NATIVE_SET_TIMEOUT = globalThisShim.setTimeout;
+  var NATIVE_CLEAR_TIMEOUT = globalThisShim.clearTimeout;
+  function installTimerFunctions(obj, opts) {
+    if (opts.useNativeTimers) {
+      obj.setTimeoutFn = NATIVE_SET_TIMEOUT.bind(globalThisShim);
+      obj.clearTimeoutFn = NATIVE_CLEAR_TIMEOUT.bind(globalThisShim);
+    } else {
+      obj.setTimeoutFn = globalThisShim.setTimeout.bind(globalThisShim);
+      obj.clearTimeoutFn = globalThisShim.clearTimeout.bind(globalThisShim);
+    }
+  }
+  var BASE64_OVERHEAD = 1.33;
+  function byteLength(obj) {
+    if (typeof obj === "string") {
+      return utf8Length(obj);
+    }
+    return Math.ceil((obj.byteLength || obj.size) * BASE64_OVERHEAD);
+  }
+  function utf8Length(str) {
+    let c = 0, length = 0;
+    for (let i = 0, l = str.length; i < l; i++) {
+      c = str.charCodeAt(i);
+      if (c < 128) {
+        length += 1;
+      } else if (c < 2048) {
+        length += 2;
+      } else if (c < 55296 || c >= 57344) {
+        length += 3;
+      } else {
+        i++;
+        length += 4;
+      }
+    }
+    return length;
+  }
+  function randomString() {
+    return Date.now().toString(36).substring(3) + Math.random().toString(36).substring(2, 5);
+  }
+
+  // node_modules/engine.io-client/build/esm/contrib/parseqs.js
+  function encode(obj) {
+    let str = "";
+    for (let i in obj) {
+      if (obj.hasOwnProperty(i)) {
+        if (str.length)
+          str += "&";
+        str += encodeURIComponent(i) + "=" + encodeURIComponent(obj[i]);
+      }
+    }
+    return str;
+  }
+  function decode2(qs) {
+    let qry = {};
+    let pairs = qs.split("&");
+    for (let i = 0, l = pairs.length; i < l; i++) {
+      let pair = pairs[i].split("=");
+      qry[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+    }
+    return qry;
+  }
+
+  // node_modules/engine.io-client/build/esm/transport.js
+  var TransportError = class extends Error {
+    constructor(reason, description, context) {
+      super(reason);
+      this.description = description;
+      this.context = context;
+      this.type = "TransportError";
+    }
+  };
+  var Transport = class extends Emitter {
+    /**
+     * Transport abstract constructor.
+     *
+     * @param {Object} opts - options
+     * @protected
+     */
+    constructor(opts) {
+      super();
+      this.writable = false;
+      installTimerFunctions(this, opts);
+      this.opts = opts;
+      this.query = opts.query;
+      this.socket = opts.socket;
+      this.supportsBinary = !opts.forceBase64;
+    }
+    /**
+     * Emits an error.
+     *
+     * @param {String} reason
+     * @param description
+     * @param context - the error context
+     * @return {Transport} for chaining
+     * @protected
+     */
+    onError(reason, description, context) {
+      super.emitReserved("error", new TransportError(reason, description, context));
+      return this;
+    }
+    /**
+     * Opens the transport.
+     */
+    open() {
+      this.readyState = "opening";
+      this.doOpen();
+      return this;
+    }
+    /**
+     * Closes the transport.
+     */
+    close() {
+      if (this.readyState === "opening" || this.readyState === "open") {
+        this.doClose();
+        this.onClose();
+      }
+      return this;
+    }
+    /**
+     * Sends multiple packets.
+     *
+     * @param {Array} packets
+     */
+    send(packets) {
+      if (this.readyState === "open") {
+        this.write(packets);
+      } else {
+      }
+    }
+    /**
+     * Called upon open
+     *
+     * @protected
+     */
+    onOpen() {
+      this.readyState = "open";
+      this.writable = true;
+      super.emitReserved("open");
+    }
+    /**
+     * Called with data.
+     *
+     * @param {String} data
+     * @protected
+     */
+    onData(data2) {
+      const packet = decodePacket(data2, this.socket.binaryType);
+      this.onPacket(packet);
+    }
+    /**
+     * Called with a decoded packet.
+     *
+     * @protected
+     */
+    onPacket(packet) {
+      super.emitReserved("packet", packet);
+    }
+    /**
+     * Called upon close.
+     *
+     * @protected
+     */
+    onClose(details) {
+      this.readyState = "closed";
+      super.emitReserved("close", details);
+    }
+    /**
+     * Pauses the transport, in order not to lose packets during an upgrade.
+     *
+     * @param onPause
+     */
+    pause(onPause) {
+    }
+    createUri(schema, query = {}) {
+      return schema + "://" + this._hostname() + this._port() + this.opts.path + this._query(query);
+    }
+    _hostname() {
+      const hostname = this.opts.hostname;
+      return hostname.indexOf(":") === -1 ? hostname : "[" + hostname + "]";
+    }
+    _port() {
+      if (this.opts.port && (this.opts.secure && Number(this.opts.port) !== 443 || !this.opts.secure && Number(this.opts.port) !== 80)) {
+        return ":" + this.opts.port;
+      } else {
+        return "";
+      }
+    }
+    _query(query) {
+      const encodedQuery = encode(query);
+      return encodedQuery.length ? "?" + encodedQuery : "";
+    }
+  };
+
+  // node_modules/engine.io-client/build/esm/transports/polling.js
+  var Polling = class extends Transport {
+    constructor() {
+      super(...arguments);
+      this._polling = false;
+    }
+    get name() {
+      return "polling";
+    }
+    /**
+     * Opens the socket (triggers polling). We write a PING message to determine
+     * when the transport is open.
+     *
+     * @protected
+     */
+    doOpen() {
+      this._poll();
+    }
+    /**
+     * Pauses polling.
+     *
+     * @param {Function} onPause - callback upon buffers are flushed and transport is paused
+     * @package
+     */
+    pause(onPause) {
+      this.readyState = "pausing";
+      const pause = () => {
+        this.readyState = "paused";
+        onPause();
+      };
+      if (this._polling || !this.writable) {
+        let total = 0;
+        if (this._polling) {
+          total++;
+          this.once("pollComplete", function() {
+            --total || pause();
+          });
+        }
+        if (!this.writable) {
+          total++;
+          this.once("drain", function() {
+            --total || pause();
+          });
+        }
+      } else {
+        pause();
+      }
+    }
+    /**
+     * Starts polling cycle.
+     *
+     * @private
+     */
+    _poll() {
+      this._polling = true;
+      this.doPoll();
+      this.emitReserved("poll");
+    }
+    /**
+     * Overloads onData to detect payloads.
+     *
+     * @protected
+     */
+    onData(data2) {
+      const callback = (packet) => {
+        if ("opening" === this.readyState && packet.type === "open") {
+          this.onOpen();
+        }
+        if ("close" === packet.type) {
+          this.onClose({ description: "transport closed by the server" });
+          return false;
+        }
+        this.onPacket(packet);
+      };
+      decodePayload(data2, this.socket.binaryType).forEach(callback);
+      if ("closed" !== this.readyState) {
+        this._polling = false;
+        this.emitReserved("pollComplete");
+        if ("open" === this.readyState) {
+          this._poll();
+        } else {
+        }
+      }
+    }
+    /**
+     * For polling, send a close packet.
+     *
+     * @protected
+     */
+    doClose() {
+      const close = () => {
+        this.write([{ type: "close" }]);
+      };
+      if ("open" === this.readyState) {
+        close();
+      } else {
+        this.once("open", close);
+      }
+    }
+    /**
+     * Writes a packets payload.
+     *
+     * @param {Array} packets - data packets
+     * @protected
+     */
+    write(packets) {
+      this.writable = false;
+      encodePayload(packets, (data2) => {
+        this.doWrite(data2, () => {
+          this.writable = true;
+          this.emitReserved("drain");
+        });
+      });
+    }
+    /**
+     * Generates uri for connection.
+     *
+     * @private
+     */
+    uri() {
+      const schema = this.opts.secure ? "https" : "http";
+      const query = this.query || {};
+      if (false !== this.opts.timestampRequests) {
+        query[this.opts.timestampParam] = randomString();
+      }
+      if (!this.supportsBinary && !query.sid) {
+        query.b64 = 1;
+      }
+      return this.createUri(schema, query);
+    }
+  };
+
+  // node_modules/engine.io-client/build/esm/contrib/has-cors.js
+  var value = false;
+  try {
+    value = typeof XMLHttpRequest !== "undefined" && "withCredentials" in new XMLHttpRequest();
+  } catch (err) {
+  }
+  var hasCORS = value;
+
+  // node_modules/engine.io-client/build/esm/transports/polling-xhr.js
+  function empty() {
+  }
+  var BaseXHR = class extends Polling {
+    /**
+     * XHR Polling constructor.
+     *
+     * @param {Object} opts
+     * @package
+     */
+    constructor(opts) {
+      super(opts);
+      if (typeof location !== "undefined") {
+        const isSSL = "https:" === location.protocol;
+        let port = location.port;
+        if (!port) {
+          port = isSSL ? "443" : "80";
+        }
+        this.xd = typeof location !== "undefined" && opts.hostname !== location.hostname || port !== opts.port;
+      }
+    }
+    /**
+     * Sends data.
+     *
+     * @param {String} data - data to send.
+     * @param {Function} fn - called upon flush.
+     * @private
+     */
+    doWrite(data2, fn) {
+      const req = this.request({
+        method: "POST",
+        data: data2
+      });
+      req.on("success", fn);
+      req.on("error", (xhrStatus, context) => {
+        this.onError("xhr post error", xhrStatus, context);
+      });
+    }
+    /**
+     * Starts a poll cycle.
+     *
+     * @private
+     */
+    doPoll() {
+      const req = this.request();
+      req.on("data", this.onData.bind(this));
+      req.on("error", (xhrStatus, context) => {
+        this.onError("xhr poll error", xhrStatus, context);
+      });
+      this.pollXhr = req;
+    }
+  };
+  var Request2 = class _Request extends Emitter {
+    /**
+     * Request constructor
+     *
+     * @param {Object} options
+     * @package
+     */
+    constructor(createRequest, uri, opts) {
+      super();
+      this.createRequest = createRequest;
+      installTimerFunctions(this, opts);
+      this._opts = opts;
+      this._method = opts.method || "GET";
+      this._uri = uri;
+      this._data = void 0 !== opts.data ? opts.data : null;
+      this._create();
+    }
+    /**
+     * Creates the XHR object and sends the request.
+     *
+     * @private
+     */
+    _create() {
+      var _a;
+      const opts = pick(this._opts, "agent", "pfx", "key", "passphrase", "cert", "ca", "ciphers", "rejectUnauthorized", "autoUnref");
+      opts.xdomain = !!this._opts.xd;
+      const xhr = this._xhr = this.createRequest(opts);
+      try {
+        xhr.open(this._method, this._uri, true);
+        try {
+          if (this._opts.extraHeaders) {
+            xhr.setDisableHeaderCheck && xhr.setDisableHeaderCheck(true);
+            for (let i in this._opts.extraHeaders) {
+              if (this._opts.extraHeaders.hasOwnProperty(i)) {
+                xhr.setRequestHeader(i, this._opts.extraHeaders[i]);
+              }
+            }
+          }
+        } catch (e) {
+        }
+        if ("POST" === this._method) {
+          try {
+            xhr.setRequestHeader("Content-type", "text/plain;charset=UTF-8");
+          } catch (e) {
+          }
+        }
+        try {
+          xhr.setRequestHeader("Accept", "*/*");
+        } catch (e) {
+        }
+        (_a = this._opts.cookieJar) === null || _a === void 0 ? void 0 : _a.addCookies(xhr);
+        if ("withCredentials" in xhr) {
+          xhr.withCredentials = this._opts.withCredentials;
+        }
+        if (this._opts.requestTimeout) {
+          xhr.timeout = this._opts.requestTimeout;
+        }
+        xhr.onreadystatechange = () => {
+          var _a2;
+          if (xhr.readyState === 3) {
+            (_a2 = this._opts.cookieJar) === null || _a2 === void 0 ? void 0 : _a2.parseCookies(
+              // @ts-ignore
+              xhr.getResponseHeader("set-cookie")
+            );
+          }
+          if (4 !== xhr.readyState)
+            return;
+          if (200 === xhr.status || 1223 === xhr.status) {
+            this._onLoad();
+          } else {
+            this.setTimeoutFn(() => {
+              this._onError(typeof xhr.status === "number" ? xhr.status : 0);
+            }, 0);
+          }
+        };
+        xhr.send(this._data);
+      } catch (e) {
+        this.setTimeoutFn(() => {
+          this._onError(e);
+        }, 0);
+        return;
+      }
+      if (typeof document !== "undefined") {
+        this._index = _Request.requestsCount++;
+        _Request.requests[this._index] = this;
+      }
+    }
+    /**
+     * Called upon error.
+     *
+     * @private
+     */
+    _onError(err) {
+      this.emitReserved("error", err, this._xhr);
+      this._cleanup(true);
+    }
+    /**
+     * Cleans up house.
+     *
+     * @private
+     */
+    _cleanup(fromError) {
+      if ("undefined" === typeof this._xhr || null === this._xhr) {
+        return;
+      }
+      this._xhr.onreadystatechange = empty;
+      if (fromError) {
+        try {
+          this._xhr.abort();
+        } catch (e) {
+        }
+      }
+      if (typeof document !== "undefined") {
+        delete _Request.requests[this._index];
+      }
+      this._xhr = null;
+    }
+    /**
+     * Called upon load.
+     *
+     * @private
+     */
+    _onLoad() {
+      const data2 = this._xhr.responseText;
+      if (data2 !== null) {
+        this.emitReserved("data", data2);
+        this.emitReserved("success");
+        this._cleanup();
+      }
+    }
+    /**
+     * Aborts the request.
+     *
+     * @package
+     */
+    abort() {
+      this._cleanup();
+    }
+  };
+  Request2.requestsCount = 0;
+  Request2.requests = {};
+  if (typeof document !== "undefined") {
+    if (typeof attachEvent === "function") {
+      attachEvent("onunload", unloadHandler);
+    } else if (typeof addEventListener === "function") {
+      const terminationEvent = "onpagehide" in globalThisShim ? "pagehide" : "unload";
+      addEventListener(terminationEvent, unloadHandler, false);
+    }
+  }
+  function unloadHandler() {
+    for (let i in Request2.requests) {
+      if (Request2.requests.hasOwnProperty(i)) {
+        Request2.requests[i].abort();
+      }
+    }
+  }
+  var hasXHR2 = (function() {
+    const xhr = newRequest({
+      xdomain: false
+    });
+    return xhr && xhr.responseType !== null;
+  })();
+  var XHR = class extends BaseXHR {
+    constructor(opts) {
+      super(opts);
+      const forceBase64 = opts && opts.forceBase64;
+      this.supportsBinary = hasXHR2 && !forceBase64;
+    }
+    request(opts = {}) {
+      Object.assign(opts, { xd: this.xd }, this.opts);
+      return new Request2(newRequest, this.uri(), opts);
+    }
+  };
+  function newRequest(opts) {
+    const xdomain = opts.xdomain;
+    try {
+      if ("undefined" !== typeof XMLHttpRequest && (!xdomain || hasCORS)) {
+        return new XMLHttpRequest();
+      }
+    } catch (e) {
+    }
+    if (!xdomain) {
+      try {
+        return new globalThisShim[["Active"].concat("Object").join("X")]("Microsoft.XMLHTTP");
+      } catch (e) {
+      }
+    }
+  }
+
+  // node_modules/engine.io-client/build/esm/transports/websocket.js
+  var isReactNative = typeof navigator !== "undefined" && typeof navigator.product === "string" && navigator.product.toLowerCase() === "reactnative";
+  var BaseWS = class extends Transport {
+    get name() {
+      return "websocket";
+    }
+    doOpen() {
+      const uri = this.uri();
+      const protocols = this.opts.protocols;
+      const opts = isReactNative ? {} : pick(this.opts, "agent", "perMessageDeflate", "pfx", "key", "passphrase", "cert", "ca", "ciphers", "rejectUnauthorized", "localAddress", "protocolVersion", "origin", "maxPayload", "family", "checkServerIdentity");
+      if (this.opts.extraHeaders) {
+        opts.headers = this.opts.extraHeaders;
+      }
+      try {
+        this.ws = this.createSocket(uri, protocols, opts);
+      } catch (err) {
+        return this.emitReserved("error", err);
+      }
+      this.ws.binaryType = this.socket.binaryType;
+      this.addEventListeners();
+    }
+    /**
+     * Adds event listeners to the socket
+     *
+     * @private
+     */
+    addEventListeners() {
+      this.ws.onopen = () => {
+        if (this.opts.autoUnref) {
+          this.ws._socket.unref();
+        }
+        this.onOpen();
+      };
+      this.ws.onclose = (closeEvent) => this.onClose({
+        description: "websocket connection closed",
+        context: closeEvent
+      });
+      this.ws.onmessage = (ev) => this.onData(ev.data);
+      this.ws.onerror = (e) => this.onError("websocket error", e);
+    }
+    write(packets) {
+      this.writable = false;
+      for (let i = 0; i < packets.length; i++) {
+        const packet = packets[i];
+        const lastPacket = i === packets.length - 1;
+        encodePacket(packet, this.supportsBinary, (data2) => {
+          try {
+            this.doWrite(packet, data2);
+          } catch (e) {
+          }
+          if (lastPacket) {
+            nextTick(() => {
+              this.writable = true;
+              this.emitReserved("drain");
+            }, this.setTimeoutFn);
+          }
+        });
+      }
+    }
+    doClose() {
+      if (typeof this.ws !== "undefined") {
+        this.ws.onerror = () => {
+        };
+        this.ws.close();
+        this.ws = null;
+      }
+    }
+    /**
+     * Generates uri for connection.
+     *
+     * @private
+     */
+    uri() {
+      const schema = this.opts.secure ? "wss" : "ws";
+      const query = this.query || {};
+      if (this.opts.timestampRequests) {
+        query[this.opts.timestampParam] = randomString();
+      }
+      if (!this.supportsBinary) {
+        query.b64 = 1;
+      }
+      return this.createUri(schema, query);
+    }
+  };
+  var WebSocketCtor = globalThisShim.WebSocket || globalThisShim.MozWebSocket;
+  var WS = class extends BaseWS {
+    createSocket(uri, protocols, opts) {
+      return !isReactNative ? protocols ? new WebSocketCtor(uri, protocols) : new WebSocketCtor(uri) : new WebSocketCtor(uri, protocols, opts);
+    }
+    doWrite(_packet, data2) {
+      this.ws.send(data2);
+    }
+  };
+
+  // node_modules/engine.io-client/build/esm/transports/webtransport.js
+  var WT = class extends Transport {
+    get name() {
+      return "webtransport";
+    }
+    doOpen() {
+      try {
+        this._transport = new WebTransport(this.createUri("https"), this.opts.transportOptions[this.name]);
+      } catch (err) {
+        return this.emitReserved("error", err);
+      }
+      this._transport.closed.then(() => {
+        this.onClose();
+      }).catch((err) => {
+        this.onError("webtransport error", err);
+      });
+      this._transport.ready.then(() => {
+        this._transport.createBidirectionalStream().then((stream) => {
+          const decoderStream = createPacketDecoderStream(Number.MAX_SAFE_INTEGER, this.socket.binaryType);
+          const reader = stream.readable.pipeThrough(decoderStream).getReader();
+          const encoderStream = createPacketEncoderStream();
+          encoderStream.readable.pipeTo(stream.writable);
+          this._writer = encoderStream.writable.getWriter();
+          const read = () => {
+            reader.read().then(({ done, value: value2 }) => {
+              if (done) {
+                return;
+              }
+              this.onPacket(value2);
+              read();
+            }).catch((err) => {
+            });
+          };
+          read();
+          const packet = { type: "open" };
+          if (this.query.sid) {
+            packet.data = `{"sid":"${this.query.sid}"}`;
+          }
+          this._writer.write(packet).then(() => this.onOpen());
+        });
+      });
+    }
+    write(packets) {
+      this.writable = false;
+      for (let i = 0; i < packets.length; i++) {
+        const packet = packets[i];
+        const lastPacket = i === packets.length - 1;
+        this._writer.write(packet).then(() => {
+          if (lastPacket) {
+            nextTick(() => {
+              this.writable = true;
+              this.emitReserved("drain");
+            }, this.setTimeoutFn);
+          }
+        });
+      }
+    }
+    doClose() {
+      var _a;
+      (_a = this._transport) === null || _a === void 0 ? void 0 : _a.close();
+    }
+  };
+
+  // node_modules/engine.io-client/build/esm/transports/index.js
+  var transports = {
+    websocket: WS,
+    webtransport: WT,
+    polling: XHR
+  };
+
+  // node_modules/engine.io-client/build/esm/contrib/parseuri.js
+  var re = /^(?:(?![^:@\/?#]+:[^:@\/]*@)(http|https|ws|wss):\/\/)?((?:(([^:@\/?#]*)(?::([^:@\/?#]*))?)?@)?((?:[a-f0-9]{0,4}:){2,7}[a-f0-9]{0,4}|[^:\/?#]*)(?::(\d*))?)(((\/(?:[^?#](?![^?#\/]*\.[^?#\/.]+(?:[?#]|$)))*\/?)?([^?#\/]*))(?:\?([^#]*))?(?:#(.*))?)/;
+  var parts = [
+    "source",
+    "protocol",
+    "authority",
+    "userInfo",
+    "user",
+    "password",
+    "host",
+    "port",
+    "relative",
+    "path",
+    "directory",
+    "file",
+    "query",
+    "anchor"
+  ];
+  function parse(str) {
+    if (str.length > 8e3) {
+      throw "URI too long";
+    }
+    const src = str, b = str.indexOf("["), e = str.indexOf("]");
+    if (b != -1 && e != -1) {
+      str = str.substring(0, b) + str.substring(b, e).replace(/:/g, ";") + str.substring(e, str.length);
+    }
+    let m = re.exec(str || ""), uri = {}, i = 14;
+    while (i--) {
+      uri[parts[i]] = m[i] || "";
+    }
+    if (b != -1 && e != -1) {
+      uri.source = src;
+      uri.host = uri.host.substring(1, uri.host.length - 1).replace(/;/g, ":");
+      uri.authority = uri.authority.replace("[", "").replace("]", "").replace(/;/g, ":");
+      uri.ipv6uri = true;
+    }
+    uri.pathNames = pathNames(uri, uri["path"]);
+    uri.queryKey = queryKey(uri, uri["query"]);
+    return uri;
+  }
+  function pathNames(obj, path) {
+    const regx = /\/{2,9}/g, names = path.replace(regx, "/").split("/");
+    if (path.slice(0, 1) == "/" || path.length === 0) {
+      names.splice(0, 1);
+    }
+    if (path.slice(-1) == "/") {
+      names.splice(names.length - 1, 1);
+    }
+    return names;
+  }
+  function queryKey(uri, query) {
+    const data2 = {};
+    query.replace(/(?:^|&)([^&=]*)=?([^&]*)/g, function($0, $1, $2) {
+      if ($1) {
+        data2[$1] = $2;
+      }
+    });
+    return data2;
+  }
+
+  // node_modules/engine.io-client/build/esm/socket.js
+  var withEventListeners = typeof addEventListener === "function" && typeof removeEventListener === "function";
+  var OFFLINE_EVENT_LISTENERS = [];
+  if (withEventListeners) {
+    addEventListener("offline", () => {
+      OFFLINE_EVENT_LISTENERS.forEach((listener) => listener());
+    }, false);
+  }
+  var SocketWithoutUpgrade = class _SocketWithoutUpgrade extends Emitter {
+    /**
+     * Socket constructor.
+     *
+     * @param {String|Object} uri - uri or options
+     * @param {Object} opts - options
+     */
+    constructor(uri, opts) {
+      super();
+      this.binaryType = defaultBinaryType;
+      this.writeBuffer = [];
+      this._prevBufferLen = 0;
+      this._pingInterval = -1;
+      this._pingTimeout = -1;
+      this._maxPayload = -1;
+      this._pingTimeoutTime = Infinity;
+      if (uri && "object" === typeof uri) {
+        opts = uri;
+        uri = null;
+      }
+      if (uri) {
+        const parsedUri = parse(uri);
+        opts.hostname = parsedUri.host;
+        opts.secure = parsedUri.protocol === "https" || parsedUri.protocol === "wss";
+        opts.port = parsedUri.port;
+        if (parsedUri.query)
+          opts.query = parsedUri.query;
+      } else if (opts.host) {
+        opts.hostname = parse(opts.host).host;
+      }
+      installTimerFunctions(this, opts);
+      this.secure = null != opts.secure ? opts.secure : typeof location !== "undefined" && "https:" === location.protocol;
+      if (opts.hostname && !opts.port) {
+        opts.port = this.secure ? "443" : "80";
+      }
+      this.hostname = opts.hostname || (typeof location !== "undefined" ? location.hostname : "localhost");
+      this.port = opts.port || (typeof location !== "undefined" && location.port ? location.port : this.secure ? "443" : "80");
+      this.transports = [];
+      this._transportsByName = {};
+      opts.transports.forEach((t) => {
+        const transportName = t.prototype.name;
+        this.transports.push(transportName);
+        this._transportsByName[transportName] = t;
+      });
+      this.opts = Object.assign({
+        path: "/engine.io",
+        agent: false,
+        withCredentials: false,
+        upgrade: true,
+        timestampParam: "t",
+        rememberUpgrade: false,
+        addTrailingSlash: true,
+        rejectUnauthorized: true,
+        perMessageDeflate: {
+          threshold: 1024
+        },
+        transportOptions: {},
+        closeOnBeforeunload: false
+      }, opts);
+      this.opts.path = this.opts.path.replace(/\/$/, "") + (this.opts.addTrailingSlash ? "/" : "");
+      if (typeof this.opts.query === "string") {
+        this.opts.query = decode2(this.opts.query);
+      }
+      if (withEventListeners) {
+        if (this.opts.closeOnBeforeunload) {
+          this._beforeunloadEventListener = () => {
+            if (this.transport) {
+              this.transport.removeAllListeners();
+              this.transport.close();
+            }
+          };
+          addEventListener("beforeunload", this._beforeunloadEventListener, false);
+        }
+        if (this.hostname !== "localhost") {
+          this._offlineEventListener = () => {
+            this._onClose("transport close", {
+              description: "network connection lost"
+            });
+          };
+          OFFLINE_EVENT_LISTENERS.push(this._offlineEventListener);
+        }
+      }
+      if (this.opts.withCredentials) {
+        this._cookieJar = createCookieJar();
+      }
+      this._open();
+    }
+    /**
+     * Creates transport of the given type.
+     *
+     * @param {String} name - transport name
+     * @return {Transport}
+     * @private
+     */
+    createTransport(name) {
+      const query = Object.assign({}, this.opts.query);
+      query.EIO = protocol;
+      query.transport = name;
+      if (this.id)
+        query.sid = this.id;
+      const opts = Object.assign({}, this.opts, {
+        query,
+        socket: this,
+        hostname: this.hostname,
+        secure: this.secure,
+        port: this.port
+      }, this.opts.transportOptions[name]);
+      return new this._transportsByName[name](opts);
+    }
+    /**
+     * Initializes transport to use and starts probe.
+     *
+     * @private
+     */
+    _open() {
+      if (this.transports.length === 0) {
+        this.setTimeoutFn(() => {
+          this.emitReserved("error", "No transports available");
+        }, 0);
+        return;
+      }
+      const transportName = this.opts.rememberUpgrade && _SocketWithoutUpgrade.priorWebsocketSuccess && this.transports.indexOf("websocket") !== -1 ? "websocket" : this.transports[0];
+      this.readyState = "opening";
+      const transport = this.createTransport(transportName);
+      transport.open();
+      this.setTransport(transport);
+    }
+    /**
+     * Sets the current transport. Disables the existing one (if any).
+     *
+     * @private
+     */
+    setTransport(transport) {
+      if (this.transport) {
+        this.transport.removeAllListeners();
+      }
+      this.transport = transport;
+      transport.on("drain", this._onDrain.bind(this)).on("packet", this._onPacket.bind(this)).on("error", this._onError.bind(this)).on("close", (reason) => this._onClose("transport close", reason));
+    }
+    /**
+     * Called when connection is deemed open.
+     *
+     * @private
+     */
+    onOpen() {
+      this.readyState = "open";
+      _SocketWithoutUpgrade.priorWebsocketSuccess = "websocket" === this.transport.name;
+      this.emitReserved("open");
+      this.flush();
+    }
+    /**
+     * Handles a packet.
+     *
+     * @private
+     */
+    _onPacket(packet) {
+      if ("opening" === this.readyState || "open" === this.readyState || "closing" === this.readyState) {
+        this.emitReserved("packet", packet);
+        this.emitReserved("heartbeat");
+        switch (packet.type) {
+          case "open":
+            this.onHandshake(JSON.parse(packet.data));
+            break;
+          case "ping":
+            this._sendPacket("pong");
+            this.emitReserved("ping");
+            this.emitReserved("pong");
+            this._resetPingTimeout();
+            break;
+          case "error":
+            const err = new Error("server error");
+            err.code = packet.data;
+            this._onError(err);
+            break;
+          case "message":
+            this.emitReserved("data", packet.data);
+            this.emitReserved("message", packet.data);
+            break;
+        }
+      } else {
+      }
+    }
+    /**
+     * Called upon handshake completion.
+     *
+     * @param {Object} data - handshake obj
+     * @private
+     */
+    onHandshake(data2) {
+      this.emitReserved("handshake", data2);
+      this.id = data2.sid;
+      this.transport.query.sid = data2.sid;
+      this._pingInterval = data2.pingInterval;
+      this._pingTimeout = data2.pingTimeout;
+      this._maxPayload = data2.maxPayload;
+      this.onOpen();
+      if ("closed" === this.readyState)
+        return;
+      this._resetPingTimeout();
+    }
+    /**
+     * Sets and resets ping timeout timer based on server pings.
+     *
+     * @private
+     */
+    _resetPingTimeout() {
+      this.clearTimeoutFn(this._pingTimeoutTimer);
+      const delay = this._pingInterval + this._pingTimeout;
+      this._pingTimeoutTime = Date.now() + delay;
+      this._pingTimeoutTimer = this.setTimeoutFn(() => {
+        this._onClose("ping timeout");
+      }, delay);
+      if (this.opts.autoUnref) {
+        this._pingTimeoutTimer.unref();
+      }
+    }
+    /**
+     * Called on `drain` event
+     *
+     * @private
+     */
+    _onDrain() {
+      this.writeBuffer.splice(0, this._prevBufferLen);
+      this._prevBufferLen = 0;
+      if (0 === this.writeBuffer.length) {
+        this.emitReserved("drain");
+      } else {
+        this.flush();
+      }
+    }
+    /**
+     * Flush write buffers.
+     *
+     * @private
+     */
+    flush() {
+      if ("closed" !== this.readyState && this.transport.writable && !this.upgrading && this.writeBuffer.length) {
+        const packets = this._getWritablePackets();
+        this.transport.send(packets);
+        this._prevBufferLen = packets.length;
+        this.emitReserved("flush");
+      }
+    }
+    /**
+     * Ensure the encoded size of the writeBuffer is below the maxPayload value sent by the server (only for HTTP
+     * long-polling)
+     *
+     * @private
+     */
+    _getWritablePackets() {
+      const shouldCheckPayloadSize = this._maxPayload && this.transport.name === "polling" && this.writeBuffer.length > 1;
+      if (!shouldCheckPayloadSize) {
+        return this.writeBuffer;
+      }
+      let payloadSize = 1;
+      for (let i = 0; i < this.writeBuffer.length; i++) {
+        const data2 = this.writeBuffer[i].data;
+        if (data2) {
+          payloadSize += byteLength(data2);
+        }
+        if (i > 0 && payloadSize > this._maxPayload) {
+          return this.writeBuffer.slice(0, i);
+        }
+        payloadSize += 2;
+      }
+      return this.writeBuffer;
+    }
+    /**
+     * Checks whether the heartbeat timer has expired but the socket has not yet been notified.
+     *
+     * Note: this method is private for now because it does not really fit the WebSocket API, but if we put it in the
+     * `write()` method then the message would not be buffered by the Socket.IO client.
+     *
+     * @return {boolean}
+     * @private
+     */
+    /* private */
+    _hasPingExpired() {
+      if (!this._pingTimeoutTime)
+        return true;
+      const hasExpired = Date.now() > this._pingTimeoutTime;
+      if (hasExpired) {
+        this._pingTimeoutTime = 0;
+        nextTick(() => {
+          this._onClose("ping timeout");
+        }, this.setTimeoutFn);
+      }
+      return hasExpired;
+    }
+    /**
+     * Sends a message.
+     *
+     * @param {String} msg - message.
+     * @param {Object} options.
+     * @param {Function} fn - callback function.
+     * @return {Socket} for chaining.
+     */
+    write(msg, options, fn) {
+      this._sendPacket("message", msg, options, fn);
+      return this;
+    }
+    /**
+     * Sends a message. Alias of {@link Socket#write}.
+     *
+     * @param {String} msg - message.
+     * @param {Object} options.
+     * @param {Function} fn - callback function.
+     * @return {Socket} for chaining.
+     */
+    send(msg, options, fn) {
+      this._sendPacket("message", msg, options, fn);
+      return this;
+    }
+    /**
+     * Sends a packet.
+     *
+     * @param {String} type - packet type.
+     * @param {String} data.
+     * @param {Object} options.
+     * @param {Function} fn - callback function.
+     * @private
+     */
+    _sendPacket(type, data2, options, fn) {
+      if ("function" === typeof data2) {
+        fn = data2;
+        data2 = void 0;
+      }
+      if ("function" === typeof options) {
+        fn = options;
+        options = null;
+      }
+      if ("closing" === this.readyState || "closed" === this.readyState) {
+        return;
+      }
+      options = options || {};
+      options.compress = false !== options.compress;
+      const packet = {
+        type,
+        data: data2,
+        options
+      };
+      this.emitReserved("packetCreate", packet);
+      this.writeBuffer.push(packet);
+      if (fn)
+        this.once("flush", fn);
+      this.flush();
+    }
+    /**
+     * Closes the connection.
+     */
+    close() {
+      const close = () => {
+        this._onClose("forced close");
+        this.transport.close();
+      };
+      const cleanupAndClose = () => {
+        this.off("upgrade", cleanupAndClose);
+        this.off("upgradeError", cleanupAndClose);
+        close();
+      };
+      const waitForUpgrade = () => {
+        this.once("upgrade", cleanupAndClose);
+        this.once("upgradeError", cleanupAndClose);
+      };
+      if ("opening" === this.readyState || "open" === this.readyState) {
+        this.readyState = "closing";
+        if (this.writeBuffer.length) {
+          this.once("drain", () => {
+            if (this.upgrading) {
+              waitForUpgrade();
+            } else {
+              close();
+            }
+          });
+        } else if (this.upgrading) {
+          waitForUpgrade();
+        } else {
+          close();
+        }
+      }
+      return this;
+    }
+    /**
+     * Called upon transport error
+     *
+     * @private
+     */
+    _onError(err) {
+      _SocketWithoutUpgrade.priorWebsocketSuccess = false;
+      if (this.opts.tryAllTransports && this.transports.length > 1 && this.readyState === "opening") {
+        this.transports.shift();
+        return this._open();
+      }
+      this.emitReserved("error", err);
+      this._onClose("transport error", err);
+    }
+    /**
+     * Called upon transport close.
+     *
+     * @private
+     */
+    _onClose(reason, description) {
+      if ("opening" === this.readyState || "open" === this.readyState || "closing" === this.readyState) {
+        this.clearTimeoutFn(this._pingTimeoutTimer);
+        this.transport.removeAllListeners("close");
+        this.transport.close();
+        this.transport.removeAllListeners();
+        if (withEventListeners) {
+          if (this._beforeunloadEventListener) {
+            removeEventListener("beforeunload", this._beforeunloadEventListener, false);
+          }
+          if (this._offlineEventListener) {
+            const i = OFFLINE_EVENT_LISTENERS.indexOf(this._offlineEventListener);
+            if (i !== -1) {
+              OFFLINE_EVENT_LISTENERS.splice(i, 1);
+            }
+          }
+        }
+        this.readyState = "closed";
+        this.id = null;
+        this.emitReserved("close", reason, description);
+        this.writeBuffer = [];
+        this._prevBufferLen = 0;
+      }
+    }
+  };
+  SocketWithoutUpgrade.protocol = protocol;
+  var SocketWithUpgrade = class extends SocketWithoutUpgrade {
+    constructor() {
+      super(...arguments);
+      this._upgrades = [];
+    }
+    onOpen() {
+      super.onOpen();
+      if ("open" === this.readyState && this.opts.upgrade) {
+        for (let i = 0; i < this._upgrades.length; i++) {
+          this._probe(this._upgrades[i]);
+        }
+      }
+    }
+    /**
+     * Probes a transport.
+     *
+     * @param {String} name - transport name
+     * @private
+     */
+    _probe(name) {
+      let transport = this.createTransport(name);
+      let failed = false;
+      SocketWithoutUpgrade.priorWebsocketSuccess = false;
+      const onTransportOpen = () => {
+        if (failed)
+          return;
+        transport.send([{ type: "ping", data: "probe" }]);
+        transport.once("packet", (msg) => {
+          if (failed)
+            return;
+          if ("pong" === msg.type && "probe" === msg.data) {
+            this.upgrading = true;
+            this.emitReserved("upgrading", transport);
+            if (!transport)
+              return;
+            SocketWithoutUpgrade.priorWebsocketSuccess = "websocket" === transport.name;
+            this.transport.pause(() => {
+              if (failed)
+                return;
+              if ("closed" === this.readyState)
+                return;
+              cleanup();
+              this.setTransport(transport);
+              transport.send([{ type: "upgrade" }]);
+              this.emitReserved("upgrade", transport);
+              transport = null;
+              this.upgrading = false;
+              this.flush();
+            });
+          } else {
+            const err = new Error("probe error");
+            err.transport = transport.name;
+            this.emitReserved("upgradeError", err);
+          }
+        });
+      };
+      function freezeTransport() {
+        if (failed)
+          return;
+        failed = true;
+        cleanup();
+        transport.close();
+        transport = null;
+      }
+      const onerror = (err) => {
+        const error = new Error("probe error: " + err);
+        error.transport = transport.name;
+        freezeTransport();
+        this.emitReserved("upgradeError", error);
+      };
+      function onTransportClose() {
+        onerror("transport closed");
+      }
+      function onclose() {
+        onerror("socket closed");
+      }
+      function onupgrade(to) {
+        if (transport && to.name !== transport.name) {
+          freezeTransport();
+        }
+      }
+      const cleanup = () => {
+        transport.removeListener("open", onTransportOpen);
+        transport.removeListener("error", onerror);
+        transport.removeListener("close", onTransportClose);
+        this.off("close", onclose);
+        this.off("upgrading", onupgrade);
+      };
+      transport.once("open", onTransportOpen);
+      transport.once("error", onerror);
+      transport.once("close", onTransportClose);
+      this.once("close", onclose);
+      this.once("upgrading", onupgrade);
+      if (this._upgrades.indexOf("webtransport") !== -1 && name !== "webtransport") {
+        this.setTimeoutFn(() => {
+          if (!failed) {
+            transport.open();
+          }
+        }, 200);
+      } else {
+        transport.open();
+      }
+    }
+    onHandshake(data2) {
+      this._upgrades = this._filterUpgrades(data2.upgrades);
+      super.onHandshake(data2);
+    }
+    /**
+     * Filters upgrades, returning only those matching client transports.
+     *
+     * @param {Array} upgrades - server upgrades
+     * @private
+     */
+    _filterUpgrades(upgrades) {
+      const filteredUpgrades = [];
+      for (let i = 0; i < upgrades.length; i++) {
+        if (~this.transports.indexOf(upgrades[i]))
+          filteredUpgrades.push(upgrades[i]);
+      }
+      return filteredUpgrades;
+    }
+  };
+  var Socket = class extends SocketWithUpgrade {
+    constructor(uri, opts = {}) {
+      const isOptionsOnly = typeof uri === "object";
+      const o = isOptionsOnly ? { ...uri } : { ...opts };
+      if (!o.transports || o.transports && typeof o.transports[0] === "string") {
+        o.transports = (o.transports || ["polling", "websocket", "webtransport"]).map((transportName) => transports[transportName]).filter((t) => !!t);
+      }
+      super(isOptionsOnly ? o : uri, o);
+    }
+  };
+
+  // node_modules/engine.io-client/build/esm/index.js
+  var protocol2 = Socket.protocol;
+
+  // node_modules/socket.io-client/build/esm/url.js
+  function url(uri, path = "", loc) {
+    let obj = uri;
+    loc = loc || typeof location !== "undefined" && location;
+    if (null == uri)
+      uri = loc.protocol + "//" + loc.host;
+    if (typeof uri === "string") {
+      if ("/" === uri.charAt(0)) {
+        if ("/" === uri.charAt(1)) {
+          uri = loc.protocol + uri;
+        } else {
+          uri = loc.host + uri;
+        }
+      }
+      if (!/^(https?|wss?):\/\//.test(uri)) {
+        if ("undefined" !== typeof loc) {
+          uri = loc.protocol + "//" + uri;
+        } else {
+          uri = "https://" + uri;
+        }
+      }
+      obj = parse(uri);
+    }
+    if (!obj.port) {
+      if (/^(http|ws)$/.test(obj.protocol)) {
+        obj.port = "80";
+      } else if (/^(http|ws)s$/.test(obj.protocol)) {
+        obj.port = "443";
+      }
+    }
+    obj.path = obj.path || "/";
+    const ipv6 = obj.host.indexOf(":") !== -1;
+    const host = ipv6 ? "[" + obj.host + "]" : obj.host;
+    obj.id = obj.protocol + "://" + host + ":" + obj.port + path;
+    obj.href = obj.protocol + "://" + host + (loc && loc.port === obj.port ? "" : ":" + obj.port);
+    return obj;
+  }
+
+  // node_modules/socket.io-parser/build/esm/index.js
+  var esm_exports = {};
+  __export(esm_exports, {
+    Decoder: () => Decoder,
+    Encoder: () => Encoder,
+    PacketType: () => PacketType,
+    isPacketValid: () => isPacketValid,
+    protocol: () => protocol3
+  });
+
+  // node_modules/socket.io-parser/build/esm/is-binary.js
+  var withNativeArrayBuffer3 = typeof ArrayBuffer === "function";
+  var isView2 = (obj) => {
+    return typeof ArrayBuffer.isView === "function" ? ArrayBuffer.isView(obj) : obj.buffer instanceof ArrayBuffer;
+  };
+  var toString = Object.prototype.toString;
+  var withNativeBlob2 = typeof Blob === "function" || typeof Blob !== "undefined" && toString.call(Blob) === "[object BlobConstructor]";
+  var withNativeFile = typeof File === "function" || typeof File !== "undefined" && toString.call(File) === "[object FileConstructor]";
+  function isBinary(obj) {
+    return withNativeArrayBuffer3 && (obj instanceof ArrayBuffer || isView2(obj)) || withNativeBlob2 && obj instanceof Blob || withNativeFile && obj instanceof File;
+  }
+  function hasBinary(obj, toJSON) {
+    if (!obj || typeof obj !== "object") {
+      return false;
+    }
+    if (Array.isArray(obj)) {
+      for (let i = 0, l = obj.length; i < l; i++) {
+        if (hasBinary(obj[i])) {
+          return true;
+        }
+      }
+      return false;
+    }
+    if (isBinary(obj)) {
+      return true;
+    }
+    if (obj.toJSON && typeof obj.toJSON === "function" && arguments.length === 1) {
+      return hasBinary(obj.toJSON(), true);
+    }
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key) && hasBinary(obj[key])) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  // node_modules/socket.io-parser/build/esm/binary.js
+  function deconstructPacket(packet) {
+    const buffers = [];
+    const packetData = packet.data;
+    const pack = packet;
+    pack.data = _deconstructPacket(packetData, buffers);
+    pack.attachments = buffers.length;
+    return { packet: pack, buffers };
+  }
+  function _deconstructPacket(data2, buffers, toJSON) {
+    if (!data2)
+      return data2;
+    if (isBinary(data2)) {
+      const placeholder = { _placeholder: true, num: buffers.length };
+      buffers.push(data2);
+      return placeholder;
+    } else if (Array.isArray(data2)) {
+      const newData = new Array(data2.length);
+      for (let i = 0; i < data2.length; i++) {
+        newData[i] = _deconstructPacket(data2[i], buffers);
+      }
+      return newData;
+    } else if (typeof data2 === "object" && !(data2 instanceof Date)) {
+      if (data2.toJSON && typeof data2.toJSON === "function" && !toJSON) {
+        return _deconstructPacket(data2.toJSON(), buffers, true);
+      }
+      const newData = {};
+      for (const key in data2) {
+        if (Object.prototype.hasOwnProperty.call(data2, key)) {
+          newData[key] = _deconstructPacket(data2[key], buffers);
+        }
+      }
+      return newData;
+    }
+    return data2;
+  }
+  function reconstructPacket(packet, buffers) {
+    packet.data = _reconstructPacket(packet.data, buffers);
+    delete packet.attachments;
+    return packet;
+  }
+  function _reconstructPacket(data2, buffers) {
+    if (!data2)
+      return data2;
+    if (data2 && data2._placeholder === true) {
+      const isIndexValid = typeof data2.num === "number" && data2.num >= 0 && data2.num < buffers.length;
+      if (isIndexValid) {
+        return buffers[data2.num];
+      } else {
+        throw new Error("illegal attachments");
+      }
+    } else if (Array.isArray(data2)) {
+      for (let i = 0; i < data2.length; i++) {
+        data2[i] = _reconstructPacket(data2[i], buffers);
+      }
+    } else if (typeof data2 === "object") {
+      for (const key in data2) {
+        if (Object.prototype.hasOwnProperty.call(data2, key)) {
+          data2[key] = _reconstructPacket(data2[key], buffers);
+        }
+      }
+    }
+    return data2;
+  }
+
+  // node_modules/socket.io-parser/build/esm/index.js
+  var RESERVED_EVENTS = [
+    "connect",
+    // used on the client side
+    "connect_error",
+    // used on the client side
+    "disconnect",
+    // used on both sides
+    "disconnecting",
+    // used on the server side
+    "newListener",
+    // used by the Node.js EventEmitter
+    "removeListener"
+    // used by the Node.js EventEmitter
+  ];
+  var protocol3 = 5;
+  var PacketType;
+  (function(PacketType2) {
+    PacketType2[PacketType2["CONNECT"] = 0] = "CONNECT";
+    PacketType2[PacketType2["DISCONNECT"] = 1] = "DISCONNECT";
+    PacketType2[PacketType2["EVENT"] = 2] = "EVENT";
+    PacketType2[PacketType2["ACK"] = 3] = "ACK";
+    PacketType2[PacketType2["CONNECT_ERROR"] = 4] = "CONNECT_ERROR";
+    PacketType2[PacketType2["BINARY_EVENT"] = 5] = "BINARY_EVENT";
+    PacketType2[PacketType2["BINARY_ACK"] = 6] = "BINARY_ACK";
+  })(PacketType || (PacketType = {}));
+  var Encoder = class {
+    /**
+     * Encoder constructor
+     *
+     * @param {function} replacer - custom replacer to pass down to JSON.parse
+     */
+    constructor(replacer) {
+      this.replacer = replacer;
+    }
+    /**
+     * Encode a packet as a single string if non-binary, or as a
+     * buffer sequence, depending on packet type.
+     *
+     * @param {Object} obj - packet object
+     */
+    encode(obj) {
+      if (obj.type === PacketType.EVENT || obj.type === PacketType.ACK) {
+        if (hasBinary(obj)) {
+          return this.encodeAsBinary({
+            type: obj.type === PacketType.EVENT ? PacketType.BINARY_EVENT : PacketType.BINARY_ACK,
+            nsp: obj.nsp,
+            data: obj.data,
+            id: obj.id
+          });
+        }
+      }
+      return [this.encodeAsString(obj)];
+    }
+    /**
+     * Encode packet as string.
+     */
+    encodeAsString(obj) {
+      let str = "" + obj.type;
+      if (obj.type === PacketType.BINARY_EVENT || obj.type === PacketType.BINARY_ACK) {
+        str += obj.attachments + "-";
+      }
+      if (obj.nsp && "/" !== obj.nsp) {
+        str += obj.nsp + ",";
+      }
+      if (null != obj.id) {
+        str += obj.id;
+      }
+      if (null != obj.data) {
+        str += JSON.stringify(obj.data, this.replacer);
+      }
+      return str;
+    }
+    /**
+     * Encode packet as 'buffer sequence' by removing blobs, and
+     * deconstructing packet into object with placeholders and
+     * a list of buffers.
+     */
+    encodeAsBinary(obj) {
+      const deconstruction = deconstructPacket(obj);
+      const pack = this.encodeAsString(deconstruction.packet);
+      const buffers = deconstruction.buffers;
+      buffers.unshift(pack);
+      return buffers;
+    }
+  };
+  var Decoder = class _Decoder extends Emitter {
+    /**
+     * Decoder constructor
+     */
+    constructor(opts) {
+      super();
+      this.opts = Object.assign({
+        reviver: void 0,
+        maxAttachments: 10
+      }, typeof opts === "function" ? { reviver: opts } : opts);
+    }
+    /**
+     * Decodes an encoded packet string into packet JSON.
+     *
+     * @param {String} obj - encoded packet
+     */
+    add(obj) {
+      let packet;
+      if (typeof obj === "string") {
+        if (this.reconstructor) {
+          throw new Error("got plaintext data when reconstructing a packet");
+        }
+        packet = this.decodeString(obj);
+        const isBinaryEvent = packet.type === PacketType.BINARY_EVENT;
+        if (isBinaryEvent || packet.type === PacketType.BINARY_ACK) {
+          packet.type = isBinaryEvent ? PacketType.EVENT : PacketType.ACK;
+          this.reconstructor = new BinaryReconstructor(packet);
+        } else {
+          super.emitReserved("decoded", packet);
+        }
+      } else if (isBinary(obj) || obj.base64) {
+        if (!this.reconstructor) {
+          throw new Error("got binary data when not reconstructing a packet");
+        } else {
+          packet = this.reconstructor.takeBinaryData(obj);
+          if (packet) {
+            this.reconstructor = null;
+            super.emitReserved("decoded", packet);
+          }
+        }
+      } else {
+        throw new Error("Unknown type: " + obj);
+      }
+    }
+    /**
+     * Decode a packet String (JSON data)
+     *
+     * @param {String} str
+     * @return {Object} packet
+     */
+    decodeString(str) {
+      let i = 0;
+      const p = {
+        type: Number(str.charAt(0))
+      };
+      if (PacketType[p.type] === void 0) {
+        throw new Error("unknown packet type " + p.type);
+      }
+      if (p.type === PacketType.BINARY_EVENT || p.type === PacketType.BINARY_ACK) {
+        const start = i + 1;
+        while (str.charAt(++i) !== "-" && i != str.length) {
+        }
+        const buf = str.substring(start, i);
+        if (buf != Number(buf) || str.charAt(i) !== "-") {
+          throw new Error("Illegal attachments");
+        }
+        const n = Number(buf);
+        if (!isInteger(n) || n < 1) {
+          throw new Error("Illegal attachments");
+        } else if (n > this.opts.maxAttachments) {
+          throw new Error("too many attachments");
+        }
+        p.attachments = n;
+      }
+      if ("/" === str.charAt(i + 1)) {
+        const start = i + 1;
+        while (++i) {
+          const c = str.charAt(i);
+          if ("," === c)
+            break;
+          if (i === str.length)
+            break;
+        }
+        p.nsp = str.substring(start, i);
+      } else {
+        p.nsp = "/";
+      }
+      const next2 = str.charAt(i + 1);
+      if ("" !== next2 && Number(next2) == next2) {
+        const start = i + 1;
+        while (++i) {
+          const c = str.charAt(i);
+          if (null == c || Number(c) != c) {
+            --i;
+            break;
+          }
+          if (i === str.length)
+            break;
+        }
+        p.id = Number(str.substring(start, i + 1));
+      }
+      if (str.charAt(++i)) {
+        const payload = this.tryParse(str.substr(i));
+        if (_Decoder.isPayloadValid(p.type, payload)) {
+          p.data = payload;
+        } else {
+          throw new Error("invalid payload");
+        }
+      }
+      return p;
+    }
+    tryParse(str) {
+      try {
+        return JSON.parse(str, this.opts.reviver);
+      } catch (e) {
+        return false;
+      }
+    }
+    static isPayloadValid(type, payload) {
+      switch (type) {
+        case PacketType.CONNECT:
+          return isObject(payload);
+        case PacketType.DISCONNECT:
+          return payload === void 0;
+        case PacketType.CONNECT_ERROR:
+          return typeof payload === "string" || isObject(payload);
+        case PacketType.EVENT:
+        case PacketType.BINARY_EVENT:
+          return Array.isArray(payload) && (typeof payload[0] === "number" || typeof payload[0] === "string" && RESERVED_EVENTS.indexOf(payload[0]) === -1);
+        case PacketType.ACK:
+        case PacketType.BINARY_ACK:
+          return Array.isArray(payload);
+      }
+    }
+    /**
+     * Deallocates a parser's resources
+     */
+    destroy() {
+      if (this.reconstructor) {
+        this.reconstructor.finishedReconstruction();
+        this.reconstructor = null;
+      }
+    }
+  };
+  var BinaryReconstructor = class {
+    constructor(packet) {
+      this.packet = packet;
+      this.buffers = [];
+      this.reconPack = packet;
+    }
+    /**
+     * Method to be called when binary data received from connection
+     * after a BINARY_EVENT packet.
+     *
+     * @param {Buffer | ArrayBuffer} binData - the raw binary data received
+     * @return {null | Object} returns null if more binary data is expected or
+     *   a reconstructed packet object if all buffers have been received.
+     */
+    takeBinaryData(binData) {
+      this.buffers.push(binData);
+      if (this.buffers.length === this.reconPack.attachments) {
+        const packet = reconstructPacket(this.reconPack, this.buffers);
+        this.finishedReconstruction();
+        return packet;
+      }
+      return null;
+    }
+    /**
+     * Cleans up binary packet reconstruction variables.
+     */
+    finishedReconstruction() {
+      this.reconPack = null;
+      this.buffers = [];
+    }
+  };
+  function isNamespaceValid(nsp) {
+    return typeof nsp === "string";
+  }
+  var isInteger = Number.isInteger || function(value2) {
+    return typeof value2 === "number" && isFinite(value2) && Math.floor(value2) === value2;
+  };
+  function isAckIdValid(id) {
+    return id === void 0 || isInteger(id);
+  }
+  function isObject(value2) {
+    return Object.prototype.toString.call(value2) === "[object Object]";
+  }
+  function isDataValid(type, payload) {
+    switch (type) {
+      case PacketType.CONNECT:
+        return payload === void 0 || isObject(payload);
+      case PacketType.DISCONNECT:
+        return payload === void 0;
+      case PacketType.EVENT:
+        return Array.isArray(payload) && (typeof payload[0] === "number" || typeof payload[0] === "string" && RESERVED_EVENTS.indexOf(payload[0]) === -1);
+      case PacketType.ACK:
+        return Array.isArray(payload);
+      case PacketType.CONNECT_ERROR:
+        return typeof payload === "string" || isObject(payload);
+      default:
+        return false;
+    }
+  }
+  function isPacketValid(packet) {
+    return isNamespaceValid(packet.nsp) && isAckIdValid(packet.id) && isDataValid(packet.type, packet.data);
+  }
+
+  // node_modules/socket.io-client/build/esm/on.js
+  function on(obj, ev, fn) {
+    obj.on(ev, fn);
+    return function subDestroy() {
+      obj.off(ev, fn);
+    };
+  }
+
+  // node_modules/socket.io-client/build/esm/socket.js
+  var RESERVED_EVENTS2 = Object.freeze({
+    connect: 1,
+    connect_error: 1,
+    disconnect: 1,
+    disconnecting: 1,
+    // EventEmitter reserved events: https://nodejs.org/api/events.html#events_event_newlistener
+    newListener: 1,
+    removeListener: 1
+  });
+  var Socket2 = class extends Emitter {
+    /**
+     * `Socket` constructor.
+     */
+    constructor(io, nsp, opts) {
+      super();
+      this.connected = false;
+      this.recovered = false;
+      this.receiveBuffer = [];
+      this.sendBuffer = [];
+      this._queue = [];
+      this._queueSeq = 0;
+      this.ids = 0;
+      this.acks = {};
+      this.flags = {};
+      this.io = io;
+      this.nsp = nsp;
+      if (opts && opts.auth) {
+        this.auth = opts.auth;
+      }
+      this._opts = Object.assign({}, opts);
+      if (this.io._autoConnect)
+        this.open();
+    }
+    /**
+     * Whether the socket is currently disconnected
+     *
+     * @example
+     * const socket = io();
+     *
+     * socket.on("connect", () => {
+     *   console.log(socket.disconnected); // false
+     * });
+     *
+     * socket.on("disconnect", () => {
+     *   console.log(socket.disconnected); // true
+     * });
+     */
+    get disconnected() {
+      return !this.connected;
+    }
+    /**
+     * Subscribe to open, close and packet events
+     *
+     * @private
+     */
+    subEvents() {
+      if (this.subs)
+        return;
+      const io = this.io;
+      this.subs = [
+        on(io, "open", this.onopen.bind(this)),
+        on(io, "packet", this.onpacket.bind(this)),
+        on(io, "error", this.onerror.bind(this)),
+        on(io, "close", this.onclose.bind(this))
+      ];
+    }
+    /**
+     * Whether the Socket will try to reconnect when its Manager connects or reconnects.
+     *
+     * @example
+     * const socket = io();
+     *
+     * console.log(socket.active); // true
+     *
+     * socket.on("disconnect", (reason) => {
+     *   if (reason === "io server disconnect") {
+     *     // the disconnection was initiated by the server, you need to manually reconnect
+     *     console.log(socket.active); // false
+     *   }
+     *   // else the socket will automatically try to reconnect
+     *   console.log(socket.active); // true
+     * });
+     */
+    get active() {
+      return !!this.subs;
+    }
+    /**
+     * "Opens" the socket.
+     *
+     * @example
+     * const socket = io({
+     *   autoConnect: false
+     * });
+     *
+     * socket.connect();
+     */
+    connect() {
+      if (this.connected)
+        return this;
+      this.subEvents();
+      if (!this.io["_reconnecting"])
+        this.io.open();
+      if ("open" === this.io._readyState)
+        this.onopen();
+      return this;
+    }
+    /**
+     * Alias for {@link connect()}.
+     */
+    open() {
+      return this.connect();
+    }
+    /**
+     * Sends a `message` event.
+     *
+     * This method mimics the WebSocket.send() method.
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/send
+     *
+     * @example
+     * socket.send("hello");
+     *
+     * // this is equivalent to
+     * socket.emit("message", "hello");
+     *
+     * @return self
+     */
+    send(...args) {
+      args.unshift("message");
+      this.emit.apply(this, args);
+      return this;
+    }
+    /**
+     * Override `emit`.
+     * If the event is in `events`, it's emitted normally.
+     *
+     * @example
+     * socket.emit("hello", "world");
+     *
+     * // all serializable datastructures are supported (no need to call JSON.stringify)
+     * socket.emit("hello", 1, "2", { 3: ["4"], 5: Uint8Array.from([6]) });
+     *
+     * // with an acknowledgement from the server
+     * socket.emit("hello", "world", (val) => {
+     *   // ...
+     * });
+     *
+     * @return self
+     */
+    emit(ev, ...args) {
+      var _a, _b, _c;
+      if (RESERVED_EVENTS2.hasOwnProperty(ev)) {
+        throw new Error('"' + ev.toString() + '" is a reserved event name');
+      }
+      args.unshift(ev);
+      if (this._opts.retries && !this.flags.fromQueue && !this.flags.volatile) {
+        this._addToQueue(args);
+        return this;
+      }
+      const packet = {
+        type: PacketType.EVENT,
+        data: args
+      };
+      packet.options = {};
+      packet.options.compress = this.flags.compress !== false;
+      if ("function" === typeof args[args.length - 1]) {
+        const id = this.ids++;
+        const ack = args.pop();
+        this._registerAckCallback(id, ack);
+        packet.id = id;
+      }
+      const isTransportWritable = (_b = (_a = this.io.engine) === null || _a === void 0 ? void 0 : _a.transport) === null || _b === void 0 ? void 0 : _b.writable;
+      const isConnected = this.connected && !((_c = this.io.engine) === null || _c === void 0 ? void 0 : _c._hasPingExpired());
+      const discardPacket = this.flags.volatile && !isTransportWritable;
+      if (discardPacket) {
+      } else if (isConnected) {
+        this.notifyOutgoingListeners(packet);
+        this.packet(packet);
+      } else {
+        this.sendBuffer.push(packet);
+      }
+      this.flags = {};
+      return this;
+    }
+    /**
+     * @private
+     */
+    _registerAckCallback(id, ack) {
+      var _a;
+      const timeout = (_a = this.flags.timeout) !== null && _a !== void 0 ? _a : this._opts.ackTimeout;
+      if (timeout === void 0) {
+        this.acks[id] = ack;
+        return;
+      }
+      const timer = this.io.setTimeoutFn(() => {
+        delete this.acks[id];
+        for (let i = 0; i < this.sendBuffer.length; i++) {
+          if (this.sendBuffer[i].id === id) {
+            this.sendBuffer.splice(i, 1);
+          }
+        }
+        ack.call(this, new Error("operation has timed out"));
+      }, timeout);
+      const fn = (...args) => {
+        this.io.clearTimeoutFn(timer);
+        ack.apply(this, args);
+      };
+      fn.withError = true;
+      this.acks[id] = fn;
+    }
+    /**
+     * Emits an event and waits for an acknowledgement
+     *
+     * @example
+     * // without timeout
+     * const response = await socket.emitWithAck("hello", "world");
+     *
+     * // with a specific timeout
+     * try {
+     *   const response = await socket.timeout(1000).emitWithAck("hello", "world");
+     * } catch (err) {
+     *   // the server did not acknowledge the event in the given delay
+     * }
+     *
+     * @return a Promise that will be fulfilled when the server acknowledges the event
+     */
+    emitWithAck(ev, ...args) {
+      return new Promise((resolve, reject) => {
+        const fn = (arg1, arg2) => {
+          return arg1 ? reject(arg1) : resolve(arg2);
+        };
+        fn.withError = true;
+        args.push(fn);
+        this.emit(ev, ...args);
+      });
+    }
+    /**
+     * Add the packet to the queue.
+     * @param args
+     * @private
+     */
+    _addToQueue(args) {
+      let ack;
+      if (typeof args[args.length - 1] === "function") {
+        ack = args.pop();
+      }
+      const packet = {
+        id: this._queueSeq++,
+        tryCount: 0,
+        pending: false,
+        args,
+        flags: Object.assign({ fromQueue: true }, this.flags)
+      };
+      args.push((err, ...responseArgs) => {
+        if (packet !== this._queue[0]) {
+        }
+        const hasError = err !== null;
+        if (hasError) {
+          if (packet.tryCount > this._opts.retries) {
+            this._queue.shift();
+            if (ack) {
+              ack(err);
+            }
+          }
+        } else {
+          this._queue.shift();
+          if (ack) {
+            ack(null, ...responseArgs);
+          }
+        }
+        packet.pending = false;
+        return this._drainQueue();
+      });
+      this._queue.push(packet);
+      this._drainQueue();
+    }
+    /**
+     * Send the first packet of the queue, and wait for an acknowledgement from the server.
+     * @param force - whether to resend a packet that has not been acknowledged yet
+     *
+     * @private
+     */
+    _drainQueue(force = false) {
+      if (!this.connected || this._queue.length === 0) {
+        return;
+      }
+      const packet = this._queue[0];
+      if (packet.pending && !force) {
+        return;
+      }
+      packet.pending = true;
+      packet.tryCount++;
+      this.flags = packet.flags;
+      this.emit.apply(this, packet.args);
+    }
+    /**
+     * Sends a packet.
+     *
+     * @param packet
+     * @private
+     */
+    packet(packet) {
+      packet.nsp = this.nsp;
+      this.io._packet(packet);
+    }
+    /**
+     * Called upon engine `open`.
+     *
+     * @private
+     */
+    onopen() {
+      if (typeof this.auth == "function") {
+        this.auth((data2) => {
+          this._sendConnectPacket(data2);
+        });
+      } else {
+        this._sendConnectPacket(this.auth);
+      }
+    }
+    /**
+     * Sends a CONNECT packet to initiate the Socket.IO session.
+     *
+     * @param data
+     * @private
+     */
+    _sendConnectPacket(data2) {
+      this.packet({
+        type: PacketType.CONNECT,
+        data: this._pid ? Object.assign({ pid: this._pid, offset: this._lastOffset }, data2) : data2
+      });
+    }
+    /**
+     * Called upon engine or manager `error`.
+     *
+     * @param err
+     * @private
+     */
+    onerror(err) {
+      if (!this.connected) {
+        this.emitReserved("connect_error", err);
+      }
+    }
+    /**
+     * Called upon engine `close`.
+     *
+     * @param reason
+     * @param description
+     * @private
+     */
+    onclose(reason, description) {
+      this.connected = false;
+      delete this.id;
+      this.emitReserved("disconnect", reason, description);
+      this._clearAcks();
+    }
+    /**
+     * Clears the acknowledgement handlers upon disconnection, since the client will never receive an acknowledgement from
+     * the server.
+     *
+     * @private
+     */
+    _clearAcks() {
+      Object.keys(this.acks).forEach((id) => {
+        const isBuffered = this.sendBuffer.some((packet) => String(packet.id) === id);
+        if (!isBuffered) {
+          const ack = this.acks[id];
+          delete this.acks[id];
+          if (ack.withError) {
+            ack.call(this, new Error("socket has been disconnected"));
+          }
+        }
+      });
+    }
+    /**
+     * Called with socket packet.
+     *
+     * @param packet
+     * @private
+     */
+    onpacket(packet) {
+      const sameNamespace = packet.nsp === this.nsp;
+      if (!sameNamespace)
+        return;
+      switch (packet.type) {
+        case PacketType.CONNECT:
+          if (packet.data && packet.data.sid) {
+            this.onconnect(packet.data.sid, packet.data.pid);
+          } else {
+            this.emitReserved("connect_error", new Error("It seems you are trying to reach a Socket.IO server in v2.x with a v3.x client, but they are not compatible (more information here: https://socket.io/docs/v3/migrating-from-2-x-to-3-0/)"));
+          }
+          break;
+        case PacketType.EVENT:
+        case PacketType.BINARY_EVENT:
+          this.onevent(packet);
+          break;
+        case PacketType.ACK:
+        case PacketType.BINARY_ACK:
+          this.onack(packet);
+          break;
+        case PacketType.DISCONNECT:
+          this.ondisconnect();
+          break;
+        case PacketType.CONNECT_ERROR:
+          this.destroy();
+          const err = new Error(packet.data.message);
+          err.data = packet.data.data;
+          this.emitReserved("connect_error", err);
+          break;
+      }
+    }
+    /**
+     * Called upon a server event.
+     *
+     * @param packet
+     * @private
+     */
+    onevent(packet) {
+      const args = packet.data || [];
+      if (null != packet.id) {
+        args.push(this.ack(packet.id));
+      }
+      if (this.connected) {
+        this.emitEvent(args);
+      } else {
+        this.receiveBuffer.push(Object.freeze(args));
+      }
+    }
+    emitEvent(args) {
+      if (this._anyListeners && this._anyListeners.length) {
+        const listeners = this._anyListeners.slice();
+        for (const listener of listeners) {
+          listener.apply(this, args);
+        }
+      }
+      super.emit.apply(this, args);
+      if (this._pid && args.length && typeof args[args.length - 1] === "string") {
+        this._lastOffset = args[args.length - 1];
+      }
+    }
+    /**
+     * Produces an ack callback to emit with an event.
+     *
+     * @private
+     */
+    ack(id) {
+      const self2 = this;
+      let sent = false;
+      return function(...args) {
+        if (sent)
+          return;
+        sent = true;
+        self2.packet({
+          type: PacketType.ACK,
+          id,
+          data: args
+        });
+      };
+    }
+    /**
+     * Called upon a server acknowledgement.
+     *
+     * @param packet
+     * @private
+     */
+    onack(packet) {
+      const ack = this.acks[packet.id];
+      if (typeof ack !== "function") {
+        return;
+      }
+      delete this.acks[packet.id];
+      if (ack.withError) {
+        packet.data.unshift(null);
+      }
+      ack.apply(this, packet.data);
+    }
+    /**
+     * Called upon server connect.
+     *
+     * @private
+     */
+    onconnect(id, pid) {
+      this.id = id;
+      this.recovered = pid && this._pid === pid;
+      this._pid = pid;
+      this.connected = true;
+      this.emitBuffered();
+      this._drainQueue(true);
+      this.emitReserved("connect");
+    }
+    /**
+     * Emit buffered events (received and emitted).
+     *
+     * @private
+     */
+    emitBuffered() {
+      this.receiveBuffer.forEach((args) => this.emitEvent(args));
+      this.receiveBuffer = [];
+      this.sendBuffer.forEach((packet) => {
+        this.notifyOutgoingListeners(packet);
+        this.packet(packet);
+      });
+      this.sendBuffer = [];
+    }
+    /**
+     * Called upon server disconnect.
+     *
+     * @private
+     */
+    ondisconnect() {
+      this.destroy();
+      this.onclose("io server disconnect");
+    }
+    /**
+     * Called upon forced client/server side disconnections,
+     * this method ensures the manager stops tracking us and
+     * that reconnections don't get triggered for this.
+     *
+     * @private
+     */
+    destroy() {
+      if (this.subs) {
+        this.subs.forEach((subDestroy) => subDestroy());
+        this.subs = void 0;
+      }
+      this.io["_destroy"](this);
+    }
+    /**
+     * Disconnects the socket manually. In that case, the socket will not try to reconnect.
+     *
+     * If this is the last active Socket instance of the {@link Manager}, the low-level connection will be closed.
+     *
+     * @example
+     * const socket = io();
+     *
+     * socket.on("disconnect", (reason) => {
+     *   // console.log(reason); prints "io client disconnect"
+     * });
+     *
+     * socket.disconnect();
+     *
+     * @return self
+     */
+    disconnect() {
+      if (this.connected) {
+        this.packet({ type: PacketType.DISCONNECT });
+      }
+      this.destroy();
+      if (this.connected) {
+        this.onclose("io client disconnect");
+      }
+      return this;
+    }
+    /**
+     * Alias for {@link disconnect()}.
+     *
+     * @return self
+     */
+    close() {
+      return this.disconnect();
+    }
+    /**
+     * Sets the compress flag.
+     *
+     * @example
+     * socket.compress(false).emit("hello");
+     *
+     * @param compress - if `true`, compresses the sending data
+     * @return self
+     */
+    compress(compress) {
+      this.flags.compress = compress;
+      return this;
+    }
+    /**
+     * Sets a modifier for a subsequent event emission that the event message will be dropped when this socket is not
+     * ready to send messages.
+     *
+     * @example
+     * socket.volatile.emit("hello"); // the server may or may not receive it
+     *
+     * @returns self
+     */
+    get volatile() {
+      this.flags.volatile = true;
+      return this;
+    }
+    /**
+     * Sets a modifier for a subsequent event emission that the callback will be called with an error when the
+     * given number of milliseconds have elapsed without an acknowledgement from the server:
+     *
+     * @example
+     * socket.timeout(5000).emit("my-event", (err) => {
+     *   if (err) {
+     *     // the server did not acknowledge the event in the given delay
+     *   }
+     * });
+     *
+     * @returns self
+     */
+    timeout(timeout) {
+      this.flags.timeout = timeout;
+      return this;
+    }
+    /**
+     * Adds a listener that will be fired when any event is emitted. The event name is passed as the first argument to the
+     * callback.
+     *
+     * @example
+     * socket.onAny((event, ...args) => {
+     *   console.log(`got ${event}`);
+     * });
+     *
+     * @param listener
+     */
+    onAny(listener) {
+      this._anyListeners = this._anyListeners || [];
+      this._anyListeners.push(listener);
+      return this;
+    }
+    /**
+     * Adds a listener that will be fired when any event is emitted. The event name is passed as the first argument to the
+     * callback. The listener is added to the beginning of the listeners array.
+     *
+     * @example
+     * socket.prependAny((event, ...args) => {
+     *   console.log(`got event ${event}`);
+     * });
+     *
+     * @param listener
+     */
+    prependAny(listener) {
+      this._anyListeners = this._anyListeners || [];
+      this._anyListeners.unshift(listener);
+      return this;
+    }
+    /**
+     * Removes the listener that will be fired when any event is emitted.
+     *
+     * @example
+     * const catchAllListener = (event, ...args) => {
+     *   console.log(`got event ${event}`);
+     * }
+     *
+     * socket.onAny(catchAllListener);
+     *
+     * // remove a specific listener
+     * socket.offAny(catchAllListener);
+     *
+     * // or remove all listeners
+     * socket.offAny();
+     *
+     * @param listener
+     */
+    offAny(listener) {
+      if (!this._anyListeners) {
+        return this;
+      }
+      if (listener) {
+        const listeners = this._anyListeners;
+        for (let i = 0; i < listeners.length; i++) {
+          if (listener === listeners[i]) {
+            listeners.splice(i, 1);
+            return this;
+          }
+        }
+      } else {
+        this._anyListeners = [];
+      }
+      return this;
+    }
+    /**
+     * Returns an array of listeners that are listening for any event that is specified. This array can be manipulated,
+     * e.g. to remove listeners.
+     */
+    listenersAny() {
+      return this._anyListeners || [];
+    }
+    /**
+     * Adds a listener that will be fired when any event is emitted. The event name is passed as the first argument to the
+     * callback.
+     *
+     * Note: acknowledgements sent to the server are not included.
+     *
+     * @example
+     * socket.onAnyOutgoing((event, ...args) => {
+     *   console.log(`sent event ${event}`);
+     * });
+     *
+     * @param listener
+     */
+    onAnyOutgoing(listener) {
+      this._anyOutgoingListeners = this._anyOutgoingListeners || [];
+      this._anyOutgoingListeners.push(listener);
+      return this;
+    }
+    /**
+     * Adds a listener that will be fired when any event is emitted. The event name is passed as the first argument to the
+     * callback. The listener is added to the beginning of the listeners array.
+     *
+     * Note: acknowledgements sent to the server are not included.
+     *
+     * @example
+     * socket.prependAnyOutgoing((event, ...args) => {
+     *   console.log(`sent event ${event}`);
+     * });
+     *
+     * @param listener
+     */
+    prependAnyOutgoing(listener) {
+      this._anyOutgoingListeners = this._anyOutgoingListeners || [];
+      this._anyOutgoingListeners.unshift(listener);
+      return this;
+    }
+    /**
+     * Removes the listener that will be fired when any event is emitted.
+     *
+     * @example
+     * const catchAllListener = (event, ...args) => {
+     *   console.log(`sent event ${event}`);
+     * }
+     *
+     * socket.onAnyOutgoing(catchAllListener);
+     *
+     * // remove a specific listener
+     * socket.offAnyOutgoing(catchAllListener);
+     *
+     * // or remove all listeners
+     * socket.offAnyOutgoing();
+     *
+     * @param [listener] - the catch-all listener (optional)
+     */
+    offAnyOutgoing(listener) {
+      if (!this._anyOutgoingListeners) {
+        return this;
+      }
+      if (listener) {
+        const listeners = this._anyOutgoingListeners;
+        for (let i = 0; i < listeners.length; i++) {
+          if (listener === listeners[i]) {
+            listeners.splice(i, 1);
+            return this;
+          }
+        }
+      } else {
+        this._anyOutgoingListeners = [];
+      }
+      return this;
+    }
+    /**
+     * Returns an array of listeners that are listening for any event that is specified. This array can be manipulated,
+     * e.g. to remove listeners.
+     */
+    listenersAnyOutgoing() {
+      return this._anyOutgoingListeners || [];
+    }
+    /**
+     * Notify the listeners for each packet sent
+     *
+     * @param packet
+     *
+     * @private
+     */
+    notifyOutgoingListeners(packet) {
+      if (this._anyOutgoingListeners && this._anyOutgoingListeners.length) {
+        const listeners = this._anyOutgoingListeners.slice();
+        for (const listener of listeners) {
+          listener.apply(this, packet.data);
+        }
+      }
+    }
+  };
+
+  // node_modules/socket.io-client/build/esm/contrib/backo2.js
+  function Backoff(opts) {
+    opts = opts || {};
+    this.ms = opts.min || 100;
+    this.max = opts.max || 1e4;
+    this.factor = opts.factor || 2;
+    this.jitter = opts.jitter > 0 && opts.jitter <= 1 ? opts.jitter : 0;
+    this.attempts = 0;
+  }
+  Backoff.prototype.duration = function() {
+    var ms = this.ms * Math.pow(this.factor, this.attempts++);
+    if (this.jitter) {
+      var rand = Math.random();
+      var deviation = Math.floor(rand * this.jitter * ms);
+      ms = (Math.floor(rand * 10) & 1) == 0 ? ms - deviation : ms + deviation;
+    }
+    return Math.min(ms, this.max) | 0;
+  };
+  Backoff.prototype.reset = function() {
+    this.attempts = 0;
+  };
+  Backoff.prototype.setMin = function(min) {
+    this.ms = min;
+  };
+  Backoff.prototype.setMax = function(max) {
+    this.max = max;
+  };
+  Backoff.prototype.setJitter = function(jitter) {
+    this.jitter = jitter;
+  };
+
+  // node_modules/socket.io-client/build/esm/manager.js
+  var Manager = class extends Emitter {
+    constructor(uri, opts) {
+      var _a;
+      super();
+      this.nsps = {};
+      this.subs = [];
+      if (uri && "object" === typeof uri) {
+        opts = uri;
+        uri = void 0;
+      }
+      opts = opts || {};
+      opts.path = opts.path || "/socket.io";
+      this.opts = opts;
+      installTimerFunctions(this, opts);
+      this.reconnection(opts.reconnection !== false);
+      this.reconnectionAttempts(opts.reconnectionAttempts || Infinity);
+      this.reconnectionDelay(opts.reconnectionDelay || 1e3);
+      this.reconnectionDelayMax(opts.reconnectionDelayMax || 5e3);
+      this.randomizationFactor((_a = opts.randomizationFactor) !== null && _a !== void 0 ? _a : 0.5);
+      this.backoff = new Backoff({
+        min: this.reconnectionDelay(),
+        max: this.reconnectionDelayMax(),
+        jitter: this.randomizationFactor()
+      });
+      this.timeout(null == opts.timeout ? 2e4 : opts.timeout);
+      this._readyState = "closed";
+      this.uri = uri;
+      const _parser = opts.parser || esm_exports;
+      this.encoder = new _parser.Encoder();
+      this.decoder = new _parser.Decoder();
+      this._autoConnect = opts.autoConnect !== false;
+      if (this._autoConnect)
+        this.open();
+    }
+    reconnection(v) {
+      if (!arguments.length)
+        return this._reconnection;
+      this._reconnection = !!v;
+      if (!v) {
+        this.skipReconnect = true;
+      }
+      return this;
+    }
+    reconnectionAttempts(v) {
+      if (v === void 0)
+        return this._reconnectionAttempts;
+      this._reconnectionAttempts = v;
+      return this;
+    }
+    reconnectionDelay(v) {
+      var _a;
+      if (v === void 0)
+        return this._reconnectionDelay;
+      this._reconnectionDelay = v;
+      (_a = this.backoff) === null || _a === void 0 ? void 0 : _a.setMin(v);
+      return this;
+    }
+    randomizationFactor(v) {
+      var _a;
+      if (v === void 0)
+        return this._randomizationFactor;
+      this._randomizationFactor = v;
+      (_a = this.backoff) === null || _a === void 0 ? void 0 : _a.setJitter(v);
+      return this;
+    }
+    reconnectionDelayMax(v) {
+      var _a;
+      if (v === void 0)
+        return this._reconnectionDelayMax;
+      this._reconnectionDelayMax = v;
+      (_a = this.backoff) === null || _a === void 0 ? void 0 : _a.setMax(v);
+      return this;
+    }
+    timeout(v) {
+      if (!arguments.length)
+        return this._timeout;
+      this._timeout = v;
+      return this;
+    }
+    /**
+     * Starts trying to reconnect if reconnection is enabled and we have not
+     * started reconnecting yet
+     *
+     * @private
+     */
+    maybeReconnectOnOpen() {
+      if (!this._reconnecting && this._reconnection && this.backoff.attempts === 0) {
+        this.reconnect();
+      }
+    }
+    /**
+     * Sets the current transport `socket`.
+     *
+     * @param {Function} fn - optional, callback
+     * @return self
+     * @public
+     */
+    open(fn) {
+      if (~this._readyState.indexOf("open"))
+        return this;
+      this.engine = new Socket(this.uri, this.opts);
+      const socket = this.engine;
+      const self2 = this;
+      this._readyState = "opening";
+      this.skipReconnect = false;
+      const openSubDestroy = on(socket, "open", function() {
+        self2.onopen();
+        fn && fn();
+      });
+      const onError = (err) => {
+        this.cleanup();
+        this._readyState = "closed";
+        this.emitReserved("error", err);
+        if (fn) {
+          fn(err);
+        } else {
+          this.maybeReconnectOnOpen();
+        }
+      };
+      const errorSub = on(socket, "error", onError);
+      if (false !== this._timeout) {
+        const timeout = this._timeout;
+        const timer = this.setTimeoutFn(() => {
+          openSubDestroy();
+          onError(new Error("timeout"));
+          socket.close();
+        }, timeout);
+        if (this.opts.autoUnref) {
+          timer.unref();
+        }
+        this.subs.push(() => {
+          this.clearTimeoutFn(timer);
+        });
+      }
+      this.subs.push(openSubDestroy);
+      this.subs.push(errorSub);
+      return this;
+    }
+    /**
+     * Alias for open()
+     *
+     * @return self
+     * @public
+     */
+    connect(fn) {
+      return this.open(fn);
+    }
+    /**
+     * Called upon transport open.
+     *
+     * @private
+     */
+    onopen() {
+      this.cleanup();
+      this._readyState = "open";
+      this.emitReserved("open");
+      const socket = this.engine;
+      this.subs.push(
+        on(socket, "ping", this.onping.bind(this)),
+        on(socket, "data", this.ondata.bind(this)),
+        on(socket, "error", this.onerror.bind(this)),
+        on(socket, "close", this.onclose.bind(this)),
+        // @ts-ignore
+        on(this.decoder, "decoded", this.ondecoded.bind(this))
+      );
+    }
+    /**
+     * Called upon a ping.
+     *
+     * @private
+     */
+    onping() {
+      this.emitReserved("ping");
+    }
+    /**
+     * Called with data.
+     *
+     * @private
+     */
+    ondata(data2) {
+      try {
+        this.decoder.add(data2);
+      } catch (e) {
+        this.onclose("parse error", e);
+      }
+    }
+    /**
+     * Called when parser fully decodes a packet.
+     *
+     * @private
+     */
+    ondecoded(packet) {
+      nextTick(() => {
+        this.emitReserved("packet", packet);
+      }, this.setTimeoutFn);
+    }
+    /**
+     * Called upon socket error.
+     *
+     * @private
+     */
+    onerror(err) {
+      this.emitReserved("error", err);
+    }
+    /**
+     * Creates a new socket for the given `nsp`.
+     *
+     * @return {Socket}
+     * @public
+     */
+    socket(nsp, opts) {
+      let socket = this.nsps[nsp];
+      if (!socket) {
+        socket = new Socket2(this, nsp, opts);
+        this.nsps[nsp] = socket;
+      } else if (this._autoConnect && !socket.active) {
+        socket.connect();
+      }
+      return socket;
+    }
+    /**
+     * Called upon a socket close.
+     *
+     * @param socket
+     * @private
+     */
+    _destroy(socket) {
+      const nsps = Object.keys(this.nsps);
+      for (const nsp of nsps) {
+        const socket2 = this.nsps[nsp];
+        if (socket2.active) {
+          return;
+        }
+      }
+      this._close();
+    }
+    /**
+     * Writes a packet.
+     *
+     * @param packet
+     * @private
+     */
+    _packet(packet) {
+      const encodedPackets = this.encoder.encode(packet);
+      for (let i = 0; i < encodedPackets.length; i++) {
+        this.engine.write(encodedPackets[i], packet.options);
+      }
+    }
+    /**
+     * Clean up transport subscriptions and packet buffer.
+     *
+     * @private
+     */
+    cleanup() {
+      this.subs.forEach((subDestroy) => subDestroy());
+      this.subs.length = 0;
+      this.decoder.destroy();
+    }
+    /**
+     * Close the current socket.
+     *
+     * @private
+     */
+    _close() {
+      this.skipReconnect = true;
+      this._reconnecting = false;
+      this.onclose("forced close");
+    }
+    /**
+     * Alias for close()
+     *
+     * @private
+     */
+    disconnect() {
+      return this._close();
+    }
+    /**
+     * Called when:
+     *
+     * - the low-level engine is closed
+     * - the parser encountered a badly formatted packet
+     * - all sockets are disconnected
+     *
+     * @private
+     */
+    onclose(reason, description) {
+      var _a;
+      this.cleanup();
+      (_a = this.engine) === null || _a === void 0 ? void 0 : _a.close();
+      this.backoff.reset();
+      this._readyState = "closed";
+      this.emitReserved("close", reason, description);
+      if (this._reconnection && !this.skipReconnect) {
+        this.reconnect();
+      }
+    }
+    /**
+     * Attempt a reconnection.
+     *
+     * @private
+     */
+    reconnect() {
+      if (this._reconnecting || this.skipReconnect)
+        return this;
+      const self2 = this;
+      if (this.backoff.attempts >= this._reconnectionAttempts) {
+        this.backoff.reset();
+        this.emitReserved("reconnect_failed");
+        this._reconnecting = false;
+      } else {
+        const delay = this.backoff.duration();
+        this._reconnecting = true;
+        const timer = this.setTimeoutFn(() => {
+          if (self2.skipReconnect)
+            return;
+          this.emitReserved("reconnect_attempt", self2.backoff.attempts);
+          if (self2.skipReconnect)
+            return;
+          self2.open((err) => {
+            if (err) {
+              self2._reconnecting = false;
+              self2.reconnect();
+              this.emitReserved("reconnect_error", err);
+            } else {
+              self2.onreconnect();
+            }
+          });
+        }, delay);
+        if (this.opts.autoUnref) {
+          timer.unref();
+        }
+        this.subs.push(() => {
+          this.clearTimeoutFn(timer);
+        });
+      }
+    }
+    /**
+     * Called upon successful reconnect.
+     *
+     * @private
+     */
+    onreconnect() {
+      const attempt = this.backoff.attempts;
+      this._reconnecting = false;
+      this.backoff.reset();
+      this.emitReserved("reconnect", attempt);
+    }
+  };
+
+  // node_modules/socket.io-client/build/esm/index.js
+  var cache = {};
+  function lookup2(uri, opts) {
+    if (typeof uri === "object") {
+      opts = uri;
+      uri = void 0;
+    }
+    opts = opts || {};
+    const parsed = url(uri, opts.path || "/socket.io");
+    const source = parsed.source;
+    const id = parsed.id;
+    const path = parsed.path;
+    const sameNamespace = cache[id] && path in cache[id]["nsps"];
+    const newConnection = opts.forceNew || opts["force new connection"] || false === opts.multiplex || sameNamespace;
+    let io;
+    if (newConnection) {
+      io = new Manager(source, opts);
+    } else {
+      if (!cache[id]) {
+        cache[id] = new Manager(source, opts);
+      }
+      io = cache[id];
+    }
+    if (parsed.query && !opts.query) {
+      opts.query = parsed.queryKey;
+    }
+    return io.socket(parsed.path, opts);
+  }
+  Object.assign(lookup2, {
+    Manager,
+    Socket: Socket2,
+    io: lookup2,
+    connect: lookup2
+  });
+
+  // src/contexts/SocketContext.jsx
+  var import_jsx_runtime19 = __toESM(require_jsx_runtime(), 1);
+  var SocketContext = (0, import_react13.createContext)({});
+  function SocketProvider({ children }) {
+    const { currentUser } = useAuth();
+    const [revision, setRevision] = (0, import_react13.useState)(0);
+    const [connections, setConnections] = (0, import_react13.useState)({});
+    const token = currentUser ? localStorage.getItem(TOKEN_KEY) : null;
+    (0, import_react13.useEffect)(() => {
+      const changed = () => setRevision((value2) => value2 + 1);
+      window.addEventListener("routebite:session-changed", changed);
+      window.addEventListener("storage", changed);
+      return () => {
+        window.removeEventListener("routebite:session-changed", changed);
+        window.removeEventListener("storage", changed);
+      };
+    }, []);
+    (0, import_react13.useEffect)(() => {
+      if (!token) {
+        setConnections({});
+        return;
+      }
+      const manager = new Manager(new URL(API_BASE).origin, { autoConnect: false });
+      const orders = manager.socket("/orders", { auth: { token } });
+      const notifications = manager.socket("/notifications", { auth: { token } });
+      setConnections({ orders, notifications, token });
+      orders.connect();
+      notifications.connect();
+      return () => {
+        orders.disconnect();
+        notifications.disconnect();
+      };
+    }, [token, revision]);
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(SocketContext.Provider, { value: connections.token === token ? connections : {}, children });
+  }
+  function useSockets() {
+    return (0, import_react13.useContext)(SocketContext);
+  }
+
+  // src/pages/OrderDetailPage.jsx
+  var import_jsx_runtime20 = __toESM(require_jsx_runtime(), 1);
+  function OrderDetailPage() {
+    const { id } = useParams();
+    const { currentUser } = useAuth();
+    const { orders: socket } = useSockets();
+    const [order, setOrder] = (0, import_react14.useState)(null);
+    const [error, setError] = (0, import_react14.useState)("");
+    const [paying, setPaying] = (0, import_react14.useState)(false);
+    const token = localStorage.getItem(TOKEN_KEY);
+    (0, import_react14.useEffect)(() => {
+      if (!token) return;
+      let active = true;
+      setOrder(null);
+      setError("");
+      const refresh = () => request("/orders/" + id).then((data2) => {
+        if (active) {
+          setOrder(data2);
+          setError("");
+        }
+      }).catch((e) => {
+        if (active) setError(e.message);
+      });
+      refresh();
+      const subscribe = () => {
+        socket.emit("order.subscribe", { orderId: id });
+        refresh();
+      };
+      socket?.on("connect", subscribe);
+      if (socket?.connected) subscribe();
+      socket?.on("order.status.updated", refresh);
+      socket?.on("payment.status.updated", refresh);
+      const timer = setInterval(refresh, 3e4);
+      return () => {
+        active = false;
+        clearInterval(timer);
+        socket?.off("connect", subscribe);
+        socket?.off("order.status.updated", refresh);
+        socket?.off("payment.status.updated", refresh);
+        socket?.emit("order.unsubscribe", { orderId: id });
+      };
+    }, [id, token, socket]);
+    const money = (amount) => Number(amount || 0).toLocaleString("vi-VN") + "\u0111";
+    async function pay() {
+      setPaying(true);
+      setError("");
+      try {
+        const payment = await request("/payments/create", { method: "POST", body: { orderId: id } });
+        if (!payment.checkoutUrl) throw new Error("Kh\xF4ng t\u1EA1o \u0111\u01B0\u1EE3c li\xEAn k\u1EBFt VNPAY");
+        window.location.assign(payment.checkoutUrl);
+      } catch (e) {
+        setError(e.message);
+        setPaying(false);
+      }
+    }
+    const paymentLabels = { UNPAID: "Ch\u01B0a thanh to\xE1n", PENDING: "\u0110ang ch\u1EDD thanh to\xE1n", PAID: "\u0110\xE3 thanh to\xE1n", FAILED: "Thanh to\xE1n th\u1EA5t b\u1EA1i", CANCELLED: "\u0110\xE3 h\u1EE7y thanh to\xE1n", EXPIRED: "H\u1EBFt h\u1EA1n thanh to\xE1n", REFUNDED: "\u0110\xE3 ho\xE0n ti\u1EC1n" };
+    return /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("main", { className: "app-page rb-commerce-page rb-orders-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(Link, { className: "back-link", to: currentUser?.role === "merchant" ? "/merchant/orders" : "/my-orders", children: currentUser?.role === "merchant" ? "\u2190 \u0110\u01A1n h\xE0ng c\u1EE7a qu\xE1n" : "\u2190 \u0110\u01A1n c\u1EE7a t\xF4i" }),
+      /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("h1", { children: "Chi ti\u1EBFt \u0111\u01A1n h\xE0ng" }),
+      !token ? /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("p", { children: [
+        "Vui l\xF2ng ",
+        /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(Link, { to: "/login", children: "\u0111\u0103ng nh\u1EADp" }),
+        " \u0111\u1EC3 xem \u0111\u01A1n h\xE0ng."
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(import_jsx_runtime20.Fragment, { children: [
+        error && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+        !order && !error && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("p", { children: "\u0110ang t\u1EA3i \u0111\u01A1n h\xE0ng\u2026" }),
+        order && /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(import_jsx_runtime20.Fragment, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("section", { className: "item-card", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(OrderStatusBadge, { status: order.status }),
+            /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("h2", { children: order.restaurant?.name }),
+            /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("p", { children: order.orderCode }),
+            /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("p", { children: order.restaurant?.address }),
+            !["COMPLETED", "CANCELLED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }),
+            /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("p", { children: [
+              paymentLabels[order.paymentStatus] || "\u0110ang c\u1EADp nh\u1EADt thanh to\xE1n",
+              " \xB7 ",
+              order.paymentMethod === "cash" ? "Ti\u1EC1n m\u1EB7t" : "VNPAY"
+            ] }),
+            order.status === "CANCELLED" && order.paymentStatus === "PAID" && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("p", { children: "\u0110\u01A1n \u0111\xE3 h\u1EE7y. Vui l\xF2ng li\xEAn h\u1EC7 qu\xE1n \u0111\u1EC3 \u0111\u01B0\u1EE3c h\u1ED7 tr\u1EE3 ho\xE0n ti\u1EC1n." })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("section", { className: "item-card", children: [
+            order.items?.map((item) => /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("div", { className: "rb-product-row rb-cart-row", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(FoodThumbnail, { src: item.imageUrl, name: item.itemName }),
+              /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("h3", { children: item.itemName }),
+                /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("p", { children: [
+                  item.quantity,
+                  " \xD7 ",
+                  money(item.unitPrice)
+                ] })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("strong", { children: money(item.lineTotal) })
+            ] }, item.id || item.menuItemId)),
+            /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("div", { className: "rb-order-footer", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("span", { children: "T\u1ED5ng c\u1ED9ng" }),
+              /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("strong", { children: money(order.totalAmount) })
+            ] })
+          ] }),
+          currentUser?.role !== "merchant" && order.paymentMethod === "vnpay" && !["PAID", "REFUNDED"].includes(order.paymentStatus) && !["CANCELLED", "COMPLETED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("button", { type: "button", className: "btn primary", disabled: paying, onClick: pay, children: paying ? "\u0110ang m\u1EDF VNPAY\u2026" : "Ti\u1EBFp t\u1EE5c thanh to\xE1n VNPAY" })
+        ] })
+      ] })
+    ] });
+  }
+
+  // src/pages/ExplorePage.tsx
+  var import_react15 = __toESM(require_react(), 1);
+  var import_jsx_runtime21 = __toESM(require_jsx_runtime(), 1);
+  var PAGE_SIZE = 12;
+  function ExplorePage() {
+    const navigate = useNavigate();
+    const [restaurants, setRestaurants] = (0, import_react15.useState)([]);
+    const [loading, setLoading] = (0, import_react15.useState)(true);
+    const [error, setError] = (0, import_react15.useState)("");
+    const [page, setPage] = (0, import_react15.useState)(1);
+    const [total, setTotal] = (0, import_react15.useState)(0);
+    const [retry, setRetry] = (0, import_react15.useState)(0);
+    (0, import_react15.useEffect)(() => {
+      let active = true;
+      setLoading(true);
+      setError("");
+      request(`/restaurants?page=${page}&limit=${PAGE_SIZE}`, { authorized: false }).then((response) => {
+        if (!active) return;
+        const rows = Array.isArray(response) ? response : response?.data;
+        if (!Array.isArray(rows)) throw new Error("D\u1EEF li\u1EC7u danh s\xE1ch qu\xE1n kh\xF4ng h\u1EE3p l\u1EC7");
+        setRestaurants(rows);
+        setTotal(Array.isArray(response) ? rows.length : Number(response.total) || rows.length);
+      }).catch((cause) => {
+        if (!active) return;
+        setRestaurants([]);
+        setError(cause.status === 404 ? "T\xEDnh n\u0103ng \u0111ang \u0111\u01B0\u1EE3c ho\xE0n thi\u1EC7n, vui l\xF2ng quay l\u1EA1i sau." : "Kh\xF4ng th\u1EC3 t\u1EA3i danh s\xE1ch qu\xE1n, vui l\xF2ng th\u1EED l\u1EA1i.");
+      }).finally(() => {
+        if (active) setLoading(false);
+      });
+      return () => {
+        active = false;
+      };
+    }, [page, retry]);
+    return /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("main", { className: "route-home rb-explore-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { className: "rb-explore-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("p", { children: "ROUTEBITE" }),
+        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("h1", { children: "Kh\xE1m ph\xE1 qu\xE1n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("span", { children: "Kh\xE1m ph\xE1 c\xE1c qu\xE1n \u0111ang ho\u1EA1t \u0111\u1ED9ng v\xE0 ch\u1ECDn m\xF3n b\u1EA1n th\xEDch." })
+      ] }),
+      loading ? /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("section", { "aria-label": "\u0110ang t\u1EA3i danh s\xE1ch qu\xE1n", "aria-busy": "true", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i danh s\xE1ch qu\xE1n\u2026" }),
+        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: "restaurant-result-grid", "aria-hidden": "true", children: Array.from({ length: 6 }, (_, index) => /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: "restaurant-skeleton" }, index)) })
+      ] }) : error ? /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("section", { className: "route-empty", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("p", { role: "alert", children: error }),
+        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("button", { className: "btn secondary", type: "button", onClick: () => setRetry((value2) => value2 + 1), children: "Th\u1EED l\u1EA1i" })
+      ] }) : restaurants.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("section", { className: "route-empty", role: "status", children: "Ch\u01B0a c\xF3 qu\xE1n n\xE0o trong h\u1EC7 th\u1ED1ng." }) : /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(import_jsx_runtime21.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("p", { className: "rb-explore-count", role: "status", children: [
+          total,
+          " qu\xE1n \u0111ang ho\u1EA1t \u0111\u1ED9ng"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("section", { className: "restaurant-result-grid", "aria-label": "Danh s\xE1ch qu\xE1n", children: restaurants.map((restaurant) => /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+          RestaurantCard,
+          {
+            restaurant,
+            onOpen: () => navigate(`/restaurant/${restaurant.id}`)
+          },
+          restaurant.id
+        )) })
+      ] }),
+      !loading && !error && total > PAGE_SIZE && /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("nav", { className: "rb-explore-pagination", "aria-label": "Ph\xE2n trang qu\xE1n", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("button", { className: "btn secondary", type: "button", disabled: page === 1, onClick: () => setPage((value2) => value2 - 1), children: "Trang tr\u01B0\u1EDBc" }),
+        /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("span", { children: [
+          "Trang ",
+          page,
+          " / ",
+          Math.ceil(total / PAGE_SIZE)
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("button", { className: "btn secondary", type: "button", disabled: page * PAGE_SIZE >= total, onClick: () => setPage((value2) => value2 + 1), children: "Trang sau" })
+      ] })
+    ] });
+  }
+
+  // src/contexts/NotificationsContext.jsx
+  var import_react16 = __toESM(require_react(), 1);
+  var import_jsx_runtime22 = __toESM(require_jsx_runtime(), 1);
+  var NotificationsContext = (0, import_react16.createContext)(null);
+  var empty2 = { notifications: [], unreadCount: 0, loading: false, error: "" };
+  function NotificationsProvider({ children }) {
+    const { currentUser } = useAuth();
+    const { notifications: socket } = useSockets();
+    const token = currentUser ? localStorage.getItem(TOKEN_KEY) : null;
+    const [state, setState] = (0, import_react16.useState)(empty2);
+    const generation = (0, import_react16.useRef)(0);
+    const sequence = (0, import_react16.useRef)(0);
+    const refreshRef = (0, import_react16.useRef)(() => Promise.resolve());
+    (0, import_react16.useEffect)(() => {
+      const session = ++generation.current;
+      const isCurrent = () => generation.current === session;
+      setState({ ...empty2, token, loading: !!token });
+      const refresh2 = async () => {
+        if (!token) return;
+        const version = ++sequence.current;
+        try {
+          const result = await request("/notifications");
+          if (isCurrent() && version === sequence.current) setState({
+            token,
+            notifications: result.notifications || [],
+            unreadCount: Math.max(0, Number(result.unreadCount) || 0),
+            loading: false,
+            error: ""
+          });
+        } catch {
+          if (isCurrent() && version === sequence.current) setState((old) => ({ ...old, loading: false, error: "Kh\xF4ng th\u1EC3 t\u1EA3i th\xF4ng b\xE1o. Vui l\xF2ng th\u1EED l\u1EA1i." }));
+        }
+      };
+      refreshRef.current = refresh2;
+      const receive = (notification) => {
+        if (!isCurrent() || !notification?.id) return;
+        setState((old) => old.notifications.some((entry) => entry.id === notification.id) ? old : {
+          ...old,
+          notifications: [notification, ...old.notifications].slice(0, 50),
+          unreadCount: old.unreadCount + (notification.isRead ? 0 : 1)
+        });
+        void refresh2();
+      };
+      void refresh2();
+      socket?.on("connect", refresh2);
+      socket?.on("notification.new", receive);
+      socket?.on("notification.read", refresh2);
+      const visible = () => {
+        if (document.visibilityState === "visible") void refresh2();
+      };
+      document.addEventListener("visibilitychange", visible);
+      const timer = token ? setInterval(refresh2, 3e4) : void 0;
+      return () => {
+        ++generation.current;
+        clearInterval(timer);
+        socket?.off("connect", refresh2);
+        socket?.off("notification.new", receive);
+        socket?.off("notification.read", refresh2);
+        document.removeEventListener("visibilitychange", visible);
+      };
+    }, [token, socket]);
+    const refresh = (0, import_react16.useCallback)(() => refreshRef.current(), []);
+    async function markRead(notification) {
+      if (!notification.isRead) await request(`/notifications/${notification.id}/read`, { method: "PATCH" });
+      await refresh();
+    }
+    async function markAll() {
+      await request("/notifications/read-all", { method: "PATCH" });
+      await refresh();
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(NotificationsContext.Provider, { value: { ...state.token === token ? state : empty2, refresh, markRead, markAll }, children });
+  }
+  function useNotifications() {
+    return (0, import_react16.useContext)(NotificationsContext);
+  }
+
+  // src/components/NotificationBell.tsx
+  var import_react17 = __toESM(require_react(), 1);
+  var import_jsx_runtime23 = __toESM(require_jsx_runtime(), 1);
+  function NotificationBell() {
+    const { currentUser } = useAuth();
+    const { notifications, unreadCount, loading, error, refresh, markRead, markAll } = useNotifications();
+    const navigate = useNavigate();
+    const location2 = useLocation();
+    const [open, setOpen] = (0, import_react17.useState)(false);
+    const [busy, setBusy] = (0, import_react17.useState)(false);
+    const [actionError, setActionError] = (0, import_react17.useState)("");
+    const container = (0, import_react17.useRef)(null);
+    const trigger = (0, import_react17.useRef)(null);
+    (0, import_react17.useEffect)(() => {
+      setOpen(false);
+      setActionError("");
+    }, [location2.pathname, currentUser]);
+    (0, import_react17.useEffect)(() => {
+      if (!open) return;
+      const outside = (event) => {
+        if (!container.current?.contains(event.target)) setOpen(false);
+      };
+      const escape = (event) => {
+        if (event.key === "Escape") {
+          setOpen(false);
+          trigger.current?.focus();
+        }
+      };
+      document.addEventListener("mousedown", outside);
+      document.addEventListener("keydown", escape);
+      return () => {
+        document.removeEventListener("mousedown", outside);
+        document.removeEventListener("keydown", escape);
+      };
+    }, [open]);
+    if (!currentUser) return null;
+    async function read(notification) {
+      if (busy) return;
+      setBusy(true);
+      setActionError("");
+      try {
+        if (notification) {
+          await markRead(notification);
+          setOpen(false);
+          if (typeof notification.data?.orderId === "string") navigate(`${currentUser.role === "merchant" ? "/merchant" : ""}/orders/${encodeURIComponent(notification.data.orderId)}`);
+        } else await markAll();
+      } catch {
+        setActionError("Kh\xF4ng th\u1EC3 \u0111\xE1nh d\u1EA5u \u0111\xE3 \u0111\u1ECDc. Vui l\xF2ng th\u1EED l\u1EA1i.");
+      } finally {
+        setBusy(false);
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "rb-notification-bell", ref: container, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(
+        "button",
+        {
+          ref: trigger,
+          className: "rb-notification-trigger",
+          type: "button",
+          "aria-label": unreadCount ? `Th\xF4ng b\xE1o, ${unreadCount} ch\u01B0a \u0111\u1ECDc` : "Th\xF4ng b\xE1o",
+          "aria-expanded": open,
+          "aria-controls": "notification-panel",
+          onClick: () => {
+            setOpen(!open);
+            if (!open) void refresh();
+          },
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("svg", { "aria-hidden": "true", width: "22", height: "22", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("path", { d: "M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" }) }),
+            unreadCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("span", { className: "rb-notification-count", "aria-hidden": "true", children: unreadCount > 9 ? "9+" : unreadCount })
+          ]
+        }
+      ),
+      open && /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("section", { className: "rb-notification-panel", id: "notification-panel", "aria-label": "Danh s\xE1ch th\xF4ng b\xE1o", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("header", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("h2", { children: "Th\xF4ng b\xE1o" }),
+          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("button", { type: "button", disabled: busy || !unreadCount, onClick: () => read(), children: "\u0110\u1ECDc t\u1EA5t c\u1EA3" })
+        ] }),
+        (error || actionError) && /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "rb-notification-feedback", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("p", { role: "alert", children: actionError || error }),
+          error && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("button", { type: "button", onClick: refresh, children: "Th\u1EED l\u1EA1i" })
+        ] }),
+        loading ? /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("p", { className: "rb-notification-feedback", role: "status", children: "\u0110ang t\u1EA3i th\xF4ng b\xE1o\u2026" }) : !notifications.length && !error ? /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("p", { className: "rb-notification-feedback", children: "Ch\u01B0a c\xF3 th\xF4ng b\xE1o n\xE0o" }) : null,
+        /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "rb-notification-list", children: notifications.map((notification) => /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(
+          "button",
+          {
+            type: "button",
+            disabled: busy,
+            className: `rb-notification-item${notification.isRead ? "" : " unread"}`,
+            onClick: () => read(notification),
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("strong", { children: notification.title }),
+              /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("span", { children: notification.body }),
+              /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("small", { children: [
+                !notification.isRead && "Ch\u01B0a \u0111\u1ECDc \xB7 ",
+                new Date(notification.createdAt).toLocaleString("vi-VN")
+              ] })
+            ]
+          },
+          notification.id
+        )) })
+      ] })
+    ] });
+  }
+
+  // src/components/ProtectedRoute.tsx
+  var import_jsx_runtime24 = __toESM(require_jsx_runtime(), 1);
+  function ProtectedRoute({ allowedRoles, children }) {
+    const { currentUser } = useAuth();
+    const location2 = useLocation();
+    if (!currentUser || !localStorage.getItem(TOKEN_KEY)) return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(Navigate, { to: "/login", state: { from: location2.pathname }, replace: true });
+    if (!allowedRoles.includes(currentUser.role)) return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(Navigate, { replace: true, to: currentUser.role === "merchant" ? "/merchant/dashboard" : currentUser.role === "admin" ? "/admin/overview" : "/" });
+    return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_jsx_runtime24.Fragment, { children });
+  }
+
+  // src/contexts/MerchantContext.tsx
+  var import_react18 = __toESM(require_react(), 1);
+  var import_jsx_runtime25 = __toESM(require_jsx_runtime(), 1);
+  var MerchantContext = (0, import_react18.createContext)(null);
+  function MerchantProvider({ children }) {
+    const [restaurants, setRestaurants] = (0, import_react18.useState)([]);
+    const [selectedId, setSelectedId] = (0, import_react18.useState)("");
+    const [loading, setLoading] = (0, import_react18.useState)(true);
+    const [error, setError] = (0, import_react18.useState)("");
+    const [revision, setRevision] = (0, import_react18.useState)(0);
+    const [dirty, setDirty] = (0, import_react18.useState)(false);
+    const [saving, setSaving] = (0, import_react18.useState)(false);
+    (0, import_react18.useEffect)(() => {
+      let active = true;
+      setLoading(true);
+      setError("");
+      request("/restaurants/mine").then((data2) => {
+        if (!active) return;
+        const list = Array.isArray(data2) ? data2 : data2.data || [];
+        setRestaurants(list);
+        setSelectedId((old) => list.some((r) => r.id === old) ? old : list[0]?.id || "");
+      }).catch((e) => {
+        if (active) setError(e.message || "Kh\xF4ng th\u1EC3 t\u1EA3i qu\xE1n c\u1EE7a b\u1EA1n");
+      }).finally(() => {
+        if (active) setLoading(false);
+      });
+      return () => {
+        active = false;
+      };
+    }, [revision]);
+    const updateRestaurant = (0, import_react18.useCallback)((restaurant) => {
+      setRestaurants((old) => old.some((r) => r.id === restaurant.id) ? old.map((r) => r.id === restaurant.id ? restaurant : r) : [...old, restaurant]);
+      setSelectedId(restaurant.id);
+    }, []);
+    return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(MerchantContext.Provider, { value: {
+      restaurants,
+      restaurant: restaurants.find((r) => r.id === selectedId),
+      selectedId,
+      setSelectedId,
+      loading,
+      error,
+      refresh: () => setRevision((v) => v + 1),
+      updateRestaurant,
+      dirty,
+      setDirty,
+      saving,
+      setSaving
+    }, children });
+  }
+  function useMerchant() {
+    return (0, import_react18.useContext)(MerchantContext);
+  }
+
+  // src/layouts/MerchantLayout.tsx
+  var import_jsx_runtime26 = __toESM(require_jsx_runtime(), 1);
+  var navItems = [{ path: "/merchant/dashboard", label: "T\u1ED5ng quan" }, { path: "/merchant/menu", label: "Qu\u1EA3n l\xFD Menu" }, { path: "/merchant/orders", label: "\u0110\u01A1n h\xE0ng" }];
+  function MerchantLayout() {
+    const { currentUser, logout } = useAuth();
+    const { restaurants, selectedId, setSelectedId, loading, error, refresh, dirty, saving } = useMerchant();
+    const navigate = useNavigate();
+    const location2 = useLocation();
+    const canLeave = () => !saving && (!dirty || window.confirm("C\xF3 thay \u0111\u1ED5i menu ch\u01B0a l\u01B0u. B\u1EA1n mu\u1ED1n r\u1EDDi trang v\xE0 b\u1ECF c\xE1c thay \u0111\u1ED5i n\xE0y?"));
+    const onboarding = location2.pathname === "/merchant/onboarding";
+    return /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "rb-merchant-shell", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("aside", { className: "rb-merchant-sidebar", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "rb-merchant-brand", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("strong", { children: "RouteBite" }),
+          /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("span", { children: "Kh\xF4ng gian Merchant" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("nav", { "aria-label": "\u0110i\u1EC1u h\u01B0\u1EDBng merchant", children: navItems.map((item) => /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
+          NavLink,
+          {
+            to: item.path,
+            className: ({ isActive }) => isActive ? "active" : "",
+            onClick: (event) => {
+              if (location2.pathname !== item.path && !canLeave()) event.preventDefault();
+            },
+            children: item.label
+          },
+          item.path
+        )) }),
+        /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("footer", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("strong", { children: currentUser.fullName }),
+          /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("button", { type: "button", onClick: () => {
+            if (canLeave()) {
+              logout();
+              navigate("/login");
+            }
+          }, children: "\u0110\u0103ng xu\u1EA5t" })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "rb-merchant-main", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("header", { className: "rb-merchant-toolbar", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("div", { children: restaurants.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("label", { children: [
+            "Qu\xE1n \u0111ang qu\u1EA3n l\xFD",
+            /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("select", { "aria-label": "Qu\xE1n \u0111ang qu\u1EA3n l\xFD", value: selectedId, disabled: saving, onChange: (event) => {
+              if (canLeave()) setSelectedId(event.target.value);
+            }, children: restaurants.map((r) => /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("option", { value: r.id, children: r.name }, r.id)) })
+          ] }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "account-menu", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(NotificationBell, {}),
+            /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(AvatarDropdown, {})
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("main", { className: "rb-merchant-content", children: loading ? /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i qu\xE1n c\u1EE7a b\u1EA1n\u2026" }) : error ? /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("section", { className: "item-card", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("p", { role: "alert", children: error }),
+          /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("button", { className: "btn secondary", onClick: refresh, children: "Th\u1EED l\u1EA1i" })
+        ] }) : !restaurants.length && !onboarding ? /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(Navigate, { to: "/merchant/onboarding", replace: true }) : /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(Outlet, {}) })
+      ] })
+    ] });
+  }
+
+  // src/pages/merchant/useMerchantOrders.ts
+  var import_react19 = __toESM(require_react(), 1);
+  function useMerchantOrders(restaurantId) {
+    const { currentUser } = useAuth();
+    const { orders: socket } = useSockets();
+    const [orders, setOrders] = (0, import_react19.useState)([]);
+    const [loading, setLoading] = (0, import_react19.useState)(true);
+    const [error, setError] = (0, import_react19.useState)("");
+    const refreshRef = (0, import_react19.useRef)(async () => {
+    });
+    (0, import_react19.useEffect)(() => {
+      let active = true;
+      let sequence = 0;
+      setOrders([]);
+      setLoading(!!restaurantId);
+      setError("");
+      const refresh = async () => {
+        if (!restaurantId) return;
+        const version = ++sequence;
+        try {
+          const data2 = await request(`/orders?restaurantId=${encodeURIComponent(restaurantId)}`);
+          if (active && version === sequence) {
+            setOrders(Array.isArray(data2) ? data2 : data2.data || []);
+            setError("");
+          }
+        } catch (e) {
+          if (active && version === sequence) setError(e.message);
+        } finally {
+          if (active && version === sequence) setLoading(false);
+        }
+      };
+      refreshRef.current = refresh;
+      const connect = () => {
+        socket?.emit("merchant.subscribe", { merchantId: currentUser.id });
+        void refresh();
+      };
+      void refresh();
+      if (socket?.connected) connect();
+      socket?.on("connect", connect);
+      socket?.on("order.created", refresh);
+      socket?.on("order.status.updated", refresh);
+      socket?.on("payment.status.updated", refresh);
+      const timer = setInterval(refresh, 3e4);
+      return () => {
+        active = false;
+        clearInterval(timer);
+        socket?.off("connect", connect);
+        socket?.off("order.created", refresh);
+        socket?.off("order.status.updated", refresh);
+        socket?.off("payment.status.updated", refresh);
+      };
+    }, [restaurantId, socket, currentUser.id]);
+    return { orders, loading, error, refresh: () => refreshRef.current() };
+  }
+
+  // src/pages/merchant/RestaurantImageEditor.tsx
+  var import_react21 = __toESM(require_react(), 1);
+
+  // src/components/ImageUploader.tsx
+  var import_react20 = __toESM(require_react(), 1);
+  var import_jsx_runtime27 = __toESM(require_jsx_runtime(), 1);
+  var validUrl = (value2) => /^(https?:\/\/[^\s]+|\/(?!\/)[^\s]*)?$/.test(value2);
+  function ImageUploader({ value: value2, onChange, label = "\u1EA2nh", disabled = false, onBusyChange }) {
+    const id = (0, import_react20.useId)();
+    const [uploading, setUploading] = (0, import_react20.useState)(false);
+    const [preview, setPreview] = (0, import_react20.useState)("");
+    const [error, setError] = (0, import_react20.useState)("");
+    const abort = (0, import_react20.useRef)(null);
+    const localUrl = (0, import_react20.useRef)("");
+    const mounted = (0, import_react20.useRef)(true);
+    const busyCallback = (0, import_react20.useRef)(onBusyChange);
+    busyCallback.current = onBusyChange;
+    const config2 = window.ROUTEBITE_CONFIG || {};
+    const cloud = String(config2.cloudinaryCloudName || "").trim();
+    const preset = String(config2.cloudinaryUploadPreset || "").trim();
+    const configured = /^[a-zA-Z0-9_-]+$/.test(cloud) && !!preset;
+    (0, import_react20.useEffect)(() => () => {
+      mounted.current = false;
+      abort.current?.abort();
+      if (localUrl.current) URL.revokeObjectURL(localUrl.current);
+      if (abort.current) busyCallback.current?.(false);
+    }, []);
+    async function upload(event) {
+      const file = event.target.files?.[0];
+      event.target.value = "";
+      if (!file || uploading || disabled) return;
+      setError("");
+      if (!configured) {
+        setError("Ch\u01B0a c\u1EA5u h\xECnh Cloudinary. B\u1EA1n c\xF3 th\u1EC3 nh\u1EADp URL \u1EA3nh b\xEAn d\u01B0\u1EDBi.");
+        return;
+      }
+      if (!["image/jpeg", "image/png", "image/webp"].includes(file.type) || file.size > 5 * 1024 * 1024) {
+        setError("Ch\u1ECDn \u1EA3nh JPG, PNG ho\u1EB7c WebP t\u1ED1i \u0111a 5 MB.");
+        return;
+      }
+      const controller = new AbortController();
+      abort.current = controller;
+      localUrl.current = URL.createObjectURL(file);
+      setPreview(localUrl.current);
+      setUploading(true);
+      busyCallback.current?.(true);
+      const timer = setTimeout(() => controller.abort(), 6e4);
+      try {
+        const data2 = new FormData();
+        data2.append("file", file);
+        data2.append("upload_preset", preset);
+        const response = await fetch(`https://api.cloudinary.com/v1_1/${encodeURIComponent(cloud)}/image/upload`, { method: "POST", body: data2, signal: controller.signal });
+        const result = await response.json();
+        if (!response.ok || typeof result.secure_url !== "string" || !result.secure_url.startsWith("https://")) throw new Error();
+        if (mounted.current) onChange(result.secure_url);
+      } catch {
+        if (mounted.current) setError("T\u1EA3i \u1EA3nh th\u1EA5t b\u1EA1i. Ki\u1EC3m tra k\u1EBFt n\u1ED1i ho\u1EB7c unsigned preset r\u1ED3i th\u1EED l\u1EA1i; \u1EA3nh \u0111\xE3 l\u01B0u \u0111\u01B0\u1EE3c gi\u1EEF nguy\xEAn.");
+      } finally {
+        clearTimeout(timer);
+        URL.revokeObjectURL(localUrl.current);
+        localUrl.current = "";
+        abort.current = null;
+        if (mounted.current) {
+          setPreview("");
+          setUploading(false);
+          busyCallback.current?.(false);
+        }
+      }
+    }
+    const image = preview || (value2 && validUrl(value2) ? value2 : "");
+    return /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("div", { className: "rb-image-uploader", role: "group", "aria-label": label, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("span", { className: "rb-image-label", children: label }),
+      /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("div", { className: "rb-image-controls", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("img", { src: image || "/placeholder-food.svg", alt: `Xem tr\u01B0\u1EDBc ${label.toLowerCase()}`, onError: (event) => {
+          if (event.currentTarget.getAttribute("src") !== "/placeholder-food.svg") event.currentTarget.src = "/placeholder-food.svg";
+        } }),
+        /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("label", { htmlFor: id, className: "rb-image-file-label", children: uploading ? "\u0110ang t\u1EA3i l\xEAn\u2026" : "Ch\u1ECDn \u1EA3nh" }),
+          /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("input", { id, type: "file", accept: "image/jpeg,image/png,image/webp", "aria-label": `Ch\u1ECDn ${label.toLowerCase()}`, disabled: disabled || uploading || !configured, onChange: upload }),
+          value2 && /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("button", { className: "rb-danger-button", type: "button", disabled: disabled || uploading, onClick: () => {
+            onChange("");
+            setError("");
+          }, children: "B\u1ECF \u1EA3nh" })
+        ] })
+      ] }),
+      !configured && /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("small", { children: "Ch\u01B0a c\u1EA5u h\xECnh Cloudinary \u2014 c\xF3 th\u1EC3 nh\u1EADp URL \u1EA3nh." }),
+      /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("label", { children: [
+        "URL \u1EA3nh",
+        /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("input", { "aria-label": `URL ${label.toLowerCase()}`, value: value2 || "", placeholder: "https://\u2026", disabled: disabled || uploading, onChange: (event) => {
+          onChange(event.target.value);
+          setError(validUrl(event.target.value) ? "" : "URL \u1EA3nh ph\u1EA3i b\u1EAFt \u0111\u1EA7u b\u1EB1ng http:// ho\u1EB7c https://.");
+        } })
+      ] }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("small", { role: "alert", children: error })
+    ] });
+  }
+
+  // src/pages/merchant/types.ts
+  function restaurantPayload(restaurant, menuItems) {
+    const [longitude, latitude] = restaurant.location?.coordinates || [];
+    if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) throw new Error("Qu\xE1n thi\u1EBFu t\u1ECDa \u0111\u1ED9 h\u1EE3p l\u1EC7, kh\xF4ng th\u1EC3 l\u01B0u menu.");
+    return {
+      name: restaurant.name,
+      address: restaurant.address,
+      category: restaurant.category || "",
+      imageUrl: restaurant.imageUrl || "",
+      latitude,
+      longitude,
+      openingHours: restaurant.openingHours,
+      active: restaurant.active,
+      menuItems: menuItems.map((item) => ({ ...item.id ? { id: item.id } : {}, name: item.name.trim(), price: Number(item.price), description: item.description || "", available: item.available, imageUrl: item.imageUrl || null }))
+    };
+  }
+
+  // src/pages/merchant/RestaurantImageEditor.tsx
+  var import_jsx_runtime28 = __toESM(require_jsx_runtime(), 1);
+  function RestaurantImageEditor({ restaurant }) {
+    const { saving, setSaving, setDirty, updateRestaurant } = useMerchant();
+    const [imageUrl, setImageUrl] = (0, import_react21.useState)(restaurant.imageUrl || "");
+    const [error, setError] = (0, import_react21.useState)("");
+    const [message, setMessage] = (0, import_react21.useState)("");
+    const dirty = imageUrl !== (restaurant.imageUrl || "");
+    (0, import_react21.useEffect)(() => {
+      setDirty(dirty);
+      return () => setDirty(false);
+    }, [dirty, setDirty]);
+    async function save() {
+      setSaving(true);
+      setError("");
+      setMessage("");
+      try {
+        const result = await request("/restaurants/" + restaurant.id, { method: "PUT", body: { ...restaurantPayload(restaurant, restaurant.menuItems), imageUrl } });
+        updateRestaurant(result);
+        setMessage("\u0110\xE3 l\u01B0u \u1EA3nh \u0111\u1EA1i di\u1EC7n qu\xE1n.");
+      } catch (e) {
+        setError(e.message || "Kh\xF4ng th\u1EC3 l\u01B0u \u1EA3nh qu\xE1n.");
+      } finally {
+        setSaving(false);
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("section", { className: "item-card rb-restaurant-image-editor", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(ImageUploader, { label: "\u1EA2nh \u0111\u1EA1i di\u1EC7n qu\xE1n", value: imageUrl, onChange: setImageUrl, disabled: saving, onBusyChange: setSaving }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+      message && /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("p", { role: "status", children: message }),
+      /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("button", { className: "btn primary", type: "button", disabled: saving || !dirty, onClick: save, children: saving ? "\u0110ang x\u1EED l\xFD\u2026" : "L\u01B0u \u1EA3nh qu\xE1n" })
+    ] });
+  }
+
+  // src/pages/merchant/DashboardPage.tsx
+  var import_jsx_runtime29 = __toESM(require_jsx_runtime(), 1);
+  function DashboardPage() {
+    const { restaurant } = useMerchant();
+    const { orders, loading, error, refresh } = useMerchantOrders(restaurant?.id);
+    const complete = orders.filter((o) => o.status === "COMPLETED");
+    return /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("section", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("div", { className: "rb-merchant-page-head", children: /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { className: "rb-eyebrow", children: "KH\xD4NG GIAN CH\u1EE6 QU\xC1N" }),
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("h1", { children: "T\u1ED5ng quan" }),
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { children: restaurant?.name })
+      ] }) }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("p", { className: "auth-alert", role: "alert", children: [
+        error,
+        " ",
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("button", { onClick: refresh, children: "Th\u1EED l\u1EA1i" })
+      ] }),
+      loading ? /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i th\u1ED1ng k\xEA\u2026" }) : !error && /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "rb-merchant-metrics", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("article", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("span", { children: "\u0110\u01A1n \u0111ang x\u1EED l\xFD" }),
+          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("strong", { children: orders.filter((o) => ["PENDING", "CONFIRMED", "PREPARING", "READY"].includes(o.status)).length })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("article", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("span", { children: "\u0110\u01A1n ho\xE0n th\xE0nh" }),
+          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("strong", { children: complete.length })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("article", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("span", { children: "Doanh thu \u0111\u01A1n ho\xE0n th\xE0nh" }),
+          /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("strong", { children: [
+            complete.filter((o) => o.paymentStatus === "PAID").reduce((sum, o) => sum + Number(o.totalAmount), 0).toLocaleString("vi-VN"),
+            "\u0111"
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("article", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("span", { children: "M\xF3n \u0111ang b\xE1n" }),
+          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("strong", { children: restaurant?.menuItems.filter((i) => i.available).length || 0 })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "item-card rb-merchant-shop", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("h2", { children: "Th\xF4ng tin qu\xE1n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { children: restaurant?.address }),
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("p", { children: [
+          "Gi\u1EDD m\u1EDF c\u1EEDa: ",
+          restaurant?.openingHours
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { children: restaurant?.active ? "\u0110ang ho\u1EA1t \u0111\u1ED9ng" : "\u0110ang t\u1EA1m ng\u1EEBng" }),
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "btn-row", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(Link, { className: "btn primary", to: "/merchant/orders", children: "X\u1EED l\xFD \u0111\u01A1n h\xE0ng" }),
+          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(Link, { className: "btn secondary", to: "/merchant/menu", children: "Qu\u1EA3n l\xFD Menu" })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { className: "rb-merchant-hint", children: "S\u1ED1 li\u1EC7u t\xEDnh t\u1EEB to\xE0n b\u1ED9 \u0111\u01A1n c\u1EE7a qu\xE1n \u0111ang ch\u1ECDn, kh\xF4ng ph\u1EA3i th\u1ED1ng k\xEA ri\xEAng h\xF4m nay." }),
+      restaurant && /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(RestaurantImageEditor, { restaurant }, restaurant.id)
+    ] });
+  }
+
+  // src/pages/merchant/MenuManagementPage.tsx
+  var import_react22 = __toESM(require_react(), 1);
+  var import_jsx_runtime30 = __toESM(require_jsx_runtime(), 1);
+  var clean = (items) => items.map((item) => ({ ...item.id ? { id: item.id } : {}, name: item.name, price: Number(item.price), description: item.description || "", available: item.available !== false, imageUrl: item.imageUrl || "" }));
+  function MenuManagementPage() {
+    const { restaurant } = useMerchant();
+    return restaurant ? /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(MenuEditor, { restaurant }, restaurant.id) : null;
+  }
+  function MenuEditor({ restaurant }) {
+    const { updateRestaurant, setDirty, saving, setSaving } = useMerchant();
+    const [baseline, setBaseline] = (0, import_react22.useState)(() => clean(restaurant.menuItems || []));
+    const [draft, setDraft] = (0, import_react22.useState)(() => clean(restaurant.menuItems || []));
+    const [error, setError] = (0, import_react22.useState)("");
+    const [message, setMessage] = (0, import_react22.useState)("");
+    const dirty = JSON.stringify(draft) !== JSON.stringify(baseline);
+    (0, import_react22.useEffect)(() => {
+      setDirty(dirty);
+      return () => setDirty(false);
+    }, [dirty, setDirty]);
+    (0, import_react22.useEffect)(() => {
+      if (!dirty) return;
+      const warn = (event) => {
+        event.preventDefault();
+        event.returnValue = "";
+      };
+      window.addEventListener("beforeunload", warn);
+      return () => window.removeEventListener("beforeunload", warn);
+    }, [dirty]);
+    function update(index, field, value2) {
+      setDraft((old) => old.map((item, i) => i === index ? { ...item, [field]: value2 } : item));
+      setMessage("");
+    }
+    async function save() {
+      if (saving) return;
+      if (draft.some((item) => !item.name.trim() || item.name.length > 160 || item.price === "" || !Number.isSafeInteger(Number(item.price)) || Number(item.price) < 0 || Number(item.price) > 99999999999999)) {
+        setError("\u0110i\u1EC1n t\xEAn m\xF3n (t\u1ED1i \u0111a 160 k\xFD t\u1EF1) v\xE0 gi\xE1 nguy\xEAn kh\xF4ng \xE2m h\u1EE3p l\u1EC7.");
+        return;
+      }
+      setSaving(true);
+      setError("");
+      setMessage("");
+      try {
+        const result = await request("/restaurants/" + restaurant.id, { method: "PUT", body: restaurantPayload(restaurant, draft) });
+        const items = clean(result.menuItems || []);
+        setBaseline(items);
+        setDraft(items);
+        updateRestaurant(result);
+        setMessage("\u0110\xE3 l\u01B0u menu th\xE0nh c\xF4ng.");
+      } catch (e) {
+        setError(e.message || "Kh\xF4ng th\u1EC3 l\u01B0u menu.");
+      } finally {
+        setSaving(false);
+      }
+    }
+    async function toggle(index) {
+      if (saving) return;
+      const item = draft[index];
+      if (!item.id) {
+        update(index, "available", !item.available);
+        return;
+      }
+      const available = !item.available;
+      const items = baseline.map((entry) => entry.id === item.id ? { ...entry, available } : entry);
+      setSaving(true);
+      setError("");
+      setMessage("");
+      try {
+        const result = await request("/restaurants/" + restaurant.id, { method: "PUT", body: restaurantPayload(restaurant, items) });
+        setBaseline(clean(result.menuItems || []));
+        setDraft((old) => old.map((entry) => entry.id === item.id ? { ...entry, available } : entry));
+        updateRestaurant(result);
+        setMessage("\u0110\xE3 c\u1EADp nh\u1EADt tr\u1EA1ng th\xE1i b\xE1n. C\xE1c ch\u1EC9nh s\u1EEDa kh\xE1c v\u1EABn ch\u01B0a \u0111\u01B0\u1EE3c l\u01B0u.");
+      } catch (e) {
+        setError(e.message || "Kh\xF4ng th\u1EC3 c\u1EADp nh\u1EADt tr\u1EA1ng th\xE1i b\xE1n.");
+      } finally {
+        setSaving(false);
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("section", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { className: "rb-merchant-page-head", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { className: "rb-eyebrow", children: "QU\xC1N C\u1EE6A B\u1EA0N" }),
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("h1", { children: "Qu\u1EA3n l\xFD Menu" }),
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { children: restaurant.name })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { className: "btn primary", type: "button", disabled: saving, onClick: () => setDraft((old) => [...old, { name: "", price: "", description: "", available: true }]), children: "+ Th\xEAm m\xF3n m\u1EDBi" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { className: "rb-merchant-hint", children: "Th\xEAm, s\u1EEDa, x\xF3a m\xF3n r\u1ED3i b\u1EA5m L\u01B0u thay \u0111\u1ED5i. C\xF2n h\xE0ng/H\u1EBFt h\xE0ng c\u1EE7a m\xF3n \u0111\xE3 c\xF3 s\u1EBD \u0111\u01B0\u1EE3c l\u01B0u ngay." }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+      message && /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { role: "status", className: "rb-merchant-feedback", children: message }),
+      /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("fieldset", { disabled: saving, className: "rb-menu-editor", children: [
+        draft.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { className: "rb-menu-edit-row", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(ImageUploader, { label: `\u1EA2nh m\xF3n ${index + 1}`, value: item.imageUrl, onChange: (url2) => update(index, "imageUrl", url2), disabled: saving, onBusyChange: setSaving }),
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("label", { children: [
+            "T\xEAn m\xF3n",
+            /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("input", { "aria-label": `T\xEAn m\xF3n ${index + 1}`, maxLength: 160, value: item.name, onChange: (event) => update(index, "name", event.target.value), placeholder: "T\xEAn m\xF3n" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("label", { children: [
+            "Gi\xE1 (\u0111)",
+            /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("input", { "aria-label": `Gi\xE1 m\xF3n ${index + 1}`, type: "number", min: "0", max: "99999999999999", step: "1", value: item.price, onChange: (event) => update(index, "price", event.target.value === "" ? "" : Number(event.target.value)) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("label", { children: [
+            "M\xF4 t\u1EA3",
+            /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("input", { "aria-label": `M\xF4 t\u1EA3 m\xF3n ${index + 1}`, value: item.description, onChange: (event) => update(index, "description", event.target.value) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { className: `rb-stock-toggle ${item.available ? "available" : ""}`, type: "button", "aria-label": `Tr\u1EA1ng th\xE1i ${item.name || "m\xF3n m\u1EDBi"}`, "aria-pressed": item.available, onClick: () => toggle(index), children: item.available ? "C\xF2n h\xE0ng" : "H\u1EBFt h\xE0ng" }),
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { type: "button", className: "rb-danger-button", "aria-label": `X\xF3a ${item.name || "m\xF3n m\u1EDBi"}`, onClick: () => setDraft((old) => old.filter((_, i) => i !== index)), children: "X\xF3a" })
+        ] }, item.id || `new-${index}`)),
+        !draft.length && /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { className: "rb-empty", children: "Ch\u01B0a c\xF3 m\xF3n n\xE0o, b\u1EA5m \u201CTh\xEAm m\xF3n m\u1EDBi\u201D \u0111\u1EC3 b\u1EAFt \u0111\u1EA7u." })
+      ] }),
+      dirty && /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { className: "rb-menu-save-bar", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("span", { children: "C\xF3 thay \u0111\u1ED5i ch\u01B0a l\u01B0u" }),
+        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { type: "button", className: "btn secondary", disabled: saving, onClick: () => {
+          if (window.confirm("B\u1ECF c\xE1c thay \u0111\u1ED5i menu ch\u01B0a l\u01B0u?")) setDraft(baseline);
+        }, children: "B\u1ECF thay \u0111\u1ED5i" }),
+        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { type: "button", className: "btn primary", disabled: saving, onClick: save, children: saving ? "\u0110ang l\u01B0u\u2026" : "L\u01B0u thay \u0111\u1ED5i" })
+      ] })
+    ] });
+  }
+
+  // src/pages/merchant/OrdersKanbanPage.tsx
+  var import_react23 = __toESM(require_react(), 1);
+  var import_jsx_runtime31 = __toESM(require_jsx_runtime(), 1);
+  var columns = [{ status: "PENDING", label: "Ch\u1EDD x\xE1c nh\u1EADn / \u0110\xE3 x\xE1c nh\u1EADn" }, { status: "PREPARING", label: "\u0110ang chu\u1EA9n b\u1ECB" }, { status: "READY", label: "S\u1EB5n s\xE0ng" }, { status: "COMPLETED", label: "Ho\xE0n th\xE0nh" }];
+  var next = {
+    PENDING: { status: "CONFIRMED", label: "X\xE1c nh\u1EADn \u2192" },
+    CONFIRMED: { status: "PREPARING", label: "B\u1EAFt \u0111\u1EA7u chu\u1EA9n b\u1ECB \u2192" },
+    PREPARING: { status: "READY", label: "S\u1EB5n s\xE0ng \u2192" },
+    READY: { status: "COMPLETED", label: "Kh\xE1ch \u0111\xE3 l\u1EA5y \u2713" }
+  };
+  function OrdersKanbanPage() {
+    const { restaurant } = useMerchant();
+    const { orders, loading, error, refresh } = useMerchantOrders(restaurant?.id);
+    const [busy, setBusy] = (0, import_react23.useState)("");
+    const [actionError, setActionError] = (0, import_react23.useState)("");
+    const [cancelled, setCancelled] = (0, import_react23.useState)(false);
+    async function advance(order, status) {
+      if (busy || status === "CANCELLED" && !window.confirm(`H\u1EE7y \u0111\u01A1n ${order.orderCode}?`)) return;
+      setBusy(order.id);
+      setActionError("");
+      try {
+        await request(`/orders/${order.id}/status`, { method: "PATCH", body: { status } });
+        await refresh();
+      } catch (e) {
+        setActionError(e.message || "Kh\xF4ng th\u1EC3 c\u1EADp nh\u1EADt tr\u1EA1ng th\xE1i");
+      } finally {
+        setBusy("");
+      }
+    }
+    const renderCard = (order) => {
+      const action = next[order.status];
+      const awaitingPayment = order.paymentMethod === "vnpay" && order.paymentStatus !== "PAID";
+      return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("article", { className: "rb-kanban-card", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Link, { to: "/merchant/orders/" + order.id, className: "rb-order-code", children: order.orderCode }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(OrderStatusBadge, { status: order.status }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("strong", { children: order.customerName || "Kh\xE1ch h\xE0ng" }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { children: order.customerPhone }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("p", { children: [
+          order.items?.reduce((sum, item) => sum + item.quantity, 0) || 0,
+          " m\xF3n \xB7 ",
+          Number(order.totalAmount).toLocaleString("vi-VN"),
+          "\u0111"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { children: order.paymentMethod === "cash" ? order.paymentStatus === "PAID" ? "Ti\u1EC1n m\u1EB7t \xB7 \u0110\xE3 thu" : "Ti\u1EC1n m\u1EB7t \xB7 Thu khi gh\xE9 l\u1EA5y" : awaitingPayment ? "VNPAY \xB7 Ch\u01B0a thanh to\xE1n" : "VNPAY \xB7 \u0110\xE3 thanh to\xE1n" }),
+        !["CANCELLED", "COMPLETED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }),
+        action && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("button", { className: "btn primary", type: "button", disabled: !!busy || awaitingPayment, onClick: () => advance(order, action.status), children: busy === order.id ? "\u0110ang c\u1EADp nh\u1EADt\u2026" : action.label }),
+        ["PENDING", "CONFIRMED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("button", { className: "rb-danger-button", type: "button", disabled: !!busy, onClick: () => advance(order, "CANCELLED"), children: "H\u1EE7y \u0111\u01A1n" })
+      ] }, order.id);
+    };
+    return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("section", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "rb-merchant-page-head", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { className: "rb-eyebrow", children: "\u0110I\u1EC0U PH\u1ED0I GH\xC9 L\u1EA4Y" }),
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("h1", { children: "\u0110\u01A1n h\xE0ng" }),
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { children: restaurant?.name })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("button", { className: "btn secondary", onClick: refresh, children: "L\xE0m m\u1EDBi" })
+      ] }),
+      (error || actionError) && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { role: "alert", className: "auth-alert", children: actionError || error }),
+      loading ? /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i \u0111\u01A1n h\xE0ng\u2026" }) : /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "rb-kanban-board", children: columns.map((column) => {
+        const items = orders.filter((o) => column.status === "PENDING" ? ["PENDING", "CONFIRMED"].includes(o.status) : o.status === column.status);
+        return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("section", { className: "rb-kanban-column", "aria-label": column.label, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("h2", { children: [
+            column.label,
+            " ",
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { children: items.length })
+          ] }),
+          items.length ? items.map(renderCard) : /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { className: "rb-empty", children: "Ch\u01B0a c\xF3 \u0111\u01A1n" })
+        ] }, column.status);
+      }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("button", { className: "btn secondary rb-cancelled-toggle", type: "button", "aria-expanded": cancelled, onClick: () => setCancelled(!cancelled), children: [
+        "\u0110\xE3 h\u1EE7y (",
+        orders.filter((o) => o.status === "CANCELLED").length,
+        ")"
+      ] }),
+      cancelled && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "rb-cancelled-orders", children: orders.filter((o) => o.status === "CANCELLED").map(renderCard) })
+    ] });
+  }
+
+  // src/pages/merchant/OnboardingPage.tsx
+  var import_react24 = __toESM(require_react(), 1);
+  var import_jsx_runtime32 = __toESM(require_jsx_runtime(), 1);
+  function OnboardingPage() {
+    const { updateRestaurant } = useMerchant();
+    const navigate = useNavigate();
+    const [form, setForm] = (0, import_react24.useState)({ name: "", address: "", category: "com", latitude: "", longitude: "", openingHours: "08:00-22:00", imageUrl: "" });
+    const [uploading, setUploading] = (0, import_react24.useState)(false);
+    const [error, setError] = (0, import_react24.useState)("");
+    const [busy, setBusy] = (0, import_react24.useState)(false);
+    const [locating, setLocating] = (0, import_react24.useState)(false);
+    const field = (key, value2) => setForm((old) => ({ ...old, [key]: value2 }));
+    async function submit(event) {
+      event.preventDefault();
+      if (busy) return;
+      if (!form.name.trim() || !form.address.trim()) {
+        setError("Vui l\xF2ng \u0111i\u1EC1n t\xEAn v\xE0 \u0111\u1ECBa ch\u1EC9 qu\xE1n.");
+        return;
+      }
+      setBusy(true);
+      setError("");
+      try {
+        const result = await request("/restaurants", { method: "POST", body: { ...form, name: form.name.trim(), address: form.address.trim(), latitude: Number(form.latitude), longitude: Number(form.longitude), active: true, menuItems: [] } });
+        updateRestaurant(result);
+        navigate("/merchant/menu", { replace: true });
+      } catch (e) {
+        setError(e.message || "Kh\xF4ng th\u1EC3 t\u1EA1o qu\xE1n.");
+      } finally {
+        setBusy(false);
+      }
+    }
+    function locate() {
+      if (!navigator.geolocation) {
+        setError("Tr\xECnh duy\u1EC7t kh\xF4ng h\u1ED7 tr\u1EE3 \u0111\u1ECBnh v\u1ECB. B\u1EA1n c\xF3 th\u1EC3 nh\u1EADp t\u1ECDa \u0111\u1ED9 qu\xE1n.");
+        return;
+      }
+      setLocating(true);
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          setForm((old) => ({ ...old, latitude: String(position.coords.latitude), longitude: String(position.coords.longitude) }));
+          setLocating(false);
+        },
+        () => {
+          setError("Kh\xF4ng l\u1EA5y \u0111\u01B0\u1EE3c v\u1ECB tr\xED. Vui l\xF2ng cho ph\xE9p \u0111\u1ECBnh v\u1ECB ho\u1EB7c nh\u1EADp t\u1ECDa \u0111\u1ED9 qu\xE1n.");
+          setLocating(false);
+        },
+        { timeout: 1e4 }
+      );
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("section", { className: "rb-onboarding", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("p", { className: "rb-eyebrow", children: "B\u1EAET \u0110\u1EA6U B\xC1N H\xC0NG" }),
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("h1", { children: "\u0110\u0103ng k\xFD qu\xE1n c\u1EE7a b\u1EA1n" }),
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("p", { children: "T\u1EA1o th\xF4ng tin qu\xE1n tr\u01B0\u1EDBc, sau \u0111\xF3 th\xEAm m\xF3n \u1EDF trang Qu\u1EA3n l\xFD Menu." }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("form", { onSubmit: submit, children: /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("fieldset", { disabled: busy || uploading, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(ImageUploader, { label: "\u1EA2nh \u0111\u1EA1i di\u1EC7n qu\xE1n", value: form.imageUrl, onChange: (url2) => field("imageUrl", url2), onBusyChange: setUploading }),
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("label", { children: [
+          "T\xEAn qu\xE1n",
+          /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("input", { required: true, value: form.name, onChange: (e) => field("name", e.target.value) })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("label", { children: [
+          "\u0110\u1ECBa ch\u1EC9 qu\xE1n",
+          /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("input", { required: true, value: form.address, onChange: (e) => field("address", e.target.value) })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("label", { children: [
+          "Danh m\u1EE5c",
+          /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("select", { value: form.category, onChange: (e) => field("category", e.target.value), children: [
+            /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("option", { value: "com", children: "C\u01A1m" }),
+            /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("option", { value: "bun-pho", children: "B\xFAn/Ph\u1EDF" }),
+            /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("option", { value: "ca-phe", children: "C\xE0 ph\xEA" }),
+            /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("option", { value: "do-uong", children: "\u0110\u1ED3 u\u1ED1ng" }),
+            /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("option", { value: "an-vat", children: "\u0102n v\u1EB7t" })
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("label", { children: [
+          "Gi\u1EDD m\u1EDF c\u1EEDa",
+          /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("input", { required: true, value: form.openingHours, onChange: (e) => field("openingHours", e.target.value), placeholder: "08:00-22:00" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "rb-onboarding-coords", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("label", { children: [
+            "V\u0129 \u0111\u1ED9",
+            /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("input", { type: "number", step: "any", min: "-90", max: "90", required: true, value: form.latitude, onChange: (e) => field("latitude", e.target.value) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("label", { children: [
+            "Kinh \u0111\u1ED9",
+            /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("input", { type: "number", step: "any", min: "-180", max: "180", required: true, value: form.longitude, onChange: (e) => field("longitude", e.target.value) })
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("button", { className: "btn secondary", type: "button", disabled: locating, onClick: locate, children: locating ? "\u0110ang \u0111\u1ECBnh v\u1ECB\u2026" : "D\xF9ng v\u1ECB tr\xED hi\u1EC7n t\u1EA1i l\xE0m v\u1ECB tr\xED qu\xE1n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("button", { className: "btn primary", type: "submit", disabled: locating, children: busy ? "\u0110ang t\u1EA1o qu\xE1n\u2026" : "T\u1EA1o qu\xE1n v\xE0 th\xEAm m\xF3n" })
+      ] }) })
+    ] });
+  }
+
+  // src/layouts/AdminLayout.tsx
+  var import_jsx_runtime33 = __toESM(require_jsx_runtime(), 1);
+  var ADMIN_NAV = [
+    { path: "/admin/overview", label: "T\u1ED5ng quan" },
+    { path: "/admin/restaurants", label: "Qu\xE1n \u0103n" },
+    { path: "/admin/users", label: "Ng\u01B0\u1EDDi d\xF9ng" },
+    { path: "/admin/merchant-applications", label: "H\u1ED3 s\u01A1 \u0111\u1ED1i t\xE1c" }
+  ];
+  function AdminLayout() {
+    const { currentUser, logout } = useAuth();
+    const navigate = useNavigate();
+    return /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "rb-admin-shell rb-merchant-shell", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("aside", { className: "rb-merchant-sidebar", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "rb-merchant-brand", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("strong", { children: "RouteBite" }),
+          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("span", { children: "Qu\u1EA3n tr\u1ECB h\u1EC7 th\u1ED1ng" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("nav", { "aria-label": "\u0110i\u1EC1u h\u01B0\u1EDBng admin", children: ADMIN_NAV.map((item) => /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+          NavLink,
+          {
+            to: item.path,
+            className: ({ isActive }) => isActive ? "active" : "",
+            children: item.label
+          },
+          item.path
+        )) }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("footer", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("strong", { children: currentUser?.fullName || "Qu\u1EA3n tr\u1ECB vi\xEAn" }),
+          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("button", { type: "button", onClick: () => {
+            logout();
+            navigate("/login", { replace: true });
+          }, children: "\u0110\u0103ng xu\u1EA5t" })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("main", { className: "rb-admin-content rb-merchant-content", children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(Outlet, {}) })
+    ] });
+  }
+
+  // src/pages/admin/AdminShared.tsx
+  var import_jsx_runtime34 = __toESM(require_jsx_runtime(), 1);
+  function LoadError({ error, retry }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "rb-admin-error", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("p", { role: "alert", children: error }),
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("button", { className: "btn secondary", onClick: retry, children: "Th\u1EED l\u1EA1i" })
+    ] });
+  }
+  function Pagination({ page, total, limit, onPage, disabled = false }) {
+    const pages = Math.max(1, Math.ceil(total / limit));
+    return /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("nav", { className: "rb-admin-pagination", "aria-label": "Ph\xE2n trang", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("span", { children: [
+        total.toLocaleString("vi-VN"),
+        " k\u1EBFt qu\u1EA3 \xB7 Trang ",
+        page,
+        "/",
+        pages
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("button", { className: "btn secondary", disabled: disabled || page <= 1, onClick: () => onPage(page - 1), children: "Trang tr\u01B0\u1EDBc" }),
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("button", { className: "btn secondary", disabled: disabled || page >= pages, onClick: () => onPage(page + 1), children: "Trang sau" })
+    ] });
+  }
+
+  // src/pages/admin/adminData.ts
+  var import_react25 = __toESM(require_react(), 1);
+  var ROLE_LABELS3 = { customer: "Kh\xE1ch h\xE0ng", merchant: "Ch\u1EE7 qu\xE1n", admin: "Qu\u1EA3n tr\u1ECB vi\xEAn" };
+  var numberText = (value2) => Number(value2).toLocaleString("vi-VN");
+  function useAdminData(path) {
+    const [result, setResult] = (0, import_react25.useState)({ path, data: null, error: "", loading: true });
+    const [revision, setRevision] = (0, import_react25.useState)(0);
+    const refresh = (0, import_react25.useCallback)(() => setRevision((value2) => value2 + 1), []);
+    (0, import_react25.useEffect)(() => {
+      let current = true;
+      setResult({ path, data: null, error: "", loading: true });
+      request(path).then((data2) => {
+        if (current) setResult({ path, data: data2, error: "", loading: false });
+      }).catch((error) => {
+        if (current) setResult({ path, data: null, error: error.message || "Kh\xF4ng th\u1EC3 t\u1EA3i d\u1EEF li\u1EC7u. Vui l\xF2ng th\u1EED l\u1EA1i.", loading: false });
+      });
+      return () => {
+        current = false;
+      };
+    }, [path, revision]);
+    return { data: result.path === path ? result.data : null, error: result.path === path ? result.error : "", loading: result.path !== path || result.loading, refresh };
+  }
+
+  // src/pages/admin/AdminOverviewPage.tsx
+  var import_jsx_runtime35 = __toESM(require_jsx_runtime(), 1);
+  function AdminOverviewPage() {
+    const overview = useAdminData("/admin/dashboard/overview");
+    const analytics = useAdminData("/admin/search-analytics");
+    const data2 = overview.data;
+    const stats = data2 ? [
+      { label: "T\u1ED5ng ng\u01B0\u1EDDi d\xF9ng", value: numberText(data2.usersByRole.reduce((sum, item) => sum + item.count, 0)) },
+      { label: "T\u1ED5ng s\u1ED1 qu\xE1n", value: numberText(data2.totalRestaurants) },
+      { label: "T\u1ED5ng \u0111\u01A1n h\xE0ng", value: numberText(data2.totalOrders) },
+      { label: "T\u1ED5ng gi\xE1 tr\u1ECB giao d\u1ECBch (GMV)", value: numberText(data2.gmv) + "\u0111" },
+      { label: "Ng\u01B0\u1EDDi d\xF9ng m\u1EDBi th\xE1ng n\xE0y", value: numberText(data2.newUsersThisMonth) }
+    ] : [];
+    return /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(import_jsx_runtime35.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("header", { className: "rb-admin-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("h1", { children: "T\u1ED5ng quan h\u1EC7 th\u1ED1ng" }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("span", { children: "S\u1ED1 li\u1EC7u ho\u1EA1t \u0111\u1ED9ng tr\xEAn to\xE0n b\u1ED9 RouteBite." })
+      ] }),
+      overview.loading ? /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i t\u1ED5ng quan\u2026" }) : overview.error ? /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(LoadError, { error: overview.error, retry: overview.refresh }) : data2 && /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(import_jsx_runtime35.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("section", { className: "rb-admin-metrics", "aria-label": "S\u1ED1 li\u1EC7u t\u1ED5ng quan", children: stats.map((stat) => /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("article", { className: "item-card", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { children: stat.label }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("strong", { children: stat.value })
+        ] }, stat.label)) }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { className: "rb-admin-hint", children: "GMV l\xE0 t\u1ED5ng gi\xE1 tr\u1ECB \u0111\u01A1n \u0111\xE3 thanh to\xE1n, kh\xF4ng ph\u1EA3i doanh thu hoa h\u1ED3ng c\u1EE7a n\u1EC1n t\u1EA3ng." }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { className: "rb-admin-panels", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("section", { className: "item-card", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("h2", { children: "Ng\u01B0\u1EDDi d\xF9ng theo vai tr\xF2" }),
+            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("dl", { className: "rb-admin-summary", children: Object.entries(ROLE_LABELS3).map(([role, label]) => /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("dt", { children: label }),
+              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("dd", { children: numberText(data2.usersByRole.find((item) => item.role === role)?.count ?? 0) })
+            ] }, role)) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("section", { className: "item-card", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("h2", { children: "Qu\xE1n c\xF3 nhi\u1EC1u \u0111\u01A1n nh\u1EA5t" }),
+            data2.topRestaurants.length ? /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("ol", { className: "rb-admin-ranking", children: data2.topRestaurants.map((shop) => /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("li", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("span", { children: shop.name }),
+              /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("strong", { children: [
+                numberText(shop.orderCount),
+                " \u0111\u01A1n"
+              ] })
+            ] }, shop.id)) }) : /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { children: "Ch\u01B0a c\xF3 d\u1EEF li\u1EC7u \u0111\u01A1n h\xE0ng." })
+          ] })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("section", { className: "item-card rb-admin-analytics", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("h2", { children: "Th\u1ED1ng k\xEA t\xECm ki\u1EBFm theo l\u1ED9 tr\xECnh" }),
+        analytics.loading ? /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i th\u1ED1ng k\xEA t\xECm ki\u1EBFm\u2026" }) : analytics.error ? /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(LoadError, { error: analytics.error, retry: analytics.refresh }) : analytics.data && /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(import_jsx_runtime35.Fragment, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("p", { children: [
+            "T\u1ED5ng l\u01B0\u1EE3t t\xECm ki\u1EBFm \u0111\xE3 ghi nh\u1EADn: ",
+            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("strong", { children: numberText(analytics.data.totalSearches) })
+          ] }),
+          analytics.data.popularOriginAreas.length ? /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("div", { className: "rb-admin-table-wrap", tabIndex: 0, "aria-label": "\u0110i\u1EC3m xu\u1EA5t ph\xE1t ph\u1ED5 bi\u1EBFn", children: /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("table", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("tr", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("th", { children: "V\u0129 \u0111\u1ED9 \u0111i\u1EC3m \u0111i" }),
+              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("th", { children: "Kinh \u0111\u1ED9 \u0111i\u1EC3m \u0111i" }),
+              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("th", { children: "L\u01B0\u1EE3t t\xECm" })
+            ] }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("tbody", { children: analytics.data.popularOriginAreas.map((area, index) => /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("tr", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("td", { children: area.latitude.toFixed(5) }),
+              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("td", { children: area.longitude.toFixed(5) }),
+              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("td", { children: numberText(area.count) })
+            ] }, index)) })
+          ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { children: "Ch\u01B0a c\xF3 d\u1EEF li\u1EC7u t\xECm ki\u1EBFm." }),
+          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { className: "rb-admin-hint", children: "API hi\u1EC7n ch\u1EC9 cung c\u1EA5p t\u1ECDa \u0111\u1ED9 \u0111i\u1EC3m xu\u1EA5t ph\xE1t v\xE0 s\u1ED1 l\u01B0\u1EE3t t\xECm, ch\u01B0a c\xF3 t\xEAn khu v\u1EF1c ho\u1EB7c t\u1EF7 l\u1EC7 chuy\u1EC3n \u0111\u1ED5i th\xE0nh \u0111\u01A1n." })
+        ] })
+      ] })
+    ] });
+  }
+
+  // src/pages/admin/AdminRestaurantsPage.tsx
+  var import_react26 = __toESM(require_react(), 1);
+  var import_jsx_runtime36 = __toESM(require_jsx_runtime(), 1);
+  var SOURCE_LABELS = { osm_import: "Nh\u1EADp t\u1EEB OSM", merchant: "Ch\u1EE7 qu\xE1n", manual: "Nh\u1EADp th\u1EE7 c\xF4ng", demo: "D\u1EEF li\u1EC7u m\u1EABu" };
+  function AdminRestaurantsPage() {
+    const [page, setPage] = (0, import_react26.useState)(1);
+    const resource = useAdminData(`/admin/restaurants?page=${page}&limit=20`);
+    const [target, setTarget] = (0, import_react26.useState)(null);
+    const [reason, setReason] = (0, import_react26.useState)("");
+    const [busy, setBusy] = (0, import_react26.useState)(false);
+    const inFlight = (0, import_react26.useRef)(false);
+    const [error, setError] = (0, import_react26.useState)("");
+    const [message, setMessage] = (0, import_react26.useState)("");
+    const dialog = (0, import_react26.useRef)(null);
+    (0, import_react26.useEffect)(() => {
+      if (target) dialog.current?.showModal();
+    }, [target]);
+    const close = () => {
+      if (!inFlight.current) {
+        dialog.current?.close();
+        setTarget(null);
+        setReason("");
+        setError("");
+      }
+    };
+    async function update(shop, action) {
+      if (inFlight.current) return;
+      const trimmed = reason.trim();
+      if (action === "suspend" && (trimmed.length < 5 || trimmed.length > 500)) {
+        setError("L\xFD do t\u1EA1m ng\u01B0ng ph\u1EA3i c\xF3 t\u1EEB 5 \u0111\u1EBFn 500 k\xFD t\u1EF1.");
+        return;
+      }
+      inFlight.current = true;
+      setBusy(true);
+      setError("");
+      setMessage("");
+      try {
+        await request(`/admin/restaurants/${shop.id}/${action}`, { method: "PATCH", ...action === "suspend" ? { body: { reason: trimmed } } : {} });
+        dialog.current?.close();
+        setTarget(null);
+        setReason("");
+        setMessage(action === "suspend" ? `\u0110\xE3 t\u1EA1m ng\u01B0ng qu\xE1n \u201C${shop.name}\u201D.` : `\u0110\xE3 k\xEDch ho\u1EA1t l\u1EA1i qu\xE1n \u201C${shop.name}\u201D.`);
+        resource.refresh();
+      } catch (error2) {
+        setError(error2 instanceof Error ? error2.message : "Kh\xF4ng th\u1EC3 c\u1EADp nh\u1EADt qu\xE1n. Vui l\xF2ng th\u1EED l\u1EA1i.");
+      } finally {
+        inFlight.current = false;
+        setBusy(false);
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(import_jsx_runtime36.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("header", { className: "rb-admin-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("h1", { children: "Qu\u1EA3n l\xFD qu\xE1n \u0103n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { children: "Theo d\xF5i ngu\u1ED3n d\u1EEF li\u1EC7u v\xE0 tr\u1EA1ng th\xE1i ho\u1EA1t \u0111\u1ED9ng c\u1EE7a c\xE1c qu\xE1n." })
+      ] }),
+      message && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { className: "rb-merchant-feedback", role: "status", children: message }),
+      error && !target && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { className: "rb-admin-error", role: "alert", children: error }),
+      resource.loading ? /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i qu\xE1n \u0103n\u2026" }) : resource.error ? /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(LoadError, { error: resource.error, retry: resource.refresh }) : resource.data && /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(import_jsx_runtime36.Fragment, { children: [
+        resource.data.data.length ? /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { className: "item-card rb-admin-table-wrap", tabIndex: 0, "aria-label": "Danh s\xE1ch qu\xE1n \u0103n", children: /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("table", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("tr", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("th", { children: "T\xEAn qu\xE1n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("th", { children: "Ngu\u1ED3n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("th", { children: "Tr\u1EA1ng th\xE1i" }),
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("th", { children: "H\xE0nh \u0111\u1ED9ng" })
+          ] }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("tbody", { children: resource.data.data.map((shop) => /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("tr", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("td", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("strong", { children: shop.name }),
+              shop.owner && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("small", { children: shop.owner.fullName || shop.owner.email })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("td", { children: SOURCE_LABELS[shop.source || ""] || shop.source || "Ch\u01B0a x\xE1c \u0111\u1ECBnh" }),
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("td", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: `rb-admin-status ${shop.active ? "active" : ""}`, children: shop.active ? "\u0110ang ho\u1EA1t \u0111\u1ED9ng" : "T\u1EA1m ng\u01B0ng" }),
+              !shop.active && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("small", { children: shop.suspendedReason || "Ch\u01B0a c\xF3 l\xFD do t\u1EA1m ng\u01B0ng \u0111\u01B0\u1EE3c l\u01B0u." })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("button", { type: "button", className: `btn secondary ${shop.active ? "rb-admin-danger" : ""}`, disabled: busy, onClick: () => {
+              if (shop.active) {
+                setTarget(shop);
+                setReason("");
+                setError("");
+              } else void update(shop, "activate");
+            }, children: shop.active ? "T\u1EA1m ng\u01B0ng" : "K\xEDch ho\u1EA1t l\u1EA1i" }) })
+          ] }, shop.id)) })
+        ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("section", { className: "item-card", children: "Ch\u01B0a c\xF3 qu\xE1n \u0103n." }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Pagination, { page, total: resource.data.total, limit: 20, onPage: setPage, disabled: busy })
+      ] }),
+      target && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("dialog", { className: "rb-admin-dialog", ref: dialog, "aria-labelledby": "suspend-title", onCancel: (event) => {
+        event.preventDefault();
+        close();
+      }, children: /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("form", { onSubmit: (event) => {
+        event.preventDefault();
+        void update(target, "suspend");
+      }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("h2", { id: "suspend-title", children: [
+          "T\u1EA1m ng\u01B0ng \u201C",
+          target.name,
+          "\u201D"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { children: "Qu\xE1n s\u1EBD kh\xF4ng c\xF2n xu\u1EA5t hi\u1EC7n trong danh s\xE1ch c\xF4ng khai v\xE0 k\u1EBFt qu\u1EA3 t\xECm ki\u1EBFm." }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { htmlFor: "suspend-reason", children: "L\xFD do t\u1EA1m ng\u01B0ng (b\u1EAFt bu\u1ED9c)" }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("textarea", { id: "suspend-reason", autoFocus: true, rows: 4, maxLength: 500, value: reason, disabled: busy, onChange: (event) => setReason(event.target.value), "aria-describedby": "suspend-hint" }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("small", { id: "suspend-hint", children: [
+          "T\u1EEB 5 \u0111\u1EBFn 500 k\xFD t\u1EF1 \xB7 ",
+          reason.trim().length,
+          "/500"
+        ] }),
+        error && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { role: "alert", className: "rb-admin-error", children: error }),
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "rb-admin-dialog-actions", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("button", { type: "button", className: "btn secondary", disabled: busy, onClick: close, children: "H\u1EE7y" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("button", { type: "submit", className: "btn primary", disabled: busy, children: busy ? "\u0110ang c\u1EADp nh\u1EADt\u2026" : "X\xE1c nh\u1EADn t\u1EA1m ng\u01B0ng" })
+        ] })
+      ] }) })
+    ] });
+  }
+
+  // src/pages/admin/AdminUsersPage.tsx
+  var import_react27 = __toESM(require_react(), 1);
+  var import_jsx_runtime37 = __toESM(require_jsx_runtime(), 1);
+  function AdminUsersPage() {
+    const [role, setRole] = (0, import_react27.useState)("all");
+    const [page, setPage] = (0, import_react27.useState)(1);
+    const resource = useAdminData(`/admin/users?page=${page}&limit=20${role === "all" ? "" : "&role=" + role}`);
+    return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(import_jsx_runtime37.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("header", { className: "rb-admin-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("h1", { children: "Ng\u01B0\u1EDDi d\xF9ng" }),
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { children: "Tra c\u1EE9u t\xE0i kho\u1EA3n theo vai tr\xF2. Danh s\xE1ch ch\u1EC9 \u0111\u1ECDc." })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { className: "rb-admin-filters", role: "group", "aria-label": "L\u1ECDc vai tr\xF2", children: ["all", "customer", "merchant", "admin"].map((value2) => /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("button", { type: "button", "aria-pressed": value2 === role, onClick: () => {
+        setRole(value2);
+        setPage(1);
+      }, children: value2 === "all" ? "T\u1EA5t c\u1EA3" : ROLE_LABELS3[value2] }, value2)) }),
+      resource.loading ? /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i ng\u01B0\u1EDDi d\xF9ng\u2026" }) : resource.error ? /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(LoadError, { error: resource.error, retry: resource.refresh }) : resource.data && /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(import_jsx_runtime37.Fragment, { children: [
+        resource.data.data.length ? /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { className: "item-card rb-admin-table-wrap", tabIndex: 0, "aria-label": "Danh s\xE1ch ng\u01B0\u1EDDi d\xF9ng", children: /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("table", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("tr", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("th", { children: "H\u1ECD t\xEAn" }),
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("th", { children: "Email" }),
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("th", { children: "Vai tr\xF2" })
+          ] }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("tbody", { children: resource.data.data.map((user) => /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("tr", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("td", { children: user.fullName || "Ch\u01B0a c\u1EADp nh\u1EADt" }),
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("td", { children: user.email }),
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("td", { children: ROLE_LABELS3[user.role] || user.role })
+          ] }, user.id)) })
+        ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("section", { className: "item-card", children: role === "all" ? "Ch\u01B0a c\xF3 ng\u01B0\u1EDDi d\xF9ng." : "Kh\xF4ng c\xF3 ng\u01B0\u1EDDi d\xF9ng thu\u1ED9c vai tr\xF2 n\xE0y." }),
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(Pagination, { page, total: resource.data.total, limit: 20, onPage: setPage })
+      ] })
+    ] });
+  }
+
+  // src/pages/admin/AdminMerchantApplicationsPage.tsx
+  var import_react28 = __toESM(require_react(), 1);
+
+  // src/pages/partner/partnerData.ts
+  var DOCUMENT_LABELS = { identity_front: "CCCD m\u1EB7t tr\u01B0\u1EDBc", identity_back: "CCCD m\u1EB7t sau", business_license: "Gi\u1EA5y ph\xE9p kinh doanh", food_safety: "Gi\u1EA5y t\u1EDD VSATTP" };
+  var APPLICATION_LABELS = { DRAFT: "B\u1EA3n nh\xE1p", SUBMITTED: "Ch\u1EDD Admin duy\u1EC7t", APPROVED: "\u0110\xE3 duy\u1EC7t", REJECTED: "C\u1EA7n b\u1ED5 sung h\u1ED3 s\u01A1" };
+  async function downloadDocument(app, doc) {
+    const blob = await request(`/merchant-applications/${app.id}/documents/${doc.id}`, { responseType: "blob" });
+    const url2 = URL.createObjectURL(blob), link = document.createElement("a");
+    link.href = url2;
+    link.download = `${doc.kind}.${doc.mimeType === "application/pdf" ? "pdf" : doc.mimeType === "image/png" ? "png" : "jpg"}`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url2), 1e3);
+  }
+
+  // src/pages/admin/AdminMerchantApplicationsPage.tsx
+  var import_jsx_runtime38 = __toESM(require_jsx_runtime(), 1);
+  function ApplicationDetail({ id, onBack }) {
+    const data2 = useAdminData("/admin/merchant-applications/" + id);
+    const [busy, setBusy] = (0, import_react28.useState)(false), [error, setError] = (0, import_react28.useState)(""), [reason, setReason] = (0, import_react28.useState)("");
+    const [checked, setChecked] = (0, import_react28.useState)(false);
+    const app = data2.data;
+    async function review(approve) {
+      if (busy) return;
+      if (!approve && reason.trim().length < 5) {
+        setError("Nh\u1EADp l\xFD do t\u1EEB ch\u1ED1i t\u1EEB 5 \u0111\u1EBFn 500 k\xFD t\u1EF1.");
+        return;
+      }
+      if (approve && !window.confirm("Duy\u1EC7t h\u1ED3 s\u01A1, c\u1EA5p quy\u1EC1n Merchant v\xE0 t\u1EA1o qu\xE1n cho t\xE0i kho\u1EA3n n\xE0y?")) return;
+      setBusy(true);
+      setError("");
+      try {
+        await request(`/admin/merchant-applications/${id}/${approve ? "approve" : "reject"}`, { method: "PATCH", ...approve ? {} : { body: { reason: reason.trim() } } });
+        data2.refresh();
+      } catch (error2) {
+        setError(error2.message || "Kh\xF4ng th\u1EC3 x\xE9t duy\u1EC7t h\u1ED3 s\u01A1.");
+      } finally {
+        setBusy(false);
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { className: "btn secondary", disabled: busy, onClick: onBack, children: "\u2190 Danh s\xE1ch h\u1ED3 s\u01A1" }),
+      data2.loading ? /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i h\u1ED3 s\u01A1\u2026" }) : data2.error ? /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(LoadError, { error: data2.error, retry: data2.refresh }) : app && /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("section", { className: "item-card rb-partner-form", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("h2", { children: app.shop.name }),
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("strong", { children: APPLICATION_LABELS[app.status] }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("dl", { className: "rb-admin-summary", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dt", { children: "Ng\u01B0\u1EDDi \u0111\u1EA1i di\u1EC7n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dd", { children: app.user.fullName })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dt", { children: "Email" }),
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dd", { children: app.user.email })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dt", { children: "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i" }),
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dd", { children: app.user.phone || "Ch\u01B0a c\u1EADp nh\u1EADt" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dt", { children: "\u0110\u1ECBa ch\u1EC9 qu\xE1n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dd", { children: app.shop.address })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dt", { children: "V\u1ECB tr\xED" }),
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("dd", { children: [
+              app.shop.latitude,
+              ", ",
+              app.shop.longitude
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dt", { children: "Gi\u1EDD m\u1EDF c\u1EEDa" }),
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dd", { children: app.shop.openingHours })
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("h3", { children: "T\xE0i kho\u1EA3n ng\xE2n h\xE0ng" }),
+        app.bank ? /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("dl", { className: "rb-admin-summary", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dt", { children: "Ng\xE2n h\xE0ng" }),
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dd", { children: app.bank.bankName })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dt", { children: "S\u1ED1 t\xE0i kho\u1EA3n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dd", { children: app.bank.accountNumber })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dt", { children: "Ch\u1EE7 t\xE0i kho\u1EA3n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dd", { children: app.bank.accountHolder })
+          ] })
+        ] }) : /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { children: "Ch\u01B0a b\u1ED5 sung th\xF4ng tin ng\xE2n h\xE0ng." }),
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("h3", { children: "Gi\u1EA5y t\u1EDD \u0111\xE3 n\u1ED9p" }),
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { children: "Ch\u1EC9 t\u1EA3i xu\u1ED1ng \u0111\u1EC3 ph\u1EE5c v\u1EE5 x\xE9t duy\u1EC7t. Kh\xF4ng chia s\u1EBB h\u1ED3 s\u01A1 c\xE1 nh\xE2n ra ngo\xE0i h\u1EC7 th\u1ED1ng." }),
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "btn-row", children: app.documents.map((doc) => /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("button", { type: "button", className: "btn secondary", disabled: busy, onClick: async () => {
+          setBusy(true);
+          setError("");
+          try {
+            await downloadDocument(app, doc);
+          } catch (error2) {
+            setError(error2.message);
+          } finally {
+            setBusy(false);
+          }
+        }, children: [
+          "T\u1EA3i ",
+          DOCUMENT_LABELS[doc.kind]
+        ] }, doc.id)) }),
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("h3", { children: "X\xE1c nh\u1EADn c\u1EE7a ng\u01B0\u1EDDi \u0111\u0103ng k\xFD" }),
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { children: app.acceptedAt ? `\u0110\xE3 x\xE1c nh\u1EADn l\xFAc ${new Date(app.acceptedAt).toLocaleString("vi-VN")} \xB7 ${app.termsVersion}` : "Ch\u01B0a x\xE1c nh\u1EADn \u0111i\u1EC1u kho\u1EA3n." }),
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("ul", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("li", { children: [
+            "Th\xF4ng tin ch\xEDnh x\xE1c: ",
+            app.agreements?.accuracy ? "\u0110\xE3 x\xE1c nh\u1EADn" : "Ch\u01B0a x\xE1c nh\u1EADn"
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("li", { children: [
+            "\u0110\u1ED3ng \xFD \u0111i\u1EC1u kho\u1EA3n: ",
+            app.agreements?.terms ? "\u0110\xE3 x\xE1c nh\u1EADn" : "Ch\u01B0a x\xE1c nh\u1EADn"
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("li", { children: [
+            "\u0110\u1ED3ng \xFD cung c\u1EA5p h\u1ED3 s\u01A1 x\xE9t duy\u1EC7t: ",
+            app.agreements?.documentReview ? "\u0110\xE3 x\xE1c nh\u1EADn" : "Ch\u01B0a x\xE1c nh\u1EADn"
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { className: "rb-partner-notice", children: "\u0110\xE2y l\xE0 x\xE1c nh\u1EADn \u0111i\u1EC1u kho\u1EA3n t\u1EA1m th\u1EDDi, kh\xF4ng ph\u1EA3i h\u1EE3p \u0111\u1ED3ng \u0111\xE3 k\xFD \u0111i\u1EC7n t\u1EED." }),
+        app.rejectionReason && /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("p", { children: [
+          "L\xFD do t\u1EEB ch\u1ED1i: ",
+          app.rejectionReason
+        ] }),
+        error && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+        app.status === "SUBMITTED" && /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("fieldset", { disabled: busy, className: "rb-partner-agreements", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("input", { type: "checkbox", checked, onChange: (e) => setChecked(e.target.checked) }),
+            "T\xF4i \u0111\xE3 ki\u1EC3m tra th\xF4ng tin qu\xE1n, gi\u1EA5y t\u1EDD v\xE0 c\xE1c x\xE1c nh\u1EADn c\u1EE7a ng\u01B0\u1EDDi \u0111\u0103ng k\xFD."
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { className: "btn primary", disabled: !checked, onClick: () => review(true), children: "Duy\u1EC7t v\xE0 c\u1EA5p quy\u1EC1n Merchant" }),
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("label", { className: "rb-partner-reason", children: [
+            "L\xFD do t\u1EEB ch\u1ED1i / y\xEAu c\u1EA7u b\u1ED5 sung",
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("textarea", { rows: 3, maxLength: 500, value: reason, onChange: (e) => setReason(e.target.value) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { className: "btn secondary rb-admin-danger", onClick: () => review(false), children: "T\u1EEB ch\u1ED1i v\xE0 y\xEAu c\u1EA7u b\u1ED5 sung" })
+        ] })
+      ] })
+    ] });
+  }
+  function AdminMerchantApplicationsPage() {
+    const [status, setStatus] = (0, import_react28.useState)("SUBMITTED"), [page, setPage] = (0, import_react28.useState)(1), [selected, setSelected] = (0, import_react28.useState)(null);
+    const resource = useAdminData(`/admin/merchant-applications?page=${page}&limit=20${status ? "&status=" + status : ""}`);
+    return /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("header", { className: "rb-admin-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("h1", { children: "H\u1ED3 s\u01A1 \u0111\u1ED1i t\xE1c Merchant" }),
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("span", { children: "Ki\u1EC3m tra h\u1ED3 s\u01A1 tr\u01B0\u1EDBc khi c\u1EA5p quy\u1EC1n qu\u1EA3n l\xFD qu\xE1n." })
+      ] }),
+      selected ? /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(ApplicationDetail, { id: selected, onBack: () => {
+        setSelected(null);
+        resource.refresh();
+      } }) : /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "rb-admin-filters", role: "group", "aria-label": "L\u1ECDc tr\u1EA1ng th\xE1i h\u1ED3 s\u01A1", children: [["", "T\u1EA5t c\u1EA3"], ...Object.entries(APPLICATION_LABELS)].map(([value2, label]) => /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { "aria-pressed": status === value2, onClick: () => {
+          setStatus(value2);
+          setPage(1);
+        }, children: label }, value2)) }),
+        resource.loading ? /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i h\u1ED3 s\u01A1\u2026" }) : resource.error ? /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(LoadError, { error: resource.error, retry: resource.refresh }) : resource.data && /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
+          resource.data.data.length ? /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "item-card rb-admin-table-wrap", tabIndex: 0, children: /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("table", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("tr", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("th", { children: "Qu\xE1n \u0111\u0103ng k\xFD" }),
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("th", { children: "Ng\u01B0\u1EDDi \u0111\u0103ng k\xFD" }),
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("th", { children: "Tr\u1EA1ng th\xE1i" }),
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("th", { children: "H\xE0nh \u0111\u1ED9ng" })
+            ] }) }),
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("tbody", { children: resource.data.data.map((app) => /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("tr", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("td", { children: app.shop.name }),
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("td", { children: [
+                app.user.fullName,
+                /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("small", { children: app.user.email })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("td", { children: APPLICATION_LABELS[app.status] }),
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { className: "btn secondary", onClick: () => setSelected(app.id), children: "Xem h\u1ED3 s\u01A1" }) })
+            ] }, app.id)) })
+          ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("section", { className: "item-card", children: "Kh\xF4ng c\xF3 h\u1ED3 s\u01A1 \u1EDF tr\u1EA1ng th\xE1i n\xE0y." }),
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(Pagination, { page, total: resource.data.total, limit: 20, onPage: setPage })
+        ] })
+      ] })
+    ] });
+  }
+
+  // src/pages/partner/PartnerRegistrationPage.tsx
+  var import_react29 = __toESM(require_react(), 1);
+  var import_jsx_runtime39 = __toESM(require_jsx_runtime(), 1);
+  function PartnerAccount() {
+    const { setSession } = useAuth();
+    const [form, setForm] = (0, import_react29.useState)({ fullName: "", email: "", phone: "", password: "", confirmPassword: "" });
+    const [busy, setBusy] = (0, import_react29.useState)(false), [error, setError] = (0, import_react29.useState)("");
+    async function submit(event) {
+      event.preventDefault();
+      if (busy) return;
+      if (form.password !== form.confirmPassword) {
+        setError("M\u1EADt kh\u1EA9u x\xE1c nh\u1EADn kh\xF4ng kh\u1EDBp.");
+        return;
+      }
+      setBusy(true);
+      setError("");
+      try {
+        const { confirmPassword, ...body } = form;
+        setSession(await request("/auth/register", { method: "POST", authorized: false, body }));
+      } catch (error2) {
+        setError(error2.message || "Kh\xF4ng th\u1EC3 t\u1EA1o t\xE0i kho\u1EA3n.");
+      } finally {
+        setBusy(false);
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("section", { className: "item-card rb-partner-account", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("h2", { children: "T\u1EA1o t\xE0i kho\u1EA3n n\u1ED9p h\u1ED3 s\u01A1" }),
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { children: "T\xE0i kho\u1EA3n ch\u01B0a c\xF3 quy\u1EC1n Merchant cho \u0111\u1EBFn khi \u0111\u01B0\u1EE3c Admin duy\u1EC7t." }),
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("p", { children: [
+        "\u0110\xE3 c\xF3 t\xE0i kho\u1EA3n? ",
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Link, { to: "/login", state: { from: "/partner/register" }, children: "\u0110\u0103ng nh\u1EADp \u0111\u1EC3 ti\u1EBFp t\u1EE5c" })
+      ] }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { role: "alert", className: "auth-alert", children: error }),
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("form", { className: "auth-form", onSubmit: submit, children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("fieldset", { disabled: busy, children: [
+        [{ key: "fullName", label: "H\u1ECD t\xEAn ng\u01B0\u1EDDi \u0111\u1EA1i di\u1EC7n", type: "text" }, { key: "email", label: "Email", type: "email" }, { key: "phone", label: "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i", type: "tel" }, { key: "password", label: "M\u1EADt kh\u1EA9u", type: "password" }, { key: "confirmPassword", label: "X\xE1c nh\u1EADn m\u1EADt kh\u1EA9u", type: "password" }].map((field) => /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+          field.label,
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { required: true, minLength: field.type === "password" ? 6 : void 0, type: field.type, value: form[field.key], onChange: (event) => setForm({ ...form, [field.key]: event.target.value }) })
+        ] }, field.key)),
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("button", { className: "btn primary", type: "submit", children: busy ? "\u0110ang t\u1EA1o t\xE0i kho\u1EA3n\u2026" : "T\u1EA1o t\xE0i kho\u1EA3n v\xE0 \u0111i\u1EC1n th\xF4ng tin qu\xE1n" })
+      ] }) })
+    ] });
+  }
+  function PartnerForm() {
+    const { logout } = useAuth();
+    const navigate = useNavigate();
+    const [app, setApp] = (0, import_react29.useState)(null), [terms, setTerms] = (0, import_react29.useState)(null);
+    const [loading, setLoading] = (0, import_react29.useState)(true), [loadError, setLoadError] = (0, import_react29.useState)(""), [revision, setRevision] = (0, import_react29.useState)(0);
+    const [step, setStep] = (0, import_react29.useState)(1), [busy, setBusy] = (0, import_react29.useState)(false), [error, setError] = (0, import_react29.useState)("");
+    const lock = (0, import_react29.useRef)(false);
+    const [shop, setShop] = (0, import_react29.useState)({ name: "", address: "", latitude: "", longitude: "", category: "com", openingHours: "08:00-22:00" });
+    const [bank, setBank] = (0, import_react29.useState)({ bankName: "", accountNumber: "", accountHolder: "" });
+    const [agree, setAgree] = (0, import_react29.useState)({ accuracy: false, terms: false, documentReview: false });
+    (0, import_react29.useEffect)(() => {
+      let current = true;
+      setLoading(true);
+      setLoadError("");
+      Promise.all([request("/merchant-applications/me"), request("/merchant-applications/terms", { authorized: false })]).then(([data2, policy]) => {
+        if (!current) return;
+        setApp(data2);
+        setTerms(policy);
+        setAgree({ accuracy: false, terms: false, documentReview: false });
+        if (data2) {
+          setShop({ ...data2.shop, latitude: String(data2.shop.latitude), longitude: String(data2.shop.longitude) });
+          if (data2.bank) setBank(data2.bank);
+        }
+      }).catch((error2) => {
+        if (current) setLoadError(error2.message || "Kh\xF4ng th\u1EC3 t\u1EA3i h\u1ED3 s\u01A1.");
+      }).finally(() => {
+        if (current) setLoading(false);
+      });
+      return () => {
+        current = false;
+      };
+    }, [revision]);
+    async function run(task) {
+      if (lock.current) return;
+      lock.current = true;
+      setBusy(true);
+      setError("");
+      try {
+        await task();
+      } catch (error2) {
+        setError(error2.message || "Kh\xF4ng th\u1EC3 l\u01B0u h\u1ED3 s\u01A1.");
+      } finally {
+        lock.current = false;
+        setBusy(false);
+      }
+    }
+    if (loading) return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i h\u1ED3 s\u01A1 \u0111\u1ED1i t\xE1c\u2026" });
+    if (loadError) return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(LoadError, { error: loadError, retry: () => setRevision((value2) => value2 + 1) });
+    if (app?.status === "SUBMITTED" || app?.status === "APPROVED") return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("section", { className: "item-card rb-partner-status", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("h2", { children: app.status === "APPROVED" ? "H\u1ED3 s\u01A1 \u0111\xE3 \u0111\u01B0\u1EE3c ph\xEA duy\u1EC7t" : "H\u1ED3 s\u01A1 \u0111ang ch\u1EDD Admin duy\u1EC7t" }),
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { children: app.shop.name }),
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { children: app.status === "APPROVED" ? "\u0110\u0103ng nh\u1EADp l\u1EA1i \u0111\u1EC3 nh\u1EADn quy\u1EC1n Merchant v\xE0 qu\u1EA3n l\xFD qu\xE1n \u0111\xE3 \u0111\u0103ng k\xFD." : "B\u1EA1n ch\u01B0a \u0111\u01B0\u1EE3c c\u1EA5p quy\u1EC1n Merchant. C\xF3 th\u1EC3 quay l\u1EA1i trang n\xE0y \u0111\u1EC3 xem k\u1EBFt qu\u1EA3 x\xE9t duy\u1EC7t." }),
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("p", { children: [
+        "\u0110\xE3 x\xE1c nh\u1EADn \u0111i\u1EC1u kho\u1EA3n ",
+        app.termsVersion,
+        ". Ch\u01B0a k\xFD h\u1EE3p \u0111\u1ED3ng \u0111i\u1EC7n t\u1EED."
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "btn-row", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("button", { className: "btn secondary", onClick: () => setRevision((value2) => value2 + 1), children: "Ki\u1EC3m tra tr\u1EA1ng th\xE1i" }),
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("button", { className: "btn primary", onClick: () => {
+          logout();
+          navigate("/login", { state: { from: "/partner/register" } });
+        }, children: "\u0110\u0103ng nh\u1EADp l\u1EA1i" })
+      ] })
+    ] });
+    const completeDocs = app && Object.keys(DOCUMENT_LABELS).every((kind) => app.documents.some((doc) => doc.kind === kind));
+    return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(import_jsx_runtime39.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("ol", { className: "rb-partner-steps", children: ["Th\xF4ng tin qu\xE1n", "H\u1ED3 s\u01A1 & ng\xE2n h\xE0ng", "\u0110i\u1EC1u kho\u1EA3n & x\xE1c nh\u1EADn"].map((label, index) => /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("li", { "aria-current": step === index + 1 ? "step" : void 0, children: [
+        index + 1,
+        ". ",
+        label
+      ] }, label)) }),
+      app?.status === "REJECTED" && /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("p", { className: "auth-alert", role: "status", children: [
+        "Admin y\xEAu c\u1EA7u b\u1ED5 sung: ",
+        app.rejectionReason,
+        ". Ch\u1EC9nh s\u1EEDa v\xE0 g\u1EEDi l\u1EA1i h\u1ED3 s\u01A1 b\xEAn d\u01B0\u1EDBi."
+      ] }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+      step === 1 && /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("form", { className: "item-card rb-partner-form", onSubmit: (event) => {
+        event.preventDefault();
+        void run(async () => {
+          const data2 = await request("/merchant-applications/me", { method: "PUT", body: { shop: { ...shop, latitude: Number(shop.latitude), longitude: Number(shop.longitude) } } });
+          setApp(data2);
+          setAgree({ accuracy: false, terms: false, documentReview: false });
+          setStep(2);
+        });
+      }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("h2", { children: "1. \u0110i\u1EC1n th\xF4ng tin qu\xE1n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("fieldset", { disabled: busy, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+            "T\xEAn qu\xE1n",
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { required: true, minLength: 2, maxLength: 150, value: shop.name, onChange: (e) => setShop({ ...shop, name: e.target.value }) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+            "\u0110\u1ECBa ch\u1EC9 qu\xE1n",
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { required: true, minLength: 5, maxLength: 300, value: shop.address, onChange: (e) => setShop({ ...shop, address: e.target.value }) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "rb-partner-columns", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+              "Danh m\u1EE5c",
+              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("select", { value: shop.category, onChange: (e) => setShop({ ...shop, category: e.target.value }), children: [["com", "C\u01A1m"], ["bun-pho", "B\xFAn/Ph\u1EDF"], ["ca-phe", "C\xE0 ph\xEA"], ["do-uong", "\u0110\u1ED3 u\u1ED1ng"], ["an-vat", "\u0102n v\u1EB7t"], ["khac", "Kh\xE1c"]].map(([value2, label]) => /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("option", { value: value2, children: label }, value2)) })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+              "Gi\u1EDD m\u1EDF c\u1EEDa",
+              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { required: true, minLength: 3, maxLength: 100, value: shop.openingHours, onChange: (e) => setShop({ ...shop, openingHours: e.target.value }) })
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "rb-partner-columns", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+              "V\u0129 \u0111\u1ED9 qu\xE1n",
+              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { required: true, type: "number", step: "any", min: -90, max: 90, value: shop.latitude, onChange: (e) => setShop({ ...shop, latitude: e.target.value }) })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+              "Kinh \u0111\u1ED9 qu\xE1n",
+              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { required: true, type: "number", step: "any", min: -180, max: 180, value: shop.longitude, onChange: (e) => setShop({ ...shop, longitude: e.target.value }) })
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("button", { className: "btn secondary", type: "button", onClick: () => void run(async () => {
+            if (!navigator.geolocation) throw new Error("Tr\xECnh duy\u1EC7t kh\xF4ng h\u1ED7 tr\u1EE3 \u0111\u1ECBnh v\u1ECB.");
+            const result = await new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, () => reject(new Error("Kh\xF4ng l\u1EA5y \u0111\u01B0\u1EE3c v\u1ECB tr\xED. H\xE3y cho ph\xE9p \u0111\u1ECBnh v\u1ECB ho\u1EB7c nh\u1EADp t\u1ECDa \u0111\u1ED9.")), { timeout: 1e4 }));
+            setShop({ ...shop, latitude: String(result.coords.latitude), longitude: String(result.coords.longitude) });
+          }), children: "D\xF9ng v\u1ECB tr\xED hi\u1EC7n t\u1EA1i c\u1EE7a qu\xE1n" }),
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("button", { className: "btn primary", type: "submit", children: busy ? "\u0110ang l\u01B0u\u2026" : "L\u01B0u v\xE0 ti\u1EBFp t\u1EE5c" })
+        ] })
+      ] }),
+      step === 2 && /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("section", { className: "item-card rb-partner-form", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("h2", { children: "2. N\u1ED9p h\u1ED3 s\u01A1 v\xE0 t\xE0i kho\u1EA3n ng\xE2n h\xE0ng" }),
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { children: "JPG, PNG ho\u1EB7c PDF, t\u1ED1i \u0111a 5 MB/t\xE0i li\u1EC7u. Kh\xF4ng t\u1EA3i h\u1ED3 s\u01A1 l\xEAn d\u1ECBch v\u1EE5 \u1EA3nh c\xF4ng khai." }),
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("fieldset", { disabled: busy, children: Object.entries(DOCUMENT_LABELS).map(([kind, label]) => {
+          const doc = app?.documents.find((item) => item.kind === kind);
+          return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "rb-partner-document", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+              label,
+              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { type: "file", accept: "image/jpeg,image/png,application/pdf", onChange: (event) => {
+                const file = event.target.files?.[0];
+                event.target.value = "";
+                if (!file) return;
+                void run(async () => {
+                  if (file.size > 5 * 1024 * 1024 || !["image/jpeg", "image/png", "application/pdf"].includes(file.type)) throw new Error("Ch\u1ECDn JPG, PNG ho\u1EB7c PDF t\u1ED1i \u0111a 5 MB.");
+                  const body = new FormData();
+                  body.append("file", file);
+                  setApp(await request(`/merchant-applications/me/documents/${kind}`, { method: "POST", body }));
+                });
+              } })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("span", { children: doc ? "\u0110\xE3 l\u01B0u t\xE0i li\u1EC7u" : "Ch\u01B0a c\xF3 t\xE0i li\u1EC7u" }),
+            doc && /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("button", { type: "button", className: "btn secondary", onClick: () => void run(() => downloadDocument(app, doc)), children: [
+              "T\u1EA3i ",
+              label
+            ] })
+          ] }, kind);
+        }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("form", { onSubmit: (event) => {
+          event.preventDefault();
+          void run(async () => {
+            if (!completeDocs) throw new Error("Vui l\xF2ng t\u1EA3i \u0111\u1EE7 b\u1ED1n t\xE0i li\u1EC7u tr\u01B0\u1EDBc khi ti\u1EBFp t\u1EE5c.");
+            setApp(await request("/merchant-applications/me/bank", { method: "PUT", body: bank }));
+            setStep(3);
+          });
+        }, children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("fieldset", { disabled: busy, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+            "Ng\xE2n h\xE0ng",
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { required: true, minLength: 2, maxLength: 100, value: bank.bankName, onChange: (e) => setBank({ ...bank, bankName: e.target.value }) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+            "S\u1ED1 t\xE0i kho\u1EA3n",
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { required: true, inputMode: "numeric", pattern: "[0-9]{6,30}", autoComplete: "off", value: bank.accountNumber, onChange: (e) => setBank({ ...bank, accountNumber: e.target.value }) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+            "Ch\u1EE7 t\xE0i kho\u1EA3n",
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { required: true, minLength: 2, maxLength: 120, autoComplete: "off", value: bank.accountHolder, onChange: (e) => setBank({ ...bank, accountHolder: e.target.value }) })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "btn-row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("button", { type: "button", className: "btn secondary", onClick: () => setStep(1), children: "Quay l\u1EA1i" }),
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("button", { className: "btn primary", type: "submit", children: "L\u01B0u h\u1ED3 s\u01A1 v\xE0 \u0111\u1ECDc \u0111i\u1EC1u kho\u1EA3n" })
+          ] })
+        ] }) })
+      ] }),
+      step === 3 && terms && /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("section", { className: "item-card rb-partner-form", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("h2", { children: [
+          "3. ",
+          terms.title
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { className: "rb-partner-notice", children: terms.notice }),
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "rb-partner-terms", children: terms.sections.map((section) => /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("section", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("h3", { children: section.title }),
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { children: section.text })
+        ] }, section.title)) }),
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("form", { onSubmit: (event) => {
+          event.preventDefault();
+          void run(async () => {
+            setApp(await request("/merchant-applications/me/submit", { method: "POST", body: { termsVersion: terms.version, agreements: agree } }));
+          });
+        }, children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("fieldset", { disabled: busy, className: "rb-partner-agreements", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { type: "checkbox", required: true, checked: agree.accuracy, onChange: (e) => setAgree({ ...agree, accuracy: e.target.checked }) }),
+            "T\xF4i x\xE1c nh\u1EADn th\xF4ng tin v\xE0 h\u1ED3 s\u01A1 \u0111\xE3 cung c\u1EA5p l\xE0 ch\xEDnh x\xE1c, t\xF4i c\xF3 quy\u1EC1n cung c\u1EA5p c\xE1c gi\u1EA5y t\u1EDD n\xE0y."
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { type: "checkbox", required: true, checked: agree.terms, onChange: (e) => setAgree({ ...agree, terms: e.target.checked }) }),
+            "T\xF4i \u0111\xE3 \u0111\u1ECDc v\xE0 \u0111\u1ED3ng \xFD v\u1EDBi \u0111i\u1EC1u kho\u1EA3n \u0111\u0103ng k\xFD \u0111\u1ED1i t\xE1c n\xEAu tr\xEAn."
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { type: "checkbox", required: true, checked: agree.documentReview, onChange: (e) => setAgree({ ...agree, documentReview: e.target.checked }) }),
+            "T\xF4i \u0111\u1ED3ng \xFD cung c\u1EA5p h\u1ED3 s\u01A1 cho RouteBite \u0111\u1EC3 x\xE9t duy\u1EC7t v\xE0 hi\u1EC3u r\u1EB1ng quy\u1EC1n Merchant ch\u1EC9 \u0111\u01B0\u1EE3c c\u1EA5p khi Admin ph\xEA duy\u1EC7t."
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("p", { children: [
+            "Phi\xEAn b\u1EA3n: ",
+            terms.version,
+            ". Th\u1EDDi \u0111i\u1EC3m x\xE1c nh\u1EADn \u0111\u01B0\u1EE3c l\u01B0u khi b\u1EA1n g\u1EEDi h\u1ED3 s\u01A1."
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "btn-row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("button", { type: "button", className: "btn secondary", onClick: () => setStep(2), children: "Quay l\u1EA1i" }),
+            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("button", { type: "submit", className: "btn primary", disabled: !Object.values(agree).every(Boolean), children: "G\u1EEDi h\u1ED3 s\u01A1 cho Admin duy\u1EC7t" })
+          ] })
+        ] }) })
+      ] }),
+      busy && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { role: "status", children: "\u0110ang x\u1EED l\xFD, vui l\xF2ng ch\u1EDD\u2026" })
+    ] });
+  }
+  function PartnerRegistrationPage() {
+    const { currentUser } = useAuth();
+    if (currentUser?.role === "merchant") return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Navigate, { to: "/merchant/dashboard", replace: true });
+    if (currentUser?.role === "admin") return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Navigate, { to: "/admin/merchant-applications", replace: true });
+    return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("main", { className: "app-page rb-partner-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Link, { to: "/login", children: "\u2190 Trang \u0111\u0103ng nh\u1EADp" }),
+      /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("header", { className: "rb-admin-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { children: "\u0110\u1ED2NG H\xC0NH C\xD9NG ROUTEBITE" }),
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("h1", { children: "\u0110\u0103ng k\xFD \u0111\u1ED1i t\xE1c Merchant" }),
+        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("span", { children: "Th\xF4ng tin qu\xE1n \u2192 H\u1ED3 s\u01A1 \u2192 X\xE1c nh\u1EADn \u0111i\u1EC1u kho\u1EA3n \u2192 Admin x\xE9t duy\u1EC7t." })
+      ] }),
+      currentUser ? /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(PartnerForm, {}) : /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(PartnerAccount, {})
+    ] });
+  }
+
+  // src/App.jsx
+  var import_jsx_runtime40 = __toESM(require_jsx_runtime(), 1);
+  var formatMoney = (value2) => `${Number(value2 || 0).toLocaleString("vi-VN")}\u0111`;
+  var demoMenu = { id: "mock-com-tam", name: "C\u01A1m T\u1EA5m M\u1EABu", address: "Qu\u1EADn 1, TP. H\u1ED3 Ch\xED Minh", rating: 4.8, menuItems: [{ id: "demo-com-tam", name: "C\u01A1m t\u1EA5m s\u01B0\u1EDDn b\xEC ch\u1EA3", description: "S\u01B0\u1EDDn n\u01B0\u1EDBng, b\xEC, ch\u1EA3 tr\u1EE9ng v\xE0 \u0111\u1ED3 chua", price: 6e4, available: true }, { id: "demo-tra-dao", name: "Tr\xE0 \u0111\xE0o cam s\u1EA3", description: "Ly m\xE1t l\u1EA1nh", price: 25e3, available: true }] };
+  function Header() {
+    const { carts } = useCart();
+    const navItems2 = [
+      { path: "/", label: "Trang ch\u1EE7" },
+      { path: "/kham-pha", label: "Kh\xE1m ph\xE1" },
+      { path: "/my-orders", label: "\u0110\u01A1n c\u1EE7a t\xF4i" },
+      { path: "/my-carts", label: `Gi\u1ECF c\u1EE7a t\xF4i${carts.length ? ` (${carts.length})` : ""}` }
+    ];
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("header", { className: "consumer-header", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Link, { className: "consumer-logo", to: "/", children: "RouteBite" }),
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("nav", { "aria-label": "\u0110i\u1EC1u h\u01B0\u1EDBng ch\xEDnh", children: navItems2.map((item) => /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+        NavLink,
+        {
+          to: item.path,
+          end: item.path === "/",
+          className: ({ isActive }) => `consumer-nav${isActive ? " active" : ""}`,
+          children: item.label
+        },
+        item.path
+      )) }),
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "account-menu", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(NotificationBell, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AvatarDropdown, {})
       ] })
     ] });
   }
   function RestaurantMenu() {
     const { id } = useParams();
+    const [params] = useSearchParams();
+    const origin = readRouteOrigin(params);
     const navigate = useNavigate();
-    const { cart, add, change } = (0, import_react9.useContext)(CartContext);
-    const [restaurant, setRestaurant] = (0, import_react9.useState)(null);
-    const [error, setError] = (0, import_react9.useState)("");
-    const [pickup, setPickup] = (0, import_react9.useState)("15");
-    (0, import_react9.useEffect)(() => {
+    const { cart, add, change } = useCart();
+    const [restaurant, setRestaurant] = (0, import_react30.useState)(null);
+    const [error, setError] = (0, import_react30.useState)("");
+    const [pickup, setPickup] = (0, import_react30.useState)("15");
+    (0, import_react30.useEffect)(() => {
       let active = true;
       setError("");
       setRestaurant(null);
@@ -25275,75 +30941,96 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         active = false;
       };
     }, [id]);
-    if (error) return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Page, { title: "Kh\xF4ng m\u1EDF \u0111\u01B0\u1EE3c menu", children: error });
-    if (!restaurant) return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Page, { title: "Menu qu\xE1n", children: "\u0110ang t\u1EA3i menu\u2026" });
+    if (error) return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Page, { title: "Kh\xF4ng m\u1EDF \u0111\u01B0\u1EE3c menu", children: error });
+    if (!restaurant) return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Page, { title: "Menu qu\xE1n", children: "\u0110ang t\u1EA3i menu\u2026" });
     const menu = (restaurant.menuItems || []).filter((item) => item.available);
     const selected = cart.filter((item) => item.restaurantId === restaurant.id);
     const count = selected.reduce((sum, item) => sum + item.quantity, 0);
     const total = selected.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
-    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("main", { className: "app-page rb-commerce-page rb-menu-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("button", { type: "button", className: "back-link", onClick: () => navigate(-1), children: "\u2190 Quay l\u1EA1i" }),
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("section", { className: "item-card rb-restaurant-intro", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(FoodThumbnail, { src: restaurant.imageUrl, name: restaurant.name, className: "rb-restaurant-image" }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "rb-eyebrow", children: "GH\xC9 L\u1EA4Y MANG \u0110I" }),
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h1", { children: restaurant.name }),
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { children: restaurant.address }),
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("span", { children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("main", { className: "app-page rb-commerce-page rb-menu-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("button", { type: "button", className: "back-link", onClick: () => navigate(-1), children: "\u2190 Quay l\u1EA1i" }),
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("section", { className: "item-card rb-restaurant-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(FoodThumbnail, { src: restaurant.imageUrl, name: restaurant.name, className: "rb-restaurant-image" }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { className: "rb-eyebrow", children: "GH\xC9 L\u1EA4Y MANG \u0110I" }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h1", { children: restaurant.name }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: restaurant.address }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("span", { children: [
             "\u2B50 ",
             restaurant.rating || "M\u1EDBi"
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("a", { className: "btn secondary", target: "_blank", rel: "noreferrer", href: "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(restaurant.address), children: "Ch\u1EC9 \u0111\u01B0\u1EDDng" })
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("a", { className: "btn secondary", target: "_blank", rel: "noreferrer", href: "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(restaurant.address), children: "Ch\u1EC9 \u0111\u01B0\u1EDDng" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("section", { className: "item-card rb-pickup-choice", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("label", { htmlFor: "menu-pickup", children: "Th\u1EDDi gian gh\xE9 l\u1EA5y" }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("select", { id: "menu-pickup", value: pickup, onChange: (e) => setPickup(e.target.value), children: [
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("option", { value: "15", children: "Sau 15 ph\xFAt" }),
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("option", { value: "30", children: "Sau 30 ph\xFAt" }),
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("option", { value: "45", children: "Sau 45 ph\xFAt" })
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("section", { className: "item-card rb-pickup-choice", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("label", { htmlFor: "menu-pickup", children: "Th\u1EDDi gian gh\xE9 l\u1EA5y" }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("select", { id: "menu-pickup", value: pickup, onChange: (e) => setPickup(e.target.value), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("option", { value: "15", children: "Sau 15 ph\xFAt" }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("option", { value: "30", children: "Sau 30 ph\xFAt" }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("option", { value: "45", children: "Sau 45 ph\xFAt" })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("section", { className: "rb-menu-list", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h2", { children: "Menu m\xF3n \u0103n" }),
-        menu.length ? menu.map((item) => /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("article", { className: "item-card rb-product-row", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(FoodThumbnail, { src: item.imageUrl, name: item.name }),
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "rb-product-copy", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h3", { children: item.name }),
-            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { children: item.description || "M\xF3n ngon c\u1EE7a qu\xE1n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("strong", { children: formatMoney(item.price) })
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("section", { className: "rb-menu-list", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h2", { children: "Menu m\xF3n \u0103n" }),
+        menu.length ? menu.map((item) => /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("article", { className: "item-card rb-product-row", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(FoodThumbnail, { src: item.imageUrl, name: item.name }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-product-copy", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h3", { children: item.name }),
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: item.description || "M\xF3n ngon c\u1EE7a qu\xE1n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("strong", { children: formatMoney(item.price) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
             QuantityStepper,
             {
               name: item.name,
               quantity: selected.find((entry) => entry.id === item.id)?.quantity || 0,
-              onIncrease: () => add({ ...item, restaurantId: restaurant.id, restaurantName: restaurant.name, pickupMinutes: Number(pickup) }),
-              onDecrease: () => change(item.id, -1)
+              onIncrease: () => add({ ...item, restaurantId: restaurant.id, restaurantName: restaurant.name, restaurantImage: restaurant.imageUrl, pickupMinutes: Number(pickup), routeOrigin: origin, destination: restaurantPoint(restaurant), restaurantAddress: restaurant.address }),
+              onDecrease: () => change(restaurant.id, item.id, -1)
             }
           )
-        ] }, item.id)) : /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("div", { className: "item-card rb-empty", children: "Qu\xE1n ch\u01B0a c\xF3 m\xF3n \u0111ang b\xE1n." })
+        ] }, item.id)) : /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { className: "item-card rb-empty", children: "Qu\xE1n ch\u01B0a c\xF3 m\xF3n \u0111ang b\xE1n." })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(Link, { className: "rb-menu-cart", to: "/my-carts", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("span", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(Link, { className: "rb-menu-cart", to: "/restaurants/" + restaurant.id + "/cart" + routeQuery(origin), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("span", { children: [
           "Xem gi\u1ECF h\xE0ng \xB7 ",
           count,
           " m\xF3n"
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("strong", { children: formatMoney(total) })
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("strong", { children: formatMoney(total) })
       ] })
     ] });
   }
   function CartPage() {
     const navigate = useNavigate();
-    const { cart, change, clear } = (0, import_react9.useContext)(CartContext);
+    const { id } = useParams();
+    const { carts, change, clear, rememberOrigin } = useCart();
+    const [params] = useSearchParams();
+    const savedCart = carts.find((entry) => entry.restaurantId === id);
+    const cart = savedCart?.items || [];
+    const [restaurant, setRestaurant] = (0, import_react30.useState)(null);
+    (0, import_react30.useEffect)(() => {
+      const origin = readRouteOrigin(params);
+      if (origin) rememberOrigin(id, origin);
+    }, [id, params, rememberOrigin]);
+    (0, import_react30.useEffect)(() => {
+      let active = true;
+      setRestaurant(null);
+      if (savedCart && !savedCart.destination) request("/restaurants/" + id, { authorized: false }).then((data2) => {
+        if (active) setRestaurant(data2);
+      }).catch(() => {
+      });
+      return () => {
+        active = false;
+      };
+    }, [id, !!savedCart, savedCart?.destination]);
+    const [createdOrder, setCreatedOrder] = (0, import_react30.useState)(null);
     const routeEta = Math.max(1, Number(localStorage.getItem("routebite_route_eta_minutes")) || 15);
-    const [method, setMethod] = (0, import_react9.useState)("cash");
-    const [pickupType, setPickupType] = (0, import_react9.useState)("asap");
-    const [minutes, setMinutes] = (0, import_react9.useState)(cart[0]?.pickupMinutes || routeEta);
-    const [scheduledTime, setScheduledTime] = (0, import_react9.useState)("");
-    const [busy, setBusy] = (0, import_react9.useState)(false);
-    const [message, setMessage] = (0, import_react9.useState)("");
+    const [method, setMethod] = usePaymentMethod();
+    const [pickupType, setPickupType] = (0, import_react30.useState)("asap");
+    const [minutes, setMinutes] = (0, import_react30.useState)(cart[0]?.pickupMinutes || routeEta);
+    const [scheduledTime, setScheduledTime] = (0, import_react30.useState)("");
+    const [busy, setBusy] = (0, import_react30.useState)(false);
+    const [message, setMessage] = (0, import_react30.useState)("");
     const total = cart.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
     const count = cart.reduce((sum, item) => sum + item.quantity, 0);
     const minuteOptions = [.../* @__PURE__ */ new Set([routeEta, Number(minutes), 15, 30, 45])];
@@ -25360,113 +31047,124 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         const pickupOption = pickupType === "asap" ? { type: "asap", estimatedPickupMinutes: Number(minutes) } : { type: "scheduled", scheduledTime: scheduled.toISOString() };
         const order = await request("/orders", {
           method: "POST",
-          body: {
+          body: validateOrderPayload({
             restaurantId: cart[0].restaurantId,
             pickupOption,
             payment: { method },
             items: cart.map((item) => ({ menuItemId: item.id, quantity: item.quantity }))
-          }
+          })
         });
+        setCreatedOrder(order);
+        clear(id);
         if (method === "vnpay") {
           const payment = await request("/payments/create", { method: "POST", body: { orderId: order.id } });
           if (!payment.checkoutUrl) throw new Error("Kh\xF4ng t\u1EA1o \u0111\u01B0\u1EE3c li\xEAn k\u1EBFt thanh to\xE1n VNPAY");
-          clear();
           window.location.assign(payment.checkoutUrl);
           return;
         }
         setMessage("\u0110\u01A1n " + order.orderCode + " \u0111\xE3 \u0111\u1EB7t. Thanh to\xE1n ti\u1EC1n m\u1EB7t khi gh\xE9 l\u1EA5y.");
-        clear();
       } catch (e) {
         setMessage(e.message);
       } finally {
         setBusy(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("main", { className: "app-page rb-commerce-page rb-cart-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "page-intro", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "rb-eyebrow", children: "GI\u1ECE H\xC0NG" }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h1", { children: "Gh\xE9 l\u1EA5y mang \u0111i" }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { children: "Ki\u1EC3m tra m\xF3n, ch\u1ECDn gi\u1EDD l\u1EA5y v\xE0 ph\u01B0\u01A1ng th\u1EE9c thanh to\xE1n." })
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("main", { className: "app-page rb-commerce-page rb-cart-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Link, { className: "back-link", to: "/my-carts", children: "\u2190 Gi\u1ECF h\xE0ng c\u1EE7a t\xF4i" }),
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "page-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { className: "rb-eyebrow", children: "GI\u1ECE H\xC0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h1", { children: "Gh\xE9 l\u1EA5y mang \u0111i" }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: "Ki\u1EC3m tra m\xF3n, ch\u1ECDn gi\u1EDD l\u1EA5y v\xE0 ph\u01B0\u01A1ng th\u1EE9c thanh to\xE1n." })
       ] }),
-      message && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "item-card rb-feedback", role: "status", children: message }),
-      cart.length ? /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "rb-cart-layout", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("section", { className: "item-card rb-cart-items", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h2", { children: cart[0].restaurantName || "M\xF3n \u0111\xE3 ch\u1ECDn" }),
-          cart.map((item) => /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("article", { className: "rb-product-row rb-cart-row", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(FoodThumbnail, { src: item.imageUrl, name: item.name }),
-            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "rb-product-copy", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h3", { children: item.name }),
-              /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("p", { children: [
+      message && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { className: "item-card rb-feedback", role: "status", children: message }),
+      cart.length ? /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-cart-layout", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("section", { className: "item-card rb-cart-items", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h2", { children: cart[0].restaurantName || "M\xF3n \u0111\xE3 ch\u1ECDn" }),
+          cart.map((item) => /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("article", { className: "rb-product-row rb-cart-row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(FoodThumbnail, { src: item.imageUrl, name: item.name }),
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-product-copy", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h3", { children: item.name }),
+              /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("p", { children: [
                 formatMoney(item.price),
                 " / m\xF3n"
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("strong", { children: formatMoney(Number(item.price) * item.quantity) })
+              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("strong", { children: formatMoney(Number(item.price) * item.quantity) })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
               QuantityStepper,
               {
                 name: item.name,
                 quantity: item.quantity,
                 disabled: busy,
-                onIncrease: () => change(item.id, 1),
-                onDecrease: () => change(item.id, -1)
+                onIncrease: () => change(id, item.id, 1),
+                onDecrease: () => change(id, item.id, -1)
               }
             )
           ] }, item.id))
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("aside", { className: "item-card rb-cart-summary", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "rb-cart-total", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h2", { children: "T\u1ED5ng c\u1ED9ng" }),
-              /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("span", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("aside", { className: "item-card rb-cart-summary", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+            RouteSummaryCard,
+            {
+              restaurantName: savedCart.restaurantName,
+              restaurantAddress: savedCart.restaurantAddress || restaurant?.address,
+              destination: savedCart.destination || restaurantPoint(restaurant),
+              origin: savedCart.routeOrigin
+            }
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-cart-total", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h2", { children: "T\u1ED5ng c\u1ED9ng" }),
+              /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("span", { children: [
                 count,
                 " m\xF3n"
               ] })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("strong", { children: formatMoney(total) })
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("strong", { children: formatMoney(total) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("fieldset", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("legend", { children: "Gi\u1EDD l\u1EA5y h\xE0ng" }),
-            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("label", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("input", { name: "pickup-type", type: "radio", disabled: busy, checked: pickupType === "asap", onChange: () => setPickupType("asap") }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("fieldset", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("legend", { children: "Gi\u1EDD l\u1EA5y h\xE0ng" }),
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("label", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("input", { name: "pickup-type", type: "radio", disabled: busy, checked: pickupType === "asap", onChange: () => setPickupType("asap") }),
               " L\u1EA5y s\u1EDBm nh\u1EA5t"
             ] }),
-            pickupType === "asap" && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("select", { "aria-label": "Th\u1EDDi gian l\u1EA5y m\xF3n", disabled: busy, value: minutes, onChange: (e) => setMinutes(Number(e.target.value)), children: minuteOptions.map((value) => /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("option", { value, children: [
-              value === routeEta ? "Theo l\u1ED9 tr\xECnh: kho\u1EA3ng " : "Sau kho\u1EA3ng ",
-              value,
+            pickupType === "asap" && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("select", { "aria-label": "Th\u1EDDi gian l\u1EA5y m\xF3n", disabled: busy, value: minutes, onChange: (e) => setMinutes(Number(e.target.value)), children: minuteOptions.map((value2) => /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("option", { value: value2, children: [
+              value2 === routeEta ? "Theo l\u1ED9 tr\xECnh: kho\u1EA3ng " : "Sau kho\u1EA3ng ",
+              value2,
               " ph\xFAt"
-            ] }, value)) }),
-            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("label", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("input", { name: "pickup-type", type: "radio", disabled: busy, checked: pickupType === "scheduled", onChange: () => setPickupType("scheduled") }),
+            ] }, value2)) }),
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("label", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("input", { name: "pickup-type", type: "radio", disabled: busy, checked: pickupType === "scheduled", onChange: () => setPickupType("scheduled") }),
               " H\u1EB9n gi\u1EDD l\u1EA5y m\xF3n"
             ] }),
-            pickupType === "scheduled" && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("input", { "aria-label": "Gi\u1EDD h\u1EB9n l\u1EA5y m\xF3n", type: "datetime-local", disabled: busy, value: scheduledTime, onChange: (e) => setScheduledTime(e.target.value), required: true })
+            pickupType === "scheduled" && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("input", { "aria-label": "Gi\u1EDD h\u1EB9n l\u1EA5y m\xF3n", type: "datetime-local", disabled: busy, value: scheduledTime, onChange: (e) => setScheduledTime(e.target.value), required: true })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("fieldset", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("legend", { children: "Ph\u01B0\u01A1ng th\u1EE9c thanh to\xE1n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("label", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("input", { name: "payment-method", type: "radio", disabled: busy, checked: method === "cash", onChange: () => setMethod("cash") }),
-              " Ti\u1EC1n m\u1EB7t khi gh\xE9 l\u1EA5y"
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("label", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("input", { name: "payment-method", type: "radio", disabled: busy, checked: method === "vnpay", onChange: () => setMethod("vnpay") }),
-              " VNPAY (QR / Th\u1EBB ATM / Visa)"
-            ] })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("button", { type: "button", className: "rb-checkout-button", disabled: busy || pickupType === "scheduled" && !scheduledTime, onClick: checkout, children: busy ? "\u0110ang t\u1EA1o \u0111\u01A1n\u2026" : method === "vnpay" ? "Ti\u1EBFp t\u1EE5c \u0111\u1EBFn VNPAY" : "\u0110\u1EB7t h\xE0ng" })
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(PaymentMethodSelector, { value: method, onChange: setMethod, disabled: busy }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("button", { type: "button", className: "rb-checkout-button", disabled: busy || pickupType === "scheduled" && !scheduledTime, onClick: checkout, children: busy ? "\u0110ang t\u1EA1o \u0111\u01A1n\u2026" : method === "vnpay" ? "Ti\u1EBFp t\u1EE5c \u0111\u1EBFn VNPAY" : "\u0110\u1EB7t h\xE0ng" })
         ] })
-      ] }) : /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("section", { className: "item-card rb-empty", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { children: "Gi\u1ECF h\xE0ng \u0111ang tr\u1ED1ng. H\xE3y ch\u1ECDn m\xF3n t\u1EEB menu qu\xE1n." }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Link, { to: "/", children: "Kh\xE1m ph\xE1 qu\xE1n" }),
-        message && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Link, { to: "/my-orders", children: "Xem \u0111\u01A1n c\u1EE7a t\xF4i" })
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("section", { className: "item-card rb-empty", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: "Gi\u1ECF h\xE0ng \u0111ang tr\u1ED1ng. H\xE3y ch\u1ECDn m\xF3n t\u1EEB menu qu\xE1n." }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Link, { to: "/", children: "Kh\xE1m ph\xE1 qu\xE1n" }),
+        createdOrder && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Link, { to: "/orders/" + createdOrder.id, children: "Xem \u0111\u01A1n v\u1EEBa \u0111\u1EB7t" })
       ] })
     ] });
   }
+  var ORDER_FILTERS = [
+    { key: "all", label: "T\u1EA5t c\u1EA3", statuses: [], empty: "B\u1EA1n ch\u01B0a c\xF3 \u0111\u01A1n h\xE0ng n\xE0o." },
+    { key: "processing", label: "\u0110ang x\u1EED l\xFD", statuses: ["PENDING", "CONFIRMED", "PREPARING", "READY"], empty: "B\u1EA1n kh\xF4ng c\xF3 \u0111\u01A1n n\xE0o \u0111ang x\u1EED l\xFD." },
+    { key: "completed", label: "Ho\xE0n th\xE0nh", statuses: ["COMPLETED"], empty: "B\u1EA1n ch\u01B0a c\xF3 \u0111\u01A1n h\xE0ng ho\xE0n th\xE0nh." },
+    { key: "cancelled", label: "\u0110\xE3 h\u1EE7y", statuses: ["CANCELLED"], empty: "B\u1EA1n kh\xF4ng c\xF3 \u0111\u01A1n h\xE0ng \u0111\xE3 h\u1EE7y." }
+  ];
   function OrdersPage() {
-    const [orders, setOrders] = (0, import_react9.useState)(null);
-    const [error, setError] = (0, import_react9.useState)("");
+    const navigate = useNavigate();
+    const { currentUser } = useAuth();
+    const [activeFilter, setActiveFilter] = (0, import_react30.useState)("all");
+    const [cancelling, setCancelling] = (0, import_react30.useState)(null);
+    const [cancelError, setCancelError] = (0, import_react30.useState)("");
+    const [orders, setOrders] = (0, import_react30.useState)(null);
+    const [error, setError] = (0, import_react30.useState)("");
     const token = localStorage.getItem(TOKEN_KEY);
-    (0, import_react9.useEffect)(() => {
+    (0, import_react30.useEffect)(() => {
       let active = true;
       setError("");
       if (!token) {
@@ -25482,103 +31180,138 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         active = false;
       };
     }, [token]);
-    if (!token) return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: [
+    if (!token) return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: [
       "Vui l\xF2ng ",
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Link, { to: "/login", children: "\u0111\u0103ng nh\u1EADp" }),
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Link, { to: "/login", children: "\u0111\u0103ng nh\u1EADp" }),
       " \u0111\u1EC3 xem \u0111\u01A1n h\xE0ng."
     ] });
-    if (error) return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: error });
-    if (!orders) return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: "\u0110ang t\u1EA3i\u2026" });
-    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("main", { className: "app-page rb-commerce-page rb-orders-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "page-intro", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "rb-eyebrow", children: "\u0110\u01A0N H\xC0NG" }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h1", { children: "\u0110\u01A1n c\u1EE7a t\xF4i" }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { children: "Theo d\xF5i tr\u1EA1ng th\xE1i v\xE0 ti\u1EBFn \u0111\u1ED9 \u0111\u01A1n h\xE0ng c\u1EE7a b\u1EA1n." })
+    if (error) return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: error });
+    if (!orders) return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: "\u0110ang t\u1EA3i\u2026" });
+    const matches = (filter2, order) => filter2.key === "all" || filter2.statuses.includes(String(order.status).toUpperCase());
+    const filter = ORDER_FILTERS.find((entry) => entry.key === activeFilter);
+    const filteredOrders = orders.filter((order) => matches(filter, order));
+    async function cancelOrder(id) {
+      if (cancelling || !window.confirm("B\u1EA1n ch\u1EAFc ch\u1EAFn mu\u1ED1n h\u1EE7y \u0111\u01A1n n\xE0y?")) return;
+      setCancelling(id);
+      setCancelError("");
+      try {
+        const updated = await request("/orders/" + id + "/status", { method: "PATCH", body: { status: "CANCELLED" } });
+        setOrders((old) => old.map((order) => order.id === id ? updated : order));
+      } catch (e) {
+        setCancelError(e.message);
+      } finally {
+        setCancelling(null);
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("main", { className: "app-page rb-commerce-page rb-orders-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "page-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { className: "rb-eyebrow", children: "\u0110\u01A0N H\xC0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h1", { children: "\u0110\u01A1n c\u1EE7a t\xF4i" }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: "Theo d\xF5i tr\u1EA1ng th\xE1i v\xE0 ti\u1EBFn \u0111\u1ED9 \u0111\u01A1n h\xE0ng c\u1EE7a b\u1EA1n." })
       ] }),
-      orders.length ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("section", { className: "rb-orders-list", children: orders.map((order) => {
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { className: "rb-order-filters", "aria-label": "L\u1ECDc tr\u1EA1ng th\xE1i \u0111\u01A1n", children: ORDER_FILTERS.map((entry) => /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("button", { type: "button", "aria-pressed": entry.key === activeFilter, onClick: () => setActiveFilter(entry.key), children: [
+        entry.label,
+        " (",
+        orders.filter((order) => matches(entry, order)).length,
+        ")"
+      ] }, entry.key)) }),
+      cancelError && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { className: "auth-alert", role: "alert", children: cancelError }),
+      filteredOrders.length ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("section", { className: "rb-orders-list", children: filteredOrders.map((order) => {
         const status = String(order.status).toUpperCase();
         const first = order.items?.[0];
-        return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("article", { className: "item-card rb-order-card", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "rb-order-heading", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(FoodThumbnail, { src: first?.imageUrl, name: first?.itemName || first?.name || "M\xF3n trong \u0111\u01A1n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "rb-order-copy", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("small", { children: new Date(order.createdAt).toLocaleString("vi-VN") }),
-              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { className: "rb-order-code", children: order.orderCode }),
-              /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h3", { children: order.restaurant?.name || order.restaurantName || "Qu\xE1n \u0103n" }),
-              /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("p", { children: [
+        return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("article", { className: "item-card rb-order-card rb-clickable-order", onClick: () => navigate("/orders/" + order.id), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-order-heading", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(FoodThumbnail, { src: first?.imageUrl || order.restaurant?.imageUrl, name: first?.itemName || first?.name || "M\xF3n trong \u0111\u01A1n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-order-copy", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("small", { children: new Date(order.createdAt).toLocaleString("vi-VN") }),
+              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { className: "rb-order-code", children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Link, { to: "/orders/" + order.id, children: order.orderCode }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h3", { children: order.restaurant?.name || order.restaurantName || "Qu\xE1n \u0103n" }),
+              /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("p", { children: [
                 first?.itemName || first?.name || "M\xF3n \u0111\xE3 \u0111\u1EB7t",
                 order.items?.length > 1 ? " v\xE0 " + (order.items.length - 1) + " m\xF3n kh\xE1c" : ""
               ] })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(OrderStatusBadge, { status: order.status })
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(OrderStatusBadge, { status: order.status })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "rb-order-footer", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("strong", { children: formatMoney(order.totalAmount) }),
-            status === "COMPLETED" ? /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("span", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-order-footer", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("strong", { children: formatMoney(order.totalAmount) }),
+            status === "COMPLETED" ? /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("span", { children: [
               (order.items || []).reduce((sum, item) => sum + item.quantity, 0),
               " m\xF3n"
-            ] }) : status === "CANCELLED" ? null : status === "READY" ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("span", { className: "rb-pickup-due", children: "M\xF3n \u0111\xE3 s\u1EB5n s\xE0ng, gh\xE9 l\u1EA5y nh\xE9!" }) : ["PENDING", "CONFIRMED", "PREPARING"].includes(status) ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }) : null
-          ] })
+            ] }) : status === "CANCELLED" ? null : status === "READY" ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("span", { className: "rb-pickup-due", children: "M\xF3n \u0111\xE3 s\u1EB5n s\xE0ng, gh\xE9 l\u1EA5y nh\xE9!" }) : ["PENDING", "CONFIRMED", "PREPARING"].includes(status) ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }) : null
+          ] }),
+          status === "PENDING" && currentUser?.role === "customer" && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+            "button",
+            {
+              type: "button",
+              className: "rb-danger-button",
+              disabled: !!cancelling,
+              onClick: (event) => {
+                event.stopPropagation();
+                cancelOrder(order.id);
+              },
+              children: cancelling === order.id ? "\u0110ang h\u1EE7y\u2026" : "H\u1EE7y \u0111\u01A1n"
+            }
+          )
         ] }, order.id);
-      }) }) : /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("section", { className: "item-card rb-empty", children: "B\u1EA1n ch\u01B0a c\xF3 \u0111\u01A1n h\xE0ng n\xE0o." })
+      }) }) : /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("section", { className: "item-card rb-empty", children: filter.empty })
     ] });
   }
   function Page({ title, children }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("main", { className: "app-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("div", { className: "page-intro", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { children: "ROUTEBITE" }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h1", { children: title })
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("main", { className: "app-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "page-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: "ROUTEBITE" }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h1", { children: title })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("section", { className: "orders-empty-v2", children: children || "T\xEDnh n\u0103ng \u0111ang \u0111\u01B0\u1EE3c \u0111\u1ED3ng b\u1ED9." })
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("section", { className: "orders-empty-v2", children: children || "T\xEDnh n\u0103ng \u0111ang \u0111\u01B0\u1EE3c \u0111\u1ED3ng b\u1ED9." })
     ] });
   }
-  function MerchantPage() {
-    const user = JSON.parse(localStorage.getItem("routebite_user") || "null");
-    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Page, { title: "Khu v\u1EF1c qu\u1EA3n l\xFD", children: user?.role === "merchant" || user?.role === "admin" ? "B\u1EA1n \u0111\xE3 \u0111\u0103ng nh\u1EADp v\u1EDBi quy\u1EC1n qu\u1EA3n l\xFD qu\xE1n. API t\u1EA1o/s\u1EEDa qu\xE1n \u0111\xE3 \u0111\u01B0\u1EE3c backend b\u1EA3o v\u1EC7 theo role." : "Trang n\xE0y ch\u1EC9 d\xE0nh cho merchant ho\u1EB7c admin." });
-  }
   function AppShell() {
-    const [cart, setCart] = (0, import_react9.useState)(() => JSON.parse(localStorage.getItem(CART_KEY) || "[]"));
-    const value = (0, import_react9.useMemo)(() => ({ cart, add(item) {
-      setCart((old) => {
-        const same = old.find((entry) => entry.id === item.id);
-        const next = same ? old.map((entry) => entry.id === item.id ? { ...entry, quantity: Math.min(100, entry.quantity + 1) } : entry) : [...old.filter((entry) => entry.restaurantId === item.restaurantId), { ...item, quantity: 1 }];
-        localStorage.setItem(CART_KEY, JSON.stringify(next));
-        return next;
-      });
-    }, change(id, step) {
-      setCart((old) => {
-        const next = old.map((entry) => entry.id === id ? { ...entry, quantity: Math.min(100, entry.quantity + step) } : entry).filter((entry) => entry.quantity > 0);
-        localStorage.setItem(CART_KEY, JSON.stringify(next));
-        return next;
-      });
-    }, clear() {
-      localStorage.removeItem(CART_KEY);
-      setCart([]);
-    } }), [cart]);
-    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(CartContext.Provider, { value, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Header, {}),
-      /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(Routes, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Home, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/login", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(LoginPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/register", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(RegisterPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/profile", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(ProfilePage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/restaurant/:id", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(RestaurantMenu, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/my-carts", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(CartPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/my-orders", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(OrdersPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/merchant", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(MerchantPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/merchant/onboarding", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Page, { title: "\u0110\u0103ng k\xFD qu\xE1n" }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/admin/overview", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Page, { title: "Qu\u1EA3n tr\u1ECB h\u1EC7 th\u1ED1ng" }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Route, { path: "/kham-pha", element: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(Page, { title: "Kh\xE1m ph\xE1 qu\xE1n" }) })
+    const { pathname } = useLocation();
+    const merchantRoute = pathname === "/merchant" || pathname.startsWith("/merchant/");
+    const adminRoute = pathname === "/admin" || pathname.startsWith("/admin/");
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(CartProvider, { children: [
+      !merchantRoute && !adminRoute && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Header, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(Routes, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Home, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/login", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(LoginPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/register", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(RegisterPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/profile", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(ProfilePage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/partner/register", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(PartnerRegistrationPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/restaurant/:id", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(RestaurantMenu, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/my-carts", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(MyCartsPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/restaurants/:id/cart", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(CartPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/my-orders", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(OrdersPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/orders/:id", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(OrderDetailPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(Route, { path: "/merchant", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(ProtectedRoute, { allowedRoles: ["merchant"], children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(MerchantProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(MerchantLayout, {}) }) }), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { index: true, element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Navigate, { to: "dashboard", replace: true }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "dashboard", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(DashboardPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "menu", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(MenuManagementPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "orders", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(OrdersKanbanPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "orders/:id", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(OrderDetailPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "onboarding", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(OnboardingPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "profile", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(ProfilePage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "*", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Navigate, { to: "/merchant/dashboard", replace: true }) })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(Route, { path: "/admin", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(ProtectedRoute, { allowedRoles: ["admin"], children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AdminLayout, {}) }), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { index: true, element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Navigate, { to: "overview", replace: true }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "overview", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AdminOverviewPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "restaurants", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AdminRestaurantsPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "users", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AdminUsersPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "merchant-applications", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AdminMerchantApplicationsPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "*", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Navigate, { to: "/admin/overview", replace: true }) })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/kham-pha", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(ExplorePage, {}) })
       ] })
     ] });
   }
   function App() {
-    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(AuthProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(BrowserRouter, { children: /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(AppShell, {}) }) });
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AuthProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(BrowserRouter, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(SocketProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(NotificationsProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AppShell, {}) }) }) }) });
   }
 
   // src/entry.jsx
-  var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
-  import_client.default.createRoot(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime15.jsx)(App, {}));
+  var import_jsx_runtime41 = __toESM(require_jsx_runtime(), 1);
+  import_client.default.createRoot(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime41.jsx)(App, {}));
 })();
 /*! Bundled license information:
 

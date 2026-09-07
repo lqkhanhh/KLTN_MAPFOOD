@@ -1,0 +1,78 @@
+/* Khu vực merchant độc lập với top navigation của khách hàng. */
+.rb-merchant-shell { display: grid; grid-template-columns: 232px minmax(0, 1fr); min-height: 100vh; font-family: var(--font-vietnamese); background: var(--color-bg); }
+.rb-merchant-sidebar { display: flex; flex-direction: column; position: sticky; top: 0; height: 100vh; background: var(--color-brown); color: #fff; }
+.rb-merchant-brand { padding: 30px 24px; border-bottom: 1px solid #ffffff24; }
+.rb-merchant-brand strong { display: block; font-size: 27px; letter-spacing: -.6px; }
+.rb-merchant-brand span { display: block; margin-top: 8px; color: #f5b386; font-size: 12px; }
+.rb-merchant-sidebar nav { display: grid; gap: 6px; padding: 22px 0; }
+.rb-merchant-sidebar nav a { padding: 14px 24px; color: #dccbc1; border-left: 3px solid transparent; font-size: 14px; font-weight: 600; }
+.rb-merchant-sidebar nav a.active { color: #fff; border-left-color: #efa36e; background: #ffffff15; }
+.rb-merchant-sidebar footer { margin-top: auto; padding: 24px; border-top: 1px solid #ffffff24; }
+.rb-merchant-sidebar footer strong { display: block; font-size: 14px; overflow-wrap: anywhere; }
+.rb-merchant-sidebar footer button { border: 0; padding: 12px 0 0; background: none; color: #f5b386; }
+.rb-merchant-main { min-width: 0; }
+.rb-merchant-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 30px; border-bottom: 1px solid var(--color-border); background: var(--color-surface); }
+.rb-merchant-toolbar > div:first-child { min-width: 0; max-width: 480px; }
+.rb-merchant-toolbar label { display: grid; gap: 6px; color: var(--color-muted); font-size: 12px; }
+.rb-merchant-toolbar select { width: 100%; max-width: 480px; font-weight: 600; }
+.rb-merchant-toolbar .account-menu { display: flex; gap: 12px; flex-shrink: 0; }
+.rb-merchant-content { padding: clamp(18px, 3vw, 36px); }
+.rb-merchant-content h1 { margin: 0 0 8px; font: 700 clamp(25px, 3vw, 34px)/1.4 var(--font-vietnamese); }
+.rb-merchant-page-head { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 24px; }
+.rb-merchant-page-head p { margin: 5px 0; color: var(--color-muted); }
+.rb-merchant-page-head .rb-eyebrow { color: var(--color-primary-dark); }
+.rb-merchant-metrics { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-bottom: 26px; }
+.rb-merchant-metrics article { display: grid; gap: 16px; padding: 22px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 16px; }
+.rb-merchant-metrics span { color: var(--color-muted); font-size: 13px; }
+.rb-merchant-metrics strong { font-size: clamp(20px, 2vw, 30px); color: var(--color-primary-dark); overflow-wrap: anywhere; }
+.rb-merchant-shop { padding: 24px; }
+.rb-merchant-hint { color: var(--color-muted); font-size: 13px; line-height: 1.7; }
+.rb-merchant-feedback { padding: 12px; background: #eaf5ec; border-radius: 10px; color: #235f3d; }
+.rb-menu-editor { margin: 0; padding: 0; border: 1px solid var(--color-border); border-radius: 16px; background: var(--color-surface); min-width: 0; overflow: hidden; }
+.rb-menu-edit-row { display: grid; grid-template-columns: minmax(130px, 1.4fr) minmax(100px, .7fr) minmax(100px, 1fr) auto auto; gap: 12px; padding: 18px; border-bottom: 1px solid var(--color-border); align-items: end; }
+.rb-menu-edit-row:last-child { border-bottom: 0; }
+.rb-menu-edit-row label, .rb-onboarding label { display: grid; gap: 8px; font-size: 13px; font-weight: 600; min-width: 0; }
+.rb-menu-edit-row input, .rb-merchant-toolbar select, .rb-onboarding input, .rb-onboarding select { min-width: 0; width: 100%; padding: 10px; border: 1px solid var(--color-border); background: #fff; border-radius: 9px; color: var(--color-text); font: inherit; }
+.rb-stock-toggle { border: 0; border-radius: 999px; padding: 10px 12px; background: #fce8e5; color: #9f2922; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.rb-stock-toggle.available { background: #e8f3eb; color: #276541; }
+.rb-menu-save-bar { position: sticky; bottom: 18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 14px; padding: 18px; margin-top: 22px; border: 1px solid var(--color-border); border-radius: 16px; background: var(--color-surface); box-shadow: var(--shadow); z-index: 20; font-size: 13px; }
+.rb-kanban-board { display: grid; grid-template-columns: repeat(4, minmax(230px, 1fr)); gap: 16px; overflow-x: auto; align-items: start; padding-bottom: 18px; }
+.rb-kanban-column { min-width: 0; padding: 12px; border-radius: 16px; background: #efe5dc; }
+.rb-kanban-column h2 { display: flex; gap: 8px; align-items: center; justify-content: space-between; min-height: 38px; margin: 0 0 16px; font-size: 13px; line-height: 1.5; }
+.rb-kanban-column h2 span { border-radius: 99px; padding: 3px 8px; background: #fff8; }
+.rb-kanban-card { display: grid; gap: 10px; padding: 16px; margin-bottom: 12px; border: 1px solid var(--color-border); border-radius: 12px; background: var(--color-surface); font-size: 13px; overflow-wrap: anywhere; box-shadow: var(--shadow-card); }
+.rb-kanban-card > .rb-order-status { justify-self: start; }
+.rb-kanban-card p { margin: 0; line-height: 1.5; }
+.rb-kanban-card > span { color: var(--color-muted); }
+.rb-kanban-card .rb-order-code { font-weight: 700; color: var(--color-primary-dark); }
+.rb-cancelled-toggle { margin-top: 20px; }
+.rb-cancelled-orders { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; margin-top: 16px; }
+.rb-onboarding { max-width: 720px; margin: 0 auto; }
+.rb-onboarding > p { line-height: 1.7; color: var(--color-muted); }
+.rb-onboarding fieldset { display: grid; gap: 20px; padding: 24px; border: 1px solid var(--color-border); border-radius: 16px; background: var(--color-surface); min-width: 0; }
+.rb-onboarding-coords { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.rb-merchant-shell button:disabled { cursor: not-allowed; opacity: .5; }
+.rb-image-uploader { display: grid; gap: 10px; min-width: 0; font-size: 12px; }
+.rb-image-label { font-weight: 700; }
+.rb-image-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.rb-image-controls img { width: 80px; height: 80px; border-radius: 12px; object-fit: cover; border: 1px solid var(--color-border); }
+.rb-image-controls > div { display: grid; gap: 8px; min-width: 0; max-width: 100%; }
+.rb-image-file-label { display: block; font-weight: 600; color: var(--color-primary-dark); }
+.rb-image-controls input[type="file"] { max-width: 210px; width: 100%; padding: 0; border: 0; font-size: 11px; }
+.rb-image-uploader small { color: var(--color-muted); line-height: 1.5; }
+.rb-image-uploader small[role="alert"] { color: var(--color-danger); }
+.rb-image-uploader > label { display: grid; gap: 6px; }
+.rb-image-uploader input { width: 100%; min-width: 0; padding: 10px; border: 1px solid var(--color-border); border-radius: 9px; }
+.rb-menu-edit-row > .rb-image-uploader { grid-column: 1 / -1; }
+.rb-restaurant-image-editor { max-width: 720px; padding: 24px; }
+.rb-restaurant-image-editor > button { margin-top: 16px; }
+.rb-merchant-content .rb-menu-page .rb-product-row > .rb-food-thumbnail { width: 72px; height: 72px; }
+@media (max-width: 1100px) { .rb-merchant-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } .rb-menu-edit-row { grid-template-columns: minmax(100px, 1fr) minmax(90px, 1fr); } .rb-menu-edit-row label:nth-child(3) { grid-column: 1 / -1; } }
+@media (max-width: 700px) {
+  .rb-merchant-shell { grid-template-columns: 1fr; } .rb-merchant-sidebar { position: static; height: auto; }
+  .rb-merchant-brand { padding: 16px 20px; } .rb-merchant-brand strong { font-size: 22px; }
+  .rb-merchant-sidebar nav { display: flex; gap: 0; padding: 0; overflow-x: auto; } .rb-merchant-sidebar nav a { flex: 1; padding: 14px 12px; white-space: nowrap; font-size: 12px; text-align: center; border-left: 0; border-bottom: 3px solid transparent; } .rb-merchant-sidebar nav a.active { border-bottom-color: #efa36e; }
+  .rb-merchant-sidebar footer { display: none; } .rb-merchant-toolbar { padding: 14px 18px; } .rb-merchant-toolbar > div:first-child { flex: 1; }
+  .rb-merchant-page-head { flex-wrap: wrap; } .rb-merchant-metrics article { padding: 16px; }
+  .rb-onboarding fieldset { padding: 18px; } .rb-menu-save-bar { bottom: 8px; padding: 12px; }
+}

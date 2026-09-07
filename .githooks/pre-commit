@@ -1,0 +1,3 @@
+#!/bin/sh
+# Chạy kiểm tra nội dung đã stage trước khi tạo commit.
+node scripts/check-git-secrets.cjs

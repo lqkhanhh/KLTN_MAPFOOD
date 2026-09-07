@@ -1,0 +1,56 @@
+# Biến môi trường thật; chỉ commit file mẫu đã bỏ hết bí mật.
+.env
+.env.*
+!.env.example
+!.env.*.example
+!.env.sample
+!.env.template
+
+# Khóa riêng, tài khoản seed và thông tin xác thực dịch vụ.
+*.key
+*.pem
+*.p12
+*.pfx
+*.keystore
+id_rsa*
+id_ed25519*
+*service-account*.json
+*firebase-adminsdk*.json
+credentials.json
+.seed-*-accounts.json
+secrets/
+private/
+
+# Không theo dõi dependencies, sản phẩm build backend và cache.
+node_modules/
+dist/
+coverage/
+*.tsbuildinfo
+.cache/
+.npm/
+.yarn/cache/
+
+# Nhật ký có thể chứa dữ liệu cá nhân/token và bản sao database.
+*.log
+logs/
+*.dump
+*.backup
+*.bak
+*.db
+*.sqlite
+*.sqlite3
+backups/
+dumps/
+uploads/
+storage/
+
+# Báo cáo kiểm thử và tệp cá nhân của IDE/hệ điều hành.
+playwright-report/
+test-results/
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+*.swo
+
+# web/app.js vẫn được giữ: static server hiện dùng bundle này để chạy giao diện.

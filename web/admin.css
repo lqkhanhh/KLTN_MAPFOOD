@@ -1,0 +1,76 @@
+/* Admin dùng cùng sidebar/theme với merchant, không tác động giao diện khách. */
+.rb-partner-page { max-width: 900px; }
+.rb-partner-page h1 { font-family: var(--font-vietnamese); font-size: clamp(26px, 4vw, 38px); }
+.rb-partner-form { margin-top: 22px; }
+.rb-partner-form fieldset, .rb-partner-account fieldset { display: grid; gap: 16px; padding: 0; border: 0; min-width: 0; }
+.rb-partner-form label { display: grid; gap: 8px; min-width: 0; font-size: 14px; font-weight: 600; }
+.rb-partner-form input:not([type=checkbox]), .rb-partner-form select, .rb-partner-form textarea { width: 100%; min-width: 0; padding: 11px; border: 1px solid var(--color-border); border-radius: 10px; background: #fff; color: var(--color-text); font: inherit; }
+.rb-partner-columns { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; }
+.rb-partner-steps { display: flex; gap: 10px; padding: 0; list-style: none; }
+.rb-partner-steps li { flex: 1; padding: 14px; border-radius: 12px; background: var(--color-primary-soft); font-size: 13px; }
+.rb-partner-steps li[aria-current=step] { background: var(--color-brown); color: #fff; }
+.rb-partner-document { display: grid; gap: 10px; padding: 16px; border: 1px solid var(--color-border); border-radius: 12px; }
+.rb-partner-document span { color: var(--color-muted); font-size: 13px; }
+.rb-partner-form p { line-height: 1.7; overflow-wrap: anywhere; }
+.rb-partner-form .rb-admin-summary dd { min-width: 0; overflow-wrap: anywhere; text-align: right; }
+.rb-partner-terms { padding: 0 0 20px; }
+.rb-partner-terms h3 { font-size: 16px; margin-top: 24px; }
+.rb-partner-notice { background: #fff0d9; border: 1px solid #e9c593; border-radius: 12px; padding: 14px; font-size: 13px; }
+.rb-partner-form .rb-partner-agreements label:not(.rb-partner-reason) { display: flex; align-items: flex-start; gap: 12px; line-height: 1.6; padding: 12px; background: var(--color-primary-soft); border-radius: 10px; }
+.rb-partner-agreements input[type=checkbox] { width: 18px; height: 18px; flex: 0 0 18px; margin-top: 3px; accent-color: var(--color-primary); }
+.rb-partner-status { margin-top: 24px; }
+.rb-partner-entry { padding-top: 18px; border-top: 1px solid var(--color-border); line-height: 1.8; }
+@media (max-width: 600px) { .rb-partner-steps { flex-direction: column; } .rb-partner-columns { grid-template-columns: minmax(0, 1fr); } }
+.rb-admin-content { min-width: 0; color: var(--color-text); }
+.rb-admin-heading { margin-bottom: 26px; }
+.rb-admin-heading > p { color: var(--color-primary-dark); font-size: 11px; letter-spacing: .12em; font-weight: 800; }
+.rb-admin-heading > span, .rb-admin-hint { color: var(--color-muted); font-size: 13px; line-height: 1.7; }
+.rb-admin-content h2 { margin: 0 0 18px; font-size: 18px; line-height: 1.5; }
+.rb-admin-content .item-card { padding: 22px; border: 1px solid var(--color-border); background: var(--color-surface); border-radius: 16px; }
+.rb-admin-metrics { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.rb-admin-metrics p { color: var(--color-muted); font-size: 13px; margin: 0 0 16px; }
+.rb-admin-metrics strong { color: var(--color-primary-dark); font-size: clamp(22px, 2.5vw, 32px); overflow-wrap: anywhere; }
+.rb-admin-panels { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; margin: 24px 0; }
+.rb-admin-summary { margin: 0; }
+.rb-admin-summary > div, .rb-admin-ranking li { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--color-border); }
+.rb-admin-summary dd { margin: 0; font-weight: 700; }
+.rb-admin-ranking { padding: 0; margin: 0; list-style: none; }
+.rb-admin-ranking span { overflow-wrap: anywhere; }
+.rb-admin-ranking strong { white-space: nowrap; }
+.rb-admin-table-wrap { max-width: 100%; overflow-x: auto; padding: 0 !important; }
+.rb-admin-table-wrap table { width: 100%; min-width: 560px; border-collapse: collapse; text-align: left; font-size: 13px; }
+.rb-admin-table-wrap th { background: var(--color-primary-soft); font-weight: 700; }
+.rb-admin-table-wrap th, .rb-admin-table-wrap td { padding: 16px; border-bottom: 1px solid var(--color-border); vertical-align: top; }
+.rb-admin-table-wrap td { max-width: 320px; overflow-wrap: anywhere; }
+.rb-admin-table-wrap small { display: block; margin-top: 8px; color: var(--color-muted); line-height: 1.6; }
+.rb-admin-table-wrap .btn { white-space: nowrap; font-size: 12px; }
+.rb-admin-status { display: inline-block; padding: 5px 10px; border-radius: 99px; font-size: 12px; color: #9b3029; background: #fbe7e4; white-space: nowrap; }
+.rb-admin-status.active { color: #27613e; background: #e6f2e9; }
+.rb-admin-danger { color: #a52e26 !important; }
+.rb-admin-error { padding: 12px; color: #a52e26; background: #fff0ed; border-radius: 10px; overflow-wrap: anywhere; }
+.rb-admin-pagination { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 20px 0; font-size: 13px; }
+.rb-admin-pagination > span { margin-right: auto; }
+.rb-admin-content button:disabled, .rb-admin-dialog button:disabled { opacity: .5; cursor: not-allowed; }
+.rb-admin-filters { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 22px; }
+.rb-admin-filters button { border: 0; border-radius: var(--radius-full); padding: 9px 16px; background: var(--color-primary-soft); color: var(--color-text); font: inherit; font-size: 13px; font-weight: 600; }
+.rb-admin-filters button[aria-pressed="true"] { color: #fff; background: var(--color-brown); }
+.rb-admin-dialog { width: min(480px, calc(100% - 32px)); max-height: calc(100dvh - 32px); padding: 26px; border: 1px solid var(--color-border); border-radius: 20px; background: var(--color-surface); color: var(--color-text); font-family: var(--font-vietnamese); box-shadow: var(--shadow); }
+.rb-admin-dialog::backdrop { background: #2b232080; }
+.rb-admin-dialog h2 { margin-top: 0; font-size: 20px; overflow-wrap: anywhere; }
+.rb-admin-dialog p { line-height: 1.6; font-size: 13px; }
+.rb-admin-dialog label { display: block; margin: 16px 0 8px; font-weight: 600; font-size: 13px; }
+.rb-admin-dialog textarea { width: 100%; min-width: 0; resize: vertical; padding: 12px; border: 1px solid var(--color-border); border-radius: 10px; font: inherit; }
+.rb-admin-dialog small { color: var(--color-muted); }
+.rb-admin-dialog-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; margin-top: 22px; }
+.rb-admin-shell a:focus-visible, .rb-admin-shell button:focus-visible, .rb-admin-dialog :focus-visible { outline: 3px solid #efa36e; outline-offset: 3px; }
+@media (max-width: 1050px) { .rb-admin-metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); } .rb-admin-panels { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 760px) {
+  .rb-admin-shell { grid-template-columns: minmax(0, 1fr); }
+  .rb-admin-shell .rb-merchant-sidebar { position: static; height: auto; }
+  .rb-admin-shell .rb-merchant-sidebar nav { display: flex; flex-wrap: wrap; padding: 8px; gap: 4px; }
+  .rb-admin-shell .rb-merchant-sidebar nav a { flex: 1; padding: 12px 8px; text-align: center; font-size: 12px; }
+  .rb-admin-shell .rb-merchant-brand { padding: 18px; }
+  .rb-admin-shell .rb-merchant-sidebar footer { display: block; padding: 12px 18px; }
+  .rb-admin-content { padding: 18px 14px; }
+}
+@media (max-width: 380px) { .rb-admin-metrics { grid-template-columns: minmax(0, 1fr); } }

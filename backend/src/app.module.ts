@@ -9,6 +9,8 @@ import { PaymentsModule } from './payments/payments.module';
 import { ReviewsModule } from './reviews/reviews.module';
 import { AdminModule } from './admin/admin.module';
 import { entities } from './database/entities';
+import { NotificationsModule } from './notifications/notifications.module';
+import { MerchantApplicationsModule } from './merchant-applications/merchant-applications.module';
 
 @Module({ imports: [
   ConfigModule.forRoot({ isGlobal: true }),
@@ -26,6 +28,6 @@ import { entities } from './database/entities';
       autoLoadEntities: true,
     }),
   }),
-  AuthModule, RestaurantsModule, SearchModule, OrdersModule, PaymentsModule, ReviewsModule, AdminModule,
+  AuthModule, RestaurantsModule, SearchModule, OrdersModule, PaymentsModule, ReviewsModule, AdminModule, NotificationsModule, MerchantApplicationsModule,
 ] })
 export class AppModule {}

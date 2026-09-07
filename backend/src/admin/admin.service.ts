@@ -27,7 +27,7 @@ export class AdminService {
   async searchAnalytics() {
     const [total, popularOrigins] = await Promise.all([
       this.routesRepo.count(),
-      this.routesRepo.createQueryBuilder('route').select(`route.pointA->>'latitude'`, 'latitude').addSelect(`route.pointA->>'longitude'`, 'longitude').addSelect('COUNT(*)', 'count').groupBy(`route.pointA->>'latitude'`).addGroupBy(`route.pointA->>'longitude'`).orderBy('COUNT(*)', 'DESC').limit(10).getRawMany(),
+      this.routesRepo.createQueryBuilder('route').select(`route."pointA"->>'latitude'`, 'latitude').addSelect(`route."pointA"->>'longitude'`, 'longitude').addSelect('COUNT(*)', 'count').groupBy(`route."pointA"->>'latitude'`).addGroupBy(`route."pointA"->>'longitude'`).orderBy('COUNT(*)', 'DESC').limit(10).getRawMany(),
     ]);
     return { totalSearches: total, popularOriginAreas: popularOrigins.map((row) => ({ latitude: Number(row.latitude), longitude: Number(row.longitude), count: Number(row.count) })), note: 'Hiện chỉ lưu route log; cần thêm conversion event để đo tỷ lệ xuất hiện/đặt món theo quán.' };
   }
@@ -51,5 +51,11 @@ export class AdminService {
   }
 
   async suspend(id: string, reason: string) { const restaurant = await this.restaurantsRepo.findOneBy({ id }); if (!restaurant) throw new NotFoundException('Không tìm thấy quán'); restaurant.active = false; restaurant.suspendedReason = reason.trim(); restaurant.suspendedAt = new Date(); return this.restaurantsRepo.save(restaurant); }
-  async activate(id: string) { const restaurant = await this.restaurantsRepo.findOneBy({ id }); if (!restaurant) throw new NotFoundException('Không tìm thấy quán'); restaurant.active = true; restaurant.suspendedReason = undefined; restaurant.suspendedAt = undefined; return this.restaurantsRepo.save(restaurant); }
+  async activate(id: string) {
+    const restaurant = await this.restaurantsRepo.findOneBy({ id });
+    if (!restaurant) throw new NotFoundException('Không tìm thấy quán');
+    // TypeORM bỏ qua undefined khi save; dùng SQL NULL để xóa thông tin tạm ngưng.
+    await this.restaurantsRepo.update(id, { active: true, suspendedReason: () => 'NULL', suspendedAt: () => 'NULL' });
+    return this.restaurantsRepo.findOneByOrFail({ id });
+  }
 }

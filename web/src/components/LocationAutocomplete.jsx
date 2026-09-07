@@ -41,8 +41,10 @@ export default function LocationAutocomplete({ value, placeholder, onChange, onS
   }
 
   return <div className="location-autocomplete">
+    <div className="location-input-row">
     <input value={value?.address || ''} placeholder={placeholder} autoComplete="off" onFocus={() => setFocused(true)} onBlur={() => window.setTimeout(() => setFocused(false), 160)} onChange={(event) => onChange({ address: event.target.value, lat: null, lng: null })} />
     {children ? <div className="location-input-actions">{children}</div> : null}
+    </div>
     {focused && (loading || suggestions.length > 0) ? <div className="location-suggestions" role="listbox">
       {loading ? <p>Đang tìm địa điểm…</p> : suggestions.map((place) => <button type="button" role="option" key={place.place_id} onMouseDown={(event) => event.preventDefault()} onClick={() => select(place)}><span>📍</span><strong>{place.display_name}</strong></button>)}
     </div> : null}

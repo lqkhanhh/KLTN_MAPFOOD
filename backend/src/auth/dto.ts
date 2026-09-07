@@ -31,3 +31,15 @@ export class RefreshDto {
   @IsString()
   refreshToken: string;
 }
+
+export class ChangePasswordDto {
+  @IsString()
+  @MinLength(1)
+  @MaxLength(256)
+  oldPassword: string;
+
+  @IsString()
+  @MinLength(6)
+  @MaxLength(72)
+  newPassword: string;
+}

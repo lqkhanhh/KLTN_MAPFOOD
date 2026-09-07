@@ -1,16 +1,45 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { ChangePasswordModal } from './ChangePasswordModal';
 
 const ROLE_LABELS = { customer: 'Khách hàng', merchant: 'Chủ quán', admin: 'Quản trị viên' };
 
 export default function AvatarDropdown() {
-  const { currentUser, logout } = useAuth(); const navigate = useNavigate(); const [open, setOpen] = useState(false); const ref = useRef(null);
-  useEffect(() => { const close = (event) => { if (ref.current && !ref.current.contains(event.target)) setOpen(false); }; document.addEventListener('mousedown', close); return () => document.removeEventListener('mousedown', close); }, []);
+  const { currentUser, logout } = useAuth();
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const ref = useRef(null);
+  const closePassword = useCallback(() => setShowPassword(false), []);
+  useEffect(() => {
+    const close = (event) => { if (!ref.current?.contains(event.target)) setOpen(false); };
+    const escape = (event) => { if (event.key === 'Escape') setOpen(false); };
+    document.addEventListener('mousedown', close);
+    document.addEventListener('keydown', escape);
+    return () => { document.removeEventListener('mousedown', close); document.removeEventListener('keydown', escape); };
+  }, []);
   if (!currentUser) return <button className="header-login" type="button" onClick={() => navigate('/login')}>Đăng nhập</button>;
-  const initials = currentUser.fullName.split(' ').filter(Boolean).slice(-2).map((word) => word[0]).join('').toUpperCase() || 'RB';
+  const initials = (currentUser.fullName || '').split(' ').filter(Boolean).slice(-2).map((word) => word[0]).join('').toUpperCase() || 'RB';
   const go = (path) => { setOpen(false); navigate(path); };
-  return <div className="avatar-dropdown" ref={ref}><button className="profile-trigger" type="button" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen((value) => !value)}>{initials}</button>{open && <div className="avatar-menu" role="menu"><header><strong>{currentUser.fullName}</strong><span>{ROLE_LABELS[currentUser.role] || currentUser.role}</span></header><div className="avatar-menu-items"><MenuItem icon="👤" label="Thông tin tài khoản" onClick={() => go('/profile')} /><MenuItem icon="🔒" label="Đổi mật khẩu" disabled badge="Sắp ra mắt" /><MenuItem icon="📦" label="Đơn của tôi" onClick={() => go('/my-orders')} /></div><div className="avatar-menu-logout"><MenuItem icon="🚪" label="Đăng xuất" danger onClick={() => { logout(); navigate('/login'); }} /></div></div>}</div>;
+  return <>
+    <div className="avatar-dropdown" ref={ref}>
+      <button className="profile-trigger" type="button" aria-label="Mở menu tài khoản" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen(!open)}>{initials}</button>
+      {open && <div className="avatar-menu" role="menu">
+        <header><strong>{currentUser.fullName}</strong><span>{ROLE_LABELS[currentUser.role] || currentUser.role}</span></header>
+        <div className="avatar-menu-items">
+          <MenuItem label="Thông tin tài khoản" onClick={() => go(currentUser.role === 'merchant' ? '/merchant/profile' : '/profile')} />
+          <MenuItem label="Đổi mật khẩu" onClick={() => { setOpen(false); setShowPassword(true); }} />
+          {currentUser.role === 'merchant' ? <><MenuItem label="Quản lý quán" onClick={() => go('/merchant/dashboard')} /><MenuItem label="Đơn hàng của quán" onClick={() => go('/merchant/orders')} /></>
+            : currentUser.role === 'admin' ? <MenuItem label="Quản trị hệ thống" onClick={() => go('/admin/overview')} />
+              : <><MenuItem label="Đơn của tôi" onClick={() => go('/my-orders')} /><MenuItem label="Giỏ hàng của tôi" onClick={() => go('/my-carts')} /></>}
+        </div>
+        <div className="avatar-menu-logout"><MenuItem label="Đăng xuất" danger onClick={() => { setOpen(false); logout(); navigate('/login'); }} /></div>
+      </div>}
+    </div>
+    {showPassword && <ChangePasswordModal onClose={closePassword} />}
+  </>;
 }
-
-function MenuItem({ icon, label, onClick, disabled, danger, badge }) { return <button type="button" role="menuitem" disabled={disabled} className={danger ? 'danger' : ''} onClick={onClick}><span>{icon}</span><b>{label}</b>{badge && <em>{badge}</em>}</button>; }
+function MenuItem({ label, onClick, danger }) {
+  return <button type="button" role="menuitem" className={danger ? 'danger' : ''} onClick={onClick}><span>{label}</span></button>;
+}

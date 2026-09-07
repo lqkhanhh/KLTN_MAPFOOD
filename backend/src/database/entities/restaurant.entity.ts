@@ -29,7 +29,7 @@ export class Restaurant {
 
   /** Ảnh đại diện quán dùng ở card danh sách và trang chi tiết. */
   @Column({ type: 'text', nullable: true })
-  imageUrl?: string;
+  imageUrl?: string | null;
 
   @Column({ type: 'geography', spatialFeatureType: 'Point', srid: 4326 })
   location: object;

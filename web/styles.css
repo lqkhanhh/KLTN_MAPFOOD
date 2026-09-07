@@ -18,6 +18,7 @@
   --radius-md: 16px;
   --radius-full: 999px;
   --shadow: 0 16px 40px rgba(75, 43, 26, .12);
+  --font-vietnamese: "Segoe UI", Arial, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -30,7 +31,35 @@ body {
   font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
 }
 button, input { font: inherit; }
+/* Font hệ thống và chiều cao dòng đủ cho dấu tiếng Việt ở tiêu đề kết quả. */
+.route-results .route-results-heading p,
+.route-results .route-results-heading h2,
+.rb-explore-heading { font-family: var(--font-vietnamese); font-style: normal; text-transform: none; }
+.route-results .route-results-heading p { color: var(--color-primary-dark); font-size: 12px; font-weight: 700; letter-spacing: .04em; line-height: 1.6; }
+.route-results .route-results-heading h2 { font-size: clamp(24px, 3vw, 30px); font-weight: 700; letter-spacing: normal; line-height: 1.4; overflow: visible; }
+.rb-explore-heading { margin-bottom: 24px; }
+.rb-explore-heading > p { color: var(--color-primary-dark); font-size: 12px; font-weight: 700; letter-spacing: .04em; }
+.rb-explore-heading h1 { margin: 8px 0 12px; font-family: var(--font-vietnamese); font-size: clamp(28px, 4vw, 38px); line-height: 1.4; }
+.rb-explore-heading > span, .rb-explore-count { color: var(--color-muted); line-height: 1.6; }
+.rb-explore-pagination { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 16px; margin-top: 24px; }
+.rb-explore-pagination button:disabled { opacity: .45; cursor: not-allowed; }
 button { cursor: pointer; }
+.rb-notification-bell { position: relative; }
+.rb-notification-trigger { position: relative; display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 1px solid var(--color-border); border-radius: 50%; background: var(--color-surface); color: var(--color-text); }
+.rb-notification-count { position: absolute; right: -5px; top: -5px; display: grid; place-items: center; min-width: 20px; height: 20px; padding: 0 4px; border-radius: 999px; background: var(--color-primary); color: #fff; font-size: 10px; font-weight: 700; }
+.rb-notification-panel { position: absolute; right: 0; top: calc(100% + 10px); width: min(360px, calc(100vw - 32px)); max-height: min(480px, 75vh); overflow-y: auto; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 16px; box-shadow: var(--shadow); z-index: 90; }
+.rb-notification-panel header { display: flex; gap: 12px; justify-content: space-between; align-items: center; padding: 16px; border-bottom: 1px solid var(--color-border); }
+.rb-notification-panel h2 { margin: 0; font-family: var(--font-vietnamese); font-size: 18px; line-height: 1.4; }
+.rb-notification-panel header button, .rb-notification-feedback button { border: 0; padding: 4px; background: transparent; color: var(--color-primary-dark); font-size: 12px; font-weight: 700; }
+.rb-notification-panel button:disabled { opacity: .5; cursor: not-allowed; }
+.rb-notification-item { display: grid; gap: 6px; width: 100%; border: 0; border-bottom: 1px solid var(--color-border); padding: 14px 16px; background: var(--color-surface); color: var(--color-text); text-align: left; white-space: normal; overflow-wrap: anywhere; }
+.rb-notification-item.unread { background: var(--color-primary-soft); }
+.rb-notification-item strong { font-size: 14px; line-height: 1.5; }
+.rb-notification-item span { color: var(--color-muted); font-size: 13px; line-height: 1.6; }
+.rb-notification-item small { color: var(--color-muted); font-size: 11px; line-height: 1.5; }
+.rb-notification-feedback { margin: 0; padding: 18px; color: var(--color-muted); font-size: 13px; line-height: 1.6; }
+.rb-notification-trigger:focus-visible, .rb-notification-item:focus-visible { outline: 2px solid var(--color-primary); outline-offset: -2px; }
+@media (max-width: 600px) { .rb-notification-panel { position: fixed; top: 76px; right: 16px; } }
 a { color: inherit; text-decoration: none; }
 
 /* Login / register: dùng lại bảng màu đất cam của RouteBite. */
@@ -62,6 +91,26 @@ a { color: inherit; text-decoration: none; }
 
 /* Autocomplete OpenStreetMap/Nominatim cho điểm đi và điểm đến. */
 .location-autocomplete { position: relative; display: block !important; overflow: visible; border-radius: 12px; background: #fff; }.location-autocomplete input { display: block; }.location-input-actions { display: flex !important; flex-wrap: wrap; gap: 7px; padding: 0 11px 10px; background: #fff; border-radius: 0 0 12px 12px; }.route-field .location-input-actions button { border-radius: var(--radius-full); padding: 6px 9px; background: #f8e6db; color: var(--color-primary-dark); font-size: 11px; }.route-field .location-input-actions .location-action { background: #241a16; color: #fff; }.location-suggestions { position: absolute; z-index: 50; top: calc(100% + 5px); right: 0; left: 0; display: grid !important; max-height: 250px; overflow-y: auto; border: 1px solid var(--color-border); border-radius: 12px; background: #fff; box-shadow: 0 12px 28px rgba(37,25,18,.22); }.location-suggestions p { margin: 0; padding: 12px; color: var(--color-muted); font-size: 12px; }.route-field .location-suggestions button { display: flex; gap: 8px; align-items: flex-start; border-radius: 0; padding: 10px 12px; background: #fff; color: var(--color-text); text-align: left; white-space: normal; }.route-field .location-suggestions button:hover { background: #fff4ed; }.location-suggestions button span { flex: 0 0 auto; }.location-suggestions button strong { font-size: 12px; font-weight: 650; line-height: 1.4; }.route-categories button.active { background: var(--color-primary-dark); color: #fff; }
+
+/* Nút chọn vị trí nằm cạnh input trong cùng một hàng. */
+.route-field { min-width: 0; }
+.route-field .location-input-row { display: flex; flex-wrap: nowrap; align-items: center; gap: 4px; }
+.location-input-row > input { flex: 1 1 0; width: 0; min-width: 0; }
+.route-field .location-input-row > .location-input-actions { flex: 0 0 auto; flex-wrap: nowrap; align-items: center; gap: 4px; padding: 5px 6px 5px 0; border-radius: 0 12px 12px 0; }
+.route-field .location-input-actions button { min-height: 34px; white-space: nowrap; }
+@media (min-width: 1101px) {
+  .route-form { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) auto; }
+}
+@media (max-width: 1100px) {
+  .route-form { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 480px) {
+  .route-hero { padding: 20px 14px; }
+  .route-form { padding: 10px; }
+  .route-field .location-input-row > .location-input-actions { flex: 0 1 auto; max-width: 62%; }
+  .route-field .location-input-actions button { flex: 1 1 0; min-width: 0; min-height: 44px; padding: 5px 6px; white-space: normal; font-size: 10px; line-height: 1.35; }
+  .location-input-row > input { padding: 0 8px; font-size: 13px; }
+}
 
 /* Avatar dropdown và trang thông tin tài khoản. */
 .avatar-dropdown { position: relative; }.header-login { border: 0; border-radius: var(--radius-full); padding: 9px 14px; background: var(--color-primary-dark); color: #fff; font-size: 12px; font-weight: 850; }.avatar-menu { position: absolute; z-index: 80; top: calc(100% + 9px); right: 0; width: 258px; overflow: hidden; border: 1px solid var(--color-border); border-radius: 15px; background: #fff; box-shadow: 0 18px 42px rgba(55,34,22,.18); }.avatar-menu header { display: grid; gap: 4px; padding: 14px 15px; border-bottom: 1px solid var(--color-border); }.avatar-menu header strong { overflow: hidden; color: var(--color-text); font-size: 14px; text-overflow: ellipsis; white-space: nowrap; }.avatar-menu header span { color: var(--color-muted); font-size: 12px; }.avatar-menu-items, .avatar-menu-logout { padding: 5px 0; }.avatar-menu-logout { border-top: 1px solid var(--color-border); }.avatar-menu button { display: flex; width: 100%; gap: 10px; align-items: center; border: 0; background: transparent; padding: 10px 14px; color: var(--color-text); text-align: left; font-size: 13px; }.avatar-menu button:hover:not(:disabled) { background: #faf4ef; }.avatar-menu button:disabled { cursor: not-allowed; opacity: .45; }.avatar-menu button > b { flex: 1; font-weight: 700; }.avatar-menu button > em { border-radius: var(--radius-full); padding: 3px 7px; background: var(--color-primary-soft); color: var(--color-primary-dark); font-size: 9px; font-style: normal; font-weight: 800; }.avatar-menu button.danger { color: #ad322a; }.profile-page { width: min(620px, calc(100% - 32px)); margin: 48px auto 80px; }.profile-card { padding: clamp(23px, 5vw, 38px); border: 1px solid var(--color-border); border-radius: 22px; background: #fff; box-shadow: var(--shadow); }.profile-card > p { margin: 0 0 10px; color: var(--color-primary); font-size: 11px; font-weight: 900; letter-spacing: .15em; }.profile-card h1 { margin: 0; color: var(--color-text); font-family: Georgia, "Times New Roman", serif; font-size: 36px; }.profile-avatar { display: grid; width: 66px; height: 66px; place-items: center; margin: 25px 0; border-radius: 50%; background: var(--color-brown); color: #fff; font-size: 20px; font-weight: 900; }.profile-rows { border-top: 1px solid var(--color-border); }.profile-rows div { display: flex; justify-content: space-between; gap: 24px; padding: 14px 0; border-bottom: 1px solid var(--color-border); }.profile-rows span { color: var(--color-muted); font-size: 13px; }.profile-rows strong { color: var(--color-text); font-size: 13px; text-align: right; }.profile-card > small { display: block; margin-top: 20px; color: var(--color-muted); line-height: 1.55; }
@@ -191,6 +240,32 @@ a { color: inherit; text-decoration: none; }
 
 /* Tiêu đề Hero luôn giữ một dòng; cỡ chữ tự co ở màn hình hẹp. */
 .route-hero-copy h1 { white-space: nowrap; font-size: clamp(20px, 6vw, 74px); }
+.route-hero-copy { max-width: 100%; min-width: 0; }
+.route-hero-copy > span { max-width: 100%; white-space: nowrap; overflow-x: auto; padding-bottom: 4px; }
+
+.rb-page-heading { display: flex; justify-content: space-between; align-items: start; gap: 16px; }
+.rb-page-heading > button { flex: 0 0 auto; }
+.rb-commerce-page .rb-saved-cart { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 16px; align-items: center; }
+.rb-commerce-page .rb-saved-cart .rb-food-thumbnail { width: 64px; height: 64px; }
+.rb-saved-cart h2 { margin: 0 0 6px; font-size: 17px; overflow-wrap: anywhere; }
+.rb-saved-cart p { margin: 0; color: var(--color-muted); font-size: 14px; }
+.rb-danger-button { border: 0; border-radius: var(--radius-full); padding: 8px 14px; background: rgba(179,38,30,.1); color: var(--color-danger); font-weight: 700; }
+.rb-danger-button:disabled { opacity: .5; cursor: wait; }
+.rb-order-card > .rb-danger-button { margin-top: 12px; }
+.rb-order-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+.rb-order-filters button { border: 0; padding: 8px 16px; border-radius: var(--radius-full); background: var(--color-primary-soft); color: var(--color-text); font-weight: 700; }
+.rb-order-filters button[aria-pressed="true"] { background: var(--color-accent-dark); color: #fff; }
+.rb-clickable-order { cursor: pointer; }
+.rb-clickable-order:hover { border-color: var(--color-primary); }
+.avatar-menu { width: min(288px, calc(100vw - 32px)); }
+.avatar-menu header { padding: 16px 20px; }
+.avatar-menu button { padding: 12px 20px; font-weight: 500; }
+.rb-password-dialog { width: min(440px, calc(100% - 32px)); max-height: calc(100vh - 32px); margin: auto; overflow-y: auto; border: 0; border-radius: 20px; padding: 24px; background: #fff; color: var(--color-text); box-shadow: var(--shadow); }
+.rb-password-dialog::backdrop { background: rgba(43,35,32,.5); }
+.rb-password-dialog h2 { margin: 0 0 20px; }
+.rb-dialog-actions { display: flex; gap: 12px; }
+.rb-dialog-actions button { flex: 1; }
+.rb-pickup-due { color: var(--color-success); }
 
 /* Ba trang mua hàng dùng cùng card, ảnh và bộ chọn số lượng. */
 .app-page.rb-commerce-page { width: min(1060px, calc(100% - 32px)); max-width: none; margin: 32px auto 80px; }
@@ -217,6 +292,7 @@ a { color: inherit; text-decoration: none; }
 .rb-quantity-stepper button:focus-visible, .rb-quantity-add:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 3px; }
 .rb-commerce-page .rb-restaurant-intro { display: grid; grid-template-columns: 110px minmax(0, 1fr) auto; align-items: center; gap: 20px; margin-top: 16px; padding: 24px; }
 .rb-commerce-page .rb-restaurant-image { width: 110px; height: 110px; }
+.rb-commerce-page.rb-menu-page .rb-product-row > .rb-food-thumbnail { width: 72px; height: 72px; }
 .rb-restaurant-intro p { color: var(--color-muted); line-height: 1.5; }
 .rb-pickup-choice { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .rb-pickup-choice label { font-weight: 700; }
@@ -229,6 +305,16 @@ a { color: inherit; text-decoration: none; }
 .rb-commerce-page .rb-cart-row { grid-template-columns: 56px minmax(0, 1fr) auto; padding: 16px 0; border-top: 1px solid var(--color-border); }
 .rb-commerce-page .rb-cart-row .rb-food-thumbnail, .rb-commerce-page .rb-order-heading .rb-food-thumbnail { width: 56px; height: 56px; border-radius: 8px; }
 .rb-cart-summary { position: sticky; top: 90px; }
+.rb-route-summary { min-width: 0; padding: 0 0 20px; margin-bottom: 20px; border-bottom: 1px solid var(--color-border); }
+.rb-route-summary h2 { margin: 0 0 18px; color: var(--color-primary); font-size: 12px; letter-spacing: .06em; }
+.rb-route-timeline { margin: 0 0 18px; padding: 0; list-style: none; }
+.rb-route-timeline li { position: relative; margin-left: 5px; padding: 0 0 22px 22px; border-left: 2px solid var(--color-border); overflow-wrap: anywhere; font-size: 14px; }
+.rb-route-timeline li:last-child { padding-bottom: 0; border-left-color: transparent; }
+.rb-route-timeline li::before { content: ''; position: absolute; left: -6px; top: 3px; width: 10px; height: 10px; border-radius: 50%; background: var(--color-muted); }
+.rb-route-timeline li:last-child::before { background: var(--color-primary); }
+.rb-route-label { display: block; color: var(--color-muted); font-size: 12px; margin-bottom: 5px; }
+.rb-route-timeline p { margin: 5px 0 0; color: var(--color-muted); line-height: 1.5; }
+.rb-route-directions { display: block; padding: 12px; border-radius: var(--radius-full); background: var(--color-primary-soft); color: var(--color-accent-dark); font-size: 13px; font-weight: 700; text-align: center; }
 .rb-cart-total { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .rb-cart-total h2 { margin-bottom: 4px; }
 .rb-cart-total span { color: var(--color-muted); font-size: 13px; }

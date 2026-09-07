@@ -5,6 +5,7 @@
   "scripts": {
     "build": "esbuild src/entry.jsx --bundle --outfile=app.js --format=iife --jsx=automatic",
     "test:commerce": "node tests/commerce.smoke.mjs",
+    "test:saved-carts": "node tests/saved-carts.smoke.mjs",
     "dev": "node server.js",
     "start": "node server.js"
   },
@@ -12,7 +13,8 @@
     "esbuild": "^0.28.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
-    "react-router-dom": "^7.18.3"
+    "react-router-dom": "^7.18.3",
+    "socket.io-client": "^4.8.3"
   },
   "devDependencies": {
     "playwright": "^1.63.0"

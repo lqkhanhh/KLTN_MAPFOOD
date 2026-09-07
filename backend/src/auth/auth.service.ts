@@ -1,10 +1,10 @@
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
 import { Repository } from 'typeorm';
 import { User, UserRole } from '../database/entities/user.entity';
-import { LoginDto, RegisterDto } from './dto';
+import { ChangePasswordDto, LoginDto, RegisterDto } from './dto';
 
 @Injectable()
 export class AuthService {
@@ -55,10 +55,25 @@ export class AuthService {
 
   async upgradeToMerchant(userId: string) {
     const user = await this.users.findOneByOrFail({ id: userId });
-    if (user.role === UserRole.ADMIN) return this.tokens(user);
-    user.role = UserRole.MERCHANT;
-    await this.users.save(user);
-    return this.tokens(user);
+    if (user.role === UserRole.ADMIN || user.role === UserRole.MERCHANT) return this.tokens(user);
+    throw new ForbiddenException('Vui lòng nộp hồ sơ đăng ký đối tác và chờ Admin phê duyệt.');
+  }
+
+  async changePassword(userId: string, dto: ChangePasswordDto) {
+    const user = await this.users.findOneBy({ id: userId });
+    if (!user) throw new UnauthorizedException('Tài khoản không còn tồn tại');
+    if (!user.passwordHash || !(await bcrypt.compare(dto.oldPassword, user.passwordHash))) {
+      throw new BadRequestException('Mật khẩu hiện tại không đúng');
+    }
+    if (dto.oldPassword === dto.newPassword) throw new BadRequestException('Mật khẩu mới phải khác mật khẩu hiện tại');
+    if (Buffer.byteLength(dto.newPassword, 'utf8') > 72) throw new BadRequestException('Mật khẩu mới vượt giới hạn 72 byte');
+    // Kiểm tra hash khi ghi để hai yêu cầu đồng thời không ghi đè mật khẩu mới.
+    const result = await this.users.update({ id: userId, passwordHash: user.passwordHash }, {
+      passwordHash: await bcrypt.hash(dto.newPassword, 10),
+      refreshTokenHash: '',
+    });
+    if (result.affected !== 1) throw new ConflictException('Mật khẩu đã thay đổi. Vui lòng thử lại.');
+    return { message: 'Đổi mật khẩu thành công!' };
   }
 
   private async tokens(user: User) {

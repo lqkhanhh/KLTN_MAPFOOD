@@ -16,6 +16,9 @@
       window.ROUTEBITE_CONFIG = {
         apiBase: 'http://127.0.0.1:3000/api',
         googleClientId: '',
+        // Hai giá trị công khai cho upload unsigned. Không đặt API secret ở đây.
+        cloudinaryCloudName: 'iqoldsbm',
+        cloudinaryUploadPreset: 'Routebite',
       };
     </script>
     <style>
@@ -592,6 +595,8 @@
       .saved-cart-delete { background: #fff0ed; color: #b83a2b; }
     </style>
     <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="/merchant.css" />
+    <link rel="stylesheet" href="/admin.css" />
   </head>
   <body>
     <div id="root"></div>

@@ -64,7 +64,7 @@ export class OrdersController {
 
   @Patch(':id/status')
   @UseGuards(RolesGuard)
-  @Roles(UserRole.MERCHANT, UserRole.ADMIN)
+  @Roles(UserRole.CUSTOMER, UserRole.MERCHANT, UserRole.ADMIN)
   @ApiOperation({ summary: 'Merchant cập nhật trạng thái xử lý đơn' })
   @ApiOkResponse({ description: 'Đơn sau khi chuyển trạng thái' })
   @ApiConflictResponse({ description: 'Bước chuyển trạng thái không hợp lệ' })

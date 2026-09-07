@@ -4,6 +4,8 @@ import { AuthModule } from '../auth/auth.module';
 import { OrdersModule } from '../orders/orders.module';
 import { PaymentsController } from './payments.controller';
 import { PaymentsService } from './payments.service';
+import { NotificationsModule } from '../notifications/notifications.module';
+import { UnavailablePaymentProvider } from './providers/unavailable.provider';
 import {
   PaymentProvider,
 } from '../database/entities';
@@ -13,7 +15,7 @@ import {
 } from './providers';
 
 @Module({
-  imports: [AuthModule, OrdersModule],
+  imports: [AuthModule, OrdersModule, NotificationsModule],
   controllers: [PaymentsController],
   providers: [
     PaymentsService,
@@ -23,6 +25,7 @@ import {
       useFactory: (config: ConfigService) => {
         const provider = config.get<string>('PAYMENT_PROVIDER', PaymentProvider.VNPAY).toUpperCase();
         if (provider === PaymentProvider.VNPAY) return new VnpayProvider(config);
+        if (provider === PaymentProvider.VIETQR || provider === PaymentProvider.PAYOS) return new UnavailablePaymentProvider(provider);
         throw new Error('PAYMENT_PROVIDER must be VNPAY');
       },
     },

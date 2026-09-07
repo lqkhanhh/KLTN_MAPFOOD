@@ -35,6 +35,8 @@ export interface VerifiedPaymentWebhook {
 
 export interface PaymentProviderAdapter {
   readonly provider: PaymentProvider;
+  validateConfiguration?(): void;
+  canReuseCheckout?(checkoutUrl: string): boolean;
   createPayment(request: CreateProviderPaymentRequest): Promise<CreateProviderPaymentResult>;
   verifyWebhook(payload: unknown): Promise<VerifiedPaymentWebhook>;
 }

@@ -1,0 +1,3 @@
+#!/bin/sh
+# Kiểm tra HEAD trước khi push; lịch sử cũ cần kiểm tra/xử lý riêng.
+node scripts/check-git-secrets.cjs --head

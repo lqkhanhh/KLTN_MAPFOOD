@@ -5,9 +5,10 @@ import { AuthModule } from '../auth/auth.module';
 import { OrdersService } from './orders.service';
 import { OrdersController } from './orders.controller';
 import { OrdersGateway } from './gateway/orders.gateway';
+import { NotificationsModule } from '../notifications/notifications.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Order, Restaurant]), AuthModule],
+  imports: [TypeOrmModule.forFeature([Order, Restaurant]), AuthModule, NotificationsModule],
   providers: [OrdersService, OrdersGateway],
   controllers: [OrdersController],
   exports: [OrdersService, OrdersGateway],

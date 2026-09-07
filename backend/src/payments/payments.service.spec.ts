@@ -108,6 +108,7 @@ describe('PaymentsService', () => {
       ordersService as unknown as OrdersService,
       gateway as unknown as OrdersGateway,
       provider,
+      { create: jest.fn(), publish: jest.fn() } as never,
     );
   });
 

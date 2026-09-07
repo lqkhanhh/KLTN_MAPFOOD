@@ -71,6 +71,13 @@ export class OrdersGateway implements OnGatewayConnection {
     return { ok: true, payload: this.payload(order) };
   }
 
+  @SubscribeMessage('order.unsubscribe')
+  async unsubscribeOrder(@ConnectedSocket() client: AuthenticatedSocket, @MessageBody() body: unknown) {
+    const id = this.readId(body, 'orderId');
+    if (id) await client.leave(this.orderRoom(id));
+    return { ok: true };
+  }
+
   @SubscribeMessage('merchant.subscribe')
   async subscribeMerchant(
     @ConnectedSocket() client: AuthenticatedSocket,

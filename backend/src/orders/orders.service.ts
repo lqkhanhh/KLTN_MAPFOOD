@@ -22,6 +22,7 @@ import {
 } from '../database/entities';
 import { CreateOrderDto, ListOrdersQueryDto } from './dto';
 import { OrdersGateway } from './gateway/orders.gateway';
+import { NotificationsService } from '../notifications/notifications.service';
 
 export const ORDER_STATUS_TRANSITIONS: Readonly<Record<OrderStatus, readonly OrderStatus[]>> = {
   [OrderStatus.PENDING]: [OrderStatus.CONFIRMED, OrderStatus.CANCELLED],
@@ -39,13 +40,14 @@ export class OrdersService {
   constructor(
     private readonly dataSource: DataSource,
     private readonly gateway: OrdersGateway,
+    private readonly notifications: NotificationsService,
   ) {}
 
   async create(dto: CreateOrderDto, user: AuthenticatedUser) {
     const itemRequests = dto.items ?? [];
     const pickup = this.resolvePickupOption(dto);
 
-    const orderId = await this.dataSource.transaction(async (manager) => {
+    const result = await this.dataSource.transaction(async (manager) => {
       const restaurant = await manager.findOne(Restaurant, {
         where: { id: dto.restaurantId },
         lock: { mode: 'pessimistic_read' },
@@ -118,10 +120,15 @@ export class OrdersService {
         note: this.cleanOptionalText(dto.note),
         items: snapshots,
       });
-      return (await manager.save(Order, order)).id;
+      const saved = await manager.save(Order, order);
+      const notification = saved.paymentMethod === OrderPaymentMethod.CASH
+        ? await this.notifications.create(restaurant.ownerId, 'Bạn có đơn hàng mới', `Đơn ${saved.orderCode} đang chờ xác nhận.`, { orderId: saved.id, type: 'order_created' }, manager)
+        : undefined;
+      return { orderId: saved.id, notification };
     });
 
-    const created = await this.findEntity(orderId);
+    this.notifications.publish(result.notification);
+    const created = await this.findEntity(result.orderId);
     // Tiền mặt cần báo quán ngay; VNPAY chỉ báo đơn mới sau callback thanh toán hợp lệ.
     if (created.paymentMethod === OrderPaymentMethod.CASH) this.gateway.emitCreated(created);
     return this.toPublicOrder(created);
@@ -146,7 +153,7 @@ export class OrdersService {
 
     const orders = await this.dataSource.getRepository(Order).find({
       where,
-      relations: { items: true, payments: true, review: true, restaurant: true },
+      relations: { items: { menuItem: true }, payments: true, review: true, restaurant: true },
       order: { createdAt: 'DESC' },
     });
     return orders.map((order) => this.toPublicOrder(order));
@@ -173,7 +180,14 @@ export class OrdersService {
       if (!order) throw new NotFoundException('Không tìm thấy đơn hàng');
       const restaurant = await manager.findOneBy(Restaurant, { id: order.restaurantId });
       if (!restaurant) throw new NotFoundException('Không tìm thấy quán');
-      if (user.role !== UserRole.ADMIN && restaurant.ownerId !== user.sub) {
+      if (user.role === UserRole.CUSTOMER) {
+        if (order.userId !== user.sub || nextStatus !== OrderStatus.CANCELLED) {
+          throw new ForbiddenException('Bạn chỉ được hủy đơn hàng của mình');
+        }
+        if (order.status !== OrderStatus.PENDING) {
+          throw new ConflictException('Chỉ được hủy khi đơn đang chờ xác nhận');
+        }
+      } else if (user.role !== UserRole.ADMIN && (user.role !== UserRole.MERCHANT || restaurant.ownerId !== user.sub)) {
         throw new ForbiddenException('Bạn không quản lý quán của đơn hàng này');
       }
       if (order.status === nextStatus) return { orderId: order.id, changed: false };
@@ -190,10 +204,16 @@ export class OrdersService {
       order.statusUpdatedAt = new Date();
       order.statusUpdatedById = user.sub;
       await manager.save(Order, order);
-      return { orderId: order.id, changed: true };
+      const messages: Partial<Record<OrderStatus, string>> = {
+        CONFIRMED: 'Đơn hàng của bạn đã được xác nhận', PREPARING: 'Quán đang chuẩn bị món cho bạn',
+        READY: 'Món của bạn đã sẵn sàng, mời ghé lấy!', CANCELLED: 'Đơn hàng của bạn đã bị hủy', COMPLETED: 'Đơn hàng đã hoàn tất, cảm ơn bạn!',
+      };
+      const notification = await this.notifications.create(order.userId, 'Cập nhật đơn hàng', `${messages[nextStatus]} · ${order.orderCode}`, { orderId: order.id, type: 'order_status', status: nextStatus }, manager);
+      return { orderId: order.id, changed: true, notification };
     });
 
     const updated = await this.findEntity(result.orderId);
+    if ('notification' in result) this.notifications.publish(result.notification);
     if (result.changed) this.gateway.emitStatusUpdated(updated);
     return this.toPublicOrder(updated);
   }
@@ -201,7 +221,7 @@ export class OrdersService {
   async findEntity(id: string) {
     const order = await this.dataSource.getRepository(Order).findOne({
       where: { id },
-      relations: { items: true, payments: true, review: true, restaurant: true },
+      relations: { items: { menuItem: true }, payments: true, review: true, restaurant: true },
     });
     if (!order) throw new NotFoundException('Không tìm thấy đơn hàng');
     return order;
@@ -216,6 +236,7 @@ export class OrdersService {
         id: order.restaurant.id,
         name: order.restaurant.name,
         address: order.restaurant.address,
+        imageUrl: order.restaurant.imageUrl,
       },
       pickupType: order.pickupType,
       estimatedPickupMinutes: order.estimatedPickupMinutes,
@@ -234,6 +255,7 @@ export class OrdersService {
         id: item.id,
         menuItemId: item.menuItemId,
         itemName: item.itemName,
+        imageUrl: item.menuItem?.imageUrl || null,
         unitPrice: item.unitPrice,
         quantity: item.quantity,
         lineTotal: item.lineTotal,
@@ -259,6 +281,7 @@ export class OrdersService {
           }
         : null,
       statusUpdatedAt: order.statusUpdatedAt,
+      statusUpdatedById: order.statusUpdatedById,
       createdAt: order.createdAt,
       updatedAt: order.updatedAt,
     };

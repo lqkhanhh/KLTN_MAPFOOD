@@ -72,7 +72,7 @@ try {
   await page.getByRole('button', { name: 'Giảm Cơm tấm sườn', exact: true }).click();
   await page.getByRole('button', { name: 'Giảm Cơm tấm sườn', exact: true }).click();
   await page.getByRole('button', { name: 'Thêm Cơm tấm sườn', exact: true }).waitFor();
-  assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('routebite_cart'))), []);
+  assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('routebite_saved_carts_v1'))), []);
   await page.clock.install({ time: instant });
   await page.goto('http://127.0.0.1:4173/my-orders', { waitUntil: 'domcontentloaded' });
   await text(card('pending').locator('.rb-order-status'), 'Chờ xác nhận');
