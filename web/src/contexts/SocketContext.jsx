@@ -17,14 +17,16 @@ export function SocketProvider({ children }) {
   }, []);
   useEffect(() => {
     if (!token) { setConnections({}); return; }
-    // Hai namespace dùng chung một Manager/transport; không tạo kết nối mới theo trang.
+    // Các namespace dùng chung transport; chat duy trì hộp thư kể cả khi đóng drawer.
     const manager = new Manager(new URL(API_BASE).origin, { autoConnect: false });
     const orders = manager.socket('/orders', { auth: { token } });
     const notifications = manager.socket('/notifications', { auth: { token } });
-    setConnections({ orders, notifications, token });
+    const chat = manager.socket('/chat', { auth: { token } });
+    setConnections({ orders, notifications, chat, token });
     orders.connect(); notifications.connect();
-    return () => { orders.disconnect(); notifications.disconnect(); };
-  }, [token, revision]);
+    if (['customer', 'merchant'].includes(currentUser?.role)) chat.connect();
+    return () => { orders.disconnect(); notifications.disconnect(); chat.disconnect(); };
+  }, [token, revision, currentUser?.role]);
   return <SocketContext.Provider value={connections.token === token ? connections : {}}>{children}</SocketContext.Provider>;
 }
 export function useSockets() { return useContext(SocketContext); }

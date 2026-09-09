@@ -8,6 +8,7 @@ import AvatarDropdown from './components/AvatarDropdown';
 import { request, TOKEN_KEY } from './api';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { OrderStatusBadge } from './components/OrderStatusBadge';
+import { PlacedOrderConfirmation } from './components/PlacedOrderConfirmation';
 import { PickupCountdown } from './components/PickupCountdown';
 import { QuantityStepper } from './components/QuantityStepper';
 import { FoodThumbnail } from './components/FoodThumbnail';
@@ -20,9 +21,18 @@ import { CartProvider, useCart } from './contexts/CartContext';
 import { MyCartsPage } from './pages/MyCartsPage';
 import { OrderDetailPage } from './pages/OrderDetailPage';
 import { ExplorePage } from './pages/ExplorePage';
+import { MyFavoritesPage } from './pages/MyFavoritesPage';
+import { ReviewModal } from './components/ReviewModal';
+import { ReviewsSection } from './components/ReviewsSection';
+import { ShareRestaurantButton } from './components/ShareRestaurantButton';
+import { MerchantReviewsPage } from './pages/merchant/MerchantReviewsPage';
+import { FavoritesProvider } from './contexts/FavoritesContext';
 import { SocketProvider } from './contexts/SocketContext';
 import { NotificationsProvider } from './contexts/NotificationsContext';
 import { NotificationBell } from './components/NotificationBell';
+import { ChatBell } from './components/ChatBell';
+import { AiSupportWidget } from './components/AiSupportWidget';
+import { ChatInboxProvider } from './contexts/ChatInboxContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { MerchantProvider } from './contexts/MerchantContext';
 import { MerchantLayout } from './layouts/MerchantLayout';
@@ -36,8 +46,11 @@ import { AdminRestaurantsPage } from './pages/admin/AdminRestaurantsPage';
 import { AdminUsersPage } from './pages/admin/AdminUsersPage';
 import { AdminMerchantApplicationsPage } from './pages/admin/AdminMerchantApplicationsPage';
 import { PartnerRegistrationPage } from './pages/partner/PartnerRegistrationPage';
+import { MyPointsPage } from './pages/MyPointsPage';
+import { AdminVouchersPage } from './pages/admin/AdminVouchersPage';
+import { useCheckoutVouchers, voucherTerms } from './loyalty';
+import { usePublicRestaurant } from './hooks/usePublicRestaurant';
 const formatMoney = (value) => `${Number(value || 0).toLocaleString('vi-VN')}đ`;
-const demoMenu = { id: 'mock-com-tam', name: 'Cơm Tấm Mẫu', address: 'Quận 1, TP. Hồ Chí Minh', rating: 4.8, menuItems: [{ id: 'demo-com-tam', name: 'Cơm tấm sườn bì chả', description: 'Sườn nướng, bì, chả trứng và đồ chua', price: 60000, available: true }, { id: 'demo-tra-dao', name: 'Trà đào cam sả', description: 'Ly mát lạnh', price: 25000, available: true }] };
 
 function Header() {
   const { carts } = useCart();
@@ -55,7 +68,7 @@ function Header() {
         {item.label}
       </NavLink>)}
     </nav>
-    <div className="account-menu"><NotificationBell /><AvatarDropdown /></div>
+    <div className="account-menu"><NotificationBell /><ChatBell /><AvatarDropdown /></div>
   </header>;
 }
 
@@ -65,25 +78,10 @@ function RestaurantMenu() {
   const origin = readRouteOrigin(params);
   const navigate = useNavigate();
   const { cart, add, change } = useCart();
-  const [restaurant, setRestaurant] = useState(null);
-  const [error, setError] = useState('');
+  const { restaurant, error } = usePublicRestaurant(id);
   const [pickup, setPickup] = useState('15');
 
-  useEffect(() => {
-    let active = true;
-    setError('');
-    setRestaurant(null);
-    if (id.startsWith('mock-')) {
-      setRestaurant({ ...demoMenu, id });
-    } else {
-      request('/restaurants/' + id, { authorized: false })
-        .then((data) => { if (active) setRestaurant(data); })
-        .catch((e) => { if (active) setError(e.message); });
-    }
-    return () => { active = false; };
-  }, [id]);
-
-  if (error) return <Page title="Không mở được menu">{error}</Page>;
+  if (error) return <Page title="Không mở được menu"><p role="alert">{error}</p><Link to="/kham-pha">Khám phá quán khác</Link></Page>;
   if (!restaurant) return <Page title="Menu quán">Đang tải menu…</Page>;
   const menu = (restaurant.menuItems || []).filter((item) => item.available);
   const selected = cart.filter((item) => item.restaurantId === restaurant.id);
@@ -94,7 +92,10 @@ function RestaurantMenu() {
     <section className="item-card rb-restaurant-intro">
       <FoodThumbnail src={restaurant.imageUrl} name={restaurant.name} className="rb-restaurant-image" />
       <div><p className="rb-eyebrow">GHÉ LẤY MANG ĐI</p><h1>{restaurant.name}</h1><p>{restaurant.address}</p><span>⭐ {restaurant.rating || 'Mới'}</span></div>
-      <a className="btn secondary" target="_blank" rel="noreferrer" href={'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(restaurant.address)}>Chỉ đường</a>
+      <div className="rb-restaurant-actions">
+        <a className="btn secondary" target="_blank" rel="noreferrer" href={'https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(restaurant.address)}>Chỉ đường</a>
+        <ShareRestaurantButton key={restaurant.id} restaurantId={restaurant.id} restaurantName={restaurant.name} />
+      </div>
     </section>
     <section className="item-card rb-pickup-choice">
       <label htmlFor="menu-pickup">Thời gian ghé lấy</label>
@@ -111,31 +112,26 @@ function RestaurantMenu() {
           onDecrease={() => change(restaurant.id, item.id, -1)} />
       </article>) : <div className="item-card rb-empty">Quán chưa có món đang bán.</div>}
     </section>
+    <ReviewsSection key={restaurant.id} embeddedReviews={restaurant.reviews} />
     <Link className="rb-menu-cart" to={'/restaurants/' + restaurant.id + '/cart' + routeQuery(origin)}><span>Xem giỏ hàng · {count} món</span><strong>{formatMoney(total)}</strong></Link>
   </main>;
 }
 
 function CartPage() {
+  const { currentUser } = useAuth();
   const navigate = useNavigate();
   const { id } = useParams();
   const { carts, change, clear, rememberOrigin } = useCart();
   const [params] = useSearchParams();
   const savedCart = carts.find((entry) => entry.restaurantId === id);
   const cart = savedCart?.items || [];
-  const [restaurant, setRestaurant] = useState(null);
+  const { restaurant, error: restaurantError, loading: restaurantLoading } = usePublicRestaurant(id, !!savedCart);
   useEffect(() => {
     const origin = readRouteOrigin(params);
     if (origin) rememberOrigin(id, origin);
   }, [id, params, rememberOrigin]);
-  useEffect(() => {
-    let active = true;
-    setRestaurant(null);
-    // Giỏ cũ chưa có tọa độ/địa chỉ: lấy thông tin quán, giữ nguyên các món đã lưu.
-    if (savedCart && !savedCart.destination) request('/restaurants/' + id, { authorized: false })
-      .then((data) => { if (active) setRestaurant(data); }).catch(() => {});
-    return () => { active = false; };
-  }, [id, !!savedCart, savedCart?.destination]);
   const [createdOrder, setCreatedOrder] = useState(null);
+  const showConfirmation = createdOrder && createdOrder.checkoutRestaurantId === id && createdOrder.checkoutUserId === currentUser?.id;
   const routeEta = Math.max(1, Number(localStorage.getItem('routebite_route_eta_minutes')) || 15);
   const [method, setMethod] = usePaymentMethod();
   const [pickupType, setPickupType] = useState('asap');
@@ -144,11 +140,13 @@ function CartPage() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const total = cart.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
+  const vouchers = useCheckoutVouchers(total, id);
+  const payable = total - vouchers.discount;
   const count = cart.reduce((sum, item) => sum + item.quantity, 0);
   const minuteOptions = [...new Set([routeEta, Number(minutes), 15, 30, 45])];
 
   async function checkout() {
-    if (!cart.length || busy) return;
+    if (!cart.length || busy || restaurantLoading || restaurantError) return;
     if (!localStorage.getItem(TOKEN_KEY)) return navigate('/login');
     setBusy(true);
     setMessage('');
@@ -163,17 +161,17 @@ function CartPage() {
       const order = await request('/orders', {
         method: 'POST',
         body: validateOrderPayload({ restaurantId: cart[0].restaurantId, pickupOption, payment: { method },
+          ...(vouchers.selected ? { userVoucherId: vouchers.selected.id } : {}),
           items: cart.map((item) => ({ menuItemId: item.id, quantity: item.quantity })) }),
       });
-      setCreatedOrder(order);
+      setCreatedOrder({ paymentMethod: method, ...order, checkoutRestaurantId: id, checkoutUserId: currentUser?.id });
       clear(id);
-      if (method === 'vnpay') {
+      if (method === 'vnpay' && order.totalAmount !== 0) {
         const payment = await request('/payments/create', { method: 'POST', body: { orderId: order.id } });
         if (!payment.checkoutUrl) throw new Error('Không tạo được liên kết thanh toán VNPAY');
         window.location.assign(payment.checkoutUrl);
         return;
       }
-      setMessage('Đơn ' + order.orderCode + ' đã đặt. Thanh toán tiền mặt khi ghé lấy.');
     } catch (e) { setMessage(e.message); }
     finally { setBusy(false); }
   }
@@ -181,6 +179,9 @@ function CartPage() {
   return <main className="app-page rb-commerce-page rb-cart-page">
     <Link className="back-link" to="/my-carts">← Giỏ hàng của tôi</Link><div className="page-intro"><p className="rb-eyebrow">GIỎ HÀNG</p><h1>Ghé lấy mang đi</h1><p>Kiểm tra món, chọn giờ lấy và phương thức thanh toán.</p></div>
     {message && <p className="item-card rb-feedback" role="status">{message}</p>}
+    {!!savedCart && restaurantError && <p className="item-card rb-feedback" role="alert">{restaurantError} Giỏ hàng được giữ lại; bạn có thể quay lại chọn quán khác.</p>}
+    {!!savedCart && restaurantLoading && <p role="status">Đang kiểm tra trạng thái quán…</p>}
+    {showConfirmation && <PlacedOrderConfirmation key={createdOrder.id + ':' + currentUser?.id} initialOrder={createdOrder} />}
     {cart.length ? <div className="rb-cart-layout">
       <section className="item-card rb-cart-items"><h2>{cart[0].restaurantName || 'Món đã chọn'}</h2>
         {cart.map((item) => <article className="rb-product-row rb-cart-row" key={item.id}>
@@ -193,7 +194,16 @@ function CartPage() {
       <aside className="item-card rb-cart-summary">
         <RouteSummaryCard restaurantName={savedCart.restaurantName} restaurantAddress={savedCart.restaurantAddress || restaurant?.address}
           destination={savedCart.destination || restaurantPoint(restaurant)} origin={savedCart.routeOrigin} />
-        <div className="rb-cart-total"><div><h2>Tổng cộng</h2><span>{count} món</span></div><strong>{formatMoney(total)}</strong></div>
+        {vouchers.enabled && <div className="rb-checkout-voucher"><label htmlFor="checkout-voucher">Voucher giảm giá</label>
+          <select id="checkout-voucher" value={vouchers.selectedId} disabled={busy || vouchers.loading} onChange={(e) => vouchers.setSelectedId(e.target.value)}>
+            <option value="">{vouchers.loading ? 'Đang tải voucher…' : 'Không dùng voucher'}</option>
+            {vouchers.available.map((row) => <option key={row.id} value={row.id} disabled={total < row.voucher.minOrderAmount}>{row.voucher.title} · {voucherTerms(row.voucher)}</option>)}
+          </select><Link to="/my-points">Đổi xu / Nhận voucher</Link>
+          {vouchers.error && <p role="status">{vouchers.error} <button type="button" disabled={busy} onClick={vouchers.retry}>Thử lại</button></p>}
+          {vouchers.selected && <small>Voucher sẽ được dùng khi tạo đơn thành công, không tự hoàn khi hủy.</small>}
+        </div>}
+        {vouchers.discount > 0 && <><div className="rb-discount-row"><span>Tạm tính</span><span>{formatMoney(total)}</span></div><div className="rb-discount-row saving"><span>Giảm voucher</span><strong>−{formatMoney(vouchers.discount)}</strong></div></>}
+        <div className="rb-cart-total"><div><h2>Tổng cộng</h2><span>{count} món</span></div><strong>{formatMoney(payable)}</strong></div>
         <fieldset><legend>Giờ lấy hàng</legend>
           <label><input name="pickup-type" type="radio" disabled={busy} checked={pickupType === 'asap'} onChange={() => setPickupType('asap')} /> Lấy sớm nhất</label>
           {pickupType === 'asap' && <select aria-label="Thời gian lấy món" disabled={busy} value={minutes} onChange={(e) => setMinutes(Number(e.target.value))}>
@@ -203,11 +213,11 @@ function CartPage() {
           {pickupType === 'scheduled' && <input aria-label="Giờ hẹn lấy món" type="datetime-local" disabled={busy} value={scheduledTime} onChange={(e) => setScheduledTime(e.target.value)} required />}
         </fieldset>
         <PaymentMethodSelector value={method} onChange={setMethod} disabled={busy} />
-        <button type="button" className="rb-checkout-button" disabled={busy || (pickupType === 'scheduled' && !scheduledTime)} onClick={checkout}>
-          {busy ? 'Đang tạo đơn…' : method === 'vnpay' ? 'Tiếp tục đến VNPAY' : 'Đặt hàng'}
+        <button type="button" className="rb-checkout-button" disabled={busy || restaurantLoading || !!restaurantError || (pickupType === 'scheduled' && !scheduledTime)} onClick={checkout}>
+          {busy ? 'Đang tạo đơn…' : method === 'vnpay' && payable > 0 ? 'Tiếp tục đến VNPAY' : 'Đặt hàng'}
         </button>
       </aside>
-    </div> : <section className="item-card rb-empty"><p>Giỏ hàng đang trống. Hãy chọn món từ menu quán.</p><Link to="/">Khám phá quán</Link>{createdOrder && <Link to={'/orders/' + createdOrder.id}>Xem đơn vừa đặt</Link>}</section>}
+    </div> : !showConfirmation && <section className="item-card rb-empty"><p>Giỏ hàng đang trống. Hãy chọn món từ menu quán.</p><Link to="/">Khám phá quán</Link></section>}
   </main>;
 }
 
@@ -225,6 +235,8 @@ function OrdersPage() {
   const [cancelError, setCancelError] = useState('');
   const [orders, setOrders] = useState(null);
   const [error, setError] = useState('');
+  const [reviewTarget, setReviewTarget] = useState(null);
+  const [reviewMessage, setReviewMessage] = useState('');
   const token = localStorage.getItem(TOKEN_KEY);
   useEffect(() => {
     let active = true;
@@ -259,6 +271,7 @@ function OrdersPage() {
       </button>)}
     </div>
     {cancelError && <p className="auth-alert" role="alert">{cancelError}</p>}
+    {reviewMessage && <p className="rb-pickup-due" role="status">{reviewMessage}</p>}
     {filteredOrders.length ? <section className="rb-orders-list">{filteredOrders.map((order) => {
       const status = String(order.status).toUpperCase();
       const first = order.items?.[0];
@@ -283,8 +296,20 @@ function OrdersPage() {
           onClick={(event) => { event.stopPropagation(); cancelOrder(order.id); }}>
           {cancelling === order.id ? 'Đang hủy…' : 'Hủy đơn'}
         </button>}
+        {status === 'COMPLETED' && currentUser?.role === 'customer' && order.userId === currentUser.id && (
+          order.hasReview || order.review ? <span className="rb-reviewed-label">Đã đánh giá</span>
+            : <button type="button" className="rb-review-now" onClick={(event) => { event.stopPropagation(); setReviewMessage(''); setReviewTarget(order); }}>★ Đánh giá ngay</button>
+        )}
       </article>;
     })}</section> : <section className="item-card rb-empty">{filter.empty}</section>}
+    {reviewTarget && <ReviewModal key={reviewTarget.id} orderId={reviewTarget.id}
+      restaurantName={reviewTarget.restaurant?.name || reviewTarget.restaurantName || 'Quán ăn'}
+      onClose={() => setReviewTarget(null)}
+      onSuccess={(review) => {
+        setOrders((rows) => rows.map((order) => order.id === reviewTarget.id ? { ...order, hasReview: true, review } : order));
+        setReviewMessage('Cảm ơn bạn! Đánh giá đã được gửi thành công.');
+      }}
+      onAlreadyReviewed={(review) => setOrders((rows) => rows.map((order) => order.id === reviewTarget.id ? { ...order, hasReview: true, review } : order))} />}
   </main>;
 }
 function Page({ title, children }) { return <main className="app-page"><div className="page-intro"><p>ROUTEBITE</p><h1>{title}</h1></div><section className="orders-empty-v2">{children || 'Tính năng đang được đồng bộ.'}</section></main>; }
@@ -303,6 +328,7 @@ function AppShell() {
     <Route path="/merchant" element={<ProtectedRoute allowedRoles={['merchant']}><MerchantProvider><MerchantLayout /></MerchantProvider></ProtectedRoute>}>
       <Route index element={<Navigate to="dashboard" replace />} />
       <Route path="dashboard" element={<DashboardPage />} /><Route path="menu" element={<MenuManagementPage />} />
+      <Route path="reviews" element={<MerchantReviewsPage />} />
       <Route path="orders" element={<OrdersKanbanPage />} /><Route path="orders/:id" element={<OrderDetailPage />} />
       <Route path="onboarding" element={<OnboardingPage />} /><Route path="profile" element={<ProfilePage />} />
       <Route path="*" element={<Navigate to="/merchant/dashboard" replace />} />
@@ -312,10 +338,13 @@ function AppShell() {
       <Route path="overview" element={<AdminOverviewPage />} />
       <Route path="restaurants" element={<AdminRestaurantsPage />} />
       <Route path="users" element={<AdminUsersPage />} />
+      <Route path="vouchers" element={<AdminVouchersPage />} />
       <Route path="merchant-applications" element={<AdminMerchantApplicationsPage />} />
       <Route path="*" element={<Navigate to="/admin/overview" replace />} />
     </Route>
     <Route path="/kham-pha" element={<ExplorePage />} />
-  </Routes></CartProvider>;
+    <Route path="/my-favorites" element={<ProtectedRoute allowedRoles={['customer', 'merchant', 'admin']}><MyFavoritesPage /></ProtectedRoute>} />
+    <Route path="/my-points" element={<ProtectedRoute allowedRoles={['customer']}><MyPointsPage /></ProtectedRoute>} />
+  </Routes><AiSupportWidget /></CartProvider>;
 }
-export default function App() { return <AuthProvider><BrowserRouter><SocketProvider><NotificationsProvider><AppShell /></NotificationsProvider></SocketProvider></BrowserRouter></AuthProvider>; }
+export default function App() { return <AuthProvider><BrowserRouter><SocketProvider><NotificationsProvider><ChatInboxProvider><FavoritesProvider><AppShell /></FavoritesProvider></ChatInboxProvider></NotificationsProvider></SocketProvider></BrowserRouter></AuthProvider>; }

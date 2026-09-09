@@ -2,6 +2,7 @@ export type PaymentMethod = 'cash' | 'vnpay';
 
 export interface CreateOrderPayload {
   restaurantId: string;
+  userVoucherId?: string;
   pickupOption:
     | { type: 'asap'; estimatedPickupMinutes: number }
     | { type: 'scheduled'; scheduledTime: string };

@@ -21727,11 +21727,11 @@
   });
 
   // src/entry.jsx
-  var import_react31 = __toESM(require_react(), 1);
+  var import_react47 = __toESM(require_react(), 1);
   var import_client = __toESM(require_client(), 1);
 
   // src/App.jsx
-  var import_react30 = __toESM(require_react(), 1);
+  var import_react46 = __toESM(require_react(), 1);
 
   // node_modules/react-router/dist/development/chunk-BV7QT456.mjs
   var React = __toESM(require_react(), 1);
@@ -24635,7 +24635,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
 
   // src/Home.jsx
-  var import_react3 = __toESM(require_react(), 1);
+  var import_react6 = __toESM(require_react(), 1);
 
   // src/api.js
   var config = window.ROUTEBITE_CONFIG || {};
@@ -24674,7 +24674,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   function useCurrentLocation() {
     const [loading, setLoading] = (0, import_react.useState)(false);
     const [error, setError] = (0, import_react.useState)("");
-    function getCurrentLocation() {
+    const getCurrentLocation = (0, import_react.useCallback)(({ resolveAddress = true } = {}) => {
       return new Promise((resolve, reject) => {
         if (!navigator.geolocation) {
           const message = "Tr\xECnh duy\u1EC7t kh\xF4ng h\u1ED7 tr\u1EE3 \u0111\u1ECBnh v\u1ECB.";
@@ -24687,9 +24687,11 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         navigator.geolocation.getCurrentPosition(async ({ coords }) => {
           const point = { lat: coords.latitude, lng: coords.longitude, address: `${coords.latitude.toFixed(5)}, ${coords.longitude.toFixed(5)}` };
           try {
-            const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&accept-language=vi&lat=${point.lat}&lon=${point.lng}`);
-            const data2 = await response.json();
-            point.address = data2.display_name || point.address;
+            if (resolveAddress) {
+              const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&accept-language=vi&lat=${point.lat}&lon=${point.lng}`);
+              const data2 = await response.json();
+              point.address = data2.display_name || point.address;
+            }
           } catch {
           }
           setLoading(false);
@@ -24701,59 +24703,284 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           reject(new Error(message));
         }, { enableHighAccuracy: true, timeout: 1e4 });
       });
-    }
+    }, []);
     return { getCurrentLocation, loading, error };
   }
 
-  // src/components/RestaurantCard.jsx
+  // src/contexts/FavoritesContext.jsx
+  var import_react3 = __toESM(require_react(), 1);
+
+  // src/contexts/AuthContext.jsx
+  var import_react2 = __toESM(require_react(), 1);
   var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
+  var REFRESH_TOKEN_KEY2 = "routebite_refresh_token";
+  var USER_KEY = "routebite_user";
+  var AuthContext = (0, import_react2.createContext)(null);
+  function AuthProvider({ children }) {
+    const [currentUser, setCurrentUserState] = (0, import_react2.useState)(() => {
+      try {
+        return JSON.parse(localStorage.getItem(USER_KEY) || "null");
+      } catch {
+        return null;
+      }
+    });
+    function setCurrentUser(user) {
+      setCurrentUserState(user);
+      if (user) localStorage.setItem(USER_KEY, JSON.stringify(user));
+      else localStorage.removeItem(USER_KEY);
+    }
+    function setSession(response) {
+      localStorage.setItem(TOKEN_KEY, response.accessToken);
+      if (response.refreshToken) localStorage.setItem(REFRESH_TOKEN_KEY2, response.refreshToken);
+      setCurrentUser(response.user);
+    }
+    function logout() {
+      localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(REFRESH_TOKEN_KEY2);
+      setCurrentUser(null);
+    }
+    const value2 = (0, import_react2.useMemo)(() => ({ currentUser, setCurrentUser, setSession, logout }), [currentUser]);
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AuthContext.Provider, { value: value2, children });
+  }
+  function useAuth() {
+    const context = (0, import_react2.useContext)(AuthContext);
+    if (!context) throw new Error("useAuth ph\u1EA3i \u0111\u01B0\u1EE3c d\xF9ng b\xEAn trong AuthProvider");
+    return context;
+  }
+
+  // src/contexts/FavoritesContext.jsx
+  var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
+  var FavoritesContext = (0, import_react3.createContext)(null);
+  function FavoritesProvider({ children }) {
+    const { currentUser } = useAuth();
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(AccountFavorites, { user: currentUser, children }, currentUser?.id || "guest");
+  }
+  function AccountFavorites({ user, children }) {
+    const navigate = useNavigate();
+    const [favorites, setFavorites] = (0, import_react3.useState)([]);
+    const [loading, setLoading] = (0, import_react3.useState)(!!user);
+    const [ready, setReady] = (0, import_react3.useState)(!user);
+    const [error, setError] = (0, import_react3.useState)("");
+    const [pending, setPending] = (0, import_react3.useState)(/* @__PURE__ */ new Set());
+    const locks = (0, import_react3.useRef)(/* @__PURE__ */ new Set());
+    const alive = (0, import_react3.useRef)(true);
+    const loadingRef = (0, import_react3.useRef)(false);
+    const reload = (0, import_react3.useCallback)(async () => {
+      if (!user || loadingRef.current || locks.current.size) return;
+      loadingRef.current = true;
+      setLoading(true);
+      setError("");
+      try {
+        const rows = await request("/favorites");
+        if (!Array.isArray(rows)) throw new Error();
+        if (alive.current) {
+          setFavorites(rows);
+          setReady(true);
+        }
+      } catch {
+        if (alive.current) setError("Kh\xF4ng th\u1EC3 t\u1EA3i qu\xE1n \u0111\xE3 l\u01B0u. Vui l\xF2ng th\u1EED l\u1EA1i.");
+      } finally {
+        loadingRef.current = false;
+        if (alive.current) setLoading(false);
+      }
+    }, [user?.id]);
+    (0, import_react3.useEffect)(() => {
+      alive.current = true;
+      reload();
+      return () => {
+        alive.current = false;
+      };
+    }, [reload]);
+    async function toggle(restaurant) {
+      if (!user || !localStorage.getItem(TOKEN_KEY)) {
+        navigate("/login", { state: { from: "/my-favorites" } });
+        return;
+      }
+      if (!ready || loadingRef.current || locks.current.has(restaurant.id)) return;
+      const saved = favorites.some((entry) => entry.id === restaurant.id);
+      locks.current.add(restaurant.id);
+      setPending(new Set(locks.current));
+      setError("");
+      setFavorites((rows) => saved ? rows.filter((entry) => entry.id !== restaurant.id) : [restaurant, ...rows]);
+      try {
+        await request(`/favorites/${encodeURIComponent(restaurant.id)}`, { method: saved ? "DELETE" : "POST" });
+      } catch {
+        if (alive.current) {
+          setFavorites((rows) => saved ? [restaurant, ...rows.filter((entry) => entry.id !== restaurant.id)] : rows.filter((entry) => entry.id !== restaurant.id));
+          setError("Kh\xF4ng th\u1EC3 c\u1EADp nh\u1EADt qu\xE1n \u0111\xE3 l\u01B0u. Thay \u0111\u1ED5i v\u1EEBa r\u1ED3i \u0111\xE3 \u0111\u01B0\u1EE3c ho\xE0n t\xE1c.");
+        }
+      } finally {
+        locks.current.delete(restaurant.id);
+        if (alive.current) setPending(new Set(locks.current));
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(FavoritesContext.Provider, { value: { favorites, loading, ready, error, pending, reload, toggle }, children: [
+      error && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("aside", { className: "rb-favorites-feedback", role: "alert", children: [
+        error,
+        " ",
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { type: "button", disabled: loading || pending.size > 0, onClick: reload, children: "Th\u1EED l\u1EA1i" })
+      ] }),
+      children
+    ] });
+  }
+  function useFavorites() {
+    return (0, import_react3.useContext)(FavoritesContext);
+  }
+
+  // src/utils/routeContext.ts
+  function validPoint(point) {
+    const value2 = point;
+    return !!value2 && Number.isFinite(value2.lat) && Number.isFinite(value2.lng) && Math.abs(value2.lat) <= 90 && Math.abs(value2.lng) <= 180;
+  }
+  function readRouteOrigin(params) {
+    const lat = params.get("fromLat");
+    const lng = params.get("fromLng");
+    if (!lat?.trim() || !lng?.trim()) return void 0;
+    const point = { lat: Number(lat), lng: Number(lng), address: params.get("fromAddress") || "\u0110i\u1EC3m xu\u1EA5t ph\xE1t" };
+    return validPoint(point) ? point : void 0;
+  }
+  function routeQuery(origin) {
+    return validPoint(origin) ? "?" + new URLSearchParams({
+      fromLat: String(origin.lat),
+      fromLng: String(origin.lng),
+      fromAddress: origin.address || "\u0110i\u1EC3m xu\u1EA5t ph\xE1t"
+    }).toString() : "";
+  }
+  function restaurantPoint(restaurant) {
+    const lat = restaurant?.latitude ?? restaurant?.location?.coordinates?.[1];
+    const lng = restaurant?.longitude ?? restaurant?.location?.coordinates?.[0];
+    if (lat == null || lng == null || lat === "" || lng === "") return void 0;
+    const point = { lat: Number(lat), lng: Number(lng), address: restaurant.address || "" };
+    return validPoint(point) ? point : void 0;
+  }
+
+  // src/utils/distance.js
+  function distanceMeters(from, to) {
+    if (!from || !to) return null;
+    const rad = (value2) => value2 * Math.PI / 180;
+    const a = Math.sin(rad(to.lat - from.lat) / 2) ** 2 + Math.cos(rad(from.lat)) * Math.cos(rad(to.lat)) * Math.sin(rad(to.lng - from.lng) / 2) ** 2;
+    return 6371e3 * 2 * Math.asin(Math.sqrt(Math.min(1, Math.max(0, a))));
+  }
+  function formatDistance(meters) {
+    return meters < 1e3 ? `${Math.round(meters)} m` : `${(meters / 1e3).toLocaleString("vi-VN", { maximumFractionDigits: 1 })} km`;
+  }
+
+  // src/components/RestaurantCard.jsx
+  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
   var fallbackImage = "/placeholder-food.svg";
-  function RestaurantCard({ restaurant, rank, onOpen, onSave }) {
+  function RestaurantCard({ restaurant, rank, onOpen, onSave, userPosition }) {
+    const favorites = useFavorites();
+    const saved = favorites?.favorites.some((entry) => entry.id === restaurant.id) || false;
+    const directMeters = distanceMeters(userPosition, restaurantPoint(restaurant));
     const meters = Number(restaurant.distance_meters || 0);
-    const distanceLabel = meters > 0 ? meters < 1e3 ? `${Math.round(meters)}m t\u1EDBi tuy\u1EBFn \u0111\u01B0\u1EDDng` : `${(meters / 1e3).toFixed(1)}km t\u1EDBi tuy\u1EBFn \u0111\u01B0\u1EDDng` : "\u0110i\u1EC3m d\u1EEBng ti\u1EC7n \u0111\u01B0\u1EDDng";
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("article", { className: "restaurant-search-card", onClick: onOpen, tabIndex: "0", role: "button", onKeyDown: (event) => {
-      if (event.key === "Enter") onOpen?.();
+    const distanceLabel = directMeters !== null ? `C\xE1ch b\u1EA1n ${formatDistance(directMeters)}` : rank && restaurant.distance_meters != null ? `${formatDistance(meters)} t\u1EDBi tuy\u1EBFn \u0111\u01B0\u1EDDng` : null;
+    const open = () => {
+      if (restaurant.active !== false) onOpen?.();
+    };
+    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("article", { className: "restaurant-search-card", onClick: open, tabIndex: "0", role: "button", onKeyDown: (event) => {
+      if (event.target === event.currentTarget && ["Enter", " "].includes(event.key)) {
+        event.preventDefault();
+        open();
+      }
     }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "restaurant-search-image", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: restaurant.imageUrl || restaurant.image || fallbackImage, alt: restaurant.name, onError: (event) => {
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "restaurant-search-image", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("img", { src: restaurant.imageUrl || restaurant.image || fallbackImage, alt: restaurant.name, onError: (event) => {
           if (event.currentTarget.getAttribute("src") !== fallbackImage) event.currentTarget.src = fallbackImage;
         } }),
-        rank && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { className: "restaurant-rank", children: [
+        rank && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { className: "restaurant-rank", children: [
           "#",
           rank
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", className: "restaurant-save", "aria-label": `L\u01B0u ${restaurant.name}`, onClick: (event) => {
-          event.stopPropagation();
-          onSave?.(restaurant.id);
-        }, children: "\u2661" })
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(
+          "button",
+          {
+            type: "button",
+            className: "restaurant-save",
+            "aria-pressed": saved,
+            "aria-label": `${saved ? "B\u1ECF l\u01B0u" : "L\u01B0u"} ${restaurant.name}`,
+            disabled: favorites && (favorites.loading || !favorites.ready || favorites.pending.has(restaurant.id)),
+            onClick: (event) => {
+              event.stopPropagation();
+              if (onSave) onSave(restaurant.id);
+              else favorites?.toggle(restaurant);
+            },
+            children: saved ? "\u2665" : "\u2661"
+          }
+        )
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "restaurant-search-body", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { title: restaurant.name, children: restaurant.name }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { children: restaurant.address || "\u0110\u1ECBa \u0111i\u1EC3m \u1EA9m th\u1EF1c ti\u1EC7n \u0111\u01B0\u1EDDng" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "restaurant-search-body", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h3", { title: restaurant.name, children: restaurant.name }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: restaurant.address || "Ch\u01B0a c\u1EADp nh\u1EADt \u0111\u1ECBa ch\u1EC9" }),
+        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("span", { children: [
             "\u2B50 ",
-            restaurant.rating || "M\u1EDBi"
+            Number(restaurant.rating) > 0 ? restaurant.rating : "M\u1EDBi"
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
-            "\u{1F697} ",
-            distanceLabel
-          ] })
-        ] })
+          distanceLabel && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { title: directMeters !== null ? "Kho\u1EA3ng c\xE1ch \u0111\u01B0\u1EDDng th\u1EB3ng t\u1EEB v\u1ECB tr\xED c\u1EE7a b\u1EA1n" : "Kho\u1EA3ng c\xE1ch t\u1EDBi tuy\u1EBFn \u0111\u01B0\u1EDDng", children: distanceLabel })
+        ] }),
+        restaurant.active === false && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("small", { children: "Qu\xE1n \u0111ang ng\u1EEBng ho\u1EA1t \u0111\u1ED9ng" })
       ] })
     ] });
   }
 
+  // src/components/ReorderSuggestions.tsx
+  var import_react4 = __toESM(require_react(), 1);
+  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+  function ReorderSuggestions() {
+    const { currentUser } = useAuth();
+    if (currentUser?.role !== "customer") return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(CustomerSuggestions, { userId: currentUser.id }, currentUser.id);
+  }
+  function CustomerSuggestions({ userId }) {
+    const [restaurants, setRestaurants] = (0, import_react4.useState)([]);
+    const navigate = useNavigate();
+    (0, import_react4.useEffect)(() => {
+      let active = true;
+      request("/orders").then((response) => {
+        const orders = Array.isArray(response) ? response : response?.data;
+        if (!Array.isArray(orders)) return;
+        const seen = /* @__PURE__ */ new Set();
+        const shops = [];
+        const completed = orders.filter((order) => order.status === "COMPLETED" && order.userId === userId).sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+        for (const order of completed) {
+          const shop = order.restaurant;
+          if (!shop?.id || seen.has(shop.id)) continue;
+          seen.add(shop.id);
+          shops.push(shop);
+          if (shops.length === 6) break;
+        }
+        if (active) setRestaurants(shops);
+      }).catch(() => {
+      });
+      return () => {
+        active = false;
+      };
+    }, [userId]);
+    if (!restaurants.length) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("section", { className: "rb-reorder-suggestions", "aria-labelledby": "reorder-heading", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("h2", { id: "reorder-heading", children: "\u0110\u1EB7t l\u1EA1i t\u1EEB qu\xE1n quen thu\u1ED9c" }),
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("p", { children: "Ch\u1ECDn qu\xE1n \u0111\u1EC3 xem menu v\xE0 gi\xE1 hi\u1EC7n t\u1EA1i." }),
+      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: "rb-reorder-strip", children: restaurants.map((restaurant) => /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(
+        RestaurantCard,
+        {
+          restaurant,
+          onOpen: () => navigate(`/restaurant/${restaurant.id}`)
+        },
+        restaurant.id
+      )) })
+    ] });
+  }
+
   // src/components/LocationAutocomplete.jsx
-  var import_react2 = __toESM(require_react(), 1);
-  var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
+  var import_react5 = __toESM(require_react(), 1);
+  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
   var NOMINATIM_SEARCH_URL = "https://nominatim.openstreetmap.org/search";
   function LocationAutocomplete({ value: value2, placeholder, onChange, onSelect, children }) {
-    const [suggestions, setSuggestions] = (0, import_react2.useState)([]);
-    const [loading, setLoading] = (0, import_react2.useState)(false);
-    const [focused, setFocused] = (0, import_react2.useState)(false);
-    const timer = (0, import_react2.useRef)(null);
-    (0, import_react2.useEffect)(() => {
+    const [suggestions, setSuggestions] = (0, import_react5.useState)([]);
+    const [loading, setLoading] = (0, import_react5.useState)(false);
+    const [focused, setFocused] = (0, import_react5.useState)(false);
+    const timer = (0, import_react5.useRef)(null);
+    (0, import_react5.useEffect)(() => {
       const text = value2?.address?.trim() || "";
       clearTimeout(timer.current);
       if (!focused || text.length < 3 || Number.isFinite(value2?.lat) && Number.isFinite(value2?.lng)) {
@@ -24785,47 +25012,20 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       onSelect({ address: place.display_name, lat: Number(place.lat), lng: Number(place.lon) });
       setSuggestions([]);
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "location-autocomplete", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("div", { className: "location-input-row", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("input", { value: value2?.address || "", placeholder, autoComplete: "off", onFocus: () => setFocused(true), onBlur: () => window.setTimeout(() => setFocused(false), 160), onChange: (event) => onChange({ address: event.target.value, lat: null, lng: null }) }),
-        children ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "location-input-actions", children }) : null
+    return /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "location-autocomplete", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("div", { className: "location-input-row", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("input", { value: value2?.address || "", placeholder, autoComplete: "off", onFocus: () => setFocused(true), onBlur: () => window.setTimeout(() => setFocused(false), 160), onChange: (event) => onChange({ address: event.target.value, lat: null, lng: null }) }),
+        children ? /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "location-input-actions", children }) : null
       ] }),
-      focused && (loading || suggestions.length > 0) ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("div", { className: "location-suggestions", role: "listbox", children: loading ? /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("p", { children: "\u0110ang t\xECm \u0111\u1ECBa \u0111i\u1EC3m\u2026" }) : suggestions.map((place) => /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("button", { type: "button", role: "option", onMouseDown: (event) => event.preventDefault(), onClick: () => select(place), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("span", { children: "\u{1F4CD}" }),
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("strong", { children: place.display_name })
+      focused && (loading || suggestions.length > 0) ? /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "location-suggestions", role: "listbox", children: loading ? /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { children: "\u0110ang t\xECm \u0111\u1ECBa \u0111i\u1EC3m\u2026" }) : suggestions.map((place) => /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("button", { type: "button", role: "option", onMouseDown: (event) => event.preventDefault(), onClick: () => select(place), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { children: "\u{1F4CD}" }),
+        /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("strong", { children: place.display_name })
       ] }, place.place_id)) }) : null
     ] });
   }
 
-  // src/utils/routeContext.ts
-  function validPoint(point) {
-    const value2 = point;
-    return !!value2 && Number.isFinite(value2.lat) && Number.isFinite(value2.lng) && Math.abs(value2.lat) <= 90 && Math.abs(value2.lng) <= 180;
-  }
-  function readRouteOrigin(params) {
-    const lat = params.get("fromLat");
-    const lng = params.get("fromLng");
-    if (!lat?.trim() || !lng?.trim()) return void 0;
-    const point = { lat: Number(lat), lng: Number(lng), address: params.get("fromAddress") || "\u0110i\u1EC3m xu\u1EA5t ph\xE1t" };
-    return validPoint(point) ? point : void 0;
-  }
-  function routeQuery(origin) {
-    return validPoint(origin) ? "?" + new URLSearchParams({
-      fromLat: String(origin.lat),
-      fromLng: String(origin.lng),
-      fromAddress: origin.address || "\u0110i\u1EC3m xu\u1EA5t ph\xE1t"
-    }).toString() : "";
-  }
-  function restaurantPoint(restaurant) {
-    const lat = restaurant?.latitude ?? restaurant?.location?.coordinates?.[1];
-    const lng = restaurant?.longitude ?? restaurant?.location?.coordinates?.[0];
-    if (lat == null || lng == null || lat === "" || lng === "") return void 0;
-    const point = { lat: Number(lat), lng: Number(lng), address: restaurant.address || "" };
-    return validPoint(point) ? point : void 0;
-  }
-
   // src/Home.jsx
-  var import_jsx_runtime3 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
   var QUICK_CATEGORIES = [
     { label: "C\xE0 ph\xEA", value: "ca-phe" },
     { label: "C\u01A1m", value: "com" },
@@ -24837,21 +25037,21 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   function Home() {
     const navigate = useNavigate();
     const { getCurrentLocation, loading: locating, error: locationError } = useCurrentLocation();
-    const [startPoint, setStartPoint] = (0, import_react3.useState)(emptyPoint());
-    const [endPoint, setEndPoint] = (0, import_react3.useState)(emptyPoint());
-    const [restaurants, setRestaurants] = (0, import_react3.useState)([]);
-    const [resultOrigin, setResultOrigin] = (0, import_react3.useState)(void 0);
-    const [searched, setSearched] = (0, import_react3.useState)(false);
-    const [searching, setSearching] = (0, import_react3.useState)(false);
-    const [message, setMessage] = (0, import_react3.useState)("");
-    const [mapTarget, setMapTarget] = (0, import_react3.useState)(null);
-    const [activeCategory, setActiveCategory] = (0, import_react3.useState)("");
-    (0, import_react3.useEffect)(() => {
+    const [startPoint, setStartPoint] = (0, import_react6.useState)(emptyPoint());
+    const [endPoint, setEndPoint] = (0, import_react6.useState)(emptyPoint());
+    const [restaurants, setRestaurants] = (0, import_react6.useState)([]);
+    const [resultOrigin, setResultOrigin] = (0, import_react6.useState)(void 0);
+    const [searched, setSearched] = (0, import_react6.useState)(false);
+    const [searching, setSearching] = (0, import_react6.useState)(false);
+    const [message, setMessage] = (0, import_react6.useState)("");
+    const [mapTarget, setMapTarget] = (0, import_react6.useState)(null);
+    const [activeCategory, setActiveCategory] = (0, import_react6.useState)("");
+    (0, import_react6.useEffect)(() => {
       const query = activeCategory ? `?category=${encodeURIComponent(activeCategory)}` : "";
       setResultOrigin(void 0);
       request(`/restaurants${query}`, { authorized: false }).then((response) => setRestaurants(Array.isArray(response) ? response : response.data || [])).catch(() => setRestaurants([]));
     }, [activeCategory]);
-    (0, import_react3.useEffect)(() => {
+    (0, import_react6.useEffect)(() => {
       if (locationError) setMessage(locationError);
     }, [locationError]);
     async function geocode(point, label) {
@@ -24892,64 +25092,65 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       }
     }
     const heading = searched ? "K\u1EBFt qu\u1EA3 g\u1EE3i \xFD tr\xEAn tuy\u1EBFn" : "Qu\xE1n n\u1ED5i b\u1EADt";
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("main", { className: "route-home", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "route-hero", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "route-hero-copy", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: "H\xC0NH TR\xCCNH \u1EA8M TH\u1EF0C" }),
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h1", { children: "T\xECm qu\xE1n tr\xEAn \u0111\u01B0\u1EDDng \u0111i." }),
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "Ch\u1ECDn \u0111i\u1EC3m \u0111i v\xE0 \u0111i\u1EC3m \u0111\u1EBFn. RouteBite s\u1EBD g\u1EE3i \xFD \u0111i\u1EC3m d\u1EEBng ph\xF9 h\u1EE3p trong ph\u1EA1m vi l\u1EC7ch tuy\u1EBFn 500m." })
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("main", { className: "route-home", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("section", { className: "route-hero", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "route-hero-copy", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("p", { children: "H\xC0NH TR\xCCNH \u1EA8M TH\u1EF0C" }),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h1", { children: "T\xECm qu\xE1n tr\xEAn \u0111\u01B0\u1EDDng \u0111i." }),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: "Ch\u1ECDn \u0111i\u1EC3m \u0111i v\xE0 \u0111i\u1EC3m \u0111\u1EBFn. RouteBite s\u1EBD g\u1EE3i \xFD \u0111i\u1EC3m d\u1EEBng ph\xF9 h\u1EE3p trong ph\u1EA1m vi l\u1EC7ch tuy\u1EBFn 500m." })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("form", { className: "route-form", onSubmit: search, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "route-field", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("label", { children: "\u0110i\u1EC3m \u0111i" }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)(LocationAutocomplete, { value: startPoint, placeholder: "Nh\u1EADp \u0111i\u1EC3m xu\u1EA5t ph\xE1t", onChange: setStartPoint, onSelect: setStartPoint, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", onClick: () => setMapTarget("start"), children: "Ch\u1ECDn tr\xEAn b\u1EA3n \u0111\u1ED3" }),
-              /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { className: "location-action", type: "button", disabled: locating, onClick: useLocation2, children: locating ? "\u0110ang \u0111\u1ECBnh v\u1ECB\u2026" : "D\xF9ng v\u1ECB tr\xED hi\u1EC7n t\u1EA1i" })
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("form", { className: "route-form", onSubmit: search, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "route-field", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("label", { children: "\u0110i\u1EC3m \u0111i" }),
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(LocationAutocomplete, { value: startPoint, placeholder: "Nh\u1EADp \u0111i\u1EC3m xu\u1EA5t ph\xE1t", onChange: setStartPoint, onSelect: setStartPoint, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { type: "button", onClick: () => setMapTarget("start"), children: "Ch\u1ECDn tr\xEAn b\u1EA3n \u0111\u1ED3" }),
+              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { className: "location-action", type: "button", disabled: locating, onClick: useLocation2, children: locating ? "\u0110ang \u0111\u1ECBnh v\u1ECB\u2026" : "D\xF9ng v\u1ECB tr\xED hi\u1EC7n t\u1EA1i" })
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "route-field", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("label", { children: "\u0110i\u1EC3m \u0111\u1EBFn" }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(LocationAutocomplete, { value: endPoint, placeholder: "Nh\u1EADp \u0111i\u1EC3m \u0111\u1EBFn", onChange: setEndPoint, onSelect: setEndPoint, children: /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", onClick: () => setMapTarget("end"), children: "Ch\u1ECDn tr\xEAn b\u1EA3n \u0111\u1ED3" }) })
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "route-field", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("label", { children: "\u0110i\u1EC3m \u0111\u1EBFn" }),
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(LocationAutocomplete, { value: endPoint, placeholder: "Nh\u1EADp \u0111i\u1EC3m \u0111\u1EBFn", onChange: setEndPoint, onSelect: setEndPoint, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { type: "button", onClick: () => setMapTarget("end"), children: "Ch\u1ECDn tr\xEAn b\u1EA3n \u0111\u1ED3" }) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { className: "route-submit", disabled: searching, children: searching ? "\u0110ang t\xECm\u2026" : "T\xECm g\u1EE3i \xFD" })
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { className: "route-submit", disabled: searching, children: searching ? "\u0110ang t\xECm\u2026" : "T\xECm g\u1EE3i \xFD" })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "route-categories", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h2", { children: "Danh m\u1EE5c nhanh" }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", className: !activeCategory ? "active" : "", onClick: () => {
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("section", { className: "route-categories", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h2", { children: "Danh m\u1EE5c nhanh" }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { type: "button", className: !activeCategory ? "active" : "", onClick: () => {
             setActiveCategory("");
             setSearched(false);
           }, children: "T\u1EA5t c\u1EA3" }),
-          QUICK_CATEGORIES.map((category) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", className: activeCategory === category.value ? "active" : "", onClick: () => {
+          QUICK_CATEGORIES.map((category) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { type: "button", className: activeCategory === category.value ? "active" : "", onClick: () => {
             setActiveCategory(category.value);
             setSearched(false);
           }, children: category.label }, category.value))
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "route-results", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { className: "route-results-heading", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: searched ? "T\xCCM THEO L\u1ED8 TR\xCCNH" : "KH\xC1M PH\xC1 G\u1EA6N B\u1EA0N" }),
-            /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("h2", { children: heading })
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("section", { className: "route-results", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "route-results-heading", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("p", { children: searched ? "T\xCCM THEO L\u1ED8 TR\xCCNH" : "KH\xC1M PH\xC1 G\u1EA6N B\u1EA0N" }),
+            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h2", { children: heading })
           ] }),
-          message && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: message })
+          message && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: message })
         ] }),
-        searching ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "restaurant-result-grid", children: [1, 2, 3].map((item) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "restaurant-skeleton" }, item)) }) : restaurants.length ? /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "restaurant-result-grid", children: restaurants.map((restaurant, index) => /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(RestaurantCard, { restaurant, rank: searched ? index + 1 : void 0, onOpen: () => navigate(`/restaurant/${restaurant.id}${routeQuery(resultOrigin)}`) }, restaurant.id)) }) : /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "route-empty", children: searched ? "Kh\xF4ng t\xECm th\u1EA5y qu\xE1n ph\xF9 h\u1EE3p trong ph\u1EA1m vi 500m quanh tuy\u1EBFn \u0111\u01B0\u1EDDng n\xE0y." : "Ch\u01B0a c\xF3 qu\xE1n c\xF4ng khai \u0111\u1EC3 hi\u1EC3n th\u1ECB." })
+        searching ? /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "restaurant-result-grid", children: [1, 2, 3].map((item) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "restaurant-skeleton" }, item)) }) : restaurants.length ? /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "restaurant-result-grid", children: restaurants.map((restaurant, index) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(RestaurantCard, { restaurant, rank: searched ? index + 1 : void 0, onOpen: () => navigate(`/restaurant/${restaurant.id}${routeQuery(resultOrigin)}`) }, restaurant.id)) }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "route-empty", children: searched ? "Kh\xF4ng t\xECm th\u1EA5y qu\xE1n ph\xF9 h\u1EE3p trong ph\u1EA1m vi 500m quanh tuy\u1EBFn \u0111\u01B0\u1EDDng n\xE0y." : "Ch\u01B0a c\xF3 qu\xE1n c\xF4ng khai \u0111\u1EC3 hi\u1EC3n th\u1ECB." })
       ] }),
-      mapTarget && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)(MapPicker, { initialCenter: mapTarget === "start" ? startPoint : endPoint, onClose: () => setMapTarget(null), onPick: (location2) => {
+      !searched && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(ReorderSuggestions, {}),
+      mapTarget && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(MapPicker, { initialCenter: mapTarget === "start" ? startPoint : endPoint, onClose: () => setMapTarget(null), onPick: (location2) => {
         (mapTarget === "start" ? setStartPoint : setEndPoint)(location2);
         setMapTarget(null);
       } })
     ] });
   }
   function MapPicker({ initialCenter, onClose, onPick }) {
-    const node = (0, import_react3.useRef)(null);
-    const markerRef = (0, import_react3.useRef)(null);
-    const [selected, setSelected] = (0, import_react3.useState)(null);
-    const [address, setAddress] = (0, import_react3.useState)("");
-    const [loadingAddress, setLoadingAddress] = (0, import_react3.useState)(false);
-    (0, import_react3.useEffect)(() => {
+    const node = (0, import_react6.useRef)(null);
+    const markerRef = (0, import_react6.useRef)(null);
+    const [selected, setSelected] = (0, import_react6.useState)(null);
+    const [address, setAddress] = (0, import_react6.useState)("");
+    const [loadingAddress, setLoadingAddress] = (0, import_react6.useState)(false);
+    (0, import_react6.useEffect)(() => {
       const L = window.L;
       if (!L || !node.current) return void 0;
       const center = Number.isFinite(initialCenter?.lat) ? [initialCenter.lat, initialCenter.lng] : [10.7769, 106.7009];
@@ -24974,96 +25175,58 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       });
       return () => map.remove();
     }, [initialCenter]);
-    return /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "location-map-modal", role: "dialog", "aria-modal": "true", children: /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("section", { className: "location-map-card", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("header", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("strong", { children: "Ch\u1ECDn v\u1ECB tr\xED tr\xEAn b\u1EA3n \u0111\u1ED3" }),
-          /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { children: "Nh\u1EA5n v\xE0o v\u1ECB tr\xED mong mu\u1ED1n \u0111\u1EC3 \u0111\u1EB7t ghim." })
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "location-map-modal", role: "dialog", "aria-modal": "true", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("section", { className: "location-map-card", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("header", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("strong", { children: "Ch\u1ECDn v\u1ECB tr\xED tr\xEAn b\u1EA3n \u0111\u1ED3" }),
+          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: "Nh\u1EA5n v\xE0o v\u1ECB tr\xED mong mu\u1ED1n \u0111\u1EC3 \u0111\u1EB7t ghim." })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", onClick: onClose, children: "\xD7" })
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { type: "button", onClick: onClose, children: "\xD7" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("div", { className: "location-map-canvas", ref: node }),
-      /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("footer", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("p", { children: !selected ? "Nh\u1EA5n v\xE0o b\u1EA3n \u0111\u1ED3 \u0111\u1EC3 ch\u1ECDn v\u1ECB tr\xED" : loadingAddress ? "\u0110ang x\xE1c \u0111\u1ECBnh \u0111\u1ECBa ch\u1EC9\u2026" : address }),
-        /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", disabled: !selected || loadingAddress, onClick: () => onPick({ ...selected, address }), children: "X\xE1c nh\u1EADn v\u1ECB tr\xED" })
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "location-map-canvas", ref: node }),
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("footer", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("p", { children: !selected ? "Nh\u1EA5n v\xE0o b\u1EA3n \u0111\u1ED3 \u0111\u1EC3 ch\u1ECDn v\u1ECB tr\xED" : loadingAddress ? "\u0110ang x\xE1c \u0111\u1ECBnh \u0111\u1ECBa ch\u1EC9\u2026" : address }),
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { type: "button", disabled: !selected || loadingAddress, onClick: () => onPick({ ...selected, address }), children: "X\xE1c nh\u1EADn v\u1ECB tr\xED" })
       ] })
     ] }) });
   }
 
   // src/LoginPage.jsx
-  var import_react5 = __toESM(require_react(), 1);
+  var import_react7 = __toESM(require_react(), 1);
 
   // src/layouts/AuthLayout.jsx
-  var import_jsx_runtime4 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
   function AuthLayout({ children }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("main", { className: "auth-layout", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("section", { className: "auth-brand-panel", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)(Link, { className: "auth-brand-logo", to: "/", children: "RouteBite" }),
-        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("p", { className: "auth-eyebrow", children: "H\xC0NH TR\xCCNH \u1EA8M TH\u1EF0C" }),
-        /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("h1", { children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("main", { className: "auth-layout", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("section", { className: "auth-brand-panel", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Link, { className: "auth-brand-logo", to: "/", children: "RouteBite" }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { className: "auth-eyebrow", children: "H\xC0NH TR\xCCNH \u1EA8M TH\u1EF0C" }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("h1", { children: [
           "\u1EA8m th\u1EF1c tr\xEAn",
-          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("br", {}),
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("br", {}),
           "m\u1ECDi n\u1EBBo \u0111\u01B0\u1EDDng."
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("p", { children: "Kh\xE1m ph\xE1 qu\xE1n ti\u1EC7n \u0111\u01B0\u1EDDng, \u0111\u1EB7t m\xF3n tr\u01B0\u1EDBc v\xE0 gh\xE9 l\u1EA5y \u0111\xFAng l\xFAc b\u1EA1n \u0111\u1EBFn n\u01A1i." }),
-        /* @__PURE__ */ (0, import_jsx_runtime4.jsxs)("div", { className: "auth-brand-stats", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { children: "\u{1F4CD} T\xECm qu\xE1n d\u1ECDc tuy\u1EBFn" }),
-          /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("span", { children: "\u26A1 \u0110\u1EB7t tr\u01B0\u1EDBc, gh\xE9 l\u1EA5y" })
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { children: "Kh\xE1m ph\xE1 qu\xE1n ti\u1EC7n \u0111\u01B0\u1EDDng, \u0111\u1EB7t m\xF3n tr\u01B0\u1EDBc v\xE0 gh\xE9 l\u1EA5y \u0111\xFAng l\xFAc b\u1EA1n \u0111\u1EBFn n\u01A1i." }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "auth-brand-stats", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { children: "\u{1F4CD} T\xECm qu\xE1n d\u1ECDc tuy\u1EBFn" }),
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { children: "\u26A1 \u0110\u1EB7t tr\u01B0\u1EDBc, gh\xE9 l\u1EA5y" })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("section", { className: "auth-form-panel", children: /* @__PURE__ */ (0, import_jsx_runtime4.jsx)("div", { className: "auth-form-wrap", children }) })
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("section", { className: "auth-form-panel", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "auth-form-wrap", children }) })
     ] });
   }
 
-  // src/contexts/AuthContext.jsx
-  var import_react4 = __toESM(require_react(), 1);
-  var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
-  var REFRESH_TOKEN_KEY2 = "routebite_refresh_token";
-  var USER_KEY = "routebite_user";
-  var AuthContext = (0, import_react4.createContext)(null);
-  function AuthProvider({ children }) {
-    const [currentUser, setCurrentUserState] = (0, import_react4.useState)(() => {
-      try {
-        return JSON.parse(localStorage.getItem(USER_KEY) || "null");
-      } catch {
-        return null;
-      }
-    });
-    function setCurrentUser(user) {
-      setCurrentUserState(user);
-      if (user) localStorage.setItem(USER_KEY, JSON.stringify(user));
-      else localStorage.removeItem(USER_KEY);
-    }
-    function setSession(response) {
-      localStorage.setItem(TOKEN_KEY, response.accessToken);
-      if (response.refreshToken) localStorage.setItem(REFRESH_TOKEN_KEY2, response.refreshToken);
-      setCurrentUser(response.user);
-    }
-    function logout() {
-      localStorage.removeItem(TOKEN_KEY);
-      localStorage.removeItem(REFRESH_TOKEN_KEY2);
-      setCurrentUser(null);
-    }
-    const value2 = (0, import_react4.useMemo)(() => ({ currentUser, setCurrentUser, setSession, logout }), [currentUser]);
-    return /* @__PURE__ */ (0, import_jsx_runtime5.jsx)(AuthContext.Provider, { value: value2, children });
-  }
-  function useAuth() {
-    const context = (0, import_react4.useContext)(AuthContext);
-    if (!context) throw new Error("useAuth ph\u1EA3i \u0111\u01B0\u1EE3c d\xF9ng b\xEAn trong AuthProvider");
-    return context;
-  }
-
   // src/LoginPage.jsx
-  var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
   function LoginPage() {
     const navigate = useNavigate();
     const { setSession } = useAuth();
     const location2 = useLocation();
-    const [email, setEmail] = (0, import_react5.useState)("");
-    const [password, setPassword] = (0, import_react5.useState)("");
-    const [showPassword, setShowPassword] = (0, import_react5.useState)(false);
-    const [error, setError] = (0, import_react5.useState)("");
-    const [busy, setBusy] = (0, import_react5.useState)(false);
+    const [email, setEmail] = (0, import_react7.useState)("");
+    const [password, setPassword] = (0, import_react7.useState)("");
+    const [showPassword, setShowPassword] = (0, import_react7.useState)(false);
+    const [error, setError] = (0, import_react7.useState)("");
+    const [busy, setBusy] = (0, import_react7.useState)(false);
     async function submit(event) {
       event.preventDefault();
       setBusy(true);
@@ -25077,7 +25240,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         } else if (data2.user.role === "admin") navigate("/admin/overview");
         else {
           const application = await request("/merchant-applications/me").catch(() => null);
-          navigate(location2.state?.from === "/partner/register" || application ? "/partner/register" : "/");
+          navigate(location2.state?.from === "/partner/register" || application ? "/partner/register" : location2.state?.from === "/my-favorites" ? "/my-favorites" : "/");
         }
       } catch (err) {
         setError(err.message || "\u0110\u0103ng nh\u1EADp th\u1EA5t b\u1EA1i, vui l\xF2ng th\u1EED l\u1EA1i.");
@@ -25085,49 +25248,49 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setBusy(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(AuthLayout, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "auth-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("p", { children: "CH\xC0O M\u1EEANG TR\u1EDE L\u1EA0I" }),
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h2", { children: "\u0110\u0103ng nh\u1EADp" }),
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: "\u0110\u0103ng nh\u1EADp \u0111\u1EC3 ti\u1EBFp t\u1EE5c h\xE0nh tr\xECnh c\u1EE7a b\u1EA1n." })
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(AuthLayout, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "auth-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { children: "CH\xC0O M\u1EEANG TR\u1EDE L\u1EA0I" }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h2", { children: "\u0110\u0103ng nh\u1EADp" }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { children: "\u0110\u0103ng nh\u1EADp \u0111\u1EC3 ti\u1EBFp t\u1EE5c h\xE0nh tr\xECnh c\u1EE7a b\u1EA1n." })
       ] }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "auth-alert", role: "alert", children: error }),
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("form", { className: "auth-form", onSubmit: submit, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("label", { children: [
+      error && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "auth-alert", role: "alert", children: error }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("form", { className: "auth-form", onSubmit: submit, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("label", { children: [
           "Email",
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("input", { type: "email", value: email, onChange: (e) => setEmail(e.target.value), placeholder: "you@example.com", required: true, autoComplete: "email" })
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { type: "email", value: email, onChange: (e) => setEmail(e.target.value), placeholder: "you@example.com", required: true, autoComplete: "email" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("label", { children: [
           "M\u1EADt kh\u1EA9u",
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "password-field", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("input", { type: showPassword ? "text" : "password", value: password, onChange: (e) => setPassword(e.target.value), placeholder: "Nh\u1EADp m\u1EADt kh\u1EA9u", required: true, autoComplete: "current-password" }),
-            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { type: "button", onClick: () => setShowPassword((value2) => !value2), children: showPassword ? "\u1EA8n" : "Hi\u1EC7n" })
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "password-field", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { type: showPassword ? "text" : "password", value: password, onChange: (e) => setPassword(e.target.value), placeholder: "Nh\u1EADp m\u1EADt kh\u1EA9u", required: true, autoComplete: "current-password" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", onClick: () => setShowPassword((value2) => !value2), children: showPassword ? "\u1EA8n" : "Hi\u1EC7n" })
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { className: "auth-submit", disabled: busy, children: busy ? "\u0110ang \u0111\u0103ng nh\u1EADp\u2026" : "\u0110\u0103ng nh\u1EADp" })
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { className: "auth-submit", disabled: busy, children: busy ? "\u0110ang \u0111\u0103ng nh\u1EADp\u2026" : "\u0110\u0103ng nh\u1EADp" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("p", { className: "auth-switch", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("p", { className: "auth-switch", children: [
         "Ch\u01B0a c\xF3 t\xE0i kho\u1EA3n? ",
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Link, { to: "/register", children: "\u0110\u0103ng k\xFD ngay" })
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Link, { to: "/register", children: "\u0110\u0103ng k\xFD ngay" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("p", { className: "auth-switch rb-partner-entry", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("p", { className: "auth-switch rb-partner-entry", children: [
         "B\u1EA1n mu\u1ED1n b\xE1n h\xE0ng tr\xEAn RouteBite?",
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("br", {}),
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(Link, { to: "/partner/register", children: "\u0110\u0103ng k\xFD \u0111\u1ED1i t\xE1c Merchant" })
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("br", {}),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Link, { to: "/partner/register", children: "\u0110\u0103ng k\xFD \u0111\u1ED1i t\xE1c Merchant" })
       ] })
     ] });
   }
 
   // src/RegisterPage.jsx
-  var import_react6 = __toESM(require_react(), 1);
-  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
+  var import_react8 = __toESM(require_react(), 1);
+  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
   function RegisterPage() {
     const navigate = useNavigate();
     const { setSession } = useAuth();
-    const [form, setForm] = (0, import_react6.useState)({ fullName: "", email: "", phone: "", password: "", confirmPassword: "" });
-    const [fieldErrors, setFieldErrors] = (0, import_react6.useState)({});
-    const [error, setError] = (0, import_react6.useState)("");
-    const [busy, setBusy] = (0, import_react6.useState)(false);
+    const [form, setForm] = (0, import_react8.useState)({ fullName: "", email: "", phone: "", password: "", confirmPassword: "" });
+    const [fieldErrors, setFieldErrors] = (0, import_react8.useState)({});
+    const [error, setError] = (0, import_react8.useState)("");
+    const [busy, setBusy] = (0, import_react8.useState)(false);
     const change = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
     async function submit(event) {
       event.preventDefault();
@@ -25147,91 +25310,91 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setBusy(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)(AuthLayout, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "auth-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { children: "B\u1EAET \u0110\u1EA6U C\xD9NG ROUTEBITE" }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("h2", { children: "T\u1EA1o t\xE0i kho\u1EA3n" }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { children: "T\xE0i kho\u1EA3n \u0111\u0103ng k\xFD m\u1EDBi m\u1EB7c \u0111\u1ECBnh l\xE0 th\u1EF1c kh\xE1ch." })
+    return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(AuthLayout, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "auth-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { children: "B\u1EAET \u0110\u1EA6U C\xD9NG ROUTEBITE" }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("h2", { children: "T\u1EA1o t\xE0i kho\u1EA3n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { children: "T\xE0i kho\u1EA3n \u0111\u0103ng k\xFD m\u1EDBi m\u1EB7c \u0111\u1ECBnh l\xE0 th\u1EF1c kh\xE1ch." })
       ] }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "auth-alert", role: "alert", children: error }),
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("form", { className: "auth-form", onSubmit: submit, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { children: [
+      error && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "auth-alert", role: "alert", children: error }),
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("form", { className: "auth-form", onSubmit: submit, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { children: [
           "H\u1ECD v\xE0 t\xEAn",
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("input", { value: form.fullName, onChange: change("fullName"), placeholder: "Nguy\u1EC5n V\u0103n A", required: true, autoComplete: "name" })
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { value: form.fullName, onChange: change("fullName"), placeholder: "Nguy\u1EC5n V\u0103n A", required: true, autoComplete: "name" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { children: [
           "Email",
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("input", { className: fieldErrors.email ? "has-error" : "", type: "email", value: form.email, onChange: change("email"), placeholder: "you@example.com", required: true, autoComplete: "email" }),
-          fieldErrors.email && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("small", { children: fieldErrors.email })
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { className: fieldErrors.email ? "has-error" : "", type: "email", value: form.email, onChange: change("email"), placeholder: "you@example.com", required: true, autoComplete: "email" }),
+          fieldErrors.email && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("small", { children: fieldErrors.email })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { children: [
           "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i ",
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("em", { children: "(c\u1EA7n khi \u0111\u1EB7t m\xF3n)" }),
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("input", { type: "tel", value: form.phone, onChange: change("phone"), placeholder: "0900 000 000", autoComplete: "tel" })
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("em", { children: "(c\u1EA7n khi \u0111\u1EB7t m\xF3n)" }),
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { type: "tel", value: form.phone, onChange: change("phone"), placeholder: "0900 000 000", autoComplete: "tel" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { children: [
           "M\u1EADt kh\u1EA9u",
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("input", { className: fieldErrors.password ? "has-error" : "", type: "password", value: form.password, onChange: change("password"), placeholder: "\xCDt nh\u1EA5t 6 k\xFD t\u1EF1", required: true, autoComplete: "new-password" }),
-          fieldErrors.password && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("small", { children: fieldErrors.password })
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { className: fieldErrors.password ? "has-error" : "", type: "password", value: form.password, onChange: change("password"), placeholder: "\xCDt nh\u1EA5t 6 k\xFD t\u1EF1", required: true, autoComplete: "new-password" }),
+          fieldErrors.password && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("small", { children: fieldErrors.password })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { children: [
           "X\xE1c nh\u1EADn m\u1EADt kh\u1EA9u",
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("input", { className: fieldErrors.confirmPassword ? "has-error" : "", type: "password", value: form.confirmPassword, onChange: change("confirmPassword"), placeholder: "Nh\u1EADp l\u1EA1i m\u1EADt kh\u1EA9u", required: true, autoComplete: "new-password" }),
-          fieldErrors.confirmPassword && /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("small", { children: fieldErrors.confirmPassword })
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { className: fieldErrors.confirmPassword ? "has-error" : "", type: "password", value: form.confirmPassword, onChange: change("confirmPassword"), placeholder: "Nh\u1EADp l\u1EA1i m\u1EADt kh\u1EA9u", required: true, autoComplete: "new-password" }),
+          fieldErrors.confirmPassword && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("small", { children: fieldErrors.confirmPassword })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("button", { className: "auth-submit", disabled: busy, children: busy ? "\u0110ang \u0111\u0103ng k\xFD\u2026" : "\u0110\u0103ng k\xFD" })
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { className: "auth-submit", disabled: busy, children: busy ? "\u0110ang \u0111\u0103ng k\xFD\u2026" : "\u0110\u0103ng k\xFD" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("p", { className: "auth-switch", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("p", { className: "auth-switch", children: [
         "\u0110\xE3 c\xF3 t\xE0i kho\u1EA3n? ",
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Link, { to: "/login", children: "\u0110\u0103ng nh\u1EADp" })
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Link, { to: "/login", children: "\u0110\u0103ng nh\u1EADp" })
       ] })
     ] });
   }
 
   // src/ProfilePage.jsx
-  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
   var ROLE_LABELS = { customer: "Kh\xE1ch h\xE0ng", merchant: "Ch\u1EE7 qu\xE1n", admin: "Qu\u1EA3n tr\u1ECB vi\xEAn" };
   function ProfilePage() {
     const { currentUser } = useAuth();
-    if (!currentUser) return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Navigate, { to: "/login", replace: true });
-    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("main", { className: "profile-page", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("section", { className: "profile-card", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { children: "TH\xD4NG TIN T\xC0I KHO\u1EA2N" }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h1", { children: "H\u1ED3 s\u01A1 c\u1EE7a b\u1EA1n" }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "profile-avatar", children: currentUser.fullName.split(" ").filter(Boolean).slice(-2).map((word) => word[0]).join("").toUpperCase() }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "profile-rows", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(InfoRow, { label: "H\u1ECD v\xE0 t\xEAn", value: currentUser.fullName }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(InfoRow, { label: "Email", value: currentUser.email }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(InfoRow, { label: "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i", value: currentUser.phone || "Ch\u01B0a c\u1EADp nh\u1EADt" }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(InfoRow, { label: "Vai tr\xF2", value: ROLE_LABELS[currentUser.role] || currentUser.role })
+    if (!currentUser) return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Navigate, { to: "/login", replace: true });
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("main", { className: "profile-page", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("section", { className: "profile-card", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("p", { children: "TH\xD4NG TIN T\xC0I KHO\u1EA2N" }),
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("h1", { children: "H\u1ED3 s\u01A1 c\u1EE7a b\u1EA1n" }),
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "profile-avatar", children: currentUser.fullName.split(" ").filter(Boolean).slice(-2).map((word) => word[0]).join("").toUpperCase() }),
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "profile-rows", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(InfoRow, { label: "H\u1ECD v\xE0 t\xEAn", value: currentUser.fullName }),
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(InfoRow, { label: "Email", value: currentUser.email }),
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(InfoRow, { label: "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i", value: currentUser.phone || "Ch\u01B0a c\u1EADp nh\u1EADt" }),
+        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(InfoRow, { label: "Vai tr\xF2", value: ROLE_LABELS[currentUser.role] || currentUser.role })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("small", { children: "Ch\u1EE9c n\u0103ng ch\u1EC9nh s\u1EEDa th\xF4ng tin v\xE0 \u0111\u1ED5i m\u1EADt kh\u1EA9u s\u1EBD \u0111\u01B0\u1EE3c b\u1ED5 sung trong b\u1EA3n c\u1EADp nh\u1EADt ti\u1EBFp theo." })
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("small", { children: "Ch\u1EE9c n\u0103ng ch\u1EC9nh s\u1EEDa th\xF4ng tin v\xE0 \u0111\u1ED5i m\u1EADt kh\u1EA9u s\u1EBD \u0111\u01B0\u1EE3c b\u1ED5 sung trong b\u1EA3n c\u1EADp nh\u1EADt ti\u1EBFp theo." })
     ] }) });
   }
   function InfoRow({ label, value: value2 }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { children: label }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("strong", { children: value2 })
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { children: label }),
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("strong", { children: value2 })
     ] });
   }
 
   // src/components/AvatarDropdown.jsx
-  var import_react8 = __toESM(require_react(), 1);
+  var import_react10 = __toESM(require_react(), 1);
 
   // src/components/ChangePasswordModal.tsx
-  var import_react7 = __toESM(require_react(), 1);
-  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+  var import_react9 = __toESM(require_react(), 1);
+  var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
   function ChangePasswordModal({ onClose }) {
-    const dialog = (0, import_react7.useRef)(null);
-    const [oldPassword, setOldPassword] = (0, import_react7.useState)("");
-    const [newPassword, setNewPassword] = (0, import_react7.useState)("");
-    const [confirmPassword, setConfirmPassword] = (0, import_react7.useState)("");
-    const [error, setError] = (0, import_react7.useState)("");
-    const [success, setSuccess] = (0, import_react7.useState)(false);
-    const [loading, setLoading] = (0, import_react7.useState)(false);
-    (0, import_react7.useEffect)(() => {
+    const dialog = (0, import_react9.useRef)(null);
+    const [oldPassword, setOldPassword] = (0, import_react9.useState)("");
+    const [newPassword, setNewPassword] = (0, import_react9.useState)("");
+    const [confirmPassword, setConfirmPassword] = (0, import_react9.useState)("");
+    const [error, setError] = (0, import_react9.useState)("");
+    const [success, setSuccess] = (0, import_react9.useState)(false);
+    const [loading, setLoading] = (0, import_react9.useState)(false);
+    (0, import_react9.useEffect)(() => {
       dialog.current?.showModal();
     }, []);
-    (0, import_react7.useEffect)(() => {
+    (0, import_react9.useEffect)(() => {
       if (!success) return;
       const timer = setTimeout(onClose, 1500);
       return () => clearTimeout(timer);
@@ -25253,44 +25416,44 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setLoading(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("dialog", { ref: dialog, className: "rb-password-dialog", "aria-labelledby": "password-title", onCancel: (event) => {
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("dialog", { ref: dialog, className: "rb-password-dialog", "aria-labelledby": "password-title", onCancel: (event) => {
       event.preventDefault();
       if (!loading) onClose();
     }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("h2", { id: "password-title", children: "\u0110\u1ED5i m\u1EADt kh\u1EA9u" }),
-      success ? /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { role: "status", className: "rb-pickup-due", children: "\u0110\u1ED5i m\u1EADt kh\u1EA9u th\xE0nh c\xF4ng!" }) : /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("form", { className: "auth-form", onSubmit: submit, children: [
-        error && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("h2", { id: "password-title", children: "\u0110\u1ED5i m\u1EADt kh\u1EA9u" }),
+      success ? /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("p", { role: "status", className: "rb-pickup-due", children: "\u0110\u1ED5i m\u1EADt kh\u1EA9u th\xE0nh c\xF4ng!" }) : /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("form", { className: "auth-form", onSubmit: submit, children: [
+        error && /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("label", { children: [
           "M\u1EADt kh\u1EA9u hi\u1EC7n t\u1EA1i",
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { type: "password", autoComplete: "current-password", required: true, disabled: loading, value: oldPassword, onChange: (event) => setOldPassword(event.target.value) })
+          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("input", { type: "password", autoComplete: "current-password", required: true, disabled: loading, value: oldPassword, onChange: (event) => setOldPassword(event.target.value) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("label", { children: [
           "M\u1EADt kh\u1EA9u m\u1EDBi",
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { type: "password", autoComplete: "new-password", required: true, disabled: loading, value: newPassword, onChange: (event) => setNewPassword(event.target.value) })
+          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("input", { type: "password", autoComplete: "new-password", required: true, disabled: loading, value: newPassword, onChange: (event) => setNewPassword(event.target.value) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("label", { children: [
           "X\xE1c nh\u1EADn m\u1EADt kh\u1EA9u m\u1EDBi",
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { type: "password", autoComplete: "new-password", required: true, disabled: loading, value: confirmPassword, onChange: (event) => setConfirmPassword(event.target.value) })
+          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("input", { type: "password", autoComplete: "new-password", required: true, disabled: loading, value: confirmPassword, onChange: (event) => setConfirmPassword(event.target.value) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "rb-dialog-actions", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", className: "btn secondary", disabled: loading, onClick: onClose, children: "H\u1EE7y" }),
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "submit", className: "btn primary", disabled: loading, children: loading ? "\u0110ang l\u01B0u\u2026" : "X\xE1c nh\u1EADn" })
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "rb-dialog-actions", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("button", { type: "button", className: "btn secondary", disabled: loading, onClick: onClose, children: "H\u1EE7y" }),
+          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("button", { type: "submit", className: "btn primary", disabled: loading, children: loading ? "\u0110ang l\u01B0u\u2026" : "X\xE1c nh\u1EADn" })
         ] })
       ] })
     ] });
   }
 
   // src/components/AvatarDropdown.jsx
-  var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
   var ROLE_LABELS2 = { customer: "Kh\xE1ch h\xE0ng", merchant: "Ch\u1EE7 qu\xE1n", admin: "Qu\u1EA3n tr\u1ECB vi\xEAn" };
   function AvatarDropdown() {
     const { currentUser, logout } = useAuth();
     const navigate = useNavigate();
-    const [open, setOpen] = (0, import_react8.useState)(false);
-    const [showPassword, setShowPassword] = (0, import_react8.useState)(false);
-    const ref = (0, import_react8.useRef)(null);
-    const closePassword = (0, import_react8.useCallback)(() => setShowPassword(false), []);
-    (0, import_react8.useEffect)(() => {
+    const [open, setOpen] = (0, import_react10.useState)(false);
+    const [showPassword, setShowPassword] = (0, import_react10.useState)(false);
+    const ref = (0, import_react10.useRef)(null);
+    const closePassword = (0, import_react10.useCallback)(() => setShowPassword(false), []);
+    (0, import_react10.useEffect)(() => {
       const close = (event) => {
         if (!ref.current?.contains(event.target)) setOpen(false);
       };
@@ -25304,50 +25467,55 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         document.removeEventListener("keydown", escape);
       };
     }, []);
-    if (!currentUser) return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("button", { className: "header-login", type: "button", onClick: () => navigate("/login"), children: "\u0110\u0103ng nh\u1EADp" });
+    if (!currentUser) return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("button", { className: "header-login", type: "button", onClick: () => navigate("/login"), children: "\u0110\u0103ng nh\u1EADp" });
     const initials = (currentUser.fullName || "").split(" ").filter(Boolean).slice(-2).map((word) => word[0]).join("").toUpperCase() || "RB";
     const go = (path) => {
       setOpen(false);
       navigate(path);
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(import_jsx_runtime10.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "avatar-dropdown", ref, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("button", { className: "profile-trigger", type: "button", "aria-label": "M\u1EDF menu t\xE0i kho\u1EA3n", "aria-haspopup": "menu", "aria-expanded": open, onClick: () => setOpen(!open), children: initials }),
-        open && /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "avatar-menu", role: "menu", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("header", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("strong", { children: currentUser.fullName }),
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { children: ROLE_LABELS2[currentUser.role] || currentUser.role })
+    return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(import_jsx_runtime12.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "avatar-dropdown", ref, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("button", { className: "profile-trigger", type: "button", "aria-label": "M\u1EDF menu t\xE0i kho\u1EA3n", "aria-haspopup": "menu", "aria-expanded": open, onClick: () => setOpen(!open), children: initials }),
+        open && /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "avatar-menu", role: "menu", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("header", { className: "rb-account-summary", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { className: "rb-account-initials", "aria-hidden": "true", children: initials }),
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("strong", { children: currentUser.fullName }),
+              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { className: "rb-account-role", children: ROLE_LABELS2[currentUser.role] || currentUser.role })
+            ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "avatar-menu-items", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuItem, { label: "Th\xF4ng tin t\xE0i kho\u1EA3n", onClick: () => go(currentUser.role === "merchant" ? "/merchant/profile" : "/profile") }),
-            /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuItem, { label: "\u0110\u1ED5i m\u1EADt kh\u1EA9u", onClick: () => {
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "avatar-menu-items", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "Th\xF4ng tin t\xE0i kho\u1EA3n", onClick: () => go(currentUser.role === "merchant" ? "/merchant/profile" : "/profile") }),
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "\u0110\u1ED5i m\u1EADt kh\u1EA9u", onClick: () => {
               setOpen(false);
               setShowPassword(true);
             } }),
-            currentUser.role === "merchant" ? /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(import_jsx_runtime10.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuItem, { label: "Qu\u1EA3n l\xFD qu\xE1n", onClick: () => go("/merchant/dashboard") }),
-              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuItem, { label: "\u0110\u01A1n h\xE0ng c\u1EE7a qu\xE1n", onClick: () => go("/merchant/orders") })
-            ] }) : currentUser.role === "admin" ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuItem, { label: "Qu\u1EA3n tr\u1ECB h\u1EC7 th\u1ED1ng", onClick: () => go("/admin/overview") }) : /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)(import_jsx_runtime10.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuItem, { label: "\u0110\u01A1n c\u1EE7a t\xF4i", onClick: () => go("/my-orders") }),
-              /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuItem, { label: "Gi\u1ECF h\xE0ng c\u1EE7a t\xF4i", onClick: () => go("/my-carts") })
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "Qu\xE1n \u0111\xE3 l\u01B0u", onClick: () => go("/my-favorites") }),
+            currentUser.role === "customer" && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "\u0110i\u1EC3m c\u1EE7a t\xF4i", onClick: () => go("/my-points") }),
+            currentUser.role === "merchant" ? /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(import_jsx_runtime12.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "Qu\u1EA3n l\xFD qu\xE1n", onClick: () => go("/merchant/dashboard") }),
+              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "\u0110\u01A1n h\xE0ng c\u1EE7a qu\xE1n", onClick: () => go("/merchant/orders") })
+            ] }) : currentUser.role === "admin" ? /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "Qu\u1EA3n tr\u1ECB h\u1EC7 th\u1ED1ng", onClick: () => go("/admin/overview") }) : /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(import_jsx_runtime12.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "\u0110\u01A1n c\u1EE7a t\xF4i", onClick: () => go("/my-orders") }),
+              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "Gi\u1ECF h\xE0ng c\u1EE7a t\xF4i", onClick: () => go("/my-carts") })
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "avatar-menu-logout", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(MenuItem, { label: "\u0110\u0103ng xu\u1EA5t", danger: true, onClick: () => {
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "avatar-menu-logout", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "\u0110\u0103ng xu\u1EA5t", danger: true, onClick: () => {
             setOpen(false);
             logout();
             navigate("/login");
           } }) })
         ] })
       ] }),
-      showPassword && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(ChangePasswordModal, { onClose: closePassword })
+      showPassword && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(ChangePasswordModal, { onClose: closePassword })
     ] });
   }
   function MenuItem({ label, onClick, danger }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("button", { type: "button", role: "menuitem", className: danger ? "danger" : "", onClick, children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { children: label }) });
+    return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("button", { type: "button", role: "menuitem", className: danger ? "danger" : "", onClick, children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { children: label }) });
   }
 
   // src/components/OrderStatusBadge.tsx
-  var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
   var STATUS_CONFIG = {
     PENDING: { label: "Ch\u1EDD x\xE1c nh\u1EADn", bg: "#FEF3C7", color: "#92400E" },
     CONFIRMED: { label: "\u0110\xE3 x\xE1c nh\u1EADn", bg: "var(--color-primary-soft)", color: "var(--color-accent-dark)" },
@@ -25362,289 +25530,14 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       bg: "#E5E7EB",
       color: "#374151"
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { className: "rb-order-status", style: { backgroundColor: config2.bg, color: config2.color }, children: config2.label });
+    return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { className: "rb-order-status", style: { backgroundColor: config2.bg, color: config2.color }, children: config2.label });
   }
 
-  // src/components/PickupCountdown.tsx
-  var import_react9 = __toESM(require_react(), 1);
-  var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
-  function PickupCountdown({ estimatedPickupAt, pickupType }) {
-    const [now, setNow] = (0, import_react9.useState)(() => Date.now());
-    (0, import_react9.useEffect)(() => {
-      setNow(Date.now());
-      const interval = setInterval(() => setNow(Date.now()), 3e4);
-      return () => clearInterval(interval);
-    }, [estimatedPickupAt]);
-    const target = estimatedPickupAt ? new Date(estimatedPickupAt).getTime() : NaN;
-    if (!Number.isFinite(target)) return null;
-    if (pickupType === "scheduled") {
-      const time = new Date(target).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
-      return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("span", { children: [
-        "H\u1EB9n l\u1EA5y l\xFAc ",
-        time
-      ] });
-    }
-    const remainingMinutes = Math.max(0, Math.ceil((target - now) / 6e4));
-    return remainingMinutes > 0 ? /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("span", { children: [
-      "L\u1EA5y sau kho\u1EA3ng ",
-      remainingMinutes,
-      " ph\xFAt"
-    ] }) : /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { className: "rb-pickup-due", children: "C\xF3 th\u1EC3 \u0111\xE3 s\u1EB5n s\xE0ng, gh\xE9 l\u1EA5y nh\xE9!" });
-  }
-
-  // src/components/QuantityStepper.tsx
-  var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
-  function QuantityStepper({ quantity, onIncrease, onDecrease, name = "m\xF3n", disabled = false }) {
-    if (quantity <= 0) {
-      return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("button", { type: "button", className: "rb-quantity-add", "aria-label": `Th\xEAm ${name}`, onClick: onIncrease, disabled, children: "+" });
-    }
-    return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "rb-quantity-stepper", role: "group", "aria-label": `S\u1ED1 l\u01B0\u1EE3ng ${name}`, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("button", { type: "button", "aria-label": `Gi\u1EA3m ${name}`, onClick: onDecrease, disabled, children: "\u2212" }),
-      /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { "aria-live": "polite", "aria-atomic": "true", children: quantity }),
-      /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("button", { type: "button", className: "rb-quantity-increase", "aria-label": `T\u0103ng ${name}`, onClick: onIncrease, disabled: disabled || quantity >= 100, children: "+" })
-    ] });
-  }
-
-  // src/components/FoodThumbnail.tsx
-  var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
-  function FoodThumbnail({ src, name, className = "" }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(
-      "img",
-      {
-        className: `rb-food-thumbnail ${className}`,
-        src: src || "/placeholder-food.svg",
-        alt: name,
-        loading: "lazy",
-        onError: (event) => {
-          const image = event.currentTarget;
-          if (image.getAttribute("src") !== "/placeholder-food.svg") image.src = "/placeholder-food.svg";
-        }
-      }
-    );
-  }
-
-  // src/components/RouteSummaryCard.tsx
-  var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
-  function RouteSummaryCard({ restaurantName, restaurantAddress, destination, origin }) {
-    const [params] = useSearchParams();
-    const start = readRouteOrigin(params) || origin;
-    if (!validPoint(start)) return null;
-    const target = validPoint(destination) ? `${destination.lat},${destination.lng}` : restaurantAddress;
-    const url2 = target ? "https://www.google.com/maps/dir/?" + new URLSearchParams({
-      api: "1",
-      origin: `${start.lat},${start.lng}`,
-      destination: target,
-      travelmode: "driving"
-    }) : void 0;
-    return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("section", { className: "rb-route-summary", "aria-label": "L\u1ED9 tr\xECnh c\u1EE7a b\u1EA1n", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("h2", { children: "L\u1ED8 TR\xCCNH C\u1EE6A B\u1EA0N" }),
-      /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("ol", { className: "rb-route-timeline", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("li", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: "rb-route-label", children: "\u0110i\u1EC3m \u0111i" }),
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { children: start.address || "\u0110i\u1EC3m xu\u1EA5t ph\xE1t" })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("li", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: "rb-route-label", children: "Gh\xE9 l\u1EA5y t\u1EA1i" }),
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("strong", { children: restaurantName }),
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { children: restaurantAddress || destination?.address || "\u0110ang c\u1EADp nh\u1EADt \u0111\u1ECBa ch\u1EC9 qu\xE1n" })
-        ] })
-      ] }),
-      url2 && /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("a", { className: "rb-route-directions", href: url2, target: "_blank", rel: "noopener noreferrer", children: "\u{1F9ED} Ch\u1EC9 \u0111\u01B0\u1EDDng tr\xEAn Google Maps" })
-    ] });
-  }
-
-  // src/components/PaymentMethodSelector.tsx
-  var import_react10 = __toESM(require_react(), 1);
-  var import_jsx_runtime16 = __toESM(require_jsx_runtime(), 1);
-  function usePaymentMethod() {
-    return (0, import_react10.useState)("cash");
-  }
-  function PaymentMethodSelector({ value: value2, onChange, disabled = false }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("fieldset", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("legend", { children: "Ph\u01B0\u01A1ng th\u1EE9c thanh to\xE1n" }),
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("label", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
-          "input",
-          {
-            name: "payment-method",
-            type: "radio",
-            value: "cash",
-            disabled,
-            checked: value2 === "cash",
-            onChange: () => onChange("cash")
-          }
-        ),
-        " Ti\u1EC1n m\u1EB7t khi gh\xE9 l\u1EA5y"
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("label", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime16.jsx)(
-          "input",
-          {
-            name: "payment-method",
-            type: "radio",
-            value: "vnpay",
-            disabled,
-            checked: value2 === "vnpay",
-            onChange: () => onChange("vnpay")
-          }
-        ),
-        " C\u1ED5ng VNPAY (QR / Th\u1EBB ATM / Visa)"
-      ] })
-    ] });
-  }
-
-  // src/types/checkout.ts
-  function validateOrderPayload(payload) {
-    if (!["cash", "vnpay"].includes(payload.payment.method)) {
-      throw new Error("Vui l\xF2ng ch\u1ECDn Ti\u1EC1n m\u1EB7t ho\u1EB7c VNPAY.");
-    }
-    return payload;
-  }
-
-  // src/contexts/CartContext.jsx
-  var import_react11 = __toESM(require_react(), 1);
-
-  // src/utils/cartStorage.ts
-  var SAVED_CARTS_KEY = "routebite_saved_carts_v1";
-  function getSavedCarts() {
-    try {
-      const saved = localStorage.getItem(SAVED_CARTS_KEY);
-      if (saved !== null) {
-        const carts2 = JSON.parse(saved);
-        return Array.isArray(carts2) ? carts2.filter((cart) => cart?.restaurantId && Array.isArray(cart.items) && cart.items.length).slice(0, 10) : [];
-      }
-      const legacy = JSON.parse(localStorage.getItem("routebite_cart") || "[]");
-      let carts = [];
-      if (Array.isArray(legacy)) for (const item of legacy) {
-        if (!item?.id || !item.restaurantId || !Number.isInteger(item.quantity) || item.quantity <= 0) continue;
-        carts = addCartItem(carts, item, item.quantity);
-      }
-      return carts;
-    } catch {
-      return [];
-    }
-  }
-  function saveCarts(carts) {
-    localStorage.setItem(SAVED_CARTS_KEY, JSON.stringify(carts.filter((cart) => cart.items.length).slice(0, 10)));
-  }
-  function addCartItem(carts, item, amount = 1) {
-    const found = carts.find((cart) => cart.restaurantId === item.restaurantId);
-    if (!found) {
-      return [{
-        restaurantId: item.restaurantId,
-        restaurantName: item.restaurantName || "Qu\xE1n \u0103n",
-        restaurantImage: item.restaurantImage,
-        createdAt: (/* @__PURE__ */ new Date()).toISOString(),
-        routeOrigin: item.routeOrigin,
-        destination: item.destination,
-        restaurantAddress: item.restaurantAddress,
-        items: [{ ...item, quantity: Math.min(100, amount) }]
-      }, ...carts].slice(0, 10);
-    }
-    return carts.map((cart) => cart !== found ? cart : {
-      ...cart,
-      restaurantName: item.restaurantName || cart.restaurantName,
-      restaurantImage: item.restaurantImage || cart.restaurantImage,
-      routeOrigin: item.routeOrigin || cart.routeOrigin,
-      destination: item.destination || cart.destination,
-      restaurantAddress: item.restaurantAddress || cart.restaurantAddress,
-      items: cart.items.some((entry) => entry.id === item.id) ? cart.items.map((entry) => entry.id === item.id ? { ...entry, ...item, quantity: Math.min(100, entry.quantity + amount) } : entry) : [...cart.items, { ...item, quantity: Math.min(100, amount) }]
-    });
-  }
-  function changeCartItem(carts, restaurantId, id, step) {
-    return carts.map((cart) => cart.restaurantId !== restaurantId ? cart : {
-      ...cart,
-      items: cart.items.map((item) => item.id === id ? { ...item, quantity: Math.min(100, item.quantity + step) } : item).filter((item) => item.quantity > 0)
-    }).filter((cart) => cart.items.length);
-  }
-
-  // src/contexts/CartContext.jsx
-  var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
-  var CartContext = (0, import_react11.createContext)(null);
-  function CartProvider({ children }) {
-    const [carts, setCarts] = (0, import_react11.useState)(getSavedCarts);
-    (0, import_react11.useEffect)(() => {
-      saveCarts(carts);
-    }, [carts]);
-    (0, import_react11.useEffect)(() => {
-      const sync = (event) => {
-        if (event.key === SAVED_CARTS_KEY) setCarts(getSavedCarts());
-      };
-      window.addEventListener("storage", sync);
-      return () => window.removeEventListener("storage", sync);
-    }, []);
-    const value2 = (0, import_react11.useMemo)(() => ({
-      carts,
-      cart: carts.flatMap((cart) => cart.items),
-      add: (item) => setCarts((old) => addCartItem(old, item)),
-      rememberOrigin: (restaurantId, origin) => setCarts((old) => {
-        const existing = old.find((cart) => cart.restaurantId === restaurantId);
-        if (!existing || JSON.stringify(existing.routeOrigin) === JSON.stringify(origin)) return old;
-        return old.map((cart) => cart === existing ? { ...cart, routeOrigin: origin } : cart);
-      }),
-      change: (restaurantId, id, step) => setCarts((old) => changeCartItem(old, restaurantId, id, step)),
-      clear: (restaurantId) => {
-        setCarts((old) => {
-          const next2 = old.filter((cart) => cart.restaurantId !== restaurantId);
-          saveCarts(next2);
-          return next2;
-        });
-      }
-    }), [carts]);
-    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(CartContext.Provider, { value: value2, children });
-  }
-  function useCart() {
-    return (0, import_react11.useContext)(CartContext);
-  }
-
-  // src/pages/MyCartsPage.tsx
-  var import_react12 = __toESM(require_react(), 1);
-  var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
-  function MyCartsPage() {
-    const { carts, clear } = useCart();
-    const [manageMode, setManageMode] = (0, import_react12.useState)(false);
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("main", { className: "app-page rb-commerce-page rb-orders-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "rb-page-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "page-intro", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("p", { className: "rb-eyebrow", children: "GI\u1ECE H\xC0NG" }),
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h1", { children: "Gi\u1ECF h\xE0ng c\u1EE7a t\xF4i" }),
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("p", { children: "L\u01B0u t\u1ED1i \u0111a 10 gi\u1ECF h\xE0ng g\u1EA7n nh\u1EA5t theo qu\xE1n." })
-        ] }),
-        !!carts.length && /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("button", { className: "btn secondary", type: "button", onClick: () => setManageMode(!manageMode), children: manageMode ? "Xong" : "Qu\u1EA3n l\xFD" })
-      ] }),
-      !carts.length && /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("section", { className: "item-card rb-empty", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("p", { children: "B\u1EA1n ch\u01B0a c\xF3 gi\u1ECF h\xE0ng n\xE0o, kh\xE1m ph\xE1 qu\xE1n \u0103n \u0111\u1EC3 b\u1EAFt \u0111\u1EA7u." }),
-        /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(Link, { to: "/", children: "Kh\xE1m ph\xE1 ngay" })
-      ] }),
-      carts.map((cart) => {
-        const content = /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(import_jsx_runtime18.Fragment, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)(FoodThumbnail, { src: cart.restaurantImage, name: cart.restaurantName }),
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("h2", { children: cart.restaurantName }),
-            /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("p", { children: [
-              cart.items.reduce((sum, item) => sum + item.quantity, 0),
-              " m\xF3n \xB7 ",
-              cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0).toLocaleString("vi-VN"),
-              "\u0111"
-            ] })
-          ] })
-        ] });
-        return manageMode ? /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("article", { className: "item-card rb-saved-cart", children: [
-          content,
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("button", { type: "button", className: "rb-danger-button", "aria-label": "X\xF3a gi\u1ECF " + cart.restaurantName, onClick: () => clear(cart.restaurantId), children: "X\xF3a" })
-        ] }, cart.restaurantId) : /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)(Link, { className: "item-card rb-saved-cart", to: "/restaurants/" + cart.restaurantId + "/cart", children: [
-          content,
-          /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { "aria-hidden": "true", children: "\u2192" })
-        ] }, cart.restaurantId);
-      })
-    ] });
-  }
-
-  // src/pages/OrderDetailPage.jsx
-  var import_react14 = __toESM(require_react(), 1);
+  // src/components/PlacedOrderConfirmation.tsx
+  var import_react13 = __toESM(require_react(), 1);
 
   // src/contexts/SocketContext.jsx
-  var import_react13 = __toESM(require_react(), 1);
+  var import_react11 = __toESM(require_react(), 1);
 
   // node_modules/engine.io-parser/build/esm/commons.js
   var PACKET_TYPES = /* @__PURE__ */ Object.create(null);
@@ -29049,14 +28942,14 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   });
 
   // src/contexts/SocketContext.jsx
-  var import_jsx_runtime19 = __toESM(require_jsx_runtime(), 1);
-  var SocketContext = (0, import_react13.createContext)({});
+  var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
+  var SocketContext = (0, import_react11.createContext)({});
   function SocketProvider({ children }) {
     const { currentUser } = useAuth();
-    const [revision, setRevision] = (0, import_react13.useState)(0);
-    const [connections, setConnections] = (0, import_react13.useState)({});
+    const [revision, setRevision] = (0, import_react11.useState)(0);
+    const [connections, setConnections] = (0, import_react11.useState)({});
     const token = currentUser ? localStorage.getItem(TOKEN_KEY) : null;
-    (0, import_react13.useEffect)(() => {
+    (0, import_react11.useEffect)(() => {
       const changed = () => setRevision((value2) => value2 + 1);
       window.addEventListener("routebite:session-changed", changed);
       window.addEventListener("storage", changed);
@@ -29065,7 +28958,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         window.removeEventListener("storage", changed);
       };
     }, []);
-    (0, import_react13.useEffect)(() => {
+    (0, import_react11.useEffect)(() => {
       if (!token) {
         setConnections({});
         return;
@@ -29073,31 +28966,728 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       const manager = new Manager(new URL(API_BASE).origin, { autoConnect: false });
       const orders = manager.socket("/orders", { auth: { token } });
       const notifications = manager.socket("/notifications", { auth: { token } });
-      setConnections({ orders, notifications, token });
+      const chat = manager.socket("/chat", { auth: { token } });
+      setConnections({ orders, notifications, chat, token });
       orders.connect();
       notifications.connect();
+      if (["customer", "merchant"].includes(currentUser?.role)) chat.connect();
       return () => {
         orders.disconnect();
         notifications.disconnect();
+        chat.disconnect();
       };
-    }, [token, revision]);
-    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(SocketContext.Provider, { value: connections.token === token ? connections : {}, children });
+    }, [token, revision, currentUser?.role]);
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(SocketContext.Provider, { value: connections.token === token ? connections : {}, children });
   }
   function useSockets() {
-    return (0, import_react13.useContext)(SocketContext);
+    return (0, import_react11.useContext)(SocketContext);
+  }
+
+  // src/components/OrderStatusStepper.tsx
+  var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
+  var ORDER_STEPS = [
+    { status: "PENDING", label: "Ch\u1EDD x\xE1c nh\u1EADn" },
+    { status: "CONFIRMED", label: "\u0110\xE3 x\xE1c nh\u1EADn" },
+    { status: "PREPARING", label: "\u0110ang chu\u1EA9n b\u1ECB" },
+    { status: "READY", label: "S\u1EB5n s\xE0ng" },
+    { status: "COMPLETED", label: "Ho\xE0n th\xE0nh" }
+  ];
+  function OrderStatusStepper({ currentStatus }) {
+    const status = String(currentStatus || "").toUpperCase();
+    const currentIndex = ORDER_STEPS.findIndex((step) => step.status === status);
+    if (status === "CANCELLED") return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "rb-order-cancelled", "aria-live": "polite", children: "\u0110\u01A1n h\xE0ng \u0111\xE3 b\u1ECB h\u1EE7y" });
+    if (currentIndex < 0) return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { className: "rb-stepper-unknown", "aria-live": "polite", children: "Ch\u01B0a x\xE1c \u0111\u1ECBnh tr\u1EA1ng th\xE1i \u0111\u01A1n h\xE0ng." });
+    return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("ol", { className: "rb-order-stepper", "aria-label": "Ti\u1EBFn \u0111\u1ED9 \u0111\u01A1n h\xE0ng", "aria-live": "polite", children: ORDER_STEPS.map((step, index) => /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
+      "li",
+      {
+        className: index === currentIndex ? "current" : index < currentIndex ? "done" : "upcoming",
+        "aria-current": index === currentIndex ? "step" : void 0,
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: "rb-step-dot", "aria-hidden": "true", children: index < currentIndex ? "\u2713" : index + 1 }),
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: "rb-step-label", children: step.label })
+        ]
+      },
+      step.status
+    )) });
+  }
+
+  // src/components/PickupCountdown.tsx
+  var import_react12 = __toESM(require_react(), 1);
+  var import_jsx_runtime16 = __toESM(require_jsx_runtime(), 1);
+  function PickupCountdown({ estimatedPickupAt, pickupType }) {
+    const [now, setNow] = (0, import_react12.useState)(() => Date.now());
+    (0, import_react12.useEffect)(() => {
+      setNow(Date.now());
+      const interval = setInterval(() => setNow(Date.now()), 3e4);
+      return () => clearInterval(interval);
+    }, [estimatedPickupAt]);
+    const target = estimatedPickupAt ? new Date(estimatedPickupAt).getTime() : NaN;
+    if (!Number.isFinite(target)) return null;
+    if (pickupType === "scheduled") {
+      const time = new Date(target).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
+      return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("span", { children: [
+        "H\u1EB9n l\u1EA5y l\xFAc ",
+        time
+      ] });
+    }
+    const remainingMinutes = Math.max(0, Math.ceil((target - now) / 6e4));
+    return remainingMinutes > 0 ? /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("span", { children: [
+      "L\u1EA5y sau kho\u1EA3ng ",
+      remainingMinutes,
+      " ph\xFAt"
+    ] }) : /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { className: "rb-pickup-due", children: "C\xF3 th\u1EC3 \u0111\xE3 s\u1EB5n s\xE0ng, gh\xE9 l\u1EA5y nh\xE9!" });
+  }
+
+  // src/components/PlacedOrderConfirmation.tsx
+  var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
+  function PlacedOrderConfirmation({ initialOrder }) {
+    const { orders: socket } = useSockets();
+    const [order, setOrder] = (0, import_react13.useState)(initialOrder);
+    const [error, setError] = (0, import_react13.useState)("");
+    const [unavailable, setUnavailable] = (0, import_react13.useState)(false);
+    const [connected, setConnected] = (0, import_react13.useState)(false);
+    const [revision, setRevision] = (0, import_react13.useState)(0);
+    (0, import_react13.useEffect)(() => {
+      let alive = true, requestSequence = 0;
+      const merge = (next2) => {
+        if (!alive) return;
+        setOrder((prev) => {
+          const before = Date.parse(prev.updatedAt || ""), after = Date.parse(next2.updatedAt || "");
+          if (Number.isFinite(before) && Number.isFinite(after) && after < before) return prev;
+          return { ...prev, ...next2 };
+        });
+      };
+      const refresh = async () => {
+        const sequence = ++requestSequence;
+        try {
+          const fresh = await request("/orders/" + initialOrder.id);
+          if (!alive || sequence !== requestSequence || fresh?.id !== initialOrder.id) return;
+          merge(fresh);
+          setError("");
+          setUnavailable(false);
+        } catch (e) {
+          if (!alive || sequence !== requestSequence) return;
+          setUnavailable([401, 403, 404].includes(e.status));
+          setError("Ch\u01B0a c\u1EADp nh\u1EADt \u0111\u01B0\u1EE3c \u0111\u01A1n h\xE0ng. Vui l\xF2ng th\u1EED l\u1EA1i.");
+        }
+      };
+      const event = (payload) => {
+        if (!alive || payload?.orderId !== initialOrder.id) return;
+        const { orderId, ...data2 } = payload;
+        merge(data2);
+        void refresh();
+      };
+      const subscribe = () => {
+        if (!alive) return;
+        socket.emit("order.subscribe", { orderId: initialOrder.id }, (ack) => {
+          if (!alive) return;
+          setConnected(ack?.ok === true);
+          if (ack?.payload) event(ack.payload);
+          else void refresh();
+        });
+      };
+      const disconnected = () => {
+        if (alive) setConnected(false);
+      };
+      const focus = () => {
+        void refresh();
+      };
+      setConnected(false);
+      void refresh();
+      socket?.on("connect", subscribe);
+      socket?.on("disconnect", disconnected);
+      socket?.on("order.status.updated", event);
+      socket?.on("payment.status.updated", event);
+      if (socket?.connected) subscribe();
+      const timer = setInterval(refresh, 15e3);
+      window.addEventListener("focus", focus);
+      return () => {
+        alive = false;
+        clearInterval(timer);
+        window.removeEventListener("focus", focus);
+        socket?.off("connect", subscribe);
+        socket?.off("disconnect", disconnected);
+        socket?.off("order.status.updated", event);
+        socket?.off("payment.status.updated", event);
+        if (socket?.connected) socket.emit("order.unsubscribe", { orderId: initialOrder.id });
+      };
+    }, [initialOrder.id, socket, revision]);
+    const paymentText = order.status === "CANCELLED" ? "" : order.paymentStatus === "REFUNDED" ? "\u0110\u01A1n h\xE0ng \u0111\xE3 \u0111\u01B0\u1EE3c ho\xE0n ti\u1EC1n." : order.totalAmount === 0 && order.paymentStatus === "PAID" ? "Voucher \u0111\xE3 thanh to\xE1n to\xE0n b\u1ED9 gi\xE1 tr\u1ECB \u0111\u01A1n." : order.paymentMethod === "cash" ? order.paymentStatus === "PAID" ? "\u0110\xE3 thanh to\xE1n ti\u1EC1n m\u1EB7t." : "Thanh to\xE1n ti\u1EC1n m\u1EB7t khi gh\xE9 l\u1EA5y." : order.paymentStatus === "PAID" ? "\u0110\xE3 thanh to\xE1n qua VNPAY." : "Ch\u01B0a ho\xE0n t\u1EA5t thanh to\xE1n VNPAY. B\u1EA1n c\xF3 th\u1EC3 ti\u1EBFp t\u1EE5c \u1EDF trang chi ti\u1EBFt \u0111\u01A1n.";
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("section", { className: "item-card rb-placed-order", "aria-label": "\u0110\u01A1n v\u1EEBa \u0111\u1EB7t", children: [
+      !unavailable && /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(import_jsx_runtime17.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("p", { className: "rb-placed-order-heading", role: "status", children: [
+          "\u0110\u01A1n ",
+          /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("strong", { children: order.orderCode }),
+          " \u0111\xE3 \u0111\u1EB7t. ",
+          paymentText
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(OrderStatusStepper, { currentStatus: order.status }),
+        ["CONFIRMED", "PREPARING", "READY"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "rb-placed-order-eta", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("small", { className: "rb-order-sync", children: connected ? "\u0110ang c\u1EADp nh\u1EADt tr\u1EF1c ti\u1EBFp" : "T\u1EF1 ki\u1EC3m tra tr\u1EA1ng th\xE1i m\u1ED7i 15 gi\xE2y" })
+      ] }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("p", { className: "rb-order-sync-error", role: "alert", children: [
+        error,
+        " ",
+        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("button", { type: "button", className: "btn secondary", onClick: () => setRevision((n) => n + 1), children: "Th\u1EED l\u1EA1i" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "rb-placed-order-links", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Link, { to: "/kham-pha", children: "Kh\xE1m ph\xE1 qu\xE1n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Link, { to: "/orders/" + initialOrder.id, children: "Xem chi ti\u1EBFt \u0111\u01A1n" })
+      ] })
+    ] });
+  }
+
+  // src/components/QuantityStepper.tsx
+  var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
+  function QuantityStepper({ quantity, onIncrease, onDecrease, name = "m\xF3n", disabled = false }) {
+    if (quantity <= 0) {
+      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("button", { type: "button", className: "rb-quantity-add", "aria-label": `Th\xEAm ${name}`, onClick: onIncrease, disabled, children: "+" });
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "rb-quantity-stepper", role: "group", "aria-label": `S\u1ED1 l\u01B0\u1EE3ng ${name}`, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("button", { type: "button", "aria-label": `Gi\u1EA3m ${name}`, onClick: onDecrease, disabled, children: "\u2212" }),
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { "aria-live": "polite", "aria-atomic": "true", children: quantity }),
+      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("button", { type: "button", className: "rb-quantity-increase", "aria-label": `T\u0103ng ${name}`, onClick: onIncrease, disabled: disabled || quantity >= 100, children: "+" })
+    ] });
+  }
+
+  // src/components/FoodThumbnail.tsx
+  var import_jsx_runtime19 = __toESM(require_jsx_runtime(), 1);
+  function FoodThumbnail({ src, name, className = "" }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
+      "img",
+      {
+        className: `rb-food-thumbnail ${className}`,
+        src: src || "/placeholder-food.svg",
+        alt: name,
+        loading: "lazy",
+        onError: (event) => {
+          const image = event.currentTarget;
+          if (image.getAttribute("src") !== "/placeholder-food.svg") image.src = "/placeholder-food.svg";
+        }
+      }
+    );
+  }
+
+  // src/components/RouteSummaryCard.tsx
+  var import_jsx_runtime20 = __toESM(require_jsx_runtime(), 1);
+  function RouteSummaryCard({ restaurantName, restaurantAddress, destination, origin }) {
+    const [params] = useSearchParams();
+    const start = readRouteOrigin(params) || origin;
+    if (!validPoint(start)) return null;
+    const target = validPoint(destination) ? `${destination.lat},${destination.lng}` : restaurantAddress;
+    const url2 = target ? "https://www.google.com/maps/dir/?" + new URLSearchParams({
+      api: "1",
+      origin: `${start.lat},${start.lng}`,
+      destination: target,
+      travelmode: "driving"
+    }) : void 0;
+    return /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("section", { className: "rb-route-summary", "aria-label": "L\u1ED9 tr\xECnh c\u1EE7a b\u1EA1n", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("h2", { children: "L\u1ED8 TR\xCCNH C\u1EE6A B\u1EA0N" }),
+      /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("ol", { className: "rb-route-timeline", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("li", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("span", { className: "rb-route-label", children: "\u0110i\u1EC3m \u0111i" }),
+          /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("p", { children: start.address || "\u0110i\u1EC3m xu\u1EA5t ph\xE1t" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("li", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("span", { className: "rb-route-label", children: "Gh\xE9 l\u1EA5y t\u1EA1i" }),
+          /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("strong", { children: restaurantName }),
+          /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("p", { children: restaurantAddress || destination?.address || "\u0110ang c\u1EADp nh\u1EADt \u0111\u1ECBa ch\u1EC9 qu\xE1n" })
+        ] })
+      ] }),
+      url2 && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("a", { className: "rb-route-directions", href: url2, target: "_blank", rel: "noopener noreferrer", children: "\u{1F9ED} Ch\u1EC9 \u0111\u01B0\u1EDDng tr\xEAn Google Maps" })
+    ] });
+  }
+
+  // src/components/PaymentMethodSelector.tsx
+  var import_react14 = __toESM(require_react(), 1);
+  var import_jsx_runtime21 = __toESM(require_jsx_runtime(), 1);
+  function usePaymentMethod() {
+    return (0, import_react14.useState)("cash");
+  }
+  function PaymentMethodSelector({ value: value2, onChange, disabled = false }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("fieldset", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("legend", { children: "Ph\u01B0\u01A1ng th\u1EE9c thanh to\xE1n" }),
+      /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+          "input",
+          {
+            name: "payment-method",
+            type: "radio",
+            value: "cash",
+            disabled,
+            checked: value2 === "cash",
+            onChange: () => onChange("cash")
+          }
+        ),
+        " Ti\u1EC1n m\u1EB7t khi gh\xE9 l\u1EA5y"
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+          "input",
+          {
+            name: "payment-method",
+            type: "radio",
+            value: "vnpay",
+            disabled,
+            checked: value2 === "vnpay",
+            onChange: () => onChange("vnpay")
+          }
+        ),
+        " C\u1ED5ng VNPAY (QR / Th\u1EBB ATM / Visa)"
+      ] })
+    ] });
+  }
+
+  // src/types/checkout.ts
+  function validateOrderPayload(payload) {
+    if (!["cash", "vnpay"].includes(payload.payment.method)) {
+      throw new Error("Vui l\xF2ng ch\u1ECDn Ti\u1EC1n m\u1EB7t ho\u1EB7c VNPAY.");
+    }
+    return payload;
+  }
+
+  // src/contexts/CartContext.jsx
+  var import_react15 = __toESM(require_react(), 1);
+
+  // src/utils/cartStorage.ts
+  var SAVED_CARTS_KEY = "routebite_saved_carts_v1";
+  function getSavedCarts() {
+    try {
+      const saved = localStorage.getItem(SAVED_CARTS_KEY);
+      if (saved !== null) {
+        const carts2 = JSON.parse(saved);
+        return Array.isArray(carts2) ? carts2.filter((cart) => cart?.restaurantId && Array.isArray(cart.items) && cart.items.length).slice(0, 10) : [];
+      }
+      const legacy = JSON.parse(localStorage.getItem("routebite_cart") || "[]");
+      let carts = [];
+      if (Array.isArray(legacy)) for (const item of legacy) {
+        if (!item?.id || !item.restaurantId || !Number.isInteger(item.quantity) || item.quantity <= 0) continue;
+        carts = addCartItem(carts, item, item.quantity);
+      }
+      return carts;
+    } catch {
+      return [];
+    }
+  }
+  function saveCarts(carts) {
+    localStorage.setItem(SAVED_CARTS_KEY, JSON.stringify(carts.filter((cart) => cart.items.length).slice(0, 10)));
+  }
+  function addCartItem(carts, item, amount = 1) {
+    const found = carts.find((cart) => cart.restaurantId === item.restaurantId);
+    if (!found) {
+      return [{
+        restaurantId: item.restaurantId,
+        restaurantName: item.restaurantName || "Qu\xE1n \u0103n",
+        restaurantImage: item.restaurantImage,
+        createdAt: (/* @__PURE__ */ new Date()).toISOString(),
+        routeOrigin: item.routeOrigin,
+        destination: item.destination,
+        restaurantAddress: item.restaurantAddress,
+        items: [{ ...item, quantity: Math.min(100, amount) }]
+      }, ...carts].slice(0, 10);
+    }
+    return carts.map((cart) => cart !== found ? cart : {
+      ...cart,
+      restaurantName: item.restaurantName || cart.restaurantName,
+      restaurantImage: item.restaurantImage || cart.restaurantImage,
+      routeOrigin: item.routeOrigin || cart.routeOrigin,
+      destination: item.destination || cart.destination,
+      restaurantAddress: item.restaurantAddress || cart.restaurantAddress,
+      items: cart.items.some((entry) => entry.id === item.id) ? cart.items.map((entry) => entry.id === item.id ? { ...entry, ...item, quantity: Math.min(100, entry.quantity + amount) } : entry) : [...cart.items, { ...item, quantity: Math.min(100, amount) }]
+    });
+  }
+  function changeCartItem(carts, restaurantId, id, step) {
+    return carts.map((cart) => cart.restaurantId !== restaurantId ? cart : {
+      ...cart,
+      items: cart.items.map((item) => item.id === id ? { ...item, quantity: Math.min(100, item.quantity + step) } : item).filter((item) => item.quantity > 0)
+    }).filter((cart) => cart.items.length);
+  }
+
+  // src/contexts/CartContext.jsx
+  var import_jsx_runtime22 = __toESM(require_jsx_runtime(), 1);
+  var CartContext = (0, import_react15.createContext)(null);
+  function CartProvider({ children }) {
+    const [carts, setCarts] = (0, import_react15.useState)(getSavedCarts);
+    (0, import_react15.useEffect)(() => {
+      saveCarts(carts);
+    }, [carts]);
+    (0, import_react15.useEffect)(() => {
+      const sync = (event) => {
+        if (event.key === SAVED_CARTS_KEY) setCarts(getSavedCarts());
+      };
+      window.addEventListener("storage", sync);
+      return () => window.removeEventListener("storage", sync);
+    }, []);
+    const value2 = (0, import_react15.useMemo)(() => ({
+      carts,
+      cart: carts.flatMap((cart) => cart.items),
+      add: (item) => setCarts((old) => addCartItem(old, item)),
+      rememberOrigin: (restaurantId, origin) => setCarts((old) => {
+        const existing = old.find((cart) => cart.restaurantId === restaurantId);
+        if (!existing || JSON.stringify(existing.routeOrigin) === JSON.stringify(origin)) return old;
+        return old.map((cart) => cart === existing ? { ...cart, routeOrigin: origin } : cart);
+      }),
+      change: (restaurantId, id, step) => setCarts((old) => changeCartItem(old, restaurantId, id, step)),
+      clear: (restaurantId) => {
+        setCarts((old) => {
+          const next2 = old.filter((cart) => cart.restaurantId !== restaurantId);
+          saveCarts(next2);
+          return next2;
+        });
+      }
+    }), [carts]);
+    return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(CartContext.Provider, { value: value2, children });
+  }
+  function useCart() {
+    return (0, import_react15.useContext)(CartContext);
+  }
+
+  // src/pages/MyCartsPage.tsx
+  var import_react16 = __toESM(require_react(), 1);
+  var import_jsx_runtime23 = __toESM(require_jsx_runtime(), 1);
+  function MyCartsPage() {
+    const { carts, clear } = useCart();
+    const [manageMode, setManageMode] = (0, import_react16.useState)(false);
+    return /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("main", { className: "app-page rb-commerce-page rb-orders-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "rb-page-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "page-intro", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("p", { className: "rb-eyebrow", children: "GI\u1ECE H\xC0NG" }),
+          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("h1", { children: "Gi\u1ECF h\xE0ng c\u1EE7a t\xF4i" }),
+          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("p", { children: "L\u01B0u t\u1ED1i \u0111a 10 gi\u1ECF h\xE0ng g\u1EA7n nh\u1EA5t theo qu\xE1n." })
+        ] }),
+        !!carts.length && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("button", { className: "btn secondary", type: "button", onClick: () => setManageMode(!manageMode), children: manageMode ? "Xong" : "Qu\u1EA3n l\xFD" })
+      ] }),
+      !carts.length && /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("section", { className: "item-card rb-empty", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("p", { children: "B\u1EA1n ch\u01B0a c\xF3 gi\u1ECF h\xE0ng n\xE0o, kh\xE1m ph\xE1 qu\xE1n \u0103n \u0111\u1EC3 b\u1EAFt \u0111\u1EA7u." }),
+        /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(Link, { to: "/", children: "Kh\xE1m ph\xE1 ngay" })
+      ] }),
+      carts.map((cart) => {
+        const content = /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(import_jsx_runtime23.Fragment, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(FoodThumbnail, { src: cart.restaurantImage, name: cart.restaurantName }),
+          /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("h2", { children: cart.restaurantName }),
+            /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("p", { children: [
+              cart.items.reduce((sum, item) => sum + item.quantity, 0),
+              " m\xF3n \xB7 ",
+              cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0).toLocaleString("vi-VN"),
+              "\u0111"
+            ] })
+          ] })
+        ] });
+        return manageMode ? /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("article", { className: "item-card rb-saved-cart", children: [
+          content,
+          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("button", { type: "button", className: "rb-danger-button", "aria-label": "X\xF3a gi\u1ECF " + cart.restaurantName, onClick: () => clear(cart.restaurantId), children: "X\xF3a" })
+        ] }, cart.restaurantId) : /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(Link, { className: "item-card rb-saved-cart", to: "/restaurants/" + cart.restaurantId + "/cart", children: [
+          content,
+          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("span", { "aria-hidden": "true", children: "\u2192" })
+        ] }, cart.restaurantId);
+      })
+    ] });
   }
 
   // src/pages/OrderDetailPage.jsx
-  var import_jsx_runtime20 = __toESM(require_jsx_runtime(), 1);
+  var import_react19 = __toESM(require_react(), 1);
+
+  // src/components/ChatDrawer.tsx
+  var import_react18 = __toESM(require_react(), 1);
+
+  // src/contexts/ChatInboxContext.tsx
+  var import_react17 = __toESM(require_react(), 1);
+  var import_jsx_runtime24 = __toESM(require_jsx_runtime(), 1);
+  var empty2 = { conversations: [], loading: false, error: "" };
+  var ChatInboxContext = (0, import_react17.createContext)({ ...empty2, totalUnread: 0, refresh: async () => {
+  } });
+  function ChatInboxProvider({ children }) {
+    const { currentUser } = useAuth();
+    const { chat: socket } = useSockets();
+    const enabled = ["customer", "merchant"].includes(currentUser?.role), userId = enabled ? currentUser.id : null;
+    const [state, setState] = (0, import_react17.useState)({ ...empty2, userId });
+    const refreshRef = (0, import_react17.useRef)(async () => {
+    });
+    (0, import_react17.useEffect)(() => {
+      let active = true, sequence = 0;
+      setState({ ...empty2, userId, loading: !!userId });
+      const refresh2 = async () => {
+        if (!userId) return;
+        const version = ++sequence;
+        try {
+          const rows = await request("/messages/conversations");
+          if (!Array.isArray(rows)) throw new Error();
+          if (active && version === sequence) setState({ userId, conversations: rows, loading: false, error: "" });
+        } catch (error) {
+          if (active && version === sequence) setState((old) => ({ ...old, conversations: [401, 403].includes(error.status) ? [] : old.conversations, loading: false, error: "Kh\xF4ng t\u1EA3i \u0111\u01B0\u1EE3c h\u1ED9p th\u01B0. Vui l\xF2ng th\u1EED l\u1EA1i." }));
+        }
+      };
+      refreshRef.current = refresh2;
+      const join = () => {
+        socket?.emit("join-all-my-conversations", {}, () => {
+          if (active) void refresh2();
+        });
+        void refresh2();
+      };
+      void refresh2();
+      if (socket?.connected && userId) join();
+      socket?.on("connect", join);
+      socket?.on("message.new", refresh2);
+      socket?.on("messages.read", refresh2);
+      const visible = () => {
+        if (document.visibilityState === "visible") void refresh2();
+      };
+      document.addEventListener("visibilitychange", visible);
+      const timer = userId ? setInterval(refresh2, 15e3) : void 0;
+      return () => {
+        active = false;
+        clearInterval(timer);
+        document.removeEventListener("visibilitychange", visible);
+        socket?.off("connect", join);
+        socket?.off("message.new", refresh2);
+        socket?.off("messages.read", refresh2);
+      };
+    }, [userId, socket]);
+    const refresh = (0, import_react17.useCallback)(async () => {
+      await refreshRef.current();
+    }, []);
+    const current = state.userId === userId ? state : empty2;
+    return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(ChatInboxContext.Provider, { value: { ...current, totalUnread: current.conversations.reduce((sum, row) => sum + Math.max(0, Number(row.unreadCount) || 0), 0), refresh }, children });
+  }
+  function useChatInbox() {
+    return (0, import_react17.useContext)(ChatInboxContext);
+  }
+
+  // src/components/ChatDrawer.tsx
+  var import_jsx_runtime25 = __toESM(require_jsx_runtime(), 1);
+  var mergeMessages = (old, incoming, orderId) => {
+    const map = new Map(old.map((message) => [message.id, message]));
+    for (const message of incoming) if (message.orderId === orderId && message.id && typeof message.content === "string") map.set(message.id, message);
+    return [...map.values()].sort((a, b) => Date.parse(a.createdAt) - Date.parse(b.createdAt) || a.id.localeCompare(b.id));
+  };
+  function ChatDrawer({ orderId, orderCode, onClose }) {
+    const { currentUser } = useAuth();
+    const { chat: socket } = useSockets();
+    const { refresh: refreshInbox } = useChatInbox();
+    const [messages, setMessages] = (0, import_react18.useState)([]);
+    const [input, setInput] = (0, import_react18.useState)("");
+    const [loading, setLoading] = (0, import_react18.useState)(true);
+    const [allowed, setAllowed] = (0, import_react18.useState)(false);
+    const [error, setError] = (0, import_react18.useState)("");
+    const [sending, setSending] = (0, import_react18.useState)(false);
+    const [connected, setConnected] = (0, import_react18.useState)(false);
+    const [revision, setRevision] = (0, import_react18.useState)(0);
+    const [viewRevision, setViewRevision] = (0, import_react18.useState)(0);
+    const [readError, setReadError] = (0, import_react18.useState)("");
+    const busy = (0, import_react18.useRef)(false), alive = (0, import_react18.useRef)(true), followBottom = (0, import_react18.useRef)(true);
+    const drawer = (0, import_react18.useRef)(null), list = (0, import_react18.useRef)(null), field = (0, import_react18.useRef)(null);
+    const close = (0, import_react18.useRef)(onClose);
+    close.current = onClose;
+    (0, import_react18.useEffect)(() => {
+      if (allowed) field.current?.focus();
+    }, [allowed]);
+    (0, import_react18.useEffect)(() => {
+      alive.current = true;
+      field.current?.focus();
+      window.dispatchEvent(new CustomEvent("routebite:order-chat-open", { detail: true }));
+      const escape = (event) => {
+        if (event.key === "Escape" && !busy.current && drawer.current?.contains(document.activeElement)) close.current();
+      };
+      document.addEventListener("keydown", escape);
+      return () => {
+        alive.current = false;
+        document.removeEventListener("keydown", escape);
+        window.dispatchEvent(new CustomEvent("routebite:order-chat-open", { detail: false }));
+      };
+    }, []);
+    (0, import_react18.useEffect)(() => {
+      let active = true, sequence = 0;
+      const load = async () => {
+        const version = ++sequence;
+        try {
+          const rows = await request(`/orders/${orderId}/messages`);
+          if (!Array.isArray(rows)) throw new Error();
+          if (active && version === sequence) {
+            setMessages((old) => mergeMessages(old, rows, orderId));
+            setAllowed(true);
+            setError("");
+          }
+        } catch (cause) {
+          if (active && version === sequence) {
+            if ([401, 403, 404].includes(cause.status)) {
+              setAllowed(false);
+              setMessages([]);
+            }
+            setError([401, 403].includes(cause.status) ? "B\u1EA1n kh\xF4ng c\xF3 quy\u1EC1n m\u1EDF chat ho\u1EB7c phi\xEAn \u0111\u0103ng nh\u1EADp \u0111\xE3 h\u1EBFt h\u1EA1n." : "Kh\xF4ng th\u1EC3 t\u1EA3i tin nh\u1EAFn. Vui l\xF2ng th\u1EED l\u1EA1i.");
+          }
+        } finally {
+          if (active && version === sequence) setLoading(false);
+        }
+      };
+      void load();
+      const join = () => {
+        socket?.timeout(5e3).emit("join", { orderId }, (failure, response) => {
+          if (active) {
+            setConnected(!failure && response?.ok === true);
+            void load();
+          }
+        });
+      };
+      const receive = (message) => {
+        if (active && message.orderId === orderId) setMessages((old) => mergeMessages(old, [message], orderId));
+      };
+      const offline = () => {
+        if (active) setConnected(false);
+      };
+      socket?.on("connect", join);
+      socket?.on("message.new", receive);
+      socket?.on("disconnect", offline);
+      socket?.on("connect_error", offline);
+      if (socket?.connected) join();
+      else socket?.connect();
+      const timer = window.setInterval(load, 15e3);
+      return () => {
+        active = false;
+        window.clearInterval(timer);
+        socket?.off("connect", join);
+        socket?.off("message.new", receive);
+        socket?.off("disconnect", offline);
+        socket?.off("connect_error", offline);
+        if (socket?.connected) socket.emit("leave", { orderId });
+      };
+    }, [orderId, socket, revision]);
+    (0, import_react18.useEffect)(() => {
+      if (followBottom.current && list.current) list.current.scrollTop = list.current.scrollHeight;
+    }, [messages.length]);
+    (0, import_react18.useEffect)(() => {
+      const visible = () => {
+        if (document.visibilityState === "visible") setViewRevision((n) => n + 1);
+      };
+      document.addEventListener("visibilitychange", visible);
+      window.addEventListener("focus", visible);
+      return () => {
+        document.removeEventListener("visibilitychange", visible);
+        window.removeEventListener("focus", visible);
+      };
+    }, []);
+    (0, import_react18.useEffect)(() => {
+      if (!allowed || document.visibilityState !== "visible" || !followBottom.current) return;
+      const ids = messages.filter((m) => m.isRead === false && m.senderId !== currentUser?.id).map((m) => m.id);
+      if (!ids.length) return;
+      let active = true;
+      const mark = async () => {
+        try {
+          const readIds = /* @__PURE__ */ new Set();
+          for (let i = 0; i < ids.length; i += 200) {
+            const result = await request(`/orders/${orderId}/messages/read`, { method: "PATCH", body: { messageIds: ids.slice(i, i + 200) } });
+            for (const id of result.messageIds || []) readIds.add(id);
+          }
+          if (active) {
+            setReadError("");
+            if (readIds.size) setMessages((rows) => rows.map((m) => readIds.has(m.id) ? { ...m, isRead: true } : m));
+          }
+          await refreshInbox();
+        } catch {
+          if (active) setReadError("Ch\u01B0a c\u1EADp nh\u1EADt \u0111\u01B0\u1EE3c tr\u1EA1ng th\xE1i \u0111\xE3 \u0111\u1ECDc.");
+        }
+      };
+      void mark();
+      return () => {
+        active = false;
+      };
+    }, [messages, allowed, orderId, currentUser?.id, viewRevision, refreshInbox]);
+    async function send(event) {
+      event.preventDefault();
+      const content = input.trim();
+      if (!content || busy.current || !allowed) return;
+      busy.current = true;
+      setSending(true);
+      setError("");
+      try {
+        const message = await request(`/orders/${orderId}/messages`, { method: "POST", body: { content } });
+        if (alive.current) {
+          followBottom.current = true;
+          setMessages((old) => mergeMessages(old, [message], orderId));
+          setInput("");
+        }
+      } catch (cause) {
+        if (alive.current) {
+          if ([401, 403, 404].includes(cause.status)) {
+            setAllowed(false);
+            setMessages([]);
+          }
+          setError("Ch\u01B0a g\u1EEDi \u0111\u01B0\u1EE3c tin nh\u1EAFn. N\u1ED9i dung v\u1EABn \u0111\u01B0\u1EE3c gi\u1EEF \u0111\u1EC3 b\u1EA1n th\u1EED l\u1EA1i.");
+        }
+      } finally {
+        busy.current = false;
+        if (alive.current) {
+          setSending(false);
+          field.current?.focus();
+        }
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("section", { ref: drawer, className: "rb-chat-drawer", role: "dialog", "aria-modal": "false", "aria-labelledby": "chat-title", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("header", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("h2", { id: "chat-title", children: "Nh\u1EAFn tin v\u1EC1 \u0111\u01A1n h\xE0ng" }),
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("small", { children: orderCode || orderId })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("button", { type: "button", "aria-label": "\u0110\xF3ng tr\xF2 chuy\u1EC7n", disabled: sending, onClick: onClose, children: "\xD7" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("p", { className: "rb-chat-connection", children: connected ? "\u0110\xE3 k\u1EBFt n\u1ED1i realtime" : "\u0110ang k\u1EBFt n\u1ED1i realtime \xB7 t\u1EF1 t\u1EA3i l\u1EA1i m\u1ED7i 15 gi\xE2y" }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "rb-chat-error", role: "alert", children: [
+        error,
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("button", { type: "button", onClick: () => setRevision((value2) => value2 + 1), children: "Th\u1EED l\u1EA1i" })
+      ] }),
+      readError && /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "rb-chat-error", children: [
+        readError,
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("button", { type: "button", onClick: () => setViewRevision((n) => n + 1), children: "Th\u1EED l\u1EA1i" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "rb-chat-messages", ref: list, role: "log", "aria-label": "Tin nh\u1EAFn c\u1EE7a \u0111\u01A1n", "aria-live": "polite", onScroll: () => {
+        const node = list.current;
+        if (node) {
+          const bottom = node.scrollHeight - node.scrollTop - node.clientHeight < 60;
+          if (bottom && !followBottom.current) setViewRevision((n) => n + 1);
+          followBottom.current = bottom;
+        }
+      }, children: [
+        loading ? /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("p", { children: "\u0110ang t\u1EA3i tin nh\u1EAFn\u2026" }) : !messages.length && !error ? /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("p", { children: "Ch\u01B0a c\xF3 tin nh\u1EAFn. H\xE3y trao \u0111\u1ED5i v\u1EC1 \u0111\u01A1n h\xE0ng t\u1EA1i \u0111\xE2y." }) : null,
+        messages.map((message) => /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("article", { className: `rb-chat-message${message.senderId === currentUser?.id ? " mine" : ""}`, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("small", { children: message.senderId === currentUser?.id ? "B\u1EA1n" : message.senderRole === "merchant" ? "Qu\xE1n" : "Kh\xE1ch h\xE0ng" }),
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("p", { children: message.content }),
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("time", { dateTime: message.createdAt, children: new Date(message.createdAt).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" }) })
+        ] }, message.id))
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("form", { onSubmit: send, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("label", { className: "rb-chat-input", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("span", { children: "Tin nh\u1EAFn" }),
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("input", { ref: field, placeholder: "Nh\u1EADp tin nh\u1EAFn...", maxLength: 2e3, disabled: sending || !allowed, value: input, onChange: (event) => setInput(event.target.value) })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("button", { className: "btn primary", type: "submit", disabled: sending || !allowed || !input.trim(), children: sending ? "\u0110ang g\u1EEDi\u2026" : "G\u1EEDi" })
+      ] })
+    ] });
+  }
+
+  // src/pages/OrderDetailPage.jsx
+  var import_jsx_runtime26 = __toESM(require_jsx_runtime(), 1);
   function OrderDetailPage() {
     const { id } = useParams();
+    const [params, setParams] = useSearchParams();
     const { currentUser } = useAuth();
     const { orders: socket } = useSockets();
-    const [order, setOrder] = (0, import_react14.useState)(null);
-    const [error, setError] = (0, import_react14.useState)("");
-    const [paying, setPaying] = (0, import_react14.useState)(false);
+    const [order, setOrder] = (0, import_react19.useState)(null);
+    const [error, setError] = (0, import_react19.useState)("");
+    const [paying, setPaying] = (0, import_react19.useState)(false);
+    const [chatOpen, setChatOpen] = (0, import_react19.useState)(false);
+    (0, import_react19.useEffect)(() => {
+      setChatOpen(params.get("chat") === "1");
+    }, [id, params]);
+    const closeChat = () => {
+      setChatOpen(false);
+      if (params.has("chat")) {
+        const next2 = new URLSearchParams(params);
+        next2.delete("chat");
+        setParams(next2, { replace: true });
+      }
+    };
     const token = localStorage.getItem(TOKEN_KEY);
-    (0, import_react14.useEffect)(() => {
+    (0, import_react19.useEffect)(() => {
       if (!token) return;
       let active = true;
       setOrder(null);
@@ -29129,7 +29719,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         socket?.emit("order.unsubscribe", { orderId: id });
       };
     }, [id, token, socket]);
-    const money = (amount) => Number(amount || 0).toLocaleString("vi-VN") + "\u0111";
+    const money2 = (amount) => Number(amount || 0).toLocaleString("vi-VN") + "\u0111";
     async function pay() {
       setPaying(true);
       setError("");
@@ -29143,71 +29733,212 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       }
     }
     const paymentLabels = { UNPAID: "Ch\u01B0a thanh to\xE1n", PENDING: "\u0110ang ch\u1EDD thanh to\xE1n", PAID: "\u0110\xE3 thanh to\xE1n", FAILED: "Thanh to\xE1n th\u1EA5t b\u1EA1i", CANCELLED: "\u0110\xE3 h\u1EE7y thanh to\xE1n", EXPIRED: "H\u1EBFt h\u1EA1n thanh to\xE1n", REFUNDED: "\u0110\xE3 ho\xE0n ti\u1EC1n" };
-    return /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("main", { className: "app-page rb-commerce-page rb-orders-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(Link, { className: "back-link", to: currentUser?.role === "merchant" ? "/merchant/orders" : "/my-orders", children: currentUser?.role === "merchant" ? "\u2190 \u0110\u01A1n h\xE0ng c\u1EE7a qu\xE1n" : "\u2190 \u0110\u01A1n c\u1EE7a t\xF4i" }),
-      /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("h1", { children: "Chi ti\u1EBFt \u0111\u01A1n h\xE0ng" }),
-      !token ? /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("p", { children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("main", { className: "app-page rb-commerce-page rb-orders-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(Link, { className: "back-link", to: currentUser?.role === "merchant" ? "/merchant/orders" : "/my-orders", children: currentUser?.role === "merchant" ? "\u2190 \u0110\u01A1n h\xE0ng c\u1EE7a qu\xE1n" : "\u2190 \u0110\u01A1n c\u1EE7a t\xF4i" }),
+      /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("h1", { children: "Chi ti\u1EBFt \u0111\u01A1n h\xE0ng" }),
+      !token ? /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("p", { children: [
         "Vui l\xF2ng ",
-        /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(Link, { to: "/login", children: "\u0111\u0103ng nh\u1EADp" }),
+        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(Link, { to: "/login", children: "\u0111\u0103ng nh\u1EADp" }),
         " \u0111\u1EC3 xem \u0111\u01A1n h\xE0ng."
-      ] }) : /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(import_jsx_runtime20.Fragment, { children: [
-        error && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
-        !order && !error && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("p", { children: "\u0110ang t\u1EA3i \u0111\u01A1n h\xE0ng\u2026" }),
-        order && /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(import_jsx_runtime20.Fragment, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("section", { className: "item-card", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(OrderStatusBadge, { status: order.status }),
-            /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("h2", { children: order.restaurant?.name }),
-            /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("p", { children: order.orderCode }),
-            /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("p", { children: order.restaurant?.address }),
-            !["COMPLETED", "CANCELLED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }),
-            /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("p", { children: [
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(import_jsx_runtime26.Fragment, { children: [
+        error && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+        !order && !error && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("p", { children: "\u0110ang t\u1EA3i \u0111\u01A1n h\xE0ng\u2026" }),
+        order && /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(import_jsx_runtime26.Fragment, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("section", { className: "item-card", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(OrderStatusBadge, { status: order.status }),
+            /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("h2", { children: order.restaurant?.name }),
+            /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("p", { children: order.orderCode }),
+            /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("p", { children: order.restaurant?.address }),
+            /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(OrderStatusStepper, { currentStatus: order.status }),
+            !["COMPLETED", "CANCELLED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }),
+            /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("p", { children: [
               paymentLabels[order.paymentStatus] || "\u0110ang c\u1EADp nh\u1EADt thanh to\xE1n",
               " \xB7 ",
               order.paymentMethod === "cash" ? "Ti\u1EC1n m\u1EB7t" : "VNPAY"
             ] }),
-            order.status === "CANCELLED" && order.paymentStatus === "PAID" && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("p", { children: "\u0110\u01A1n \u0111\xE3 h\u1EE7y. Vui l\xF2ng li\xEAn h\u1EC7 qu\xE1n \u0111\u1EC3 \u0111\u01B0\u1EE3c h\u1ED7 tr\u1EE3 ho\xE0n ti\u1EC1n." })
+            order.status === "CANCELLED" && order.paymentStatus === "PAID" && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("p", { children: "\u0110\u01A1n \u0111\xE3 h\u1EE7y. Vui l\xF2ng li\xEAn h\u1EC7 qu\xE1n \u0111\u1EC3 \u0111\u01B0\u1EE3c h\u1ED7 tr\u1EE3 ho\xE0n ti\u1EC1n." })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("section", { className: "item-card", children: [
-            order.items?.map((item) => /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("div", { className: "rb-product-row rb-cart-row", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime20.jsx)(FoodThumbnail, { src: item.imageUrl, name: item.itemName }),
-              /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("h3", { children: item.itemName }),
-                /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("p", { children: [
+          ["customer", "merchant"].includes(currentUser?.role) && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("button", { className: "btn secondary", type: "button", onClick: () => setChatOpen(true), children: currentUser.role === "merchant" ? "Nh\u1EAFn tin v\u1EDBi kh\xE1ch" : "Nh\u1EAFn tin v\u1EDBi qu\xE1n" }),
+          chatOpen && ["customer", "merchant"].includes(currentUser?.role) && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(ChatDrawer, { orderId: order.id, orderCode: order.orderCode, onClose: closeChat }, order.id),
+          /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("section", { className: "item-card", children: [
+            order.items?.map((item) => /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "rb-product-row rb-cart-row", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(FoodThumbnail, { src: item.imageUrl, name: item.itemName }),
+              /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("h3", { children: item.itemName }),
+                /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("p", { children: [
                   item.quantity,
                   " \xD7 ",
-                  money(item.unitPrice)
+                  money2(item.unitPrice)
                 ] })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("strong", { children: money(item.lineTotal) })
+              /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("strong", { children: money2(item.lineTotal) })
             ] }, item.id || item.menuItemId)),
-            /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("div", { className: "rb-order-footer", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("span", { children: "T\u1ED5ng c\u1ED9ng" }),
-              /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("strong", { children: money(order.totalAmount) })
+            order.discountAmount > 0 && /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(import_jsx_runtime26.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "rb-discount-row", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("span", { children: "T\u1EA1m t\xEDnh" }),
+                /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("span", { children: money2(order.subtotal) })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "rb-discount-row saving", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("span", { children: "Gi\u1EA3m voucher" }),
+                /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("strong", { children: [
+                  "\u2212",
+                  money2(order.discountAmount)
+                ] })
+              ] })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "rb-order-footer", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("span", { children: "T\u1ED5ng c\u1ED9ng" }),
+              /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("strong", { children: money2(order.totalAmount) })
             ] })
           ] }),
-          currentUser?.role !== "merchant" && order.paymentMethod === "vnpay" && !["PAID", "REFUNDED"].includes(order.paymentStatus) && !["CANCELLED", "COMPLETED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("button", { type: "button", className: "btn primary", disabled: paying, onClick: pay, children: paying ? "\u0110ang m\u1EDF VNPAY\u2026" : "Ti\u1EBFp t\u1EE5c thanh to\xE1n VNPAY" })
+          currentUser?.role !== "merchant" && order.paymentMethod === "vnpay" && !["PAID", "REFUNDED"].includes(order.paymentStatus) && !["CANCELLED", "COMPLETED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("button", { type: "button", className: "btn primary", disabled: paying, onClick: pay, children: paying ? "\u0110ang m\u1EDF VNPAY\u2026" : "Ti\u1EBFp t\u1EE5c thanh to\xE1n VNPAY" })
         ] })
       ] })
     ] });
   }
 
   // src/pages/ExplorePage.tsx
-  var import_react15 = __toESM(require_react(), 1);
-  var import_jsx_runtime21 = __toESM(require_jsx_runtime(), 1);
+  var import_react21 = __toESM(require_react(), 1);
+
+  // src/components/ExploreMap.jsx
+  var import_react20 = __toESM(require_react(), 1);
+  var import_jsx_runtime27 = __toESM(require_jsx_runtime(), 1);
+  var DEFAULT_CENTER = [10.7769, 106.7009];
+  function ExploreMap({ restaurants, userPosition, locating, locationError, onLocate }) {
+    const container = (0, import_react20.useRef)(null);
+    const map = (0, import_react20.useRef)(null);
+    const layers = (0, import_react20.useRef)(null);
+    const navigate = useNavigate();
+    const [ready, setReady] = (0, import_react20.useState)(false);
+    const [mapError, setMapError] = (0, import_react20.useState)("");
+    const [retry, setRetry] = (0, import_react20.useState)(0);
+    (0, import_react20.useEffect)(() => {
+      const L = window.L;
+      if (!L) {
+        setMapError("Kh\xF4ng t\u1EA3i \u0111\u01B0\u1EE3c b\u1EA3n \u0111\u1ED3. B\u1EA1n v\u1EABn c\xF3 th\u1EC3 ch\u1ECDn qu\xE1n trong danh s\xE1ch b\xEAn d\u01B0\u1EDBi.");
+        return;
+      }
+      setMapError("");
+      const instance = L.map(container.current, { scrollWheelZoom: false }).setView(DEFAULT_CENTER, 12);
+      map.current = instance;
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).on("tileerror", () => setMapError("N\u1EC1n b\u1EA3n \u0111\u1ED3 \u0111ang gi\xE1n \u0111o\u1EA1n. Danh s\xE1ch qu\xE1n v\u1EABn d\xF9ng \u0111\u01B0\u1EE3c.")).addTo(instance);
+      layers.current = L.layerGroup().addTo(instance);
+      const observer = new ResizeObserver(() => instance.invalidateSize());
+      observer.observe(container.current);
+      setReady(true);
+      return () => {
+        observer.disconnect();
+        instance.remove();
+        map.current = null;
+        layers.current = null;
+        setReady(false);
+      };
+    }, [retry]);
+    (0, import_react20.useEffect)(() => {
+      if (!ready || !layers.current) return;
+      const L = window.L;
+      layers.current.clearLayers();
+      const bounds = [];
+      restaurants.forEach((restaurant) => {
+        const point = restaurantPoint(restaurant);
+        if (!point) return;
+        const coords = [point.lat, point.lng];
+        bounds.push(coords);
+        const content = document.createElement("div");
+        const title = document.createElement("strong");
+        title.textContent = restaurant.name;
+        const address = document.createElement("p");
+        address.textContent = restaurant.address || "";
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = "Xem qu\xE1n";
+        button.className = "btn secondary";
+        button.onclick = () => navigate(`/restaurant/${restaurant.id}`);
+        content.append(title, address, button);
+        L.marker(coords, { title: restaurant.name, alt: restaurant.name, icon: L.divIcon({
+          className: "rb-shop-marker",
+          html: '<span aria-hidden="true">\u25CF</span>',
+          iconSize: [30, 30],
+          iconAnchor: [15, 15]
+        }) }).bindPopup(content).addTo(layers.current);
+      });
+      if (userPosition) {
+        const coords = [userPosition.lat, userPosition.lng];
+        bounds.push(coords);
+        L.circleMarker(coords, { radius: 9, color: "#fff", weight: 3, fillColor: "#2563eb", fillOpacity: 1 }).bindTooltip("V\u1ECB tr\xED c\u1EE7a b\u1EA1n").addTo(layers.current);
+      }
+      if (bounds.length) map.current.fitBounds(bounds, { padding: [35, 35], maxZoom: 15 });
+      else map.current.setView(DEFAULT_CENTER, 12);
+    }, [ready, restaurants, userPosition, navigate]);
+    const mapped = restaurants.filter((restaurant) => restaurantPoint(restaurant)).length;
+    return /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("section", { className: "rb-explore-map-section", "aria-label": "B\u1EA3n \u0111\u1ED3 qu\xE1n \u0103n", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("div", { className: "rb-map-toolbar", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("p", { children: [
+          mapped,
+          " qu\xE1n c\xF3 v\u1ECB tr\xED tr\xEAn b\u1EA3n \u0111\u1ED3 (trang hi\u1EC7n t\u1EA1i)"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("button", { className: "btn secondary", type: "button", disabled: locating, onClick: () => {
+          if (userPosition && map.current) map.current.flyTo([userPosition.lat, userPosition.lng], 15);
+          else onLocate();
+        }, children: locating ? "\u0110ang l\u1EA5y v\u1ECB tr\xED\u2026" : "V\u1EC1 v\u1ECB tr\xED c\u1EE7a t\xF4i" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("div", { ref: container, className: "rb-explore-map", "aria-label": "B\u1EA3n \u0111\u1ED3 OpenStreetMap" }),
+      mapError && /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("p", { role: "status", children: [
+        mapError,
+        " ",
+        /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("button", { type: "button", onClick: () => {
+          if (!window.L) window.location.reload();
+          else setRetry((value2) => value2 + 1);
+        }, children: "T\u1EA3i l\u1EA1i b\u1EA3n \u0111\u1ED3" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("p", { className: "rb-map-note", children: locationError || (userPosition ? "Kho\u1EA3ng c\xE1ch tr\xEAn th\u1EBB qu\xE1n l\xE0 \u0111\u01B0\u1EDDng th\u1EB3ng t\u1EEB v\u1ECB tr\xED c\u1EE7a b\u1EA1n, kh\xF4ng ph\u1EA3i qu\xE3ng \u0111\u01B0\u1EDDng l\xE1i xe." : "Cho ph\xE9p truy c\u1EADp v\u1ECB tr\xED \u0111\u1EC3 xem kho\u1EA3ng c\xE1ch t\u1EEB b\u1EA1n t\u1EDBi qu\xE1n.") })
+    ] });
+  }
+
+  // src/pages/ExplorePage.tsx
+  var import_jsx_runtime28 = __toESM(require_jsx_runtime(), 1);
   var PAGE_SIZE = 12;
   function ExplorePage() {
     const navigate = useNavigate();
-    const [restaurants, setRestaurants] = (0, import_react15.useState)([]);
-    const [loading, setLoading] = (0, import_react15.useState)(true);
-    const [error, setError] = (0, import_react15.useState)("");
-    const [page, setPage] = (0, import_react15.useState)(1);
-    const [total, setTotal] = (0, import_react15.useState)(0);
-    const [retry, setRetry] = (0, import_react15.useState)(0);
-    (0, import_react15.useEffect)(() => {
+    const [restaurants, setRestaurants] = (0, import_react21.useState)([]);
+    const [loading, setLoading] = (0, import_react21.useState)(true);
+    const [error, setError] = (0, import_react21.useState)("");
+    const [page, setPage] = (0, import_react21.useState)(1);
+    const [total, setTotal] = (0, import_react21.useState)(0);
+    const [retry, setRetry] = (0, import_react21.useState)(0);
+    const [input, setInput] = (0, import_react21.useState)("");
+    const [search, setSearch] = (0, import_react21.useState)("");
+    const [userPosition, setUserPosition] = (0, import_react21.useState)(null);
+    const { getCurrentLocation, loading: locating, error: locationError } = useCurrentLocation();
+    const mounted = (0, import_react21.useRef)(true);
+    const locate = (0, import_react21.useCallback)(() => {
+      getCurrentLocation({ resolveAddress: false }).then((point) => {
+        if (mounted.current) setUserPosition(point);
+      }).catch(() => {
+      });
+    }, [getCurrentLocation]);
+    (0, import_react21.useEffect)(() => {
+      mounted.current = true;
+      locate();
+      return () => {
+        mounted.current = false;
+      };
+    }, [locate]);
+    (0, import_react21.useEffect)(() => {
+      const timer = window.setTimeout(() => {
+        setSearch(input.trim());
+        setPage(1);
+      }, 400);
+      return () => window.clearTimeout(timer);
+    }, [input]);
+    (0, import_react21.useEffect)(() => {
       let active = true;
       setLoading(true);
       setError("");
-      request(`/restaurants?page=${page}&limit=${PAGE_SIZE}`, { authorized: false }).then((response) => {
+      request(`/restaurants?page=${page}&limit=${PAGE_SIZE}${search ? `&search=${encodeURIComponent(search)}` : ""}`, { authorized: false }).then((response) => {
         if (!active) return;
         const rows = Array.isArray(response) ? response : response?.data;
         if (!Array.isArray(rows)) throw new Error("D\u1EEF li\u1EC7u danh s\xE1ch qu\xE1n kh\xF4ng h\u1EE3p l\u1EC7");
@@ -29223,63 +29954,450 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       return () => {
         active = false;
       };
-    }, [page, retry]);
-    return /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("main", { className: "route-home rb-explore-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("div", { className: "rb-explore-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("p", { children: "ROUTEBITE" }),
-        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("h1", { children: "Kh\xE1m ph\xE1 qu\xE1n" }),
-        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("span", { children: "Kh\xE1m ph\xE1 c\xE1c qu\xE1n \u0111ang ho\u1EA1t \u0111\u1ED9ng v\xE0 ch\u1ECDn m\xF3n b\u1EA1n th\xEDch." })
+    }, [page, retry, search]);
+    return /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("main", { className: "route-home rb-explore-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("div", { className: "rb-explore-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("p", { children: "ROUTEBITE" }),
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("h1", { children: "Kh\xE1m ph\xE1 qu\xE1n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("span", { children: "Kh\xE1m ph\xE1 c\xE1c qu\xE1n \u0111ang ho\u1EA1t \u0111\u1ED9ng v\xE0 ch\u1ECDn m\xF3n b\u1EA1n th\xEDch." })
       ] }),
-      loading ? /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("section", { "aria-label": "\u0110ang t\u1EA3i danh s\xE1ch qu\xE1n", "aria-busy": "true", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i danh s\xE1ch qu\xE1n\u2026" }),
-        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: "restaurant-result-grid", "aria-hidden": "true", children: Array.from({ length: 6 }, (_, index) => /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("div", { className: "restaurant-skeleton" }, index)) })
-      ] }) : error ? /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("section", { className: "route-empty", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("p", { role: "alert", children: error }),
-        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("button", { className: "btn secondary", type: "button", onClick: () => setRetry((value2) => value2 + 1), children: "Th\u1EED l\u1EA1i" })
-      ] }) : restaurants.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("section", { className: "route-empty", role: "status", children: "Ch\u01B0a c\xF3 qu\xE1n n\xE0o trong h\u1EC7 th\u1ED1ng." }) : /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)(import_jsx_runtime21.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("p", { className: "rb-explore-count", role: "status", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("form", { className: "rb-explore-search", role: "search", onSubmit: (event) => {
+        event.preventDefault();
+        setSearch(input.trim());
+        setPage(1);
+      }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("label", { htmlFor: "explore-search", children: "T\xECm qu\xE1n ho\u1EB7c m\xF3n \u0103n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("input", { id: "explore-search", type: "search", placeholder: "T\xECm qu\xE1n, m\xF3n \u0103n...", value: input, maxLength: 120, onChange: (event) => setInput(event.target.value) }),
+          input && /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("button", { type: "button", "aria-label": "X\xF3a t\xECm ki\u1EBFm", onClick: () => {
+            setInput("");
+            setSearch("");
+            setPage(1);
+          }, children: "X\xF3a" })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(ExploreMap, { restaurants: loading || error ? [] : restaurants, userPosition, locating, locationError, onLocate: locate }),
+      loading ? /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("section", { "aria-label": "\u0110ang t\u1EA3i danh s\xE1ch qu\xE1n", "aria-busy": "true", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i danh s\xE1ch qu\xE1n\u2026" }),
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("div", { className: "restaurant-result-grid", "aria-hidden": "true", children: Array.from({ length: 6 }, (_, index) => /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("div", { className: "restaurant-skeleton" }, index)) })
+      ] }) : error ? /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("section", { className: "route-empty", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("p", { role: "alert", children: error }),
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("button", { className: "btn secondary", type: "button", onClick: () => setRetry((value2) => value2 + 1), children: "Th\u1EED l\u1EA1i" })
+      ] }) : restaurants.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("section", { className: "route-empty", role: "status", children: search ? `Kh\xF4ng t\xECm th\u1EA5y qu\xE1n ho\u1EB7c m\xF3n \u0103n ph\xF9 h\u1EE3p v\u1EDBi \u201C${search}\u201D.` : "Ch\u01B0a c\xF3 qu\xE1n n\xE0o trong h\u1EC7 th\u1ED1ng." }) : /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)(import_jsx_runtime28.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("p", { className: "rb-explore-count", role: "status", children: [
           total,
-          " qu\xE1n \u0111ang ho\u1EA1t \u0111\u1ED9ng"
+          " qu\xE1n ",
+          search ? `ph\xF9 h\u1EE3p v\u1EDBi \u201C${search}\u201D` : "\u0111ang ho\u1EA1t \u0111\u1ED9ng"
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("section", { className: "restaurant-result-grid", "aria-label": "Danh s\xE1ch qu\xE1n", children: restaurants.map((restaurant) => /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("section", { className: "restaurant-result-grid", "aria-label": "Danh s\xE1ch qu\xE1n", children: restaurants.map((restaurant) => /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(
           RestaurantCard,
           {
             restaurant,
+            userPosition,
             onOpen: () => navigate(`/restaurant/${restaurant.id}`)
           },
           restaurant.id
         )) })
       ] }),
-      !loading && !error && total > PAGE_SIZE && /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("nav", { className: "rb-explore-pagination", "aria-label": "Ph\xE2n trang qu\xE1n", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("button", { className: "btn secondary", type: "button", disabled: page === 1, onClick: () => setPage((value2) => value2 - 1), children: "Trang tr\u01B0\u1EDBc" }),
-        /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("span", { children: [
+      !loading && !error && total > PAGE_SIZE && /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("nav", { className: "rb-explore-pagination", "aria-label": "Ph\xE2n trang qu\xE1n", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("button", { className: "btn secondary", type: "button", disabled: page === 1, onClick: () => setPage((value2) => value2 - 1), children: "Trang tr\u01B0\u1EDBc" }),
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("span", { children: [
           "Trang ",
           page,
           " / ",
           Math.ceil(total / PAGE_SIZE)
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("button", { className: "btn secondary", type: "button", disabled: page * PAGE_SIZE >= total, onClick: () => setPage((value2) => value2 + 1), children: "Trang sau" })
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("button", { className: "btn secondary", type: "button", disabled: page * PAGE_SIZE >= total, onClick: () => setPage((value2) => value2 + 1), children: "Trang sau" })
       ] })
     ] });
   }
 
+  // src/pages/MyFavoritesPage.tsx
+  var import_jsx_runtime29 = __toESM(require_jsx_runtime(), 1);
+  function MyFavoritesPage() {
+    const { favorites, loading, ready } = useFavorites();
+    const navigate = useNavigate();
+    return /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("main", { className: "route-home rb-favorites-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "rb-explore-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { children: "ROUTEBITE" }),
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("h1", { children: "Qu\xE1n \u0111\xE3 l\u01B0u" }),
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("span", { children: "Nh\u1EEFng qu\xE1n b\u1EA1n y\xEAu th\xEDch, \u0111\u01B0\u1EE3c l\u01B0u theo t\xE0i kho\u1EA3n." })
+      ] }),
+      loading ? /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i qu\xE1n \u0111\xE3 l\u01B0u\u2026" }) : !ready ? /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { children: "H\xE3y th\u1EED t\u1EA3i l\u1EA1i danh s\xE1ch qu\xE1n \u0111\xE3 l\u01B0u." }) : favorites.length ? /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)(import_jsx_runtime29.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("p", { role: "status", children: [
+          favorites.length,
+          " qu\xE1n \u0111\xE3 l\u01B0u"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("section", { className: "restaurant-result-grid", "aria-label": "Qu\xE1n \u0111\xE3 l\u01B0u", children: favorites.map((restaurant) => /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(RestaurantCard, { restaurant, onOpen: () => navigate(`/restaurant/${restaurant.id}`) }, restaurant.id)) })
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("section", { className: "route-empty", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { children: "B\u1EA1n ch\u01B0a l\u01B0u qu\xE1n n\xE0o." }),
+        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(Link, { className: "btn secondary", to: "/kham-pha", children: "Kh\xE1m ph\xE1 qu\xE1n" })
+      ] })
+    ] });
+  }
+
+  // src/components/ReviewModal.tsx
+  var import_react22 = __toESM(require_react(), 1);
+  var import_jsx_runtime30 = __toESM(require_jsx_runtime(), 1);
+  function ReviewModal({ orderId, restaurantName, onClose, onSuccess, onAlreadyReviewed }) {
+    const dialog = (0, import_react22.useRef)(null);
+    const sending = (0, import_react22.useRef)(false);
+    const [rating, setRating] = (0, import_react22.useState)(0);
+    const [comment, setComment] = (0, import_react22.useState)("");
+    const [submitting, setSubmitting] = (0, import_react22.useState)(false);
+    const [alreadyReviewed, setAlreadyReviewed] = (0, import_react22.useState)(false);
+    const [error, setError] = (0, import_react22.useState)("");
+    (0, import_react22.useEffect)(() => {
+      const element = dialog.current;
+      element?.showModal();
+      return () => {
+        element?.close();
+      };
+    }, []);
+    async function submit(event) {
+      event.preventDefault();
+      if (sending.current || alreadyReviewed) return;
+      if (!rating) {
+        setError("Vui l\xF2ng ch\u1ECDn s\u1ED1 sao \u0111\xE1nh gi\xE1.");
+        return;
+      }
+      sending.current = true;
+      setSubmitting(true);
+      setError("");
+      try {
+        const review = await request("/reviews", { method: "POST", body: { orderId, rating, comment: comment.trim() } });
+        onSuccess(review);
+        onClose();
+      } catch (cause) {
+        if (cause.status === 409) {
+          const order = await request(`/orders/${orderId}`).catch(() => null);
+          if (order?.hasReview || order?.review) {
+            setAlreadyReviewed(true);
+            onAlreadyReviewed(order.review);
+            setError("B\u1EA1n \u0111\xE3 \u0111\xE1nh gi\xE1 \u0111\u01A1n h\xE0ng n\xE0y r\u1ED3i.");
+          } else setError(cause.message || "Kh\xF4ng th\u1EC3 \u0111\xE1nh gi\xE1 \u0111\u01A1n h\xE0ng n\xE0y.");
+        } else setError(cause.status === 403 ? "B\u1EA1n kh\xF4ng th\u1EC3 \u0111\xE1nh gi\xE1 \u0111\u01A1n h\xE0ng c\u1EE7a ng\u01B0\u1EDDi kh\xE1c." : "G\u1EEDi \u0111\xE1nh gi\xE1 th\u1EA5t b\u1EA1i, vui l\xF2ng th\u1EED l\u1EA1i.");
+      } finally {
+        sending.current = false;
+        setSubmitting(false);
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(
+      "dialog",
+      {
+        ref: dialog,
+        className: "rb-review-dialog",
+        "aria-labelledby": "review-title",
+        "aria-describedby": "review-description",
+        onCancel: (event) => {
+          event.preventDefault();
+          if (!sending.current) onClose();
+        },
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("h2", { id: "review-title", children: [
+            "\u0110\xE1nh gi\xE1 \u201C",
+            restaurantName,
+            "\u201D"
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { id: "review-description", children: "Tr\u1EA3i nghi\u1EC7m c\u1EE7a b\u1EA1n gi\xFAp qu\xE1n v\xE0 th\u1EF1c kh\xE1ch kh\xE1c t\u1ED1t h\u01A1n." }),
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("form", { onSubmit: submit, "aria-busy": submitting, children: [
+            error && /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+            /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("fieldset", { className: "rb-review-rating", disabled: submitting || alreadyReviewed, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("legend", { children: "Ch\u1ECDn s\u1ED1 sao (b\u1EAFt bu\u1ED9c)" }),
+              /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("div", { children: [1, 2, 3, 4, 5].map((star) => /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
+                "button",
+                {
+                  type: "button",
+                  "aria-label": `${star} sao`,
+                  "aria-pressed": star === rating,
+                  className: star <= rating ? "selected" : "",
+                  onClick: () => {
+                    setRating(star);
+                    setError("");
+                  },
+                  children: "\u2605"
+                },
+                star
+              )) }),
+              /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("span", { role: "status", children: rating ? `${rating}/5 sao` : "Ch\u01B0a ch\u1ECDn sao" })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("label", { className: "rb-review-comment", children: [
+              "Nh\u1EADn x\xE9t (kh\xF4ng b\u1EAFt bu\u1ED9c)",
+              /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
+                "textarea",
+                {
+                  rows: 4,
+                  maxLength: 1e3,
+                  disabled: submitting || alreadyReviewed,
+                  value: comment,
+                  onChange: (event) => setComment(event.target.value),
+                  placeholder: "Chia s\u1EBB th\xEAm v\u1EC1 m\xF3n \u0103n, ch\u1EA5t l\u01B0\u1EE3ng ph\u1EE5c v\u1EE5..."
+                }
+              )
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("small", { children: [
+              comment.length,
+              "/1000 k\xFD t\u1EF1"
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { className: "rb-dialog-actions", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { type: "button", className: "btn secondary", disabled: submitting, onClick: onClose, children: alreadyReviewed ? "\u0110\xF3ng" : "\u0110\u1EC3 sau" }),
+              /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { type: "submit", className: "btn primary", disabled: submitting || alreadyReviewed, children: submitting ? "\u0110ang g\u1EEDi\u2026" : "G\u1EEDi \u0111\xE1nh gi\xE1" })
+            ] })
+          ] })
+        ]
+      }
+    );
+  }
+
+  // src/components/ReviewsSection.tsx
+  var import_react23 = __toESM(require_react(), 1);
+  var import_jsx_runtime31 = __toESM(require_jsx_runtime(), 1);
+  function ReviewsSection({ embeddedReviews = [], merchant = false }) {
+    const titleId = (0, import_react23.useId)();
+    const [starFilter, setStarFilter] = (0, import_react23.useState)(0);
+    const data2 = (0, import_react23.useMemo)(() => {
+      const reviews = embeddedReviews.filter((review) => Number.isInteger(Number(review.rating)) && Number(review.rating) >= 1 && Number(review.rating) <= 5).slice().sort((a, b) => (Date.parse(b.createdAt) || 0) - (Date.parse(a.createdAt) || 0) || b.id.localeCompare(a.id));
+      const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+      reviews.forEach((review) => {
+        distribution[Number(review.rating)]++;
+      });
+      return { reviews, distribution, average: reviews.length ? reviews.reduce((sum, review) => sum + Number(review.rating), 0) / reviews.length : 0 };
+    }, [embeddedReviews]);
+    const total = data2.reviews.length;
+    const filteredReviews = starFilter ? data2.reviews.filter((review) => Number(review.rating) === starFilter) : data2.reviews;
+    return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("section", { className: "item-card rb-restaurant-reviews", "aria-labelledby": titleId, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("h2", { id: titleId, children: "\u0110\xE1nh gi\xE1 t\u1EEB kh\xE1ch h\xE0ng" }),
+      !total ? /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("p", { className: "rb-reviews-empty", children: [
+        "Ch\u01B0a c\xF3 \u0111\xE1nh gi\xE1 n\xE0o cho qu\xE1n n\xE0y. ",
+        merchant ? "\u0110\xE1nh gi\xE1 c\u1EE7a kh\xE1ch s\u1EBD xu\u1EA5t hi\u1EC7n sau khi \u0111\u01A1n ho\xE0n th\xE0nh." : "B\u1EA1n c\xF3 th\u1EC3 \u0111\xE1nh gi\xE1 sau khi ho\xE0n th\xE0nh \u0111\u01A1n h\xE0ng."
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(import_jsx_runtime31.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "rb-reviews-summary", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "rb-review-average", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("strong", { children: [
+              data2.average.toFixed(1),
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("small", { children: "/5" })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("span", { className: "rb-average-stars", role: "img", "aria-label": `${data2.average.toFixed(1)} tr\xEAn 5 sao`, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { "aria-hidden": "true", children: "\u2605\u2605\u2605\u2605\u2605" }),
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { "aria-hidden": "true", style: { width: `${data2.average / 5 * 100}%` }, children: "\u2605\u2605\u2605\u2605\u2605" })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("p", { children: [
+              total,
+              " \u0111\xE1nh gi\xE1"
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "rb-review-distribution", "aria-label": "Ph\xE2n b\u1ED1 s\u1ED1 sao", children: [5, 4, 3, 2, 1].map((star) => {
+            const count = data2.distribution[star];
+            const percent = count / total * 100;
+            return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "rb-distribution-row", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("span", { children: [
+                star,
+                " sao"
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+                "div",
+                {
+                  className: "rb-distribution-track",
+                  role: "progressbar",
+                  "aria-label": `${star} sao`,
+                  "aria-valuemin": 0,
+                  "aria-valuemax": 100,
+                  "aria-valuenow": Number(percent.toFixed(1)),
+                  "aria-valuetext": `${count} \u0111\xE1nh gi\xE1 (${percent.toFixed(1)}%)`,
+                  children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { style: { width: `${percent}%` } })
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { children: count })
+            ] }, star);
+          }) })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "rb-review-filters", role: "group", "aria-label": "L\u1ECDc \u0111\xE1nh gi\xE1 theo s\u1ED1 sao", children: [0, 5, 4, 3, 2, 1].map((star) => /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("button", { type: "button", "aria-pressed": starFilter === star, onClick: () => setStarFilter(star), children: [
+          star ? `${star} sao` : "T\u1EA5t c\u1EA3",
+          " (",
+          star ? data2.distribution[star] : total,
+          ")"
+        ] }, star)) }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { className: "rb-review-filter-status", role: "status", children: filteredReviews.length ? `Hi\u1EC3n th\u1ECB ${filteredReviews.length} \u0111\xE1nh gi\xE1${starFilter ? ` ${starFilter} sao` : ""}.` : `Ch\u01B0a c\xF3 \u0111\xE1nh gi\xE1 ${starFilter} sao.` }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "rb-reviews-list", children: filteredReviews.map((review) => {
+          const date = new Date(review.createdAt);
+          const rating = Number(review.rating);
+          return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("article", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("header", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("strong", { children: review.customer?.fullName?.trim() || "Kh\xE1ch h\xE0ng" }),
+              Number.isNaN(date.getTime()) ? /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { children: "Ch\u01B0a r\xF5 ng\xE0y" }) : /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("time", { dateTime: review.createdAt, children: date.toLocaleDateString("vi-VN") })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("p", { className: "rb-review-stars", "aria-label": `${rating} tr\xEAn 5 sao`, children: [
+              "\u2605".repeat(rating),
+              "\u2606".repeat(5 - rating)
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("small", { children: "Kh\xE1ch \u0111\xE3 ho\xE0n th\xE0nh \u0111\u01A1n" }),
+            review.comment?.trim() && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { className: "rb-review-text", children: review.comment })
+          ] }, review.id);
+        }) })
+      ] })
+    ] });
+  }
+
+  // src/components/ShareRestaurantButton.tsx
+  var import_react24 = __toESM(require_react(), 1);
+  var import_jsx_runtime32 = __toESM(require_jsx_runtime(), 1);
+  function ShareRestaurantButton({ restaurantId, restaurantName }) {
+    const [busy, setBusy] = (0, import_react24.useState)(false);
+    const [message, setMessage] = (0, import_react24.useState)("");
+    const [manualCopy, setManualCopy] = (0, import_react24.useState)(false);
+    const pending = (0, import_react24.useRef)(false);
+    const url2 = new URL(`/restaurant/${encodeURIComponent(restaurantId)}`, window.location.origin).href;
+    async function share() {
+      if (pending.current) return;
+      pending.current = true;
+      setBusy(true);
+      setMessage("");
+      setManualCopy(false);
+      try {
+        if (navigator.share) {
+          try {
+            await navigator.share({ title: restaurantName, text: `Xem menu ${restaurantName} tr\xEAn RouteBite`, url: url2 });
+            return;
+          } catch (error) {
+            if (error?.name === "AbortError") return;
+          }
+        }
+        try {
+          await navigator.clipboard.writeText(url2);
+          setMessage("\u0110\xE3 sao ch\xE9p li\xEAn k\u1EBFt qu\xE1n.");
+        } catch {
+          setManualCopy(true);
+          setMessage("B\u1EA1n c\xF3 th\u1EC3 ch\u1ECDn v\xE0 sao ch\xE9p li\xEAn k\u1EBFt b\xEAn d\u01B0\u1EDBi.");
+        }
+      } finally {
+        pending.current = false;
+        setBusy(false);
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "rb-share-restaurant", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("button", { type: "button", className: "btn secondary", onClick: share, disabled: busy, children: busy ? "\u0110ang chia s\u1EBB\u2026" : "Chia s\u1EBB" }),
+      message && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("p", { role: "status", children: message }),
+      manualCopy && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("input", { "aria-label": "Li\xEAn k\u1EBFt chia s\u1EBB qu\xE1n", readOnly: true, value: url2, onFocus: (event) => event.currentTarget.select() })
+    ] });
+  }
+
+  // src/pages/merchant/MerchantReviewsPage.tsx
+  var import_react26 = __toESM(require_react(), 1);
+
+  // src/contexts/MerchantContext.tsx
+  var import_react25 = __toESM(require_react(), 1);
+  var import_jsx_runtime33 = __toESM(require_jsx_runtime(), 1);
+  var MerchantContext = (0, import_react25.createContext)(null);
+  function MerchantProvider({ children }) {
+    const [restaurants, setRestaurants] = (0, import_react25.useState)([]);
+    const [selectedId, setSelectedId] = (0, import_react25.useState)("");
+    const [loading, setLoading] = (0, import_react25.useState)(true);
+    const [error, setError] = (0, import_react25.useState)("");
+    const [revision, setRevision] = (0, import_react25.useState)(0);
+    const [dirty, setDirty] = (0, import_react25.useState)(false);
+    const [saving, setSaving] = (0, import_react25.useState)(false);
+    (0, import_react25.useEffect)(() => {
+      let active = true;
+      setLoading(true);
+      setError("");
+      request("/restaurants/mine").then((data2) => {
+        if (!active) return;
+        const list = Array.isArray(data2) ? data2 : data2.data || [];
+        setRestaurants(list);
+        setSelectedId((old) => list.some((r) => r.id === old) ? old : list[0]?.id || "");
+      }).catch((e) => {
+        if (active) setError(e.message || "Kh\xF4ng th\u1EC3 t\u1EA3i qu\xE1n c\u1EE7a b\u1EA1n");
+      }).finally(() => {
+        if (active) setLoading(false);
+      });
+      return () => {
+        active = false;
+      };
+    }, [revision]);
+    const updateRestaurant = (0, import_react25.useCallback)((restaurant) => {
+      setRestaurants((old) => old.some((r) => r.id === restaurant.id) ? old.map((r) => r.id === restaurant.id ? restaurant : r) : [...old, restaurant]);
+      setSelectedId(restaurant.id);
+    }, []);
+    return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(MerchantContext.Provider, { value: {
+      restaurants,
+      restaurant: restaurants.find((r) => r.id === selectedId),
+      selectedId,
+      setSelectedId,
+      loading,
+      error,
+      refresh: () => setRevision((v) => v + 1),
+      updateRestaurant,
+      dirty,
+      setDirty,
+      saving,
+      setSaving
+    }, children });
+  }
+  function useMerchant() {
+    return (0, import_react25.useContext)(MerchantContext);
+  }
+
+  // src/pages/merchant/MerchantReviewsPage.tsx
+  var import_jsx_runtime34 = __toESM(require_jsx_runtime(), 1);
+  function MerchantReviewsPage() {
+    const { restaurant } = useMerchant();
+    if (!restaurant) return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("p", { children: "Vui l\xF2ng ch\u1ECDn qu\xE1n \u0111ang qu\u1EA3n l\xFD." });
+    return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(RestaurantReviews, { restaurant }, restaurant.id);
+  }
+  function RestaurantReviews({ restaurant }) {
+    const [reviews, setReviews] = (0, import_react26.useState)([]);
+    const [loading, setLoading] = (0, import_react26.useState)(true);
+    const [error, setError] = (0, import_react26.useState)("");
+    const [revision, setRevision] = (0, import_react26.useState)(0);
+    (0, import_react26.useEffect)(() => {
+      let active = true;
+      setLoading(true);
+      setError("");
+      request(`/restaurants/${encodeURIComponent(restaurant.id)}/manage`).then((data2) => {
+        if (!Array.isArray(data2.reviews)) throw new Error("D\u1EEF li\u1EC7u \u0111\xE1nh gi\xE1 kh\xF4ng h\u1EE3p l\u1EC7.");
+        if (active) setReviews(data2.reviews);
+      }).catch(() => {
+        if (active) setError("Kh\xF4ng th\u1EC3 t\u1EA3i \u0111\xE1nh gi\xE1 c\u1EE7a qu\xE1n. Vui l\xF2ng th\u1EED l\u1EA1i.");
+      }).finally(() => {
+        if (active) setLoading(false);
+      });
+      return () => {
+        active = false;
+      };
+    }, [restaurant.id, revision]);
+    return /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("section", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "rb-merchant-page-head", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("p", { className: "rb-eyebrow", children: "PH\u1EA2N H\u1ED2I T\u1EEA KH\xC1CH H\xC0NG" }),
+          /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("h1", { children: "\u0110\xE1nh gi\xE1 qu\xE1n" }),
+          /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("p", { children: restaurant.name })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("button", { className: "btn secondary", type: "button", disabled: loading, onClick: () => setRevision((value2) => value2 + 1), children: "L\xE0m m\u1EDBi" })
+      ] }),
+      loading ? /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i \u0111\xE1nh gi\xE1\u2026" }) : error ? /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "item-card", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("p", { role: "alert", children: error }),
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("button", { type: "button", className: "btn secondary", onClick: () => setRevision((value2) => value2 + 1), children: "Th\u1EED l\u1EA1i" })
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(ReviewsSection, { embeddedReviews: reviews, merchant: true })
+    ] });
+  }
+
   // src/contexts/NotificationsContext.jsx
-  var import_react16 = __toESM(require_react(), 1);
-  var import_jsx_runtime22 = __toESM(require_jsx_runtime(), 1);
-  var NotificationsContext = (0, import_react16.createContext)(null);
-  var empty2 = { notifications: [], unreadCount: 0, loading: false, error: "" };
+  var import_react27 = __toESM(require_react(), 1);
+  var import_jsx_runtime35 = __toESM(require_jsx_runtime(), 1);
+  var NotificationsContext = (0, import_react27.createContext)(null);
+  var empty3 = { notifications: [], unreadCount: 0, loading: false, error: "" };
   function NotificationsProvider({ children }) {
     const { currentUser } = useAuth();
     const { notifications: socket } = useSockets();
     const token = currentUser ? localStorage.getItem(TOKEN_KEY) : null;
-    const [state, setState] = (0, import_react16.useState)(empty2);
-    const generation = (0, import_react16.useRef)(0);
-    const sequence = (0, import_react16.useRef)(0);
-    const refreshRef = (0, import_react16.useRef)(() => Promise.resolve());
-    (0, import_react16.useEffect)(() => {
+    const [state, setState] = (0, import_react27.useState)(empty3);
+    const generation = (0, import_react27.useRef)(0);
+    const sequence = (0, import_react27.useRef)(0);
+    const refreshRef = (0, import_react27.useRef)(() => Promise.resolve());
+    (0, import_react27.useEffect)(() => {
       const session = ++generation.current;
       const isCurrent = () => generation.current === session;
-      setState({ ...empty2, token, loading: !!token });
+      setState({ ...empty3, token, loading: !!token });
       const refresh2 = async () => {
         if (!token) return;
         const version = ++sequence.current;
@@ -29324,7 +30442,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         document.removeEventListener("visibilitychange", visible);
       };
     }, [token, socket]);
-    const refresh = (0, import_react16.useCallback)(() => refreshRef.current(), []);
+    const refresh = (0, import_react27.useCallback)(() => refreshRef.current(), []);
     async function markRead(notification) {
       if (!notification.isRead) await request(`/notifications/${notification.id}/read`, { method: "PATCH" });
       await refresh();
@@ -29333,30 +30451,30 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       await request("/notifications/read-all", { method: "PATCH" });
       await refresh();
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(NotificationsContext.Provider, { value: { ...state.token === token ? state : empty2, refresh, markRead, markAll }, children });
+    return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(NotificationsContext.Provider, { value: { ...state.token === token ? state : empty3, refresh, markRead, markAll }, children });
   }
   function useNotifications() {
-    return (0, import_react16.useContext)(NotificationsContext);
+    return (0, import_react27.useContext)(NotificationsContext);
   }
 
   // src/components/NotificationBell.tsx
-  var import_react17 = __toESM(require_react(), 1);
-  var import_jsx_runtime23 = __toESM(require_jsx_runtime(), 1);
+  var import_react28 = __toESM(require_react(), 1);
+  var import_jsx_runtime36 = __toESM(require_jsx_runtime(), 1);
   function NotificationBell() {
     const { currentUser } = useAuth();
     const { notifications, unreadCount, loading, error, refresh, markRead, markAll } = useNotifications();
     const navigate = useNavigate();
     const location2 = useLocation();
-    const [open, setOpen] = (0, import_react17.useState)(false);
-    const [busy, setBusy] = (0, import_react17.useState)(false);
-    const [actionError, setActionError] = (0, import_react17.useState)("");
-    const container = (0, import_react17.useRef)(null);
-    const trigger = (0, import_react17.useRef)(null);
-    (0, import_react17.useEffect)(() => {
+    const [open, setOpen] = (0, import_react28.useState)(false);
+    const [busy, setBusy] = (0, import_react28.useState)(false);
+    const [actionError, setActionError] = (0, import_react28.useState)("");
+    const container = (0, import_react28.useRef)(null);
+    const trigger = (0, import_react28.useRef)(null);
+    (0, import_react28.useEffect)(() => {
       setOpen(false);
       setActionError("");
     }, [location2.pathname, currentUser]);
-    (0, import_react17.useEffect)(() => {
+    (0, import_react28.useEffect)(() => {
       if (!open) return;
       const outside = (event) => {
         if (!container.current?.contains(event.target)) setOpen(false);
@@ -29383,7 +30501,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         if (notification) {
           await markRead(notification);
           setOpen(false);
-          if (typeof notification.data?.orderId === "string") navigate(`${currentUser.role === "merchant" ? "/merchant" : ""}/orders/${encodeURIComponent(notification.data.orderId)}`);
+          if (typeof notification.data?.orderId === "string") navigate(`${currentUser.role === "merchant" ? "/merchant" : ""}/orders/${encodeURIComponent(notification.data.orderId)}${notification.data.type === "new_message" ? "?chat=1" : ""}`);
         } else await markAll();
       } catch {
         setActionError("Kh\xF4ng th\u1EC3 \u0111\xE1nh d\u1EA5u \u0111\xE3 \u0111\u1ECDc. Vui l\xF2ng th\u1EED l\u1EA1i.");
@@ -29391,8 +30509,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setBusy(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "rb-notification-bell", ref: container, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "rb-notification-bell", ref: container, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(
         "button",
         {
           ref: trigger,
@@ -29406,22 +30524,22 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
             if (!open) void refresh();
           },
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("svg", { "aria-hidden": "true", width: "22", height: "22", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", children: /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("path", { d: "M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" }) }),
-            unreadCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("span", { className: "rb-notification-count", "aria-hidden": "true", children: unreadCount > 9 ? "9+" : unreadCount })
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("svg", { "aria-hidden": "true", width: "22", height: "22", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("path", { d: "M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" }) }),
+            unreadCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: "rb-notification-count", "aria-hidden": "true", children: unreadCount > 9 ? "9+" : unreadCount })
           ]
         }
       ),
-      open && /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("section", { className: "rb-notification-panel", id: "notification-panel", "aria-label": "Danh s\xE1ch th\xF4ng b\xE1o", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("header", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("h2", { children: "Th\xF4ng b\xE1o" }),
-          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("button", { type: "button", disabled: busy || !unreadCount, onClick: () => read(), children: "\u0110\u1ECDc t\u1EA5t c\u1EA3" })
+      open && /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("section", { className: "rb-notification-panel", id: "notification-panel", "aria-label": "Danh s\xE1ch th\xF4ng b\xE1o", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("header", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("h2", { children: "Th\xF4ng b\xE1o" }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("button", { type: "button", disabled: busy || !unreadCount, onClick: () => read(), children: "\u0110\u1ECDc t\u1EA5t c\u1EA3" })
         ] }),
-        (error || actionError) && /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "rb-notification-feedback", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("p", { role: "alert", children: actionError || error }),
-          error && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("button", { type: "button", onClick: refresh, children: "Th\u1EED l\u1EA1i" })
+        (error || actionError) && /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "rb-notification-feedback", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { role: "alert", children: actionError || error }),
+          error && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("button", { type: "button", onClick: refresh, children: "Th\u1EED l\u1EA1i" })
         ] }),
-        loading ? /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("p", { className: "rb-notification-feedback", role: "status", children: "\u0110ang t\u1EA3i th\xF4ng b\xE1o\u2026" }) : !notifications.length && !error ? /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("p", { className: "rb-notification-feedback", children: "Ch\u01B0a c\xF3 th\xF4ng b\xE1o n\xE0o" }) : null,
-        /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("div", { className: "rb-notification-list", children: notifications.map((notification) => /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(
+        loading ? /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { className: "rb-notification-feedback", role: "status", children: "\u0110ang t\u1EA3i th\xF4ng b\xE1o\u2026" }) : !notifications.length && !error ? /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { className: "rb-notification-feedback", children: "Ch\u01B0a c\xF3 th\xF4ng b\xE1o n\xE0o" }) : null,
+        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { className: "rb-notification-list", children: notifications.map((notification) => /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(
           "button",
           {
             type: "button",
@@ -29429,9 +30547,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
             className: `rb-notification-item${notification.isRead ? "" : " unread"}`,
             onClick: () => read(notification),
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("strong", { children: notification.title }),
-              /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("span", { children: notification.body }),
-              /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("small", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("strong", { children: notification.title }),
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { children: notification.body }),
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("small", { children: [
                 !notification.isRead && "Ch\u01B0a \u0111\u1ECDc \xB7 ",
                 new Date(notification.createdAt).toLocaleString("vi-VN")
               ] })
@@ -29443,86 +30561,236 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     ] });
   }
 
+  // src/components/ChatBell.tsx
+  var import_react29 = __toESM(require_react(), 1);
+  var import_jsx_runtime37 = __toESM(require_jsx_runtime(), 1);
+  function ChatBell() {
+    const { currentUser } = useAuth();
+    const { conversations, totalUnread, loading, error, refresh } = useChatInbox();
+    const [open, setOpen] = (0, import_react29.useState)(false);
+    const container = (0, import_react29.useRef)(null), trigger = (0, import_react29.useRef)(null);
+    const navigate = useNavigate(), location2 = useLocation();
+    (0, import_react29.useEffect)(() => {
+      setOpen(false);
+    }, [location2.pathname, location2.search, currentUser?.id]);
+    (0, import_react29.useEffect)(() => {
+      if (!open) return;
+      const outside = (event) => {
+        if (!container.current?.contains(event.target)) setOpen(false);
+      };
+      const escape = (event) => {
+        if (event.key === "Escape") {
+          setOpen(false);
+          trigger.current?.focus();
+        }
+      };
+      document.addEventListener("mousedown", outside);
+      document.addEventListener("keydown", escape);
+      return () => {
+        document.removeEventListener("mousedown", outside);
+        document.removeEventListener("keydown", escape);
+      };
+    }, [open]);
+    if (!["customer", "merchant"].includes(currentUser?.role)) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "rb-chat-bell", ref: container, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(
+        "button",
+        {
+          ref: trigger,
+          className: "rb-chat-bell-trigger",
+          type: "button",
+          "aria-label": totalUnread ? `Tin nh\u1EAFn, ${totalUnread} ch\u01B0a \u0111\u1ECDc` : "Tin nh\u1EAFn",
+          "aria-controls": "chat-inbox-panel",
+          "aria-expanded": open,
+          onClick: () => {
+            setOpen(!open);
+            if (!open) void refresh();
+          },
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("svg", { width: "22", height: "22", viewBox: "0 0 24 24", "aria-hidden": "true", fill: "none", stroke: "currentColor", strokeWidth: "1.8", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("path", { d: "M21 11a8 8 0 0 1-8 8H5l-3 3V11a9 9 0 0 1 19 0Z" }),
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("path", { d: "M7 10h10M7 14h6" })
+            ] }),
+            totalUnread > 0 && /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { className: "rb-chat-unread", "aria-hidden": "true", children: totalUnread > 9 ? "9+" : totalUnread })
+          ]
+        }
+      ),
+      open && /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("section", { id: "chat-inbox-panel", className: "rb-chat-inbox", "aria-label": "H\u1ED9p th\u01B0 tin nh\u1EAFn", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("header", { children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("h2", { children: "Tin nh\u1EAFn" }) }),
+        loading && /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i cu\u1ED9c tr\xF2 chuy\u1EC7n\u2026" }),
+        error && /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "rb-inbox-error", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("p", { role: "alert", children: error }),
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("button", { type: "button", onClick: refresh, children: "Th\u1EED l\u1EA1i" })
+        ] }),
+        !loading && !error && !conversations.length && /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("p", { children: "Ch\u01B0a c\xF3 tin nh\u1EAFn n\xE0o." }),
+        conversations.map((row) => /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("button", { className: `rb-conversation${row.unreadCount ? " unread" : ""}`, type: "button", onClick: () => {
+          setOpen(false);
+          navigate(`${currentUser.role === "merchant" ? "/merchant" : ""}/orders/${encodeURIComponent(row.orderId)}?chat=1`);
+        }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("span", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("strong", { children: currentUser.role === "merchant" ? row.customerName : row.restaurantName }),
+            row.unreadCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("b", { children: row.unreadCount })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("small", { children: row.orderCode }),
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("span", { className: "rb-conversation-preview", children: [
+            row.lastMessage.senderId === currentUser.id ? "B\u1EA1n: " : "",
+            row.lastMessage.content
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("time", { dateTime: row.lastMessage.createdAt, children: new Date(row.lastMessage.createdAt).toLocaleString("vi-VN") })
+        ] }, row.orderId))
+      ] })
+    ] });
+  }
+
+  // src/components/AiSupportWidget.tsx
+  var import_react30 = __toESM(require_react(), 1);
+  var import_jsx_runtime38 = __toESM(require_jsx_runtime(), 1);
+  function AiSupportWidget() {
+    const { currentUser } = useAuth();
+    const { pathname } = useLocation();
+    if (currentUser?.role !== "customer" || pathname.startsWith("/merchant") || pathname.startsWith("/admin")) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(SupportWidget, {}, currentUser.id);
+  }
+  function SupportWidget() {
+    const [open, setOpen] = (0, import_react30.useState)(false), [orderChatOpen, setOrderChatOpen] = (0, import_react30.useState)(false);
+    const [messages, setMessages] = (0, import_react30.useState)([]), [input, setInput] = (0, import_react30.useState)(""), [pending, setPending] = (0, import_react30.useState)(""), [error, setError] = (0, import_react30.useState)("");
+    const busy = (0, import_react30.useRef)(false), alive = (0, import_react30.useRef)(true), field = (0, import_react30.useRef)(null), list = (0, import_react30.useRef)(null), panel = (0, import_react30.useRef)(null), trigger = (0, import_react30.useRef)(null);
+    (0, import_react30.useEffect)(() => {
+      alive.current = true;
+      const orderChat = (event) => {
+        const value2 = Boolean(event.detail);
+        setOrderChatOpen(value2);
+        if (value2) setOpen(false);
+      };
+      setOrderChatOpen(Boolean(document.querySelector(".rb-chat-drawer")));
+      window.addEventListener("routebite:order-chat-open", orderChat);
+      return () => {
+        alive.current = false;
+        window.removeEventListener("routebite:order-chat-open", orderChat);
+      };
+    }, []);
+    (0, import_react30.useEffect)(() => {
+      if (!open) return;
+      field.current?.focus();
+      const escape = (event) => {
+        if (event.key === "Escape" && panel.current?.contains(document.activeElement)) {
+          setOpen(false);
+          trigger.current?.focus();
+        }
+      };
+      document.addEventListener("keydown", escape);
+      return () => document.removeEventListener("keydown", escape);
+    }, [open]);
+    (0, import_react30.useEffect)(() => {
+      if (list.current) list.current.scrollTop = list.current.scrollHeight;
+    }, [messages.length, pending, open]);
+    async function send(event) {
+      event.preventDefault();
+      const message = input.trim();
+      if (!message || busy.current) return;
+      busy.current = true;
+      setPending(message);
+      setError("");
+      const history = messages.slice(-10);
+      while (history.reduce((sum, turn) => sum + turn.content.length, message.length) > 14e3 && history.length) history.splice(0, 2);
+      try {
+        const result = await request("/support/ai-chat", { method: "POST", body: { message, history } });
+        if (typeof result.reply !== "string" || !result.reply.trim()) throw new Error("Tr\u1EE3 l\xFD ch\u01B0a tr\u1EA3 l\u1EDDi. Vui l\xF2ng th\u1EED l\u1EA1i.");
+        if (alive.current) {
+          setMessages((rows) => [...rows, { role: "user", content: message }, { role: "assistant", content: result.reply }]);
+          setInput("");
+        }
+      } catch (e) {
+        if (alive.current) setError(e.message || "Kh\xF4ng k\u1EBFt n\u1ED1i \u0111\u01B0\u1EE3c tr\u1EE3 l\xFD AI. N\u1ED9i dung c\xE2u h\u1ECFi v\u1EABn \u0111\u01B0\u1EE3c gi\u1EEF \u0111\u1EC3 th\u1EED l\u1EA1i.");
+      } finally {
+        busy.current = false;
+        if (alive.current) {
+          setPending("");
+          setTimeout(() => field.current?.focus(), 0);
+        }
+      }
+    }
+    if (orderChatOpen) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { ref: trigger, className: "rb-ai-trigger", type: "button", "aria-label": "H\u1ED7 tr\u1EE3 AI", "aria-expanded": open, "aria-controls": "ai-support-panel", onClick: () => setOpen(!open), children: "AI" }),
+      open && /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("section", { ref: panel, id: "ai-support-panel", className: "rb-ai-panel", role: "dialog", "aria-modal": "false", "aria-labelledby": "ai-support-title", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("header", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("h2", { id: "ai-support-title", children: "Tr\u1EE3 l\xFD RouteBite" }),
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("small", { children: "AI h\u01B0\u1EDBng d\u1EABn \xB7 Kh\xF4ng ph\u1EA3i nh\xE2n vi\xEAn c\u1EE7a qu\xE1n" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { type: "button", "aria-label": "\u0110\xF3ng h\u1ED7 tr\u1EE3 AI", onClick: () => {
+            setOpen(false);
+            trigger.current?.focus();
+          }, children: "\xD7" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { className: "rb-ai-disclaimer", children: "C\xE2u h\u1ECFi \u0111\u01B0\u1EE3c g\u1EEDi t\u1EDBi Anthropic \u0111\u1EC3 tr\u1EA3 l\u1EDDi. Kh\xF4ng nh\u1EADp m\u1EADt kh\u1EA9u, OTP, CCCD ho\u1EB7c th\xF4ng tin ng\xE2n h\xE0ng. AI c\xF3 th\u1EC3 sai v\xE0 kh\xF4ng thao t\xE1c \u0111\u01A1n h\xE0ng thay b\u1EA1n." }),
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "rb-ai-messages", ref: list, role: "log", "aria-label": "H\u1ED9i tho\u1EA1i h\u1ED7 tr\u1EE3 AI", "aria-live": "polite", children: [
+          !messages.length && !pending && /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { children: "Xin ch\xE0o! B\u1EA1n c\u1EA7n h\u1ED7 tr\u1EE3 g\xEC v\u1EC1 RouteBite?" }),
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "rb-ai-suggestions", children: ["L\xE0m sao h\u1EE7y \u0111\u01A1n?", "VNPAY b\u1ECB l\u1ED7i ph\u1EA3i l\xE0m g\xEC?", "Qu\xE1n ch\u01B0a x\xE1c nh\u1EADn th\xEC sao?"].map((text) => /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { type: "button", onClick: () => {
+              setInput(text);
+              field.current?.focus();
+            }, children: text }, text)) })
+          ] }),
+          messages.map((turn, i) => /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("article", { className: `rb-ai-message ${turn.role}`, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("small", { children: turn.role === "user" ? "B\u1EA1n" : "Tr\u1EE3 l\xFD AI" }),
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { children: turn.content })
+          ] }, i)),
+          pending && /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("article", { className: "rb-ai-message user", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("small", { children: "B\u1EA1n" }),
+              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { children: pending })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { role: "status", children: "\u0110ang tr\u1EA3 l\u1EDDi\u2026" })
+          ] })
+        ] }),
+        error && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { className: "rb-ai-error", role: "alert", children: error }),
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "rb-ai-actions", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(Link, { to: "/my-orders", onClick: () => setOpen(false), children: "M\u1EDF \u0111\u01A1n \u0111\u1EC3 nh\u1EAFn tin v\u1EDBi qu\xE1n" }),
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { type: "button", disabled: !!pending, onClick: () => {
+            setMessages([]);
+            setError("");
+          }, children: "H\u1ED9i tho\u1EA1i m\u1EDBi" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("form", { onSubmit: send, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("span", { children: "C\xE2u h\u1ECFi" }),
+            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("input", { ref: field, value: input, maxLength: 1e3, disabled: !!pending, onChange: (e) => setInput(e.target.value), placeholder: "Nh\u1EADp c\xE2u h\u1ECFi..." })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { type: "submit", disabled: !!pending || !input.trim(), children: pending ? "\u0110ang g\u1EEDi\u2026" : "G\u1EEDi" })
+        ] })
+      ] })
+    ] });
+  }
+
   // src/components/ProtectedRoute.tsx
-  var import_jsx_runtime24 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime39 = __toESM(require_jsx_runtime(), 1);
   function ProtectedRoute({ allowedRoles, children }) {
     const { currentUser } = useAuth();
     const location2 = useLocation();
-    if (!currentUser || !localStorage.getItem(TOKEN_KEY)) return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(Navigate, { to: "/login", state: { from: location2.pathname }, replace: true });
-    if (!allowedRoles.includes(currentUser.role)) return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(Navigate, { replace: true, to: currentUser.role === "merchant" ? "/merchant/dashboard" : currentUser.role === "admin" ? "/admin/overview" : "/" });
-    return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(import_jsx_runtime24.Fragment, { children });
-  }
-
-  // src/contexts/MerchantContext.tsx
-  var import_react18 = __toESM(require_react(), 1);
-  var import_jsx_runtime25 = __toESM(require_jsx_runtime(), 1);
-  var MerchantContext = (0, import_react18.createContext)(null);
-  function MerchantProvider({ children }) {
-    const [restaurants, setRestaurants] = (0, import_react18.useState)([]);
-    const [selectedId, setSelectedId] = (0, import_react18.useState)("");
-    const [loading, setLoading] = (0, import_react18.useState)(true);
-    const [error, setError] = (0, import_react18.useState)("");
-    const [revision, setRevision] = (0, import_react18.useState)(0);
-    const [dirty, setDirty] = (0, import_react18.useState)(false);
-    const [saving, setSaving] = (0, import_react18.useState)(false);
-    (0, import_react18.useEffect)(() => {
-      let active = true;
-      setLoading(true);
-      setError("");
-      request("/restaurants/mine").then((data2) => {
-        if (!active) return;
-        const list = Array.isArray(data2) ? data2 : data2.data || [];
-        setRestaurants(list);
-        setSelectedId((old) => list.some((r) => r.id === old) ? old : list[0]?.id || "");
-      }).catch((e) => {
-        if (active) setError(e.message || "Kh\xF4ng th\u1EC3 t\u1EA3i qu\xE1n c\u1EE7a b\u1EA1n");
-      }).finally(() => {
-        if (active) setLoading(false);
-      });
-      return () => {
-        active = false;
-      };
-    }, [revision]);
-    const updateRestaurant = (0, import_react18.useCallback)((restaurant) => {
-      setRestaurants((old) => old.some((r) => r.id === restaurant.id) ? old.map((r) => r.id === restaurant.id ? restaurant : r) : [...old, restaurant]);
-      setSelectedId(restaurant.id);
-    }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime25.jsx)(MerchantContext.Provider, { value: {
-      restaurants,
-      restaurant: restaurants.find((r) => r.id === selectedId),
-      selectedId,
-      setSelectedId,
-      loading,
-      error,
-      refresh: () => setRevision((v) => v + 1),
-      updateRestaurant,
-      dirty,
-      setDirty,
-      saving,
-      setSaving
-    }, children });
-  }
-  function useMerchant() {
-    return (0, import_react18.useContext)(MerchantContext);
+    if (!currentUser || !localStorage.getItem(TOKEN_KEY)) return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Navigate, { to: "/login", state: { from: location2.pathname }, replace: true });
+    if (!allowedRoles.includes(currentUser.role)) return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Navigate, { replace: true, to: currentUser.role === "merchant" ? "/merchant/dashboard" : currentUser.role === "admin" ? "/admin/overview" : "/" });
+    return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_jsx_runtime39.Fragment, { children });
   }
 
   // src/layouts/MerchantLayout.tsx
-  var import_jsx_runtime26 = __toESM(require_jsx_runtime(), 1);
-  var navItems = [{ path: "/merchant/dashboard", label: "T\u1ED5ng quan" }, { path: "/merchant/menu", label: "Qu\u1EA3n l\xFD Menu" }, { path: "/merchant/orders", label: "\u0110\u01A1n h\xE0ng" }];
+  var import_jsx_runtime40 = __toESM(require_jsx_runtime(), 1);
+  var navItems = [{ path: "/merchant/dashboard", label: "T\u1ED5ng quan" }, { path: "/merchant/menu", label: "Qu\u1EA3n l\xFD Menu" }, { path: "/merchant/orders", label: "\u0110\u01A1n h\xE0ng" }, { path: "/merchant/reviews", label: "\u0110\xE1nh gi\xE1" }];
   function MerchantLayout() {
     const { currentUser, logout } = useAuth();
-    const { restaurants, selectedId, setSelectedId, loading, error, refresh, dirty, saving } = useMerchant();
+    const { restaurants, restaurant, selectedId, setSelectedId, loading, error, refresh, dirty, saving } = useMerchant();
     const navigate = useNavigate();
     const location2 = useLocation();
     const canLeave = () => !saving && (!dirty || window.confirm("C\xF3 thay \u0111\u1ED5i menu ch\u01B0a l\u01B0u. B\u1EA1n mu\u1ED1n r\u1EDDi trang v\xE0 b\u1ECF c\xE1c thay \u0111\u1ED5i n\xE0y?"));
     const onboarding = location2.pathname === "/merchant/onboarding";
-    return /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "rb-merchant-shell", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("aside", { className: "rb-merchant-sidebar", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "rb-merchant-brand", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("strong", { children: "RouteBite" }),
-          /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("span", { children: "Kh\xF4ng gian Merchant" })
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-merchant-shell", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("aside", { className: "rb-merchant-sidebar", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-merchant-brand", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("strong", { children: "RouteBite" }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("span", { children: "Kh\xF4ng gian Merchant" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("nav", { "aria-label": "\u0110i\u1EC1u h\u01B0\u1EDBng merchant", children: navItems.map((item) => /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("nav", { "aria-label": "\u0110i\u1EC1u h\u01B0\u1EDBng merchant", children: navItems.map((item) => /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
           NavLink,
           {
             to: item.path,
@@ -29534,9 +30802,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           },
           item.path
         )) }),
-        /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("footer", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("strong", { children: currentUser.fullName }),
-          /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("button", { type: "button", onClick: () => {
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("footer", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("strong", { children: currentUser.fullName }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("button", { type: "button", onClick: () => {
             if (canLeave()) {
               logout();
               navigate("/login");
@@ -29544,38 +30812,46 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           }, children: "\u0110\u0103ng xu\u1EA5t" })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "rb-merchant-main", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("header", { className: "rb-merchant-toolbar", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("div", { children: restaurants.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("label", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-merchant-main", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("header", { className: "rb-merchant-toolbar", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { children: restaurants.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("label", { children: [
             "Qu\xE1n \u0111ang qu\u1EA3n l\xFD",
-            /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("select", { "aria-label": "Qu\xE1n \u0111ang qu\u1EA3n l\xFD", value: selectedId, disabled: saving, onChange: (event) => {
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("select", { "aria-label": "Qu\xE1n \u0111ang qu\u1EA3n l\xFD", value: selectedId, disabled: saving, onChange: (event) => {
               if (canLeave()) setSelectedId(event.target.value);
-            }, children: restaurants.map((r) => /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("option", { value: r.id, children: r.name }, r.id)) })
+            }, children: restaurants.map((r) => /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("option", { value: r.id, children: r.name }, r.id)) })
           ] }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "account-menu", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(NotificationBell, {}),
-            /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(AvatarDropdown, {})
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "account-menu", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(NotificationBell, {}),
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(ChatBell, {}),
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AvatarDropdown, {})
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("main", { className: "rb-merchant-content", children: loading ? /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i qu\xE1n c\u1EE7a b\u1EA1n\u2026" }) : error ? /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("section", { className: "item-card", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("p", { role: "alert", children: error }),
-          /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("button", { className: "btn secondary", onClick: refresh, children: "Th\u1EED l\u1EA1i" })
-        ] }) : !restaurants.length && !onboarding ? /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(Navigate, { to: "/merchant/onboarding", replace: true }) : /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(Outlet, {}) })
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("main", { className: "rb-merchant-content", children: [
+          (restaurant?.suspendedAt != null || restaurant?.suspendedReason != null) && /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("section", { className: "item-card", role: "note", "aria-label": "Qu\xE1n b\u1ECB \u0111\xECnh ch\u1EC9", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("strong", { children: "Qu\xE1n \u0111ang b\u1ECB Admin \u0111\xECnh ch\u1EC9" }),
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: restaurant.suspendedReason || "Vui l\xF2ng li\xEAn h\u1EC7 Admin \u0111\u1EC3 bi\u1EBFt chi ti\u1EBFt." }),
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: "Qu\xE1n kh\xF4ng hi\u1EC3n th\u1ECB c\xF4ng khai v\xE0 kh\xF4ng nh\u1EADn \u0111\u01A1n m\u1EDBi. Ch\u1EC9 Admin c\xF3 th\u1EC3 k\xEDch ho\u1EA1t l\u1EA1i; l\u01B0u menu ho\u1EB7c \u1EA3nh kh\xF4ng g\u1EE1 \u0111\xECnh ch\u1EC9." })
+          ] }),
+          loading ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i qu\xE1n c\u1EE7a b\u1EA1n\u2026" }) : error ? /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("section", { className: "item-card", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { role: "alert", children: error }),
+            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("button", { className: "btn secondary", onClick: refresh, children: "Th\u1EED l\u1EA1i" })
+          ] }) : !restaurants.length && !onboarding ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Navigate, { to: "/merchant/onboarding", replace: true }) : /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Outlet, {})
+        ] })
       ] })
     ] });
   }
 
   // src/pages/merchant/useMerchantOrders.ts
-  var import_react19 = __toESM(require_react(), 1);
+  var import_react31 = __toESM(require_react(), 1);
   function useMerchantOrders(restaurantId) {
     const { currentUser } = useAuth();
     const { orders: socket } = useSockets();
-    const [orders, setOrders] = (0, import_react19.useState)([]);
-    const [loading, setLoading] = (0, import_react19.useState)(true);
-    const [error, setError] = (0, import_react19.useState)("");
-    const refreshRef = (0, import_react19.useRef)(async () => {
+    const [orders, setOrders] = (0, import_react31.useState)([]);
+    const [loading, setLoading] = (0, import_react31.useState)(true);
+    const [error, setError] = (0, import_react31.useState)("");
+    const refreshRef = (0, import_react31.useRef)(async () => {
     });
-    (0, import_react19.useEffect)(() => {
+    (0, import_react31.useEffect)(() => {
       let active = true;
       let sequence = 0;
       setOrders([]);
@@ -29621,27 +30897,27 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
 
   // src/pages/merchant/RestaurantImageEditor.tsx
-  var import_react21 = __toESM(require_react(), 1);
+  var import_react33 = __toESM(require_react(), 1);
 
   // src/components/ImageUploader.tsx
-  var import_react20 = __toESM(require_react(), 1);
-  var import_jsx_runtime27 = __toESM(require_jsx_runtime(), 1);
+  var import_react32 = __toESM(require_react(), 1);
+  var import_jsx_runtime41 = __toESM(require_jsx_runtime(), 1);
   var validUrl = (value2) => /^(https?:\/\/[^\s]+|\/(?!\/)[^\s]*)?$/.test(value2);
   function ImageUploader({ value: value2, onChange, label = "\u1EA2nh", disabled = false, onBusyChange }) {
-    const id = (0, import_react20.useId)();
-    const [uploading, setUploading] = (0, import_react20.useState)(false);
-    const [preview, setPreview] = (0, import_react20.useState)("");
-    const [error, setError] = (0, import_react20.useState)("");
-    const abort = (0, import_react20.useRef)(null);
-    const localUrl = (0, import_react20.useRef)("");
-    const mounted = (0, import_react20.useRef)(true);
-    const busyCallback = (0, import_react20.useRef)(onBusyChange);
+    const id = (0, import_react32.useId)();
+    const [uploading, setUploading] = (0, import_react32.useState)(false);
+    const [preview, setPreview] = (0, import_react32.useState)("");
+    const [error, setError] = (0, import_react32.useState)("");
+    const abort = (0, import_react32.useRef)(null);
+    const localUrl = (0, import_react32.useRef)("");
+    const mounted = (0, import_react32.useRef)(true);
+    const busyCallback = (0, import_react32.useRef)(onBusyChange);
     busyCallback.current = onBusyChange;
     const config2 = window.ROUTEBITE_CONFIG || {};
     const cloud = String(config2.cloudinaryCloudName || "").trim();
     const preset = String(config2.cloudinaryUploadPreset || "").trim();
     const configured = /^[a-zA-Z0-9_-]+$/.test(cloud) && !!preset;
-    (0, import_react20.useEffect)(() => () => {
+    (0, import_react32.useEffect)(() => () => {
       mounted.current = false;
       abort.current?.abort();
       if (localUrl.current) URL.revokeObjectURL(localUrl.current);
@@ -29690,30 +30966,30 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       }
     }
     const image = preview || (value2 && validUrl(value2) ? value2 : "");
-    return /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("div", { className: "rb-image-uploader", role: "group", "aria-label": label, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("span", { className: "rb-image-label", children: label }),
-      /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("div", { className: "rb-image-controls", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("img", { src: image || "/placeholder-food.svg", alt: `Xem tr\u01B0\u1EDBc ${label.toLowerCase()}`, onError: (event) => {
+    return /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("div", { className: "rb-image-uploader", role: "group", "aria-label": label, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("span", { className: "rb-image-label", children: label }),
+      /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("div", { className: "rb-image-controls", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("img", { src: image || "/placeholder-food.svg", alt: `Xem tr\u01B0\u1EDBc ${label.toLowerCase()}`, onError: (event) => {
           if (event.currentTarget.getAttribute("src") !== "/placeholder-food.svg") event.currentTarget.src = "/placeholder-food.svg";
         } }),
-        /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("label", { htmlFor: id, className: "rb-image-file-label", children: uploading ? "\u0110ang t\u1EA3i l\xEAn\u2026" : "Ch\u1ECDn \u1EA3nh" }),
-          /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("input", { id, type: "file", accept: "image/jpeg,image/png,image/webp", "aria-label": `Ch\u1ECDn ${label.toLowerCase()}`, disabled: disabled || uploading || !configured, onChange: upload }),
-          value2 && /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("button", { className: "rb-danger-button", type: "button", disabled: disabled || uploading, onClick: () => {
+        /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("label", { htmlFor: id, className: "rb-image-file-label", children: uploading ? "\u0110ang t\u1EA3i l\xEAn\u2026" : "Ch\u1ECDn \u1EA3nh" }),
+          /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("input", { id, type: "file", accept: "image/jpeg,image/png,image/webp", "aria-label": `Ch\u1ECDn ${label.toLowerCase()}`, disabled: disabled || uploading || !configured, onChange: upload }),
+          value2 && /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("button", { className: "rb-danger-button", type: "button", disabled: disabled || uploading, onClick: () => {
             onChange("");
             setError("");
           }, children: "B\u1ECF \u1EA3nh" })
         ] })
       ] }),
-      !configured && /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("small", { children: "Ch\u01B0a c\u1EA5u h\xECnh Cloudinary \u2014 c\xF3 th\u1EC3 nh\u1EADp URL \u1EA3nh." }),
-      /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("label", { children: [
+      !configured && /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("small", { children: "Ch\u01B0a c\u1EA5u h\xECnh Cloudinary \u2014 c\xF3 th\u1EC3 nh\u1EADp URL \u1EA3nh." }),
+      /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("label", { children: [
         "URL \u1EA3nh",
-        /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("input", { "aria-label": `URL ${label.toLowerCase()}`, value: value2 || "", placeholder: "https://\u2026", disabled: disabled || uploading, onChange: (event) => {
+        /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("input", { "aria-label": `URL ${label.toLowerCase()}`, value: value2 || "", placeholder: "https://\u2026", disabled: disabled || uploading, onChange: (event) => {
           onChange(event.target.value);
           setError(validUrl(event.target.value) ? "" : "URL \u1EA3nh ph\u1EA3i b\u1EAFt \u0111\u1EA7u b\u1EB1ng http:// ho\u1EB7c https://.");
         } })
       ] }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("small", { role: "alert", children: error })
+      error && /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("small", { role: "alert", children: error })
     ] });
   }
 
@@ -29726,23 +31002,23 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       address: restaurant.address,
       category: restaurant.category || "",
       imageUrl: restaurant.imageUrl || "",
+      // Lưu menu/ảnh không được ghi lại trạng thái mở quán từ một snapshot đã cũ.
       latitude,
       longitude,
       openingHours: restaurant.openingHours,
-      active: restaurant.active,
       menuItems: menuItems.map((item) => ({ ...item.id ? { id: item.id } : {}, name: item.name.trim(), price: Number(item.price), description: item.description || "", available: item.available, imageUrl: item.imageUrl || null }))
     };
   }
 
   // src/pages/merchant/RestaurantImageEditor.tsx
-  var import_jsx_runtime28 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime42 = __toESM(require_jsx_runtime(), 1);
   function RestaurantImageEditor({ restaurant }) {
     const { saving, setSaving, setDirty, updateRestaurant } = useMerchant();
-    const [imageUrl, setImageUrl] = (0, import_react21.useState)(restaurant.imageUrl || "");
-    const [error, setError] = (0, import_react21.useState)("");
-    const [message, setMessage] = (0, import_react21.useState)("");
+    const [imageUrl, setImageUrl] = (0, import_react33.useState)(restaurant.imageUrl || "");
+    const [error, setError] = (0, import_react33.useState)("");
+    const [message, setMessage] = (0, import_react33.useState)("");
     const dirty = imageUrl !== (restaurant.imageUrl || "");
-    (0, import_react21.useEffect)(() => {
+    (0, import_react33.useEffect)(() => {
       setDirty(dirty);
       return () => setDirty(false);
     }, [dirty, setDirty]);
@@ -29760,90 +31036,90 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setSaving(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("section", { className: "item-card rb-restaurant-image-editor", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(ImageUploader, { label: "\u1EA2nh \u0111\u1EA1i di\u1EC7n qu\xE1n", value: imageUrl, onChange: setImageUrl, disabled: saving, onBusyChange: setSaving }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
-      message && /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("p", { role: "status", children: message }),
-      /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("button", { className: "btn primary", type: "button", disabled: saving || !dirty, onClick: save, children: saving ? "\u0110ang x\u1EED l\xFD\u2026" : "L\u01B0u \u1EA3nh qu\xE1n" })
+    return /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("section", { className: "item-card rb-restaurant-image-editor", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(ImageUploader, { label: "\u1EA2nh \u0111\u1EA1i di\u1EC7n qu\xE1n", value: imageUrl, onChange: setImageUrl, disabled: saving, onBusyChange: setSaving }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+      message && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("p", { role: "status", children: message }),
+      /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("button", { className: "btn primary", type: "button", disabled: saving || !dirty, onClick: save, children: saving ? "\u0110ang x\u1EED l\xFD\u2026" : "L\u01B0u \u1EA3nh qu\xE1n" })
     ] });
   }
 
   // src/pages/merchant/DashboardPage.tsx
-  var import_jsx_runtime29 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime43 = __toESM(require_jsx_runtime(), 1);
   function DashboardPage() {
     const { restaurant } = useMerchant();
     const { orders, loading, error, refresh } = useMerchantOrders(restaurant?.id);
     const complete = orders.filter((o) => o.status === "COMPLETED");
-    return /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("section", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("div", { className: "rb-merchant-page-head", children: /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { className: "rb-eyebrow", children: "KH\xD4NG GIAN CH\u1EE6 QU\xC1N" }),
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("h1", { children: "T\u1ED5ng quan" }),
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { children: restaurant?.name })
+    return /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("section", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "rb-merchant-page-head", children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("p", { className: "rb-eyebrow", children: "KH\xD4NG GIAN CH\u1EE6 QU\xC1N" }),
+        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("h1", { children: "T\u1ED5ng quan" }),
+        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("p", { children: restaurant?.name })
       ] }) }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("p", { className: "auth-alert", role: "alert", children: [
+      error && /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("p", { className: "auth-alert", role: "alert", children: [
         error,
         " ",
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("button", { onClick: refresh, children: "Th\u1EED l\u1EA1i" })
+        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("button", { onClick: refresh, children: "Th\u1EED l\u1EA1i" })
       ] }),
-      loading ? /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i th\u1ED1ng k\xEA\u2026" }) : !error && /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "rb-merchant-metrics", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("article", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("span", { children: "\u0110\u01A1n \u0111ang x\u1EED l\xFD" }),
-          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("strong", { children: orders.filter((o) => ["PENDING", "CONFIRMED", "PREPARING", "READY"].includes(o.status)).length })
+      loading ? /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i th\u1ED1ng k\xEA\u2026" }) : !error && /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "rb-merchant-metrics", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("article", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("span", { children: "\u0110\u01A1n \u0111ang x\u1EED l\xFD" }),
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("strong", { children: orders.filter((o) => ["PENDING", "CONFIRMED", "PREPARING", "READY"].includes(o.status)).length })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("article", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("span", { children: "\u0110\u01A1n ho\xE0n th\xE0nh" }),
-          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("strong", { children: complete.length })
+        /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("article", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("span", { children: "\u0110\u01A1n ho\xE0n th\xE0nh" }),
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("strong", { children: complete.length })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("article", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("span", { children: "Doanh thu \u0111\u01A1n ho\xE0n th\xE0nh" }),
-          /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("strong", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("article", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("span", { children: "Doanh thu \u0111\u01A1n ho\xE0n th\xE0nh" }),
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("strong", { children: [
             complete.filter((o) => o.paymentStatus === "PAID").reduce((sum, o) => sum + Number(o.totalAmount), 0).toLocaleString("vi-VN"),
             "\u0111"
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("article", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("span", { children: "M\xF3n \u0111ang b\xE1n" }),
-          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("strong", { children: restaurant?.menuItems.filter((i) => i.available).length || 0 })
+        /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("article", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("span", { children: "M\xF3n \u0111ang b\xE1n" }),
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("strong", { children: restaurant?.menuItems.filter((i) => i.available).length || 0 })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "item-card rb-merchant-shop", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("h2", { children: "Th\xF4ng tin qu\xE1n" }),
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { children: restaurant?.address }),
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("p", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "item-card rb-merchant-shop", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("h2", { children: "Th\xF4ng tin qu\xE1n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("p", { children: restaurant?.address }),
+        /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("p", { children: [
           "Gi\u1EDD m\u1EDF c\u1EEDa: ",
           restaurant?.openingHours
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { children: restaurant?.active ? "\u0110ang ho\u1EA1t \u0111\u1ED9ng" : "\u0110ang t\u1EA1m ng\u1EEBng" }),
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "btn-row", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(Link, { className: "btn primary", to: "/merchant/orders", children: "X\u1EED l\xFD \u0111\u01A1n h\xE0ng" }),
-          /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(Link, { className: "btn secondary", to: "/merchant/menu", children: "Qu\u1EA3n l\xFD Menu" })
+        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("p", { children: restaurant?.suspendedAt != null || restaurant?.suspendedReason != null ? "B\u1ECB Admin \u0111\xECnh ch\u1EC9" : restaurant?.active ? "\u0110ang ho\u1EA1t \u0111\u1ED9ng" : "\u0110ang t\u1EA1m ng\u1EEBng" }),
+        /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "btn-row", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(Link, { className: "btn primary", to: "/merchant/orders", children: "X\u1EED l\xFD \u0111\u01A1n h\xE0ng" }),
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(Link, { className: "btn secondary", to: "/merchant/menu", children: "Qu\u1EA3n l\xFD Menu" })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { className: "rb-merchant-hint", children: "S\u1ED1 li\u1EC7u t\xEDnh t\u1EEB to\xE0n b\u1ED9 \u0111\u01A1n c\u1EE7a qu\xE1n \u0111ang ch\u1ECDn, kh\xF4ng ph\u1EA3i th\u1ED1ng k\xEA ri\xEAng h\xF4m nay." }),
-      restaurant && /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(RestaurantImageEditor, { restaurant }, restaurant.id)
+      /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("p", { className: "rb-merchant-hint", children: "S\u1ED1 li\u1EC7u t\xEDnh t\u1EEB to\xE0n b\u1ED9 \u0111\u01A1n c\u1EE7a qu\xE1n \u0111ang ch\u1ECDn, kh\xF4ng ph\u1EA3i th\u1ED1ng k\xEA ri\xEAng h\xF4m nay." }),
+      restaurant && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(RestaurantImageEditor, { restaurant }, restaurant.id)
     ] });
   }
 
   // src/pages/merchant/MenuManagementPage.tsx
-  var import_react22 = __toESM(require_react(), 1);
-  var import_jsx_runtime30 = __toESM(require_jsx_runtime(), 1);
+  var import_react34 = __toESM(require_react(), 1);
+  var import_jsx_runtime44 = __toESM(require_jsx_runtime(), 1);
   var clean = (items) => items.map((item) => ({ ...item.id ? { id: item.id } : {}, name: item.name, price: Number(item.price), description: item.description || "", available: item.available !== false, imageUrl: item.imageUrl || "" }));
   function MenuManagementPage() {
     const { restaurant } = useMerchant();
-    return restaurant ? /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(MenuEditor, { restaurant }, restaurant.id) : null;
+    return restaurant ? /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(MenuEditor, { restaurant }, restaurant.id) : null;
   }
   function MenuEditor({ restaurant }) {
     const { updateRestaurant, setDirty, saving, setSaving } = useMerchant();
-    const [baseline, setBaseline] = (0, import_react22.useState)(() => clean(restaurant.menuItems || []));
-    const [draft, setDraft] = (0, import_react22.useState)(() => clean(restaurant.menuItems || []));
-    const [error, setError] = (0, import_react22.useState)("");
-    const [message, setMessage] = (0, import_react22.useState)("");
+    const [baseline, setBaseline] = (0, import_react34.useState)(() => clean(restaurant.menuItems || []));
+    const [draft, setDraft] = (0, import_react34.useState)(() => clean(restaurant.menuItems || []));
+    const [error, setError] = (0, import_react34.useState)("");
+    const [message, setMessage] = (0, import_react34.useState)("");
     const dirty = JSON.stringify(draft) !== JSON.stringify(baseline);
-    (0, import_react22.useEffect)(() => {
+    (0, import_react34.useEffect)(() => {
       setDirty(dirty);
       return () => setDirty(false);
     }, [dirty, setDirty]);
-    (0, import_react22.useEffect)(() => {
+    (0, import_react34.useEffect)(() => {
       if (!dirty) return;
       const warn = (event) => {
         event.preventDefault();
@@ -29902,52 +31178,52 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setSaving(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("section", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { className: "rb-merchant-page-head", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { className: "rb-eyebrow", children: "QU\xC1N C\u1EE6A B\u1EA0N" }),
-          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("h1", { children: "Qu\u1EA3n l\xFD Menu" }),
-          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { children: restaurant.name })
+    return /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("section", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { className: "rb-merchant-page-head", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { className: "rb-eyebrow", children: "QU\xC1N C\u1EE6A B\u1EA0N" }),
+          /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("h1", { children: "Qu\u1EA3n l\xFD Menu" }),
+          /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { children: restaurant.name })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { className: "btn primary", type: "button", disabled: saving, onClick: () => setDraft((old) => [...old, { name: "", price: "", description: "", available: true }]), children: "+ Th\xEAm m\xF3n m\u1EDBi" })
+        /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { className: "btn primary", type: "button", disabled: saving, onClick: () => setDraft((old) => [...old, { name: "", price: "", description: "", available: true }]), children: "+ Th\xEAm m\xF3n m\u1EDBi" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { className: "rb-merchant-hint", children: "Th\xEAm, s\u1EEDa, x\xF3a m\xF3n r\u1ED3i b\u1EA5m L\u01B0u thay \u0111\u1ED5i. C\xF2n h\xE0ng/H\u1EBFt h\xE0ng c\u1EE7a m\xF3n \u0111\xE3 c\xF3 s\u1EBD \u0111\u01B0\u1EE3c l\u01B0u ngay." }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
-      message && /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { role: "status", className: "rb-merchant-feedback", children: message }),
-      /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("fieldset", { disabled: saving, className: "rb-menu-editor", children: [
-        draft.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { className: "rb-menu-edit-row", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(ImageUploader, { label: `\u1EA2nh m\xF3n ${index + 1}`, value: item.imageUrl, onChange: (url2) => update(index, "imageUrl", url2), disabled: saving, onBusyChange: setSaving }),
-          /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("label", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { className: "rb-merchant-hint", children: "Th\xEAm, s\u1EEDa, x\xF3a m\xF3n r\u1ED3i b\u1EA5m L\u01B0u thay \u0111\u1ED5i. C\xF2n h\xE0ng/H\u1EBFt h\xE0ng c\u1EE7a m\xF3n \u0111\xE3 c\xF3 s\u1EBD \u0111\u01B0\u1EE3c l\u01B0u ngay." }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+      message && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { role: "status", className: "rb-merchant-feedback", children: message }),
+      /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("fieldset", { disabled: saving, className: "rb-menu-editor", children: [
+        draft.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { className: "rb-menu-edit-row", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(ImageUploader, { label: `\u1EA2nh m\xF3n ${index + 1}`, value: item.imageUrl, onChange: (url2) => update(index, "imageUrl", url2), disabled: saving, onBusyChange: setSaving }),
+          /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("label", { children: [
             "T\xEAn m\xF3n",
-            /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("input", { "aria-label": `T\xEAn m\xF3n ${index + 1}`, maxLength: 160, value: item.name, onChange: (event) => update(index, "name", event.target.value), placeholder: "T\xEAn m\xF3n" })
+            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("input", { "aria-label": `T\xEAn m\xF3n ${index + 1}`, maxLength: 160, value: item.name, onChange: (event) => update(index, "name", event.target.value), placeholder: "T\xEAn m\xF3n" })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("label", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("label", { children: [
             "Gi\xE1 (\u0111)",
-            /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("input", { "aria-label": `Gi\xE1 m\xF3n ${index + 1}`, type: "number", min: "0", max: "99999999999999", step: "1", value: item.price, onChange: (event) => update(index, "price", event.target.value === "" ? "" : Number(event.target.value)) })
+            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("input", { "aria-label": `Gi\xE1 m\xF3n ${index + 1}`, type: "number", min: "0", max: "99999999999999", step: "1", value: item.price, onChange: (event) => update(index, "price", event.target.value === "" ? "" : Number(event.target.value)) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("label", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("label", { children: [
             "M\xF4 t\u1EA3",
-            /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("input", { "aria-label": `M\xF4 t\u1EA3 m\xF3n ${index + 1}`, value: item.description, onChange: (event) => update(index, "description", event.target.value) })
+            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("input", { "aria-label": `M\xF4 t\u1EA3 m\xF3n ${index + 1}`, value: item.description, onChange: (event) => update(index, "description", event.target.value) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { className: `rb-stock-toggle ${item.available ? "available" : ""}`, type: "button", "aria-label": `Tr\u1EA1ng th\xE1i ${item.name || "m\xF3n m\u1EDBi"}`, "aria-pressed": item.available, onClick: () => toggle(index), children: item.available ? "C\xF2n h\xE0ng" : "H\u1EBFt h\xE0ng" }),
-          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { type: "button", className: "rb-danger-button", "aria-label": `X\xF3a ${item.name || "m\xF3n m\u1EDBi"}`, onClick: () => setDraft((old) => old.filter((_, i) => i !== index)), children: "X\xF3a" })
+          /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { className: `rb-stock-toggle ${item.available ? "available" : ""}`, type: "button", "aria-label": `Tr\u1EA1ng th\xE1i ${item.name || "m\xF3n m\u1EDBi"}`, "aria-pressed": item.available, onClick: () => toggle(index), children: item.available ? "C\xF2n h\xE0ng" : "H\u1EBFt h\xE0ng" }),
+          /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { type: "button", className: "rb-danger-button", "aria-label": `X\xF3a ${item.name || "m\xF3n m\u1EDBi"}`, onClick: () => setDraft((old) => old.filter((_, i) => i !== index)), children: "X\xF3a" })
         ] }, item.id || `new-${index}`)),
-        !draft.length && /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { className: "rb-empty", children: "Ch\u01B0a c\xF3 m\xF3n n\xE0o, b\u1EA5m \u201CTh\xEAm m\xF3n m\u1EDBi\u201D \u0111\u1EC3 b\u1EAFt \u0111\u1EA7u." })
+        !draft.length && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { className: "rb-empty", children: "Ch\u01B0a c\xF3 m\xF3n n\xE0o, b\u1EA5m \u201CTh\xEAm m\xF3n m\u1EDBi\u201D \u0111\u1EC3 b\u1EAFt \u0111\u1EA7u." })
       ] }),
-      dirty && /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { className: "rb-menu-save-bar", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("span", { children: "C\xF3 thay \u0111\u1ED5i ch\u01B0a l\u01B0u" }),
-        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { type: "button", className: "btn secondary", disabled: saving, onClick: () => {
+      dirty && /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { className: "rb-menu-save-bar", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("span", { children: "C\xF3 thay \u0111\u1ED5i ch\u01B0a l\u01B0u" }),
+        /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { type: "button", className: "btn secondary", disabled: saving, onClick: () => {
           if (window.confirm("B\u1ECF c\xE1c thay \u0111\u1ED5i menu ch\u01B0a l\u01B0u?")) setDraft(baseline);
         }, children: "B\u1ECF thay \u0111\u1ED5i" }),
-        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { type: "button", className: "btn primary", disabled: saving, onClick: save, children: saving ? "\u0110ang l\u01B0u\u2026" : "L\u01B0u thay \u0111\u1ED5i" })
+        /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { type: "button", className: "btn primary", disabled: saving, onClick: save, children: saving ? "\u0110ang l\u01B0u\u2026" : "L\u01B0u thay \u0111\u1ED5i" })
       ] })
     ] });
   }
 
   // src/pages/merchant/OrdersKanbanPage.tsx
-  var import_react23 = __toESM(require_react(), 1);
-  var import_jsx_runtime31 = __toESM(require_jsx_runtime(), 1);
-  var columns = [{ status: "PENDING", label: "Ch\u1EDD x\xE1c nh\u1EADn / \u0110\xE3 x\xE1c nh\u1EADn" }, { status: "PREPARING", label: "\u0110ang chu\u1EA9n b\u1ECB" }, { status: "READY", label: "S\u1EB5n s\xE0ng" }, { status: "COMPLETED", label: "Ho\xE0n th\xE0nh" }];
+  var import_react35 = __toESM(require_react(), 1);
+  var import_jsx_runtime45 = __toESM(require_jsx_runtime(), 1);
+  var columns = [{ status: "PENDING", label: "Ch\u1EDD x\xE1c nh\u1EADn / \u0110\xE3 x\xE1c nh\u1EADn" }, { status: "PREPARING", label: "\u0110ang chu\u1EA9n b\u1ECB" }, { status: "READY", label: "S\u1EB5n s\xE0ng" }];
   var next = {
     PENDING: { status: "CONFIRMED", label: "X\xE1c nh\u1EADn \u2192" },
     CONFIRMED: { status: "PREPARING", label: "B\u1EAFt \u0111\u1EA7u chu\u1EA9n b\u1ECB \u2192" },
@@ -29957,9 +31233,19 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   function OrdersKanbanPage() {
     const { restaurant } = useMerchant();
     const { orders, loading, error, refresh } = useMerchantOrders(restaurant?.id);
-    const [busy, setBusy] = (0, import_react23.useState)("");
-    const [actionError, setActionError] = (0, import_react23.useState)("");
-    const [cancelled, setCancelled] = (0, import_react23.useState)(false);
+    const [busy, setBusy] = (0, import_react35.useState)("");
+    const [actionError, setActionError] = (0, import_react35.useState)("");
+    const [cancelled, setCancelled] = (0, import_react35.useState)(false);
+    const [completed, setCompleted] = (0, import_react35.useState)(false);
+    const [chatOrder, setChatOrder] = (0, import_react35.useState)(null);
+    (0, import_react35.useEffect)(() => {
+      setChatOrder(null);
+    }, [restaurant?.id]);
+    (0, import_react35.useEffect)(() => {
+      setCompleted(false);
+      setCancelled(false);
+      setActionError("");
+    }, [restaurant?.id]);
     async function advance(order, status) {
       if (busy || status === "CANCELLED" && !window.confirm(`H\u1EE7y \u0111\u01A1n ${order.orderCode}?`)) return;
       setBusy(order.id);
@@ -29976,64 +31262,82 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     const renderCard = (order) => {
       const action = next[order.status];
       const awaitingPayment = order.paymentMethod === "vnpay" && order.paymentStatus !== "PAID";
-      return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("article", { className: "rb-kanban-card", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Link, { to: "/merchant/orders/" + order.id, className: "rb-order-code", children: order.orderCode }),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(OrderStatusBadge, { status: order.status }),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("strong", { children: order.customerName || "Kh\xE1ch h\xE0ng" }),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { children: order.customerPhone }),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("p", { children: [
+      return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("article", { className: "rb-kanban-card", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(Link, { to: "/merchant/orders/" + order.id, className: "rb-order-code", children: order.orderCode }),
+        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(OrderStatusBadge, { status: order.status }),
+        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("strong", { children: order.customerName || "Kh\xE1ch h\xE0ng" }),
+        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("span", { children: order.customerPhone }),
+        /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("p", { children: [
           order.items?.reduce((sum, item) => sum + item.quantity, 0) || 0,
           " m\xF3n \xB7 ",
           Number(order.totalAmount).toLocaleString("vi-VN"),
           "\u0111"
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { children: order.paymentMethod === "cash" ? order.paymentStatus === "PAID" ? "Ti\u1EC1n m\u1EB7t \xB7 \u0110\xE3 thu" : "Ti\u1EC1n m\u1EB7t \xB7 Thu khi gh\xE9 l\u1EA5y" : awaitingPayment ? "VNPAY \xB7 Ch\u01B0a thanh to\xE1n" : "VNPAY \xB7 \u0110\xE3 thanh to\xE1n" }),
-        !["CANCELLED", "COMPLETED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }),
-        action && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("button", { className: "btn primary", type: "button", disabled: !!busy || awaitingPayment, onClick: () => advance(order, action.status), children: busy === order.id ? "\u0110ang c\u1EADp nh\u1EADt\u2026" : action.label }),
-        ["PENDING", "CONFIRMED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("button", { className: "rb-danger-button", type: "button", disabled: !!busy, onClick: () => advance(order, "CANCELLED"), children: "H\u1EE7y \u0111\u01A1n" })
+        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { children: order.paymentMethod === "cash" ? order.paymentStatus === "PAID" ? "Ti\u1EC1n m\u1EB7t \xB7 \u0110\xE3 thu" : "Ti\u1EC1n m\u1EB7t \xB7 Thu khi gh\xE9 l\u1EA5y" : awaitingPayment ? "VNPAY \xB7 Ch\u01B0a thanh to\xE1n" : "VNPAY \xB7 \u0110\xE3 thanh to\xE1n" }),
+        !["CANCELLED", "COMPLETED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }),
+        action && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("button", { className: "btn primary", type: "button", disabled: !!busy || awaitingPayment, onClick: () => advance(order, action.status), children: busy === order.id ? "\u0110ang c\u1EADp nh\u1EADt\u2026" : action.label }),
+        ["PENDING", "CONFIRMED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("button", { className: "rb-danger-button", type: "button", disabled: !!busy, onClick: () => advance(order, "CANCELLED"), children: "H\u1EE7y \u0111\u01A1n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("button", { className: "btn secondary", type: "button", onClick: () => setChatOrder(order), children: "Nh\u1EAFn tin v\u1EDBi kh\xE1ch" })
       ] }, order.id);
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("section", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "rb-merchant-page-head", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { className: "rb-eyebrow", children: "\u0110I\u1EC0U PH\u1ED0I GH\xC9 L\u1EA4Y" }),
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("h1", { children: "\u0110\u01A1n h\xE0ng" }),
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { children: restaurant?.name })
+    return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("section", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { className: "rb-merchant-page-head", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { className: "rb-eyebrow", children: "\u0110I\u1EC0U PH\u1ED0I GH\xC9 L\u1EA4Y" }),
+          /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("h1", { children: "\u0110\u01A1n h\xE0ng" }),
+          /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { children: restaurant?.name })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("button", { className: "btn secondary", onClick: refresh, children: "L\xE0m m\u1EDBi" })
+        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("button", { className: "btn secondary", onClick: refresh, children: "L\xE0m m\u1EDBi" })
       ] }),
-      (error || actionError) && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { role: "alert", className: "auth-alert", children: actionError || error }),
-      loading ? /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i \u0111\u01A1n h\xE0ng\u2026" }) : /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "rb-kanban-board", children: columns.map((column) => {
+      (error || actionError) && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { role: "alert", className: "auth-alert", children: actionError || error }),
+      loading ? /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i \u0111\u01A1n h\xE0ng\u2026" }) : /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { className: "rb-kanban-board", children: columns.map((column) => {
         const items = orders.filter((o) => column.status === "PENDING" ? ["PENDING", "CONFIRMED"].includes(o.status) : o.status === column.status);
-        return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("section", { className: "rb-kanban-column", "aria-label": column.label, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("h2", { children: [
+        return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("section", { className: "rb-kanban-column", "aria-label": column.label, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("h2", { children: [
             column.label,
             " ",
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { children: items.length })
+            /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("span", { children: items.length })
           ] }),
-          items.length ? items.map(renderCard) : /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { className: "rb-empty", children: "Ch\u01B0a c\xF3 \u0111\u01A1n" })
+          items.length ? items.map(renderCard) : /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { className: "rb-empty", children: "Ch\u01B0a c\xF3 \u0111\u01A1n" })
         ] }, column.status);
       }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("button", { className: "btn secondary rb-cancelled-toggle", type: "button", "aria-expanded": cancelled, onClick: () => setCancelled(!cancelled), children: [
-        "\u0110\xE3 h\u1EE7y (",
-        orders.filter((o) => o.status === "CANCELLED").length,
-        ")"
+      !loading && /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(import_jsx_runtime45.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { className: "rb-order-archive-toggles", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("button", { className: "btn secondary", type: "button", "aria-expanded": completed, "aria-controls": "merchant-completed-orders", onClick: () => setCompleted(!completed), children: [
+            "Ho\xE0n th\xE0nh (",
+            orders.filter((o) => o.status === "COMPLETED").length,
+            ")"
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("button", { className: "btn secondary", type: "button", "aria-expanded": cancelled, "aria-controls": "merchant-cancelled-orders", onClick: () => setCancelled(!cancelled), children: [
+            "\u0110\xE3 h\u1EE7y (",
+            orders.filter((o) => o.status === "CANCELLED").length,
+            ")"
+          ] })
+        ] }),
+        completed && /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("section", { id: "merchant-completed-orders", "aria-label": "\u0110\u01A1n \u0111\xE3 ho\xE0n th\xE0nh", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("h2", { className: "rb-archive-heading", children: "\u0110\u01A1n \u0111\xE3 ho\xE0n th\xE0nh" }),
+          /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { className: "rb-cancelled-orders", children: orders.some((o) => o.status === "COMPLETED") ? orders.filter((o) => o.status === "COMPLETED").map(renderCard) : /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { children: "Ch\u01B0a c\xF3 \u0111\u01A1n ho\xE0n th\xE0nh." }) })
+        ] }),
+        cancelled && /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("section", { id: "merchant-cancelled-orders", "aria-label": "\u0110\u01A1n \u0111\xE3 h\u1EE7y", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("h2", { className: "rb-archive-heading", children: "\u0110\u01A1n \u0111\xE3 h\u1EE7y" }),
+          /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { className: "rb-cancelled-orders", children: orders.some((o) => o.status === "CANCELLED") ? orders.filter((o) => o.status === "CANCELLED").map(renderCard) : /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { children: "Ch\u01B0a c\xF3 \u0111\u01A1n \u0111\xE3 h\u1EE7y." }) })
+        ] })
       ] }),
-      cancelled && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "rb-cancelled-orders", children: orders.filter((o) => o.status === "CANCELLED").map(renderCard) })
+      chatOrder && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(ChatDrawer, { orderId: chatOrder.id, orderCode: chatOrder.orderCode, onClose: () => setChatOrder(null) }, chatOrder.id)
     ] });
   }
 
   // src/pages/merchant/OnboardingPage.tsx
-  var import_react24 = __toESM(require_react(), 1);
-  var import_jsx_runtime32 = __toESM(require_jsx_runtime(), 1);
+  var import_react36 = __toESM(require_react(), 1);
+  var import_jsx_runtime46 = __toESM(require_jsx_runtime(), 1);
   function OnboardingPage() {
     const { updateRestaurant } = useMerchant();
     const navigate = useNavigate();
-    const [form, setForm] = (0, import_react24.useState)({ name: "", address: "", category: "com", latitude: "", longitude: "", openingHours: "08:00-22:00", imageUrl: "" });
-    const [uploading, setUploading] = (0, import_react24.useState)(false);
-    const [error, setError] = (0, import_react24.useState)("");
-    const [busy, setBusy] = (0, import_react24.useState)(false);
-    const [locating, setLocating] = (0, import_react24.useState)(false);
+    const [form, setForm] = (0, import_react36.useState)({ name: "", address: "", category: "com", latitude: "", longitude: "", openingHours: "08:00-22:00", imageUrl: "" });
+    const [uploading, setUploading] = (0, import_react36.useState)(false);
+    const [error, setError] = (0, import_react36.useState)("");
+    const [busy, setBusy] = (0, import_react36.useState)(false);
+    const [locating, setLocating] = (0, import_react36.useState)(false);
     const field = (key, value2) => setForm((old) => ({ ...old, [key]: value2 }));
     async function submit(event) {
       event.preventDefault();
@@ -30072,69 +31376,70 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         { timeout: 1e4 }
       );
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("section", { className: "rb-onboarding", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("p", { className: "rb-eyebrow", children: "B\u1EAET \u0110\u1EA6U B\xC1N H\xC0NG" }),
-      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("h1", { children: "\u0110\u0103ng k\xFD qu\xE1n c\u1EE7a b\u1EA1n" }),
-      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("p", { children: "T\u1EA1o th\xF4ng tin qu\xE1n tr\u01B0\u1EDBc, sau \u0111\xF3 th\xEAm m\xF3n \u1EDF trang Qu\u1EA3n l\xFD Menu." }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
-      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("form", { onSubmit: submit, children: /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("fieldset", { disabled: busy || uploading, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(ImageUploader, { label: "\u1EA2nh \u0111\u1EA1i di\u1EC7n qu\xE1n", value: form.imageUrl, onChange: (url2) => field("imageUrl", url2), onBusyChange: setUploading }),
-        /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("label", { children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("section", { className: "rb-onboarding", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("p", { className: "rb-eyebrow", children: "B\u1EAET \u0110\u1EA6U B\xC1N H\xC0NG" }),
+      /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("h1", { children: "\u0110\u0103ng k\xFD qu\xE1n c\u1EE7a b\u1EA1n" }),
+      /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("p", { children: "T\u1EA1o th\xF4ng tin qu\xE1n tr\u01B0\u1EDBc, sau \u0111\xF3 th\xEAm m\xF3n \u1EDF trang Qu\u1EA3n l\xFD Menu." }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+      /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("form", { onSubmit: submit, children: /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("fieldset", { disabled: busy || uploading, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(ImageUploader, { label: "\u1EA2nh \u0111\u1EA1i di\u1EC7n qu\xE1n", value: form.imageUrl, onChange: (url2) => field("imageUrl", url2), onBusyChange: setUploading }),
+        /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("label", { children: [
           "T\xEAn qu\xE1n",
-          /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("input", { required: true, value: form.name, onChange: (e) => field("name", e.target.value) })
+          /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("input", { required: true, value: form.name, onChange: (e) => field("name", e.target.value) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("label", { children: [
           "\u0110\u1ECBa ch\u1EC9 qu\xE1n",
-          /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("input", { required: true, value: form.address, onChange: (e) => field("address", e.target.value) })
+          /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("input", { required: true, value: form.address, onChange: (e) => field("address", e.target.value) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("label", { children: [
           "Danh m\u1EE5c",
-          /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("select", { value: form.category, onChange: (e) => field("category", e.target.value), children: [
-            /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("option", { value: "com", children: "C\u01A1m" }),
-            /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("option", { value: "bun-pho", children: "B\xFAn/Ph\u1EDF" }),
-            /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("option", { value: "ca-phe", children: "C\xE0 ph\xEA" }),
-            /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("option", { value: "do-uong", children: "\u0110\u1ED3 u\u1ED1ng" }),
-            /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("option", { value: "an-vat", children: "\u0102n v\u1EB7t" })
+          /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("select", { value: form.category, onChange: (e) => field("category", e.target.value), children: [
+            /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("option", { value: "com", children: "C\u01A1m" }),
+            /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("option", { value: "bun-pho", children: "B\xFAn/Ph\u1EDF" }),
+            /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("option", { value: "ca-phe", children: "C\xE0 ph\xEA" }),
+            /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("option", { value: "do-uong", children: "\u0110\u1ED3 u\u1ED1ng" }),
+            /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("option", { value: "an-vat", children: "\u0102n v\u1EB7t" })
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("label", { children: [
           "Gi\u1EDD m\u1EDF c\u1EEDa",
-          /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("input", { required: true, value: form.openingHours, onChange: (e) => field("openingHours", e.target.value), placeholder: "08:00-22:00" })
+          /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("input", { required: true, value: form.openingHours, onChange: (e) => field("openingHours", e.target.value), placeholder: "08:00-22:00" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "rb-onboarding-coords", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "rb-onboarding-coords", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("label", { children: [
             "V\u0129 \u0111\u1ED9",
-            /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("input", { type: "number", step: "any", min: "-90", max: "90", required: true, value: form.latitude, onChange: (e) => field("latitude", e.target.value) })
+            /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("input", { type: "number", step: "any", min: "-90", max: "90", required: true, value: form.latitude, onChange: (e) => field("latitude", e.target.value) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("label", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("label", { children: [
             "Kinh \u0111\u1ED9",
-            /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("input", { type: "number", step: "any", min: "-180", max: "180", required: true, value: form.longitude, onChange: (e) => field("longitude", e.target.value) })
+            /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("input", { type: "number", step: "any", min: "-180", max: "180", required: true, value: form.longitude, onChange: (e) => field("longitude", e.target.value) })
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("button", { className: "btn secondary", type: "button", disabled: locating, onClick: locate, children: locating ? "\u0110ang \u0111\u1ECBnh v\u1ECB\u2026" : "D\xF9ng v\u1ECB tr\xED hi\u1EC7n t\u1EA1i l\xE0m v\u1ECB tr\xED qu\xE1n" }),
-        /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("button", { className: "btn primary", type: "submit", disabled: locating, children: busy ? "\u0110ang t\u1EA1o qu\xE1n\u2026" : "T\u1EA1o qu\xE1n v\xE0 th\xEAm m\xF3n" })
+        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("button", { className: "btn secondary", type: "button", disabled: locating, onClick: locate, children: locating ? "\u0110ang \u0111\u1ECBnh v\u1ECB\u2026" : "D\xF9ng v\u1ECB tr\xED hi\u1EC7n t\u1EA1i l\xE0m v\u1ECB tr\xED qu\xE1n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("button", { className: "btn primary", type: "submit", disabled: locating, children: busy ? "\u0110ang t\u1EA1o qu\xE1n\u2026" : "T\u1EA1o qu\xE1n v\xE0 th\xEAm m\xF3n" })
       ] }) })
     ] });
   }
 
   // src/layouts/AdminLayout.tsx
-  var import_jsx_runtime33 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime47 = __toESM(require_jsx_runtime(), 1);
   var ADMIN_NAV = [
     { path: "/admin/overview", label: "T\u1ED5ng quan" },
     { path: "/admin/restaurants", label: "Qu\xE1n \u0103n" },
     { path: "/admin/users", label: "Ng\u01B0\u1EDDi d\xF9ng" },
+    { path: "/admin/vouchers", label: "Voucher" },
     { path: "/admin/merchant-applications", label: "H\u1ED3 s\u01A1 \u0111\u1ED1i t\xE1c" }
   ];
   function AdminLayout() {
     const { currentUser, logout } = useAuth();
     const navigate = useNavigate();
-    return /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "rb-admin-shell rb-merchant-shell", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("aside", { className: "rb-merchant-sidebar", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "rb-merchant-brand", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("strong", { children: "RouteBite" }),
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("span", { children: "Qu\u1EA3n tr\u1ECB h\u1EC7 th\u1ED1ng" })
+    return /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "rb-admin-shell rb-merchant-shell", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("aside", { className: "rb-merchant-sidebar", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "rb-merchant-brand", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("strong", { children: "RouteBite" }),
+          /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("span", { children: "Qu\u1EA3n tr\u1ECB h\u1EC7 th\u1ED1ng" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("nav", { "aria-label": "\u0110i\u1EC1u h\u01B0\u1EDBng admin", children: ADMIN_NAV.map((item) => /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("nav", { "aria-label": "\u0110i\u1EC1u h\u01B0\u1EDBng admin", children: ADMIN_NAV.map((item) => /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
           NavLink,
           {
             to: item.path,
@@ -30143,50 +31448,50 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           },
           item.path
         )) }),
-        /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("footer", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("strong", { children: currentUser?.fullName || "Qu\u1EA3n tr\u1ECB vi\xEAn" }),
-          /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("button", { type: "button", onClick: () => {
+        /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("footer", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("strong", { children: currentUser?.fullName || "Qu\u1EA3n tr\u1ECB vi\xEAn" }),
+          /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("button", { type: "button", onClick: () => {
             logout();
             navigate("/login", { replace: true });
           }, children: "\u0110\u0103ng xu\u1EA5t" })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("main", { className: "rb-admin-content rb-merchant-content", children: /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(Outlet, {}) })
+      /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("main", { className: "rb-admin-content rb-merchant-content", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Outlet, {}) })
     ] });
   }
 
   // src/pages/admin/AdminShared.tsx
-  var import_jsx_runtime34 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime48 = __toESM(require_jsx_runtime(), 1);
   function LoadError({ error, retry }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "rb-admin-error", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("p", { role: "alert", children: error }),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("button", { className: "btn secondary", onClick: retry, children: "Th\u1EED l\u1EA1i" })
+    return /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { className: "rb-admin-error", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("p", { role: "alert", children: error }),
+      /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("button", { className: "btn secondary", onClick: retry, children: "Th\u1EED l\u1EA1i" })
     ] });
   }
   function Pagination({ page, total, limit, onPage, disabled = false }) {
     const pages = Math.max(1, Math.ceil(total / limit));
-    return /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("nav", { className: "rb-admin-pagination", "aria-label": "Ph\xE2n trang", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("span", { children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("nav", { className: "rb-admin-pagination", "aria-label": "Ph\xE2n trang", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("span", { children: [
         total.toLocaleString("vi-VN"),
         " k\u1EBFt qu\u1EA3 \xB7 Trang ",
         page,
         "/",
         pages
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("button", { className: "btn secondary", disabled: disabled || page <= 1, onClick: () => onPage(page - 1), children: "Trang tr\u01B0\u1EDBc" }),
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("button", { className: "btn secondary", disabled: disabled || page >= pages, onClick: () => onPage(page + 1), children: "Trang sau" })
+      /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("button", { className: "btn secondary", disabled: disabled || page <= 1, onClick: () => onPage(page - 1), children: "Trang tr\u01B0\u1EDBc" }),
+      /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("button", { className: "btn secondary", disabled: disabled || page >= pages, onClick: () => onPage(page + 1), children: "Trang sau" })
     ] });
   }
 
   // src/pages/admin/adminData.ts
-  var import_react25 = __toESM(require_react(), 1);
+  var import_react37 = __toESM(require_react(), 1);
   var ROLE_LABELS3 = { customer: "Kh\xE1ch h\xE0ng", merchant: "Ch\u1EE7 qu\xE1n", admin: "Qu\u1EA3n tr\u1ECB vi\xEAn" };
   var numberText = (value2) => Number(value2).toLocaleString("vi-VN");
   function useAdminData(path) {
-    const [result, setResult] = (0, import_react25.useState)({ path, data: null, error: "", loading: true });
-    const [revision, setRevision] = (0, import_react25.useState)(0);
-    const refresh = (0, import_react25.useCallback)(() => setRevision((value2) => value2 + 1), []);
-    (0, import_react25.useEffect)(() => {
+    const [result, setResult] = (0, import_react37.useState)({ path, data: null, error: "", loading: true });
+    const [revision, setRevision] = (0, import_react37.useState)(0);
+    const refresh = (0, import_react37.useCallback)(() => setRevision((value2) => value2 + 1), []);
+    (0, import_react37.useEffect)(() => {
       let current = true;
       setResult({ path, data: null, error: "", loading: true });
       request(path).then((data2) => {
@@ -30202,7 +31507,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
 
   // src/pages/admin/AdminOverviewPage.tsx
-  var import_jsx_runtime35 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime49 = __toESM(require_jsx_runtime(), 1);
   function AdminOverviewPage() {
     const overview = useAdminData("/admin/dashboard/overview");
     const analytics = useAdminData("/admin/search-analytics");
@@ -30214,78 +31519,78 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       { label: "T\u1ED5ng gi\xE1 tr\u1ECB giao d\u1ECBch (GMV)", value: numberText(data2.gmv) + "\u0111" },
       { label: "Ng\u01B0\u1EDDi d\xF9ng m\u1EDBi th\xE1ng n\xE0y", value: numberText(data2.newUsersThisMonth) }
     ] : [];
-    return /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(import_jsx_runtime35.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("header", { className: "rb-admin-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
-        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("h1", { children: "T\u1ED5ng quan h\u1EC7 th\u1ED1ng" }),
-        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("span", { children: "S\u1ED1 li\u1EC7u ho\u1EA1t \u0111\u1ED9ng tr\xEAn to\xE0n b\u1ED9 RouteBite." })
+    return /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(import_jsx_runtime49.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("header", { className: "rb-admin-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("h1", { children: "T\u1ED5ng quan h\u1EC7 th\u1ED1ng" }),
+        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("span", { children: "S\u1ED1 li\u1EC7u ho\u1EA1t \u0111\u1ED9ng tr\xEAn to\xE0n b\u1ED9 RouteBite." })
       ] }),
-      overview.loading ? /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i t\u1ED5ng quan\u2026" }) : overview.error ? /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(LoadError, { error: overview.error, retry: overview.refresh }) : data2 && /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(import_jsx_runtime35.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("section", { className: "rb-admin-metrics", "aria-label": "S\u1ED1 li\u1EC7u t\u1ED5ng quan", children: stats.map((stat) => /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("article", { className: "item-card", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { children: stat.label }),
-          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("strong", { children: stat.value })
+      overview.loading ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i t\u1ED5ng quan\u2026" }) : overview.error ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(LoadError, { error: overview.error, retry: overview.refresh }) : data2 && /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(import_jsx_runtime49.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("section", { className: "rb-admin-metrics", "aria-label": "S\u1ED1 li\u1EC7u t\u1ED5ng quan", children: stats.map((stat) => /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("article", { className: "item-card", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { children: stat.label }),
+          /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("strong", { children: stat.value })
         ] }, stat.label)) }),
-        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { className: "rb-admin-hint", children: "GMV l\xE0 t\u1ED5ng gi\xE1 tr\u1ECB \u0111\u01A1n \u0111\xE3 thanh to\xE1n, kh\xF4ng ph\u1EA3i doanh thu hoa h\u1ED3ng c\u1EE7a n\u1EC1n t\u1EA3ng." }),
-        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { className: "rb-admin-panels", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("section", { className: "item-card", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("h2", { children: "Ng\u01B0\u1EDDi d\xF9ng theo vai tr\xF2" }),
-            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("dl", { className: "rb-admin-summary", children: Object.entries(ROLE_LABELS3).map(([role, label]) => /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("dt", { children: label }),
-              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("dd", { children: numberText(data2.usersByRole.find((item) => item.role === role)?.count ?? 0) })
+        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { className: "rb-admin-hint", children: "GMV l\xE0 t\u1ED5ng gi\xE1 tr\u1ECB \u0111\u01A1n \u0111\xE3 thanh to\xE1n, kh\xF4ng ph\u1EA3i doanh thu hoa h\u1ED3ng c\u1EE7a n\u1EC1n t\u1EA3ng." }),
+        /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("div", { className: "rb-admin-panels", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("section", { className: "item-card", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("h2", { children: "Ng\u01B0\u1EDDi d\xF9ng theo vai tr\xF2" }),
+            /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("dl", { className: "rb-admin-summary", children: Object.entries(ROLE_LABELS3).map(([role, label]) => /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("dt", { children: label }),
+              /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("dd", { children: numberText(data2.usersByRole.find((item) => item.role === role)?.count ?? 0) })
             ] }, role)) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("section", { className: "item-card", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("h2", { children: "Qu\xE1n c\xF3 nhi\u1EC1u \u0111\u01A1n nh\u1EA5t" }),
-            data2.topRestaurants.length ? /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("ol", { className: "rb-admin-ranking", children: data2.topRestaurants.map((shop) => /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("li", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("span", { children: shop.name }),
-              /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("strong", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("section", { className: "item-card", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("h2", { children: "Qu\xE1n c\xF3 nhi\u1EC1u \u0111\u01A1n nh\u1EA5t" }),
+            data2.topRestaurants.length ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("ol", { className: "rb-admin-ranking", children: data2.topRestaurants.map((shop) => /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("li", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("span", { children: shop.name }),
+              /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("strong", { children: [
                 numberText(shop.orderCount),
                 " \u0111\u01A1n"
               ] })
-            ] }, shop.id)) }) : /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { children: "Ch\u01B0a c\xF3 d\u1EEF li\u1EC7u \u0111\u01A1n h\xE0ng." })
+            ] }, shop.id)) }) : /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { children: "Ch\u01B0a c\xF3 d\u1EEF li\u1EC7u \u0111\u01A1n h\xE0ng." })
           ] })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("section", { className: "item-card rb-admin-analytics", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("h2", { children: "Th\u1ED1ng k\xEA t\xECm ki\u1EBFm theo l\u1ED9 tr\xECnh" }),
-        analytics.loading ? /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i th\u1ED1ng k\xEA t\xECm ki\u1EBFm\u2026" }) : analytics.error ? /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(LoadError, { error: analytics.error, retry: analytics.refresh }) : analytics.data && /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(import_jsx_runtime35.Fragment, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("p", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("section", { className: "item-card rb-admin-analytics", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("h2", { children: "Th\u1ED1ng k\xEA t\xECm ki\u1EBFm theo l\u1ED9 tr\xECnh" }),
+        analytics.loading ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i th\u1ED1ng k\xEA t\xECm ki\u1EBFm\u2026" }) : analytics.error ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(LoadError, { error: analytics.error, retry: analytics.refresh }) : analytics.data && /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(import_jsx_runtime49.Fragment, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("p", { children: [
             "T\u1ED5ng l\u01B0\u1EE3t t\xECm ki\u1EBFm \u0111\xE3 ghi nh\u1EADn: ",
-            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("strong", { children: numberText(analytics.data.totalSearches) })
+            /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("strong", { children: numberText(analytics.data.totalSearches) })
           ] }),
-          analytics.data.popularOriginAreas.length ? /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("div", { className: "rb-admin-table-wrap", tabIndex: 0, "aria-label": "\u0110i\u1EC3m xu\u1EA5t ph\xE1t ph\u1ED5 bi\u1EBFn", children: /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("table", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("tr", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("th", { children: "V\u0129 \u0111\u1ED9 \u0111i\u1EC3m \u0111i" }),
-              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("th", { children: "Kinh \u0111\u1ED9 \u0111i\u1EC3m \u0111i" }),
-              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("th", { children: "L\u01B0\u1EE3t t\xECm" })
+          analytics.data.popularOriginAreas.length ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("div", { className: "rb-admin-table-wrap", tabIndex: 0, "aria-label": "\u0110i\u1EC3m xu\u1EA5t ph\xE1t ph\u1ED5 bi\u1EBFn", children: /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("table", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("tr", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("th", { children: "V\u0129 \u0111\u1ED9 \u0111i\u1EC3m \u0111i" }),
+              /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("th", { children: "Kinh \u0111\u1ED9 \u0111i\u1EC3m \u0111i" }),
+              /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("th", { children: "L\u01B0\u1EE3t t\xECm" })
             ] }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("tbody", { children: analytics.data.popularOriginAreas.map((area, index) => /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("tr", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("td", { children: area.latitude.toFixed(5) }),
-              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("td", { children: area.longitude.toFixed(5) }),
-              /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("td", { children: numberText(area.count) })
+            /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("tbody", { children: analytics.data.popularOriginAreas.map((area, index) => /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("tr", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("td", { children: area.latitude.toFixed(5) }),
+              /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("td", { children: area.longitude.toFixed(5) }),
+              /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("td", { children: numberText(area.count) })
             ] }, index)) })
-          ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { children: "Ch\u01B0a c\xF3 d\u1EEF li\u1EC7u t\xECm ki\u1EBFm." }),
-          /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { className: "rb-admin-hint", children: "API hi\u1EC7n ch\u1EC9 cung c\u1EA5p t\u1ECDa \u0111\u1ED9 \u0111i\u1EC3m xu\u1EA5t ph\xE1t v\xE0 s\u1ED1 l\u01B0\u1EE3t t\xECm, ch\u01B0a c\xF3 t\xEAn khu v\u1EF1c ho\u1EB7c t\u1EF7 l\u1EC7 chuy\u1EC3n \u0111\u1ED5i th\xE0nh \u0111\u01A1n." })
+          ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { children: "Ch\u01B0a c\xF3 d\u1EEF li\u1EC7u t\xECm ki\u1EBFm." }),
+          /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { className: "rb-admin-hint", children: "API hi\u1EC7n ch\u1EC9 cung c\u1EA5p t\u1ECDa \u0111\u1ED9 \u0111i\u1EC3m xu\u1EA5t ph\xE1t v\xE0 s\u1ED1 l\u01B0\u1EE3t t\xECm, ch\u01B0a c\xF3 t\xEAn khu v\u1EF1c ho\u1EB7c t\u1EF7 l\u1EC7 chuy\u1EC3n \u0111\u1ED5i th\xE0nh \u0111\u01A1n." })
         ] })
       ] })
     ] });
   }
 
   // src/pages/admin/AdminRestaurantsPage.tsx
-  var import_react26 = __toESM(require_react(), 1);
-  var import_jsx_runtime36 = __toESM(require_jsx_runtime(), 1);
+  var import_react38 = __toESM(require_react(), 1);
+  var import_jsx_runtime50 = __toESM(require_jsx_runtime(), 1);
   var SOURCE_LABELS = { osm_import: "Nh\u1EADp t\u1EEB OSM", merchant: "Ch\u1EE7 qu\xE1n", manual: "Nh\u1EADp th\u1EE7 c\xF4ng", demo: "D\u1EEF li\u1EC7u m\u1EABu" };
   function AdminRestaurantsPage() {
-    const [page, setPage] = (0, import_react26.useState)(1);
+    const [page, setPage] = (0, import_react38.useState)(1);
     const resource = useAdminData(`/admin/restaurants?page=${page}&limit=20`);
-    const [target, setTarget] = (0, import_react26.useState)(null);
-    const [reason, setReason] = (0, import_react26.useState)("");
-    const [busy, setBusy] = (0, import_react26.useState)(false);
-    const inFlight = (0, import_react26.useRef)(false);
-    const [error, setError] = (0, import_react26.useState)("");
-    const [message, setMessage] = (0, import_react26.useState)("");
-    const dialog = (0, import_react26.useRef)(null);
-    (0, import_react26.useEffect)(() => {
+    const [target, setTarget] = (0, import_react38.useState)(null);
+    const [reason, setReason] = (0, import_react38.useState)("");
+    const [busy, setBusy] = (0, import_react38.useState)(false);
+    const inFlight = (0, import_react38.useRef)(false);
+    const [error, setError] = (0, import_react38.useState)("");
+    const [message, setMessage] = (0, import_react38.useState)("");
+    const dialog = (0, import_react38.useRef)(null);
+    (0, import_react38.useEffect)(() => {
       if (target) dialog.current?.showModal();
     }, [target]);
     const close = () => {
@@ -30321,33 +31626,33 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setBusy(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(import_jsx_runtime36.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("header", { className: "rb-admin-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("h1", { children: "Qu\u1EA3n l\xFD qu\xE1n \u0103n" }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { children: "Theo d\xF5i ngu\u1ED3n d\u1EEF li\u1EC7u v\xE0 tr\u1EA1ng th\xE1i ho\u1EA1t \u0111\u1ED9ng c\u1EE7a c\xE1c qu\xE1n." })
+    return /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)(import_jsx_runtime50.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("header", { className: "rb-admin-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("h1", { children: "Qu\u1EA3n l\xFD qu\xE1n \u0103n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("span", { children: "Theo d\xF5i ngu\u1ED3n d\u1EEF li\u1EC7u v\xE0 tr\u1EA1ng th\xE1i ho\u1EA1t \u0111\u1ED9ng c\u1EE7a c\xE1c qu\xE1n." })
       ] }),
-      message && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { className: "rb-merchant-feedback", role: "status", children: message }),
-      error && !target && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { className: "rb-admin-error", role: "alert", children: error }),
-      resource.loading ? /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i qu\xE1n \u0103n\u2026" }) : resource.error ? /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(LoadError, { error: resource.error, retry: resource.refresh }) : resource.data && /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(import_jsx_runtime36.Fragment, { children: [
-        resource.data.data.length ? /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { className: "item-card rb-admin-table-wrap", tabIndex: 0, "aria-label": "Danh s\xE1ch qu\xE1n \u0103n", children: /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("table", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("tr", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("th", { children: "T\xEAn qu\xE1n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("th", { children: "Ngu\u1ED3n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("th", { children: "Tr\u1EA1ng th\xE1i" }),
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("th", { children: "H\xE0nh \u0111\u1ED9ng" })
+      message && /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { className: "rb-merchant-feedback", role: "status", children: message }),
+      error && !target && /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { className: "rb-admin-error", role: "alert", children: error }),
+      resource.loading ? /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i qu\xE1n \u0103n\u2026" }) : resource.error ? /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(LoadError, { error: resource.error, retry: resource.refresh }) : resource.data && /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)(import_jsx_runtime50.Fragment, { children: [
+        resource.data.data.length ? /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("div", { className: "item-card rb-admin-table-wrap", tabIndex: 0, "aria-label": "Danh s\xE1ch qu\xE1n \u0103n", children: /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("table", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("tr", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("th", { children: "T\xEAn qu\xE1n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("th", { children: "Ngu\u1ED3n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("th", { children: "Tr\u1EA1ng th\xE1i" }),
+            /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("th", { children: "H\xE0nh \u0111\u1ED9ng" })
           ] }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("tbody", { children: resource.data.data.map((shop) => /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("tr", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("td", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("strong", { children: shop.name }),
-              shop.owner && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("small", { children: shop.owner.fullName || shop.owner.email })
+          /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("tbody", { children: resource.data.data.map((shop) => /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("tr", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("td", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("strong", { children: shop.name }),
+              shop.owner && /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("small", { children: shop.owner.fullName || shop.owner.email })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("td", { children: SOURCE_LABELS[shop.source || ""] || shop.source || "Ch\u01B0a x\xE1c \u0111\u1ECBnh" }),
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("td", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: `rb-admin-status ${shop.active ? "active" : ""}`, children: shop.active ? "\u0110ang ho\u1EA1t \u0111\u1ED9ng" : "T\u1EA1m ng\u01B0ng" }),
-              !shop.active && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("small", { children: shop.suspendedReason || "Ch\u01B0a c\xF3 l\xFD do t\u1EA1m ng\u01B0ng \u0111\u01B0\u1EE3c l\u01B0u." })
+            /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("td", { children: SOURCE_LABELS[shop.source || ""] || shop.source || "Ch\u01B0a x\xE1c \u0111\u1ECBnh" }),
+            /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("td", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("span", { className: `rb-admin-status ${shop.active ? "active" : ""}`, children: shop.active ? "\u0110ang ho\u1EA1t \u0111\u1ED9ng" : "T\u1EA1m ng\u01B0ng" }),
+              !shop.active && /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("small", { children: shop.suspendedReason || "Ch\u01B0a c\xF3 l\xFD do t\u1EA1m ng\u01B0ng \u0111\u01B0\u1EE3c l\u01B0u." })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("button", { type: "button", className: `btn secondary ${shop.active ? "rb-admin-danger" : ""}`, disabled: busy, onClick: () => {
+            /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("button", { type: "button", className: `btn secondary ${shop.active ? "rb-admin-danger" : ""}`, disabled: busy, onClick: () => {
               if (shop.active) {
                 setTarget(shop);
                 setReason("");
@@ -30355,75 +31660,75 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
               } else void update(shop, "activate");
             }, children: shop.active ? "T\u1EA1m ng\u01B0ng" : "K\xEDch ho\u1EA1t l\u1EA1i" }) })
           ] }, shop.id)) })
-        ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("section", { className: "item-card", children: "Ch\u01B0a c\xF3 qu\xE1n \u0103n." }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(Pagination, { page, total: resource.data.total, limit: 20, onPage: setPage, disabled: busy })
+        ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("section", { className: "item-card", children: "Ch\u01B0a c\xF3 qu\xE1n \u0103n." }),
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(Pagination, { page, total: resource.data.total, limit: 20, onPage: setPage, disabled: busy })
       ] }),
-      target && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("dialog", { className: "rb-admin-dialog", ref: dialog, "aria-labelledby": "suspend-title", onCancel: (event) => {
+      target && /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("dialog", { className: "rb-admin-dialog", ref: dialog, "aria-labelledby": "suspend-title", onCancel: (event) => {
         event.preventDefault();
         close();
-      }, children: /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("form", { onSubmit: (event) => {
+      }, children: /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("form", { onSubmit: (event) => {
         event.preventDefault();
         void update(target, "suspend");
       }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("h2", { id: "suspend-title", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("h2", { id: "suspend-title", children: [
           "T\u1EA1m ng\u01B0ng \u201C",
           target.name,
           "\u201D"
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { children: "Qu\xE1n s\u1EBD kh\xF4ng c\xF2n xu\u1EA5t hi\u1EC7n trong danh s\xE1ch c\xF4ng khai v\xE0 k\u1EBFt qu\u1EA3 t\xECm ki\u1EBFm." }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("label", { htmlFor: "suspend-reason", children: "L\xFD do t\u1EA1m ng\u01B0ng (b\u1EAFt bu\u1ED9c)" }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("textarea", { id: "suspend-reason", autoFocus: true, rows: 4, maxLength: 500, value: reason, disabled: busy, onChange: (event) => setReason(event.target.value), "aria-describedby": "suspend-hint" }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("small", { id: "suspend-hint", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { children: "Qu\xE1n s\u1EBD kh\xF4ng c\xF2n xu\u1EA5t hi\u1EC7n trong danh s\xE1ch c\xF4ng khai v\xE0 k\u1EBFt qu\u1EA3 t\xECm ki\u1EBFm." }),
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("label", { htmlFor: "suspend-reason", children: "L\xFD do t\u1EA1m ng\u01B0ng (b\u1EAFt bu\u1ED9c)" }),
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("textarea", { id: "suspend-reason", autoFocus: true, rows: 4, maxLength: 500, value: reason, disabled: busy, onChange: (event) => setReason(event.target.value), "aria-describedby": "suspend-hint" }),
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("small", { id: "suspend-hint", children: [
           "T\u1EEB 5 \u0111\u1EBFn 500 k\xFD t\u1EF1 \xB7 ",
           reason.trim().length,
           "/500"
         ] }),
-        error && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { role: "alert", className: "rb-admin-error", children: error }),
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "rb-admin-dialog-actions", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("button", { type: "button", className: "btn secondary", disabled: busy, onClick: close, children: "H\u1EE7y" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("button", { type: "submit", className: "btn primary", disabled: busy, children: busy ? "\u0110ang c\u1EADp nh\u1EADt\u2026" : "X\xE1c nh\u1EADn t\u1EA1m ng\u01B0ng" })
+        error && /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { role: "alert", className: "rb-admin-error", children: error }),
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("div", { className: "rb-admin-dialog-actions", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("button", { type: "button", className: "btn secondary", disabled: busy, onClick: close, children: "H\u1EE7y" }),
+          /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("button", { type: "submit", className: "btn primary", disabled: busy, children: busy ? "\u0110ang c\u1EADp nh\u1EADt\u2026" : "X\xE1c nh\u1EADn t\u1EA1m ng\u01B0ng" })
         ] })
       ] }) })
     ] });
   }
 
   // src/pages/admin/AdminUsersPage.tsx
-  var import_react27 = __toESM(require_react(), 1);
-  var import_jsx_runtime37 = __toESM(require_jsx_runtime(), 1);
+  var import_react39 = __toESM(require_react(), 1);
+  var import_jsx_runtime51 = __toESM(require_jsx_runtime(), 1);
   function AdminUsersPage() {
-    const [role, setRole] = (0, import_react27.useState)("all");
-    const [page, setPage] = (0, import_react27.useState)(1);
+    const [role, setRole] = (0, import_react39.useState)("all");
+    const [page, setPage] = (0, import_react39.useState)(1);
     const resource = useAdminData(`/admin/users?page=${page}&limit=20${role === "all" ? "" : "&role=" + role}`);
-    return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(import_jsx_runtime37.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("header", { className: "rb-admin-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("h1", { children: "Ng\u01B0\u1EDDi d\xF9ng" }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { children: "Tra c\u1EE9u t\xE0i kho\u1EA3n theo vai tr\xF2. Danh s\xE1ch ch\u1EC9 \u0111\u1ECDc." })
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("header", { className: "rb-admin-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("h1", { children: "Ng\u01B0\u1EDDi d\xF9ng" }),
+        /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { children: "Tra c\u1EE9u t\xE0i kho\u1EA3n theo vai tr\xF2. Danh s\xE1ch ch\u1EC9 \u0111\u1ECDc." })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { className: "rb-admin-filters", role: "group", "aria-label": "L\u1ECDc vai tr\xF2", children: ["all", "customer", "merchant", "admin"].map((value2) => /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("button", { type: "button", "aria-pressed": value2 === role, onClick: () => {
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("div", { className: "rb-admin-filters", role: "group", "aria-label": "L\u1ECDc vai tr\xF2", children: ["all", "customer", "merchant", "admin"].map((value2) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("button", { type: "button", "aria-pressed": value2 === role, onClick: () => {
         setRole(value2);
         setPage(1);
       }, children: value2 === "all" ? "T\u1EA5t c\u1EA3" : ROLE_LABELS3[value2] }, value2)) }),
-      resource.loading ? /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i ng\u01B0\u1EDDi d\xF9ng\u2026" }) : resource.error ? /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(LoadError, { error: resource.error, retry: resource.refresh }) : resource.data && /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(import_jsx_runtime37.Fragment, { children: [
-        resource.data.data.length ? /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { className: "item-card rb-admin-table-wrap", tabIndex: 0, "aria-label": "Danh s\xE1ch ng\u01B0\u1EDDi d\xF9ng", children: /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("table", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("tr", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("th", { children: "H\u1ECD t\xEAn" }),
-            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("th", { children: "Email" }),
-            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("th", { children: "Vai tr\xF2" })
+      resource.loading ? /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i ng\u01B0\u1EDDi d\xF9ng\u2026" }) : resource.error ? /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(LoadError, { error: resource.error, retry: resource.refresh }) : resource.data && /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
+        resource.data.data.length ? /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("div", { className: "item-card rb-admin-table-wrap", tabIndex: 0, "aria-label": "Danh s\xE1ch ng\u01B0\u1EDDi d\xF9ng", children: /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("table", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("tr", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("th", { children: "H\u1ECD t\xEAn" }),
+            /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("th", { children: "Email" }),
+            /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("th", { children: "Vai tr\xF2" })
           ] }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("tbody", { children: resource.data.data.map((user) => /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("tr", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("td", { children: user.fullName || "Ch\u01B0a c\u1EADp nh\u1EADt" }),
-            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("td", { children: user.email }),
-            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("td", { children: ROLE_LABELS3[user.role] || user.role })
+          /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("tbody", { children: resource.data.data.map((user) => /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("tr", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("td", { children: user.fullName || "Ch\u01B0a c\u1EADp nh\u1EADt" }),
+            /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("td", { children: user.email }),
+            /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("td", { children: ROLE_LABELS3[user.role] || user.role })
           ] }, user.id)) })
-        ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("section", { className: "item-card", children: role === "all" ? "Ch\u01B0a c\xF3 ng\u01B0\u1EDDi d\xF9ng." : "Kh\xF4ng c\xF3 ng\u01B0\u1EDDi d\xF9ng thu\u1ED9c vai tr\xF2 n\xE0y." }),
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(Pagination, { page, total: resource.data.total, limit: 20, onPage: setPage })
+        ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("section", { className: "item-card", children: role === "all" ? "Ch\u01B0a c\xF3 ng\u01B0\u1EDDi d\xF9ng." : "Kh\xF4ng c\xF3 ng\u01B0\u1EDDi d\xF9ng thu\u1ED9c vai tr\xF2 n\xE0y." }),
+        /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(Pagination, { page, total: resource.data.total, limit: 20, onPage: setPage })
       ] })
     ] });
   }
 
   // src/pages/admin/AdminMerchantApplicationsPage.tsx
-  var import_react28 = __toESM(require_react(), 1);
+  var import_react40 = __toESM(require_react(), 1);
 
   // src/pages/partner/partnerData.ts
   var DOCUMENT_LABELS = { identity_front: "CCCD m\u1EB7t tr\u01B0\u1EDBc", identity_back: "CCCD m\u1EB7t sau", business_license: "Gi\u1EA5y ph\xE9p kinh doanh", food_safety: "Gi\u1EA5y t\u1EDD VSATTP" };
@@ -30440,11 +31745,11 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
 
   // src/pages/admin/AdminMerchantApplicationsPage.tsx
-  var import_jsx_runtime38 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime52 = __toESM(require_jsx_runtime(), 1);
   function ApplicationDetail({ id, onBack }) {
     const data2 = useAdminData("/admin/merchant-applications/" + id);
-    const [busy, setBusy] = (0, import_react28.useState)(false), [error, setError] = (0, import_react28.useState)(""), [reason, setReason] = (0, import_react28.useState)("");
-    const [checked, setChecked] = (0, import_react28.useState)(false);
+    const [busy, setBusy] = (0, import_react40.useState)(false), [error, setError] = (0, import_react40.useState)(""), [reason, setReason] = (0, import_react40.useState)("");
+    const [checked, setChecked] = (0, import_react40.useState)(false);
     const app = data2.data;
     async function review(approve) {
       if (busy) return;
@@ -30464,59 +31769,59 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setBusy(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { className: "btn secondary", disabled: busy, onClick: onBack, children: "\u2190 Danh s\xE1ch h\u1ED3 s\u01A1" }),
-      data2.loading ? /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i h\u1ED3 s\u01A1\u2026" }) : data2.error ? /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(LoadError, { error: data2.error, retry: data2.refresh }) : app && /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("section", { className: "item-card rb-partner-form", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("h2", { children: app.shop.name }),
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("strong", { children: APPLICATION_LABELS[app.status] }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("dl", { className: "rb-admin-summary", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dt", { children: "Ng\u01B0\u1EDDi \u0111\u1EA1i di\u1EC7n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dd", { children: app.user.fullName })
+    return /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)(import_jsx_runtime52.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("button", { className: "btn secondary", disabled: busy, onClick: onBack, children: "\u2190 Danh s\xE1ch h\u1ED3 s\u01A1" }),
+      data2.loading ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i h\u1ED3 s\u01A1\u2026" }) : data2.error ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(LoadError, { error: data2.error, retry: data2.refresh }) : app && /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("section", { className: "item-card rb-partner-form", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("h2", { children: app.shop.name }),
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { children: /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("strong", { children: APPLICATION_LABELS[app.status] }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("dl", { className: "rb-admin-summary", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dt", { children: "Ng\u01B0\u1EDDi \u0111\u1EA1i di\u1EC7n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dd", { children: app.user.fullName })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dt", { children: "Email" }),
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dd", { children: app.user.email })
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dt", { children: "Email" }),
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dd", { children: app.user.email })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dt", { children: "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i" }),
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dd", { children: app.user.phone || "Ch\u01B0a c\u1EADp nh\u1EADt" })
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dt", { children: "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i" }),
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dd", { children: app.user.phone || "Ch\u01B0a c\u1EADp nh\u1EADt" })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dt", { children: "\u0110\u1ECBa ch\u1EC9 qu\xE1n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dd", { children: app.shop.address })
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dt", { children: "\u0110\u1ECBa ch\u1EC9 qu\xE1n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dd", { children: app.shop.address })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dt", { children: "V\u1ECB tr\xED" }),
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("dd", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dt", { children: "V\u1ECB tr\xED" }),
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("dd", { children: [
               app.shop.latitude,
               ", ",
               app.shop.longitude
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dt", { children: "Gi\u1EDD m\u1EDF c\u1EEDa" }),
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dd", { children: app.shop.openingHours })
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dt", { children: "Gi\u1EDD m\u1EDF c\u1EEDa" }),
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dd", { children: app.shop.openingHours })
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("h3", { children: "T\xE0i kho\u1EA3n ng\xE2n h\xE0ng" }),
-        app.bank ? /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("dl", { className: "rb-admin-summary", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dt", { children: "Ng\xE2n h\xE0ng" }),
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dd", { children: app.bank.bankName })
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("h3", { children: "T\xE0i kho\u1EA3n ng\xE2n h\xE0ng" }),
+        app.bank ? /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("dl", { className: "rb-admin-summary", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dt", { children: "Ng\xE2n h\xE0ng" }),
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dd", { children: app.bank.bankName })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dt", { children: "S\u1ED1 t\xE0i kho\u1EA3n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dd", { children: app.bank.accountNumber })
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dt", { children: "S\u1ED1 t\xE0i kho\u1EA3n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dd", { children: app.bank.accountNumber })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dt", { children: "Ch\u1EE7 t\xE0i kho\u1EA3n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("dd", { children: app.bank.accountHolder })
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dt", { children: "Ch\u1EE7 t\xE0i kho\u1EA3n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dd", { children: app.bank.accountHolder })
           ] })
-        ] }) : /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { children: "Ch\u01B0a b\u1ED5 sung th\xF4ng tin ng\xE2n h\xE0ng." }),
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("h3", { children: "Gi\u1EA5y t\u1EDD \u0111\xE3 n\u1ED9p" }),
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { children: "Ch\u1EC9 t\u1EA3i xu\u1ED1ng \u0111\u1EC3 ph\u1EE5c v\u1EE5 x\xE9t duy\u1EC7t. Kh\xF4ng chia s\u1EBB h\u1ED3 s\u01A1 c\xE1 nh\xE2n ra ngo\xE0i h\u1EC7 th\u1ED1ng." }),
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "btn-row", children: app.documents.map((doc) => /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("button", { type: "button", className: "btn secondary", disabled: busy, onClick: async () => {
+        ] }) : /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { children: "Ch\u01B0a b\u1ED5 sung th\xF4ng tin ng\xE2n h\xE0ng." }),
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("h3", { children: "Gi\u1EA5y t\u1EDD \u0111\xE3 n\u1ED9p" }),
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { children: "Ch\u1EC9 t\u1EA3i xu\u1ED1ng \u0111\u1EC3 ph\u1EE5c v\u1EE5 x\xE9t duy\u1EC7t. Kh\xF4ng chia s\u1EBB h\u1ED3 s\u01A1 c\xE1 nh\xE2n ra ngo\xE0i h\u1EC7 th\u1ED1ng." }),
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("div", { className: "btn-row", children: app.documents.map((doc) => /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("button", { type: "button", className: "btn secondary", disabled: busy, onClick: async () => {
           setBusy(true);
           setError("");
           try {
@@ -30530,91 +31835,91 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           "T\u1EA3i ",
           DOCUMENT_LABELS[doc.kind]
         ] }, doc.id)) }),
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("h3", { children: "X\xE1c nh\u1EADn c\u1EE7a ng\u01B0\u1EDDi \u0111\u0103ng k\xFD" }),
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { children: app.acceptedAt ? `\u0110\xE3 x\xE1c nh\u1EADn l\xFAc ${new Date(app.acceptedAt).toLocaleString("vi-VN")} \xB7 ${app.termsVersion}` : "Ch\u01B0a x\xE1c nh\u1EADn \u0111i\u1EC1u kho\u1EA3n." }),
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("ul", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("li", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("h3", { children: "X\xE1c nh\u1EADn c\u1EE7a ng\u01B0\u1EDDi \u0111\u0103ng k\xFD" }),
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { children: app.acceptedAt ? `\u0110\xE3 x\xE1c nh\u1EADn l\xFAc ${new Date(app.acceptedAt).toLocaleString("vi-VN")} \xB7 ${app.termsVersion}` : "Ch\u01B0a x\xE1c nh\u1EADn \u0111i\u1EC1u kho\u1EA3n." }),
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("ul", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("li", { children: [
             "Th\xF4ng tin ch\xEDnh x\xE1c: ",
             app.agreements?.accuracy ? "\u0110\xE3 x\xE1c nh\u1EADn" : "Ch\u01B0a x\xE1c nh\u1EADn"
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("li", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("li", { children: [
             "\u0110\u1ED3ng \xFD \u0111i\u1EC1u kho\u1EA3n: ",
             app.agreements?.terms ? "\u0110\xE3 x\xE1c nh\u1EADn" : "Ch\u01B0a x\xE1c nh\u1EADn"
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("li", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("li", { children: [
             "\u0110\u1ED3ng \xFD cung c\u1EA5p h\u1ED3 s\u01A1 x\xE9t duy\u1EC7t: ",
             app.agreements?.documentReview ? "\u0110\xE3 x\xE1c nh\u1EADn" : "Ch\u01B0a x\xE1c nh\u1EADn"
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { className: "rb-partner-notice", children: "\u0110\xE2y l\xE0 x\xE1c nh\u1EADn \u0111i\u1EC1u kho\u1EA3n t\u1EA1m th\u1EDDi, kh\xF4ng ph\u1EA3i h\u1EE3p \u0111\u1ED3ng \u0111\xE3 k\xFD \u0111i\u1EC7n t\u1EED." }),
-        app.rejectionReason && /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("p", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { className: "rb-partner-notice", children: "\u0110\xE2y l\xE0 x\xE1c nh\u1EADn \u0111i\u1EC1u kho\u1EA3n t\u1EA1m th\u1EDDi, kh\xF4ng ph\u1EA3i h\u1EE3p \u0111\u1ED3ng \u0111\xE3 k\xFD \u0111i\u1EC7n t\u1EED." }),
+        app.rejectionReason && /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("p", { children: [
           "L\xFD do t\u1EEB ch\u1ED1i: ",
           app.rejectionReason
         ] }),
-        error && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
-        app.status === "SUBMITTED" && /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("fieldset", { disabled: busy, className: "rb-partner-agreements", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("label", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("input", { type: "checkbox", checked, onChange: (e) => setChecked(e.target.checked) }),
+        error && /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+        app.status === "SUBMITTED" && /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("fieldset", { disabled: busy, className: "rb-partner-agreements", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("input", { type: "checkbox", checked, onChange: (e) => setChecked(e.target.checked) }),
             "T\xF4i \u0111\xE3 ki\u1EC3m tra th\xF4ng tin qu\xE1n, gi\u1EA5y t\u1EDD v\xE0 c\xE1c x\xE1c nh\u1EADn c\u1EE7a ng\u01B0\u1EDDi \u0111\u0103ng k\xFD."
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { className: "btn primary", disabled: !checked, onClick: () => review(true), children: "Duy\u1EC7t v\xE0 c\u1EA5p quy\u1EC1n Merchant" }),
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("label", { className: "rb-partner-reason", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("button", { className: "btn primary", disabled: !checked, onClick: () => review(true), children: "Duy\u1EC7t v\xE0 c\u1EA5p quy\u1EC1n Merchant" }),
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("label", { className: "rb-partner-reason", children: [
             "L\xFD do t\u1EEB ch\u1ED1i / y\xEAu c\u1EA7u b\u1ED5 sung",
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("textarea", { rows: 3, maxLength: 500, value: reason, onChange: (e) => setReason(e.target.value) })
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("textarea", { rows: 3, maxLength: 500, value: reason, onChange: (e) => setReason(e.target.value) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { className: "btn secondary rb-admin-danger", onClick: () => review(false), children: "T\u1EEB ch\u1ED1i v\xE0 y\xEAu c\u1EA7u b\u1ED5 sung" })
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("button", { className: "btn secondary rb-admin-danger", onClick: () => review(false), children: "T\u1EEB ch\u1ED1i v\xE0 y\xEAu c\u1EA7u b\u1ED5 sung" })
         ] })
       ] })
     ] });
   }
   function AdminMerchantApplicationsPage() {
-    const [status, setStatus] = (0, import_react28.useState)("SUBMITTED"), [page, setPage] = (0, import_react28.useState)(1), [selected, setSelected] = (0, import_react28.useState)(null);
+    const [status, setStatus] = (0, import_react40.useState)("SUBMITTED"), [page, setPage] = (0, import_react40.useState)(1), [selected, setSelected] = (0, import_react40.useState)(null);
     const resource = useAdminData(`/admin/merchant-applications?page=${page}&limit=20${status ? "&status=" + status : ""}`);
-    return /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("header", { className: "rb-admin-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("h1", { children: "H\u1ED3 s\u01A1 \u0111\u1ED1i t\xE1c Merchant" }),
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("span", { children: "Ki\u1EC3m tra h\u1ED3 s\u01A1 tr\u01B0\u1EDBc khi c\u1EA5p quy\u1EC1n qu\u1EA3n l\xFD qu\xE1n." })
+    return /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)(import_jsx_runtime52.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("header", { className: "rb-admin-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("h1", { children: "H\u1ED3 s\u01A1 \u0111\u1ED1i t\xE1c Merchant" }),
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("span", { children: "Ki\u1EC3m tra h\u1ED3 s\u01A1 tr\u01B0\u1EDBc khi c\u1EA5p quy\u1EC1n qu\u1EA3n l\xFD qu\xE1n." })
       ] }),
-      selected ? /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(ApplicationDetail, { id: selected, onBack: () => {
+      selected ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(ApplicationDetail, { id: selected, onBack: () => {
         setSelected(null);
         resource.refresh();
-      } }) : /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "rb-admin-filters", role: "group", "aria-label": "L\u1ECDc tr\u1EA1ng th\xE1i h\u1ED3 s\u01A1", children: [["", "T\u1EA5t c\u1EA3"], ...Object.entries(APPLICATION_LABELS)].map(([value2, label]) => /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { "aria-pressed": status === value2, onClick: () => {
+      } }) : /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)(import_jsx_runtime52.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("div", { className: "rb-admin-filters", role: "group", "aria-label": "L\u1ECDc tr\u1EA1ng th\xE1i h\u1ED3 s\u01A1", children: [["", "T\u1EA5t c\u1EA3"], ...Object.entries(APPLICATION_LABELS)].map(([value2, label]) => /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("button", { "aria-pressed": status === value2, onClick: () => {
           setStatus(value2);
           setPage(1);
         }, children: label }, value2)) }),
-        resource.loading ? /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i h\u1ED3 s\u01A1\u2026" }) : resource.error ? /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(LoadError, { error: resource.error, retry: resource.refresh }) : resource.data && /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
-          resource.data.data.length ? /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "item-card rb-admin-table-wrap", tabIndex: 0, children: /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("table", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("tr", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("th", { children: "Qu\xE1n \u0111\u0103ng k\xFD" }),
-              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("th", { children: "Ng\u01B0\u1EDDi \u0111\u0103ng k\xFD" }),
-              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("th", { children: "Tr\u1EA1ng th\xE1i" }),
-              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("th", { children: "H\xE0nh \u0111\u1ED9ng" })
+        resource.loading ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i h\u1ED3 s\u01A1\u2026" }) : resource.error ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(LoadError, { error: resource.error, retry: resource.refresh }) : resource.data && /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)(import_jsx_runtime52.Fragment, { children: [
+          resource.data.data.length ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("div", { className: "item-card rb-admin-table-wrap", tabIndex: 0, children: /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("table", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("tr", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("th", { children: "Qu\xE1n \u0111\u0103ng k\xFD" }),
+              /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("th", { children: "Ng\u01B0\u1EDDi \u0111\u0103ng k\xFD" }),
+              /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("th", { children: "Tr\u1EA1ng th\xE1i" }),
+              /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("th", { children: "H\xE0nh \u0111\u1ED9ng" })
             ] }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("tbody", { children: resource.data.data.map((app) => /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("tr", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("td", { children: app.shop.name }),
-              /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("td", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("tbody", { children: resource.data.data.map((app) => /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("tr", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("td", { children: app.shop.name }),
+              /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("td", { children: [
                 app.user.fullName,
-                /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("small", { children: app.user.email })
+                /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("small", { children: app.user.email })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("td", { children: APPLICATION_LABELS[app.status] }),
-              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { className: "btn secondary", onClick: () => setSelected(app.id), children: "Xem h\u1ED3 s\u01A1" }) })
+              /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("td", { children: APPLICATION_LABELS[app.status] }),
+              /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("button", { className: "btn secondary", onClick: () => setSelected(app.id), children: "Xem h\u1ED3 s\u01A1" }) })
             ] }, app.id)) })
-          ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("section", { className: "item-card", children: "Kh\xF4ng c\xF3 h\u1ED3 s\u01A1 \u1EDF tr\u1EA1ng th\xE1i n\xE0y." }),
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(Pagination, { page, total: resource.data.total, limit: 20, onPage: setPage })
+          ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("section", { className: "item-card", children: "Kh\xF4ng c\xF3 h\u1ED3 s\u01A1 \u1EDF tr\u1EA1ng th\xE1i n\xE0y." }),
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(Pagination, { page, total: resource.data.total, limit: 20, onPage: setPage })
         ] })
       ] })
     ] });
   }
 
   // src/pages/partner/PartnerRegistrationPage.tsx
-  var import_react29 = __toESM(require_react(), 1);
-  var import_jsx_runtime39 = __toESM(require_jsx_runtime(), 1);
+  var import_react41 = __toESM(require_react(), 1);
+  var import_jsx_runtime53 = __toESM(require_jsx_runtime(), 1);
   function PartnerAccount() {
     const { setSession } = useAuth();
-    const [form, setForm] = (0, import_react29.useState)({ fullName: "", email: "", phone: "", password: "", confirmPassword: "" });
-    const [busy, setBusy] = (0, import_react29.useState)(false), [error, setError] = (0, import_react29.useState)("");
+    const [form, setForm] = (0, import_react41.useState)({ fullName: "", email: "", phone: "", password: "", confirmPassword: "" });
+    const [busy, setBusy] = (0, import_react41.useState)(false), [error, setError] = (0, import_react41.useState)("");
     async function submit(event) {
       event.preventDefault();
       if (busy) return;
@@ -30633,34 +31938,34 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setBusy(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("section", { className: "item-card rb-partner-account", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("h2", { children: "T\u1EA1o t\xE0i kho\u1EA3n n\u1ED9p h\u1ED3 s\u01A1" }),
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { children: "T\xE0i kho\u1EA3n ch\u01B0a c\xF3 quy\u1EC1n Merchant cho \u0111\u1EBFn khi \u0111\u01B0\u1EE3c Admin duy\u1EC7t." }),
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("p", { children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("section", { className: "item-card rb-partner-account", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("h2", { children: "T\u1EA1o t\xE0i kho\u1EA3n n\u1ED9p h\u1ED3 s\u01A1" }),
+      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { children: "T\xE0i kho\u1EA3n ch\u01B0a c\xF3 quy\u1EC1n Merchant cho \u0111\u1EBFn khi \u0111\u01B0\u1EE3c Admin duy\u1EC7t." }),
+      /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("p", { children: [
         "\u0110\xE3 c\xF3 t\xE0i kho\u1EA3n? ",
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Link, { to: "/login", state: { from: "/partner/register" }, children: "\u0110\u0103ng nh\u1EADp \u0111\u1EC3 ti\u1EBFp t\u1EE5c" })
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(Link, { to: "/login", state: { from: "/partner/register" }, children: "\u0110\u0103ng nh\u1EADp \u0111\u1EC3 ti\u1EBFp t\u1EE5c" })
       ] }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { role: "alert", className: "auth-alert", children: error }),
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("form", { className: "auth-form", onSubmit: submit, children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("fieldset", { disabled: busy, children: [
-        [{ key: "fullName", label: "H\u1ECD t\xEAn ng\u01B0\u1EDDi \u0111\u1EA1i di\u1EC7n", type: "text" }, { key: "email", label: "Email", type: "email" }, { key: "phone", label: "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i", type: "tel" }, { key: "password", label: "M\u1EADt kh\u1EA9u", type: "password" }, { key: "confirmPassword", label: "X\xE1c nh\u1EADn m\u1EADt kh\u1EA9u", type: "password" }].map((field) => /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+      error && /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { role: "alert", className: "auth-alert", children: error }),
+      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("form", { className: "auth-form", onSubmit: submit, children: /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("fieldset", { disabled: busy, children: [
+        [{ key: "fullName", label: "H\u1ECD t\xEAn ng\u01B0\u1EDDi \u0111\u1EA1i di\u1EC7n", type: "text" }, { key: "email", label: "Email", type: "email" }, { key: "phone", label: "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i", type: "tel" }, { key: "password", label: "M\u1EADt kh\u1EA9u", type: "password" }, { key: "confirmPassword", label: "X\xE1c nh\u1EADn m\u1EADt kh\u1EA9u", type: "password" }].map((field) => /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
           field.label,
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { required: true, minLength: field.type === "password" ? 6 : void 0, type: field.type, value: form[field.key], onChange: (event) => setForm({ ...form, [field.key]: event.target.value }) })
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, minLength: field.type === "password" ? 6 : void 0, type: field.type, value: form[field.key], onChange: (event) => setForm({ ...form, [field.key]: event.target.value }) })
         ] }, field.key)),
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("button", { className: "btn primary", type: "submit", children: busy ? "\u0110ang t\u1EA1o t\xE0i kho\u1EA3n\u2026" : "T\u1EA1o t\xE0i kho\u1EA3n v\xE0 \u0111i\u1EC1n th\xF4ng tin qu\xE1n" })
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { className: "btn primary", type: "submit", children: busy ? "\u0110ang t\u1EA1o t\xE0i kho\u1EA3n\u2026" : "T\u1EA1o t\xE0i kho\u1EA3n v\xE0 \u0111i\u1EC1n th\xF4ng tin qu\xE1n" })
       ] }) })
     ] });
   }
   function PartnerForm() {
     const { logout } = useAuth();
     const navigate = useNavigate();
-    const [app, setApp] = (0, import_react29.useState)(null), [terms, setTerms] = (0, import_react29.useState)(null);
-    const [loading, setLoading] = (0, import_react29.useState)(true), [loadError, setLoadError] = (0, import_react29.useState)(""), [revision, setRevision] = (0, import_react29.useState)(0);
-    const [step, setStep] = (0, import_react29.useState)(1), [busy, setBusy] = (0, import_react29.useState)(false), [error, setError] = (0, import_react29.useState)("");
-    const lock = (0, import_react29.useRef)(false);
-    const [shop, setShop] = (0, import_react29.useState)({ name: "", address: "", latitude: "", longitude: "", category: "com", openingHours: "08:00-22:00" });
-    const [bank, setBank] = (0, import_react29.useState)({ bankName: "", accountNumber: "", accountHolder: "" });
-    const [agree, setAgree] = (0, import_react29.useState)({ accuracy: false, terms: false, documentReview: false });
-    (0, import_react29.useEffect)(() => {
+    const [app, setApp] = (0, import_react41.useState)(null), [terms, setTerms] = (0, import_react41.useState)(null);
+    const [loading, setLoading] = (0, import_react41.useState)(true), [loadError, setLoadError] = (0, import_react41.useState)(""), [revision, setRevision] = (0, import_react41.useState)(0);
+    const [step, setStep] = (0, import_react41.useState)(1), [busy, setBusy] = (0, import_react41.useState)(false), [error, setError] = (0, import_react41.useState)("");
+    const lock = (0, import_react41.useRef)(false);
+    const [shop, setShop] = (0, import_react41.useState)({ name: "", address: "", latitude: "", longitude: "", category: "com", openingHours: "08:00-22:00" });
+    const [bank, setBank] = (0, import_react41.useState)({ bankName: "", accountNumber: "", accountHolder: "" });
+    const [agree, setAgree] = (0, import_react41.useState)({ accuracy: false, terms: false, documentReview: false });
+    (0, import_react41.useEffect)(() => {
       let current = true;
       setLoading(true);
       setLoadError("");
@@ -30696,39 +32001,39 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setBusy(false);
       }
     }
-    if (loading) return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i h\u1ED3 s\u01A1 \u0111\u1ED1i t\xE1c\u2026" });
-    if (loadError) return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(LoadError, { error: loadError, retry: () => setRevision((value2) => value2 + 1) });
-    if (app?.status === "SUBMITTED" || app?.status === "APPROVED") return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("section", { className: "item-card rb-partner-status", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("h2", { children: app.status === "APPROVED" ? "H\u1ED3 s\u01A1 \u0111\xE3 \u0111\u01B0\u1EE3c ph\xEA duy\u1EC7t" : "H\u1ED3 s\u01A1 \u0111ang ch\u1EDD Admin duy\u1EC7t" }),
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { children: app.shop.name }),
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { children: app.status === "APPROVED" ? "\u0110\u0103ng nh\u1EADp l\u1EA1i \u0111\u1EC3 nh\u1EADn quy\u1EC1n Merchant v\xE0 qu\u1EA3n l\xFD qu\xE1n \u0111\xE3 \u0111\u0103ng k\xFD." : "B\u1EA1n ch\u01B0a \u0111\u01B0\u1EE3c c\u1EA5p quy\u1EC1n Merchant. C\xF3 th\u1EC3 quay l\u1EA1i trang n\xE0y \u0111\u1EC3 xem k\u1EBFt qu\u1EA3 x\xE9t duy\u1EC7t." }),
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("p", { children: [
+    if (loading) return /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i h\u1ED3 s\u01A1 \u0111\u1ED1i t\xE1c\u2026" });
+    if (loadError) return /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(LoadError, { error: loadError, retry: () => setRevision((value2) => value2 + 1) });
+    if (app?.status === "SUBMITTED" || app?.status === "APPROVED") return /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("section", { className: "item-card rb-partner-status", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("h2", { children: app.status === "APPROVED" ? "H\u1ED3 s\u01A1 \u0111\xE3 \u0111\u01B0\u1EE3c ph\xEA duy\u1EC7t" : "H\u1ED3 s\u01A1 \u0111ang ch\u1EDD Admin duy\u1EC7t" }),
+      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { children: app.shop.name }),
+      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { children: app.status === "APPROVED" ? "\u0110\u0103ng nh\u1EADp l\u1EA1i \u0111\u1EC3 nh\u1EADn quy\u1EC1n Merchant v\xE0 qu\u1EA3n l\xFD qu\xE1n \u0111\xE3 \u0111\u0103ng k\xFD." : "B\u1EA1n ch\u01B0a \u0111\u01B0\u1EE3c c\u1EA5p quy\u1EC1n Merchant. C\xF3 th\u1EC3 quay l\u1EA1i trang n\xE0y \u0111\u1EC3 xem k\u1EBFt qu\u1EA3 x\xE9t duy\u1EC7t." }),
+      /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("p", { children: [
         "\u0110\xE3 x\xE1c nh\u1EADn \u0111i\u1EC1u kho\u1EA3n ",
         app.termsVersion,
         ". Ch\u01B0a k\xFD h\u1EE3p \u0111\u1ED3ng \u0111i\u1EC7n t\u1EED."
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "btn-row", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("button", { className: "btn secondary", onClick: () => setRevision((value2) => value2 + 1), children: "Ki\u1EC3m tra tr\u1EA1ng th\xE1i" }),
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("button", { className: "btn primary", onClick: () => {
+      /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("div", { className: "btn-row", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { className: "btn secondary", onClick: () => setRevision((value2) => value2 + 1), children: "Ki\u1EC3m tra tr\u1EA1ng th\xE1i" }),
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { className: "btn primary", onClick: () => {
           logout();
           navigate("/login", { state: { from: "/partner/register" } });
         }, children: "\u0110\u0103ng nh\u1EADp l\u1EA1i" })
       ] })
     ] });
     const completeDocs = app && Object.keys(DOCUMENT_LABELS).every((kind) => app.documents.some((doc) => doc.kind === kind));
-    return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)(import_jsx_runtime39.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("ol", { className: "rb-partner-steps", children: ["Th\xF4ng tin qu\xE1n", "H\u1ED3 s\u01A1 & ng\xE2n h\xE0ng", "\u0110i\u1EC1u kho\u1EA3n & x\xE1c nh\u1EADn"].map((label, index) => /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("li", { "aria-current": step === index + 1 ? "step" : void 0, children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)(import_jsx_runtime53.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("ol", { className: "rb-partner-steps", children: ["Th\xF4ng tin qu\xE1n", "H\u1ED3 s\u01A1 & ng\xE2n h\xE0ng", "\u0110i\u1EC1u kho\u1EA3n & x\xE1c nh\u1EADn"].map((label, index) => /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("li", { "aria-current": step === index + 1 ? "step" : void 0, children: [
         index + 1,
         ". ",
         label
       ] }, label)) }),
-      app?.status === "REJECTED" && /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("p", { className: "auth-alert", role: "status", children: [
+      app?.status === "REJECTED" && /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("p", { className: "auth-alert", role: "status", children: [
         "Admin y\xEAu c\u1EA7u b\u1ED5 sung: ",
         app.rejectionReason,
         ". Ch\u1EC9nh s\u1EEDa v\xE0 g\u1EEDi l\u1EA1i h\u1ED3 s\u01A1 b\xEAn d\u01B0\u1EDBi."
       ] }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
-      step === 1 && /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("form", { className: "item-card rb-partner-form", onSubmit: (event) => {
+      error && /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+      step === 1 && /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("form", { className: "item-card rb-partner-form", onSubmit: (event) => {
         event.preventDefault();
         void run(async () => {
           const data2 = await request("/merchant-applications/me", { method: "PUT", body: { shop: { ...shop, latitude: Number(shop.latitude), longitude: Number(shop.longitude) } } });
@@ -30737,53 +32042,53 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           setStep(2);
         });
       }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("h2", { children: "1. \u0110i\u1EC1n th\xF4ng tin qu\xE1n" }),
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("fieldset", { disabled: busy, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("h2", { children: "1. \u0110i\u1EC1n th\xF4ng tin qu\xE1n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("fieldset", { disabled: busy, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
             "T\xEAn qu\xE1n",
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { required: true, minLength: 2, maxLength: 150, value: shop.name, onChange: (e) => setShop({ ...shop, name: e.target.value }) })
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, minLength: 2, maxLength: 150, value: shop.name, onChange: (e) => setShop({ ...shop, name: e.target.value }) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
             "\u0110\u1ECBa ch\u1EC9 qu\xE1n",
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { required: true, minLength: 5, maxLength: 300, value: shop.address, onChange: (e) => setShop({ ...shop, address: e.target.value }) })
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, minLength: 5, maxLength: 300, value: shop.address, onChange: (e) => setShop({ ...shop, address: e.target.value }) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "rb-partner-columns", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("div", { className: "rb-partner-columns", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
               "Danh m\u1EE5c",
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("select", { value: shop.category, onChange: (e) => setShop({ ...shop, category: e.target.value }), children: [["com", "C\u01A1m"], ["bun-pho", "B\xFAn/Ph\u1EDF"], ["ca-phe", "C\xE0 ph\xEA"], ["do-uong", "\u0110\u1ED3 u\u1ED1ng"], ["an-vat", "\u0102n v\u1EB7t"], ["khac", "Kh\xE1c"]].map(([value2, label]) => /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("option", { value: value2, children: label }, value2)) })
+              /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("select", { value: shop.category, onChange: (e) => setShop({ ...shop, category: e.target.value }), children: [["com", "C\u01A1m"], ["bun-pho", "B\xFAn/Ph\u1EDF"], ["ca-phe", "C\xE0 ph\xEA"], ["do-uong", "\u0110\u1ED3 u\u1ED1ng"], ["an-vat", "\u0102n v\u1EB7t"], ["khac", "Kh\xE1c"]].map(([value2, label]) => /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("option", { value: value2, children: label }, value2)) })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
               "Gi\u1EDD m\u1EDF c\u1EEDa",
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { required: true, minLength: 3, maxLength: 100, value: shop.openingHours, onChange: (e) => setShop({ ...shop, openingHours: e.target.value }) })
+              /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, minLength: 3, maxLength: 100, value: shop.openingHours, onChange: (e) => setShop({ ...shop, openingHours: e.target.value }) })
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "rb-partner-columns", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("div", { className: "rb-partner-columns", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
               "V\u0129 \u0111\u1ED9 qu\xE1n",
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { required: true, type: "number", step: "any", min: -90, max: 90, value: shop.latitude, onChange: (e) => setShop({ ...shop, latitude: e.target.value }) })
+              /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, type: "number", step: "any", min: -90, max: 90, value: shop.latitude, onChange: (e) => setShop({ ...shop, latitude: e.target.value }) })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
               "Kinh \u0111\u1ED9 qu\xE1n",
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { required: true, type: "number", step: "any", min: -180, max: 180, value: shop.longitude, onChange: (e) => setShop({ ...shop, longitude: e.target.value }) })
+              /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, type: "number", step: "any", min: -180, max: 180, value: shop.longitude, onChange: (e) => setShop({ ...shop, longitude: e.target.value }) })
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("button", { className: "btn secondary", type: "button", onClick: () => void run(async () => {
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { className: "btn secondary", type: "button", onClick: () => void run(async () => {
             if (!navigator.geolocation) throw new Error("Tr\xECnh duy\u1EC7t kh\xF4ng h\u1ED7 tr\u1EE3 \u0111\u1ECBnh v\u1ECB.");
             const result = await new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, () => reject(new Error("Kh\xF4ng l\u1EA5y \u0111\u01B0\u1EE3c v\u1ECB tr\xED. H\xE3y cho ph\xE9p \u0111\u1ECBnh v\u1ECB ho\u1EB7c nh\u1EADp t\u1ECDa \u0111\u1ED9.")), { timeout: 1e4 }));
             setShop({ ...shop, latitude: String(result.coords.latitude), longitude: String(result.coords.longitude) });
           }), children: "D\xF9ng v\u1ECB tr\xED hi\u1EC7n t\u1EA1i c\u1EE7a qu\xE1n" }),
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("button", { className: "btn primary", type: "submit", children: busy ? "\u0110ang l\u01B0u\u2026" : "L\u01B0u v\xE0 ti\u1EBFp t\u1EE5c" })
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { className: "btn primary", type: "submit", children: busy ? "\u0110ang l\u01B0u\u2026" : "L\u01B0u v\xE0 ti\u1EBFp t\u1EE5c" })
         ] })
       ] }),
-      step === 2 && /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("section", { className: "item-card rb-partner-form", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("h2", { children: "2. N\u1ED9p h\u1ED3 s\u01A1 v\xE0 t\xE0i kho\u1EA3n ng\xE2n h\xE0ng" }),
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { children: "JPG, PNG ho\u1EB7c PDF, t\u1ED1i \u0111a 5 MB/t\xE0i li\u1EC7u. Kh\xF4ng t\u1EA3i h\u1ED3 s\u01A1 l\xEAn d\u1ECBch v\u1EE5 \u1EA3nh c\xF4ng khai." }),
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("fieldset", { disabled: busy, children: Object.entries(DOCUMENT_LABELS).map(([kind, label]) => {
+      step === 2 && /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("section", { className: "item-card rb-partner-form", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("h2", { children: "2. N\u1ED9p h\u1ED3 s\u01A1 v\xE0 t\xE0i kho\u1EA3n ng\xE2n h\xE0ng" }),
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { children: "JPG, PNG ho\u1EB7c PDF, t\u1ED1i \u0111a 5 MB/t\xE0i li\u1EC7u. Kh\xF4ng t\u1EA3i h\u1ED3 s\u01A1 l\xEAn d\u1ECBch v\u1EE5 \u1EA3nh c\xF4ng khai." }),
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("fieldset", { disabled: busy, children: Object.entries(DOCUMENT_LABELS).map(([kind, label]) => {
           const doc = app?.documents.find((item) => item.kind === kind);
-          return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "rb-partner-document", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+          return /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("div", { className: "rb-partner-document", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
               label,
-              /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { type: "file", accept: "image/jpeg,image/png,application/pdf", onChange: (event) => {
+              /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { type: "file", accept: "image/jpeg,image/png,application/pdf", onChange: (event) => {
                 const file = event.target.files?.[0];
                 event.target.value = "";
                 if (!file) return;
@@ -30795,100 +32100,413 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
                 });
               } })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("span", { children: doc ? "\u0110\xE3 l\u01B0u t\xE0i li\u1EC7u" : "Ch\u01B0a c\xF3 t\xE0i li\u1EC7u" }),
-            doc && /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("button", { type: "button", className: "btn secondary", onClick: () => void run(() => downloadDocument(app, doc)), children: [
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("span", { children: doc ? "\u0110\xE3 l\u01B0u t\xE0i li\u1EC7u" : "Ch\u01B0a c\xF3 t\xE0i li\u1EC7u" }),
+            doc && /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("button", { type: "button", className: "btn secondary", onClick: () => void run(() => downloadDocument(app, doc)), children: [
               "T\u1EA3i ",
               label
             ] })
           ] }, kind);
         }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("form", { onSubmit: (event) => {
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("form", { onSubmit: (event) => {
           event.preventDefault();
           void run(async () => {
             if (!completeDocs) throw new Error("Vui l\xF2ng t\u1EA3i \u0111\u1EE7 b\u1ED1n t\xE0i li\u1EC7u tr\u01B0\u1EDBc khi ti\u1EBFp t\u1EE5c.");
             setApp(await request("/merchant-applications/me/bank", { method: "PUT", body: bank }));
             setStep(3);
           });
-        }, children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("fieldset", { disabled: busy, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+        }, children: /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("fieldset", { disabled: busy, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
             "Ng\xE2n h\xE0ng",
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { required: true, minLength: 2, maxLength: 100, value: bank.bankName, onChange: (e) => setBank({ ...bank, bankName: e.target.value }) })
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, minLength: 2, maxLength: 100, value: bank.bankName, onChange: (e) => setBank({ ...bank, bankName: e.target.value }) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
             "S\u1ED1 t\xE0i kho\u1EA3n",
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { required: true, inputMode: "numeric", pattern: "[0-9]{6,30}", autoComplete: "off", value: bank.accountNumber, onChange: (e) => setBank({ ...bank, accountNumber: e.target.value }) })
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, inputMode: "numeric", pattern: "[0-9]{6,30}", autoComplete: "off", value: bank.accountNumber, onChange: (e) => setBank({ ...bank, accountNumber: e.target.value }) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
             "Ch\u1EE7 t\xE0i kho\u1EA3n",
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { required: true, minLength: 2, maxLength: 120, autoComplete: "off", value: bank.accountHolder, onChange: (e) => setBank({ ...bank, accountHolder: e.target.value }) })
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, minLength: 2, maxLength: 120, autoComplete: "off", value: bank.accountHolder, onChange: (e) => setBank({ ...bank, accountHolder: e.target.value }) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "btn-row", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("button", { type: "button", className: "btn secondary", onClick: () => setStep(1), children: "Quay l\u1EA1i" }),
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("button", { className: "btn primary", type: "submit", children: "L\u01B0u h\u1ED3 s\u01A1 v\xE0 \u0111\u1ECDc \u0111i\u1EC1u kho\u1EA3n" })
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("div", { className: "btn-row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { type: "button", className: "btn secondary", onClick: () => setStep(1), children: "Quay l\u1EA1i" }),
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { className: "btn primary", type: "submit", children: "L\u01B0u h\u1ED3 s\u01A1 v\xE0 \u0111\u1ECDc \u0111i\u1EC1u kho\u1EA3n" })
           ] })
         ] }) })
       ] }),
-      step === 3 && terms && /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("section", { className: "item-card rb-partner-form", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("h2", { children: [
+      step === 3 && terms && /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("section", { className: "item-card rb-partner-form", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("h2", { children: [
           "3. ",
           terms.title
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { className: "rb-partner-notice", children: terms.notice }),
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("div", { className: "rb-partner-terms", children: terms.sections.map((section) => /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("section", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("h3", { children: section.title }),
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { children: section.text })
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { className: "rb-partner-notice", children: terms.notice }),
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("div", { className: "rb-partner-terms", children: terms.sections.map((section) => /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("section", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("h3", { children: section.title }),
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { children: section.text })
         ] }, section.title)) }),
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("form", { onSubmit: (event) => {
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("form", { onSubmit: (event) => {
           event.preventDefault();
           void run(async () => {
             setApp(await request("/merchant-applications/me/submit", { method: "POST", body: { termsVersion: terms.version, agreements: agree } }));
           });
-        }, children: /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("fieldset", { disabled: busy, className: "rb-partner-agreements", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { type: "checkbox", required: true, checked: agree.accuracy, onChange: (e) => setAgree({ ...agree, accuracy: e.target.checked }) }),
+        }, children: /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("fieldset", { disabled: busy, className: "rb-partner-agreements", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { type: "checkbox", required: true, checked: agree.accuracy, onChange: (e) => setAgree({ ...agree, accuracy: e.target.checked }) }),
             "T\xF4i x\xE1c nh\u1EADn th\xF4ng tin v\xE0 h\u1ED3 s\u01A1 \u0111\xE3 cung c\u1EA5p l\xE0 ch\xEDnh x\xE1c, t\xF4i c\xF3 quy\u1EC1n cung c\u1EA5p c\xE1c gi\u1EA5y t\u1EDD n\xE0y."
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { type: "checkbox", required: true, checked: agree.terms, onChange: (e) => setAgree({ ...agree, terms: e.target.checked }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { type: "checkbox", required: true, checked: agree.terms, onChange: (e) => setAgree({ ...agree, terms: e.target.checked }) }),
             "T\xF4i \u0111\xE3 \u0111\u1ECDc v\xE0 \u0111\u1ED3ng \xFD v\u1EDBi \u0111i\u1EC1u kho\u1EA3n \u0111\u0103ng k\xFD \u0111\u1ED1i t\xE1c n\xEAu tr\xEAn."
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("label", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("input", { type: "checkbox", required: true, checked: agree.documentReview, onChange: (e) => setAgree({ ...agree, documentReview: e.target.checked }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { type: "checkbox", required: true, checked: agree.documentReview, onChange: (e) => setAgree({ ...agree, documentReview: e.target.checked }) }),
             "T\xF4i \u0111\u1ED3ng \xFD cung c\u1EA5p h\u1ED3 s\u01A1 cho RouteBite \u0111\u1EC3 x\xE9t duy\u1EC7t v\xE0 hi\u1EC3u r\u1EB1ng quy\u1EC1n Merchant ch\u1EC9 \u0111\u01B0\u1EE3c c\u1EA5p khi Admin ph\xEA duy\u1EC7t."
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("p", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("p", { children: [
             "Phi\xEAn b\u1EA3n: ",
             terms.version,
             ". Th\u1EDDi \u0111i\u1EC3m x\xE1c nh\u1EADn \u0111\u01B0\u1EE3c l\u01B0u khi b\u1EA1n g\u1EEDi h\u1ED3 s\u01A1."
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("div", { className: "btn-row", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("button", { type: "button", className: "btn secondary", onClick: () => setStep(2), children: "Quay l\u1EA1i" }),
-            /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("button", { type: "submit", className: "btn primary", disabled: !Object.values(agree).every(Boolean), children: "G\u1EEDi h\u1ED3 s\u01A1 cho Admin duy\u1EC7t" })
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("div", { className: "btn-row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { type: "button", className: "btn secondary", onClick: () => setStep(2), children: "Quay l\u1EA1i" }),
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { type: "submit", className: "btn primary", disabled: !Object.values(agree).every(Boolean), children: "G\u1EEDi h\u1ED3 s\u01A1 cho Admin duy\u1EC7t" })
           ] })
         ] }) })
       ] }),
-      busy && /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { role: "status", children: "\u0110ang x\u1EED l\xFD, vui l\xF2ng ch\u1EDD\u2026" })
+      busy && /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { role: "status", children: "\u0110ang x\u1EED l\xFD, vui l\xF2ng ch\u1EDD\u2026" })
     ] });
   }
   function PartnerRegistrationPage() {
     const { currentUser } = useAuth();
-    if (currentUser?.role === "merchant") return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Navigate, { to: "/merchant/dashboard", replace: true });
-    if (currentUser?.role === "admin") return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Navigate, { to: "/admin/merchant-applications", replace: true });
-    return /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("main", { className: "app-page rb-partner-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Link, { to: "/login", children: "\u2190 Trang \u0111\u0103ng nh\u1EADp" }),
-      /* @__PURE__ */ (0, import_jsx_runtime39.jsxs)("header", { className: "rb-admin-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("p", { children: "\u0110\u1ED2NG H\xC0NH C\xD9NG ROUTEBITE" }),
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("h1", { children: "\u0110\u0103ng k\xFD \u0111\u1ED1i t\xE1c Merchant" }),
-        /* @__PURE__ */ (0, import_jsx_runtime39.jsx)("span", { children: "Th\xF4ng tin qu\xE1n \u2192 H\u1ED3 s\u01A1 \u2192 X\xE1c nh\u1EADn \u0111i\u1EC1u kho\u1EA3n \u2192 Admin x\xE9t duy\u1EC7t." })
+    if (currentUser?.role === "merchant") return /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(Navigate, { to: "/merchant/dashboard", replace: true });
+    if (currentUser?.role === "admin") return /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(Navigate, { to: "/admin/merchant-applications", replace: true });
+    return /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("main", { className: "app-page rb-partner-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(Link, { to: "/login", children: "\u2190 Trang \u0111\u0103ng nh\u1EADp" }),
+      /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("header", { className: "rb-admin-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { children: "\u0110\u1ED2NG H\xC0NH C\xD9NG ROUTEBITE" }),
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("h1", { children: "\u0110\u0103ng k\xFD \u0111\u1ED1i t\xE1c Merchant" }),
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("span", { children: "Th\xF4ng tin qu\xE1n \u2192 H\u1ED3 s\u01A1 \u2192 X\xE1c nh\u1EADn \u0111i\u1EC1u kho\u1EA3n \u2192 Admin x\xE9t duy\u1EC7t." })
       ] }),
-      currentUser ? /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(PartnerForm, {}) : /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(PartnerAccount, {})
+      currentUser ? /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(PartnerForm, {}) : /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(PartnerAccount, {})
     ] });
   }
 
+  // src/pages/MyPointsPage.tsx
+  var import_react43 = __toESM(require_react(), 1);
+
+  // src/loyalty.ts
+  var import_react42 = __toESM(require_react(), 1);
+  var money = (value2) => `${Number(value2).toLocaleString("vi-VN")}\u0111`;
+  function discountFor(voucher, subtotal) {
+    if (!voucher?.active || subtotal < voucher.minOrderAmount) return 0;
+    return Math.min(subtotal, voucher.discountType === "fixed" ? voucher.discountValue : Number((BigInt(Math.round(subtotal)) * BigInt(voucher.discountValue) + BigInt(50)) / BigInt(100)));
+  }
+  function voucherTerms(v) {
+    return `Gi\u1EA3m ${v.discountType === "percent" ? v.discountValue + "%" : money(v.discountValue)} \xB7 \u0110\u01A1n t\u1EEB ${money(v.minOrderAmount)}`;
+  }
+  function useCheckoutVouchers(subtotal, restaurantId) {
+    const { currentUser } = useAuth();
+    const [rows, setRows] = (0, import_react42.useState)([]);
+    const [selectedId, setSelectedId] = (0, import_react42.useState)("");
+    const [error, setError] = (0, import_react42.useState)("");
+    const [loading, setLoading] = (0, import_react42.useState)(false);
+    const [revision, setRevision] = (0, import_react42.useState)(0);
+    (0, import_react42.useEffect)(() => {
+      let alive = true;
+      setRows([]);
+      setError("");
+      setSelectedId("");
+      if (currentUser?.role !== "customer") {
+        setLoading(false);
+        return;
+      }
+      setLoading(true);
+      request("/vouchers/my-vouchers").then((data2) => {
+        if (alive) setRows(data2);
+      }).catch(() => {
+        if (alive) setError("Ch\u01B0a t\u1EA3i \u0111\u01B0\u1EE3c voucher. B\u1EA1n c\xF3 th\u1EC3 th\u1EED l\u1EA1i ho\u1EB7c \u0111\u1EB7t h\xE0ng kh\xF4ng d\xF9ng voucher.");
+      }).finally(() => {
+        if (alive) setLoading(false);
+      });
+      return () => {
+        alive = false;
+      };
+    }, [currentUser?.id, currentUser?.role, restaurantId, revision]);
+    const available = rows.filter((row) => !row.usedInOrderId && row.voucher.active);
+    const selected = available.find((row) => row.id === selectedId && subtotal >= row.voucher.minOrderAmount);
+    (0, import_react42.useEffect)(() => {
+      if (!selected) setSelectedId("");
+    }, [selected?.id]);
+    return {
+      available,
+      selected,
+      selectedId: selected?.id || "",
+      setSelectedId,
+      discount: discountFor(selected?.voucher, subtotal),
+      error,
+      loading,
+      enabled: currentUser?.role === "customer",
+      retry: () => setRevision((n) => n + 1)
+    };
+  }
+
+  // src/pages/MyPointsPage.tsx
+  var import_jsx_runtime54 = __toESM(require_jsx_runtime(), 1);
+  function MyPointsPage() {
+    const { currentUser } = useAuth();
+    return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(PointsContent, {}, currentUser.id);
+  }
+  function PointsContent() {
+    const [points, setPoints] = (0, import_react43.useState)(null);
+    const [vouchers, setVouchers] = (0, import_react43.useState)([]);
+    const [owned, setOwned] = (0, import_react43.useState)([]);
+    const [error, setError] = (0, import_react43.useState)("");
+    const [message, setMessage] = (0, import_react43.useState)("");
+    const [busy, setBusy] = (0, import_react43.useState)(false);
+    const lock = (0, import_react43.useRef)(false), alive = (0, import_react43.useRef)(true), sequence = (0, import_react43.useRef)(0);
+    async function load() {
+      const seq = ++sequence.current;
+      try {
+        const [p, v, o] = await Promise.all([request("/points/me"), request("/vouchers/available"), request("/vouchers/my-vouchers")]);
+        if (alive.current && seq === sequence.current) {
+          setPoints(p);
+          setVouchers(v);
+          setOwned(o);
+          setError("");
+        }
+      } catch (e) {
+        if (alive.current && seq === sequence.current) setError(e.message || "Kh\xF4ng t\u1EA3i \u0111\u01B0\u1EE3c \u0111i\u1EC3m v\xE0 voucher.");
+      }
+    }
+    (0, import_react43.useEffect)(() => {
+      alive.current = true;
+      void load();
+      const focus = () => {
+        if (!lock.current) void load();
+      };
+      window.addEventListener("focus", focus);
+      return () => {
+        alive.current = false;
+        window.removeEventListener("focus", focus);
+      };
+    }, []);
+    async function obtain(v) {
+      if (lock.current) return;
+      lock.current = true;
+      setBusy(true);
+      setMessage("");
+      try {
+        const result = await request(`/vouchers/${v.id}/${v.pointsCost === null ? "claim" : "redeem"}`, { method: "POST" });
+        if (alive.current) {
+          setPoints((p) => p ? { ...p, pointsBalance: result.pointsBalance } : p);
+          setMessage(result.alreadyClaimed ? "B\u1EA1n \u0111\xE3 nh\u1EADn voucher n\xE0y." : "Voucher \u0111\xE3 \u0111\u01B0\u1EE3c th\xEAm v\xE0o v\xED c\u1EE7a b\u1EA1n.");
+        }
+        await load();
+      } catch (e) {
+        if (alive.current) {
+          setMessage(e.message);
+          await load();
+        }
+      } finally {
+        lock.current = false;
+        if (alive.current) setBusy(false);
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("main", { className: "app-page rb-loyalty-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("header", { className: "page-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { className: "rb-eyebrow", children: "\u01AFU \u0110\xC3I ROUTEBITE" }),
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("h1", { children: "\u0110i\u1EC3m c\u1EE7a t\xF4i" }),
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { children: "T\xEDch xu t\u1EEB \u0111\u01A1n \u0111\xE3 ho\xE0n th\xE0nh, \u0111\u1ED5i voucher cho l\u1EA7n gh\xE9 l\u1EA5y ti\u1EBFp theo." })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("section", { className: "item-card rb-points-balance", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("span", { children: "S\u1ED1 d\u01B0 hi\u1EC7n t\u1EA1i" }),
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("strong", { children: points ? `${points.pointsBalance.toLocaleString("vi-VN")} xu` : "\u0110ang t\u1EA3i\u2026" }),
+        points && /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("span", { children: [
+          "\u2248 ",
+          money(points.pointsBalance * 1e3),
+          " gi\xE1 tr\u1ECB \u0111\u1ED5i \u01B0u \u0111\xE3i"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { children: "M\u1ED7i 100.000\u0111 th\u1EF1c tr\u1EA3 \u0111\u01B0\u1EE3c 1 xu (1.000\u0111 \u01B0u \u0111\xE3i). Ch\u1EC9 c\u1ED9ng khi \u0111\u01A1n ho\xE0n th\xE0nh; ph\u1EA7n l\u1EBB d\u01B0\u1EDBi 1 xu \u0111\u01B0\u1EE3c l\xE0m tr\xF2n xu\u1ED1ng. Xu kh\xF4ng quy \u0111\u1ED5i th\xE0nh ti\u1EC1n m\u1EB7t." })
+      ] }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("p", { role: "alert", children: [
+        error,
+        " ",
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("button", { className: "btn secondary", disabled: busy, onClick: load, children: "Th\u1EED l\u1EA1i" })
+      ] }),
+      message && /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { role: "status", className: "item-card", children: message }),
+      /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("h2", { children: "Voucher c\u1EE7a t\xF4i" }),
+      /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("div", { className: "rb-voucher-grid", children: [
+        owned.map((row) => /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("article", { className: "item-card", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("h3", { children: row.voucher.title }),
+          /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { children: voucherTerms(row.voucher) }),
+          /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("code", { children: row.voucher.code }),
+          /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { children: row.usedInOrderId ? /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(Link, { to: `/orders/${row.usedInOrderId}`, children: "\u0110\xE3 d\xF9ng \xB7 Xem \u0111\u01A1n" }) : row.voucher.active ? "S\u1EB5n s\xE0ng d\xF9ng khi thanh to\xE1n" : "\u0110\xE3 ng\u1EEBng ho\u1EA1t \u0111\u1ED9ng" })
+        ] }, row.id)),
+        points && !owned.length && /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { children: "B\u1EA1n ch\u01B0a c\xF3 voucher. \u0110\u1ED5i xu ho\u1EB7c nh\u1EADn \u01B0u \u0111\xE3i b\xEAn d\u01B0\u1EDBi." })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("h2", { children: "\u0110\u1ED5i xu v\xE0 nh\u1EADn \u01B0u \u0111\xE3i" }),
+      /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("div", { className: "rb-voucher-grid", children: [
+        vouchers.map((v) => {
+          const claimed = v.pointsCost === null && owned.some((o) => o.voucherId === v.id && o.publicClaim);
+          return /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("article", { className: "item-card", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("h3", { children: v.title }),
+            /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { children: voucherTerms(v) }),
+            /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("code", { children: v.code }),
+            /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("button", { className: "btn primary", type: "button", disabled: busy || !points || claimed || v.pointsCost !== null && points.pointsBalance < v.pointsCost, onClick: () => obtain(v), children: claimed ? "\u0110\xE3 nh\u1EADn" : v.pointsCost === null ? "Nh\u1EADn mi\u1EC5n ph\xED" : `\u0110\u1ED5i ${v.pointsCost} xu` })
+          ] }, v.id);
+        }),
+        points && !vouchers.length && /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { children: "Hi\u1EC7n ch\u01B0a c\xF3 \u01B0u \u0111\xE3i \u0111ang ph\xE1t h\xE0nh." })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { className: "rb-loyalty-note", children: "M\u1ED7i \u0111\u01A1n d\xF9ng t\u1ED1i \u0111a m\u1ED9t voucher. Voucher \u0111\u01B0\u1EE3c s\u1EED d\u1EE5ng khi t\u1EA1o \u0111\u01A1n th\xE0nh c\xF4ng, kh\xF4ng t\u1EF1 ho\xE0n l\u1EA1i khi h\u1EE7y \u0111\u01A1n. \u01AFu \u0111\xE3i mi\u1EC5n ph\xED ch\u1EC9 \u0111\u01B0\u1EE3c nh\u1EADn m\u1ED9t l\u1EA7n m\u1ED7i t\xE0i kho\u1EA3n." }),
+      /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("section", { className: "item-card", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("h2", { children: "L\u1ECBch s\u1EED xu" }),
+        points?.transactions.length ? /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("ul", { className: "rb-points-history", children: points.transactions.map((tx) => /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("li", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("span", { children: [
+            tx.type === "earn" ? "T\xEDch xu t\u1EEB \u0111\u01A1n ho\xE0n th\xE0nh" : "\u0110\u1ED5i voucher",
+            /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("small", { children: new Date(tx.createdAt).toLocaleString("vi-VN") }),
+            tx.orderId && /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(Link, { to: `/orders/${tx.orderId}`, children: "Xem \u0111\u01A1n" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("strong", { children: [
+            tx.amount > 0 ? "+" : "",
+            tx.amount,
+            " xu"
+          ] })
+        ] }, tx.id)) }) : /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { children: points ? "Ch\u01B0a c\xF3 giao d\u1ECBch xu." : "\u0110ang t\u1EA3i\u2026" })
+      ] })
+    ] });
+  }
+
+  // src/pages/admin/AdminVouchersPage.tsx
+  var import_react44 = __toESM(require_react(), 1);
+  var import_jsx_runtime55 = __toESM(require_jsx_runtime(), 1);
+  function AdminVouchersPage() {
+    const [rows, setRows] = (0, import_react44.useState)([]), [error, setError] = (0, import_react44.useState)(""), [busy, setBusy] = (0, import_react44.useState)(false);
+    const lock = (0, import_react44.useRef)(false);
+    const [form, setForm] = (0, import_react44.useState)({ code: "", title: "", discountType: "fixed", discountValue: 1e4, minOrderAmount: 1e5 });
+    async function load() {
+      try {
+        setRows(await request("/admin/vouchers"));
+        setError("");
+      } catch (e) {
+        setError(e.message);
+      }
+    }
+    (0, import_react44.useEffect)(() => {
+      void load();
+    }, []);
+    async function mutate(path, method, body) {
+      if (lock.current) return;
+      lock.current = true;
+      setBusy(true);
+      setError("");
+      try {
+        await request(path, { method, body });
+        await load();
+      } catch (e) {
+        setError(e.message);
+      } finally {
+        lock.current = false;
+        setBusy(false);
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("section", { className: "rb-loyalty-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("header", { className: "page-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("p", { className: "rb-eyebrow", children: "QU\u1EA2N TR\u1ECA \u01AFU \u0110\xC3I" }),
+        /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("h1", { children: "Voucher" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("p", { children: "Ph\xE1t h\xE0nh voucher mi\u1EC5n ph\xED cho kh\xE1ch h\xE0ng. B\u1EA3ng \u0111\u1ED5i xu c\u1ED1 \u0111\u1ECBnh \u0111\u01B0\u1EE3c qu\u1EA3n l\xFD ri\xEAng; kh\xF4ng s\u1EEDa gi\xE1 tr\u1ECB voucher \u0111\xE3 ph\xE1t h\xE0nh." }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("p", { role: "alert", children: [
+        error,
+        " ",
+        /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("button", { className: "btn secondary", onClick: load, disabled: busy, children: "Th\u1EED l\u1EA1i" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("form", { className: "item-card rb-voucher-form", onSubmit: (event) => {
+        event.preventDefault();
+        void mutate("/admin/vouchers", "POST", form);
+      }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("label", { children: [
+          "M\xE3 voucher",
+          /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("input", { required: true, pattern: "[A-Za-z0-9_-]{3,40}", maxLength: 40, value: form.code, disabled: busy, onChange: (e) => setForm({ ...form, code: e.target.value.toUpperCase() }) })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("label", { children: [
+          "T\xEAn \u01B0u \u0111\xE3i",
+          /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("input", { required: true, maxLength: 160, value: form.title, disabled: busy, onChange: (e) => setForm({ ...form, title: e.target.value }) })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("label", { children: [
+          "Lo\u1EA1i gi\u1EA3m",
+          /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("select", { value: form.discountType, disabled: busy, onChange: (e) => setForm({ ...form, discountType: e.target.value, discountValue: e.target.value === "percent" ? 10 : 1e4 }), children: [
+            /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("option", { value: "fixed", children: "S\u1ED1 ti\u1EC1n (\u0111)" }),
+            /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("option", { value: "percent", children: "Ph\u1EA7n tr\u0103m (%)" })
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("label", { children: [
+          "Gi\xE1 tr\u1ECB gi\u1EA3m",
+          /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("input", { required: true, type: "number", min: 1, max: form.discountType === "percent" ? 100 : 1e9, step: 1, disabled: busy, value: form.discountValue, onChange: (e) => setForm({ ...form, discountValue: Number(e.target.value) }) })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("label", { children: [
+          "\u0110\u01A1n t\u1ED1i thi\u1EC3u (\u0111)",
+          /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("input", { required: true, type: "number", min: 0, max: 99999999999999, step: 1, disabled: busy, value: form.minOrderAmount, onChange: (e) => setForm({ ...form, minOrderAmount: Number(e.target.value) }) })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("button", { className: "btn primary", disabled: busy, children: "Ph\xE1t h\xE0nh voucher mi\u1EC5n ph\xED" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("h2", { children: "Danh s\xE1ch voucher" }),
+      /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("div", { className: "rb-voucher-grid", children: rows.map((v) => /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("article", { className: "item-card", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("h3", { children: v.title }),
+        /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("code", { children: v.code }),
+        /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("p", { children: voucherTerms(v) }),
+        /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("p", { children: [
+          v.pointsCost === null ? "Nh\u1EADn mi\u1EC5n ph\xED" : `${v.pointsCost} xu`,
+          " \xB7 ",
+          v.active ? "\u0110ang ho\u1EA1t \u0111\u1ED9ng" : "\u0110\xE3 t\u1EAFt"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("button", { className: "btn secondary", disabled: busy, onClick: () => mutate(`/admin/vouchers/${v.id}`, "PATCH", { active: !v.active }), children: v.active ? "Ng\u1EEBng ho\u1EA1t \u0111\u1ED9ng" : "K\xEDch ho\u1EA1t" })
+      ] }, v.id)) })
+    ] });
+  }
+
+  // src/hooks/usePublicRestaurant.js
+  var import_react45 = __toESM(require_react(), 1);
+  function usePublicRestaurant(id, enabled = true) {
+    const [state, setState] = (0, import_react45.useState)({ id: null, restaurant: null, error: "", loading: true });
+    (0, import_react45.useEffect)(() => {
+      let active = true;
+      let pending = false;
+      setState({ id, restaurant: null, error: "", loading: enabled });
+      if (!enabled) return;
+      async function refresh() {
+        if (pending) return;
+        pending = true;
+        try {
+          const restaurant = await request("/restaurants/" + encodeURIComponent(id), { authorized: false });
+          if (restaurant.active === false || restaurant.suspendedAt != null || restaurant.suspendedReason != null) {
+            throw new Error("Qu\xE1n \u0111ang t\u1EA1m ng\u01B0ng ho\u1EA1t \u0111\u1ED9ng, kh\xF4ng th\u1EC3 xem menu ho\u1EB7c \u0111\u1EB7t m\xF3n.");
+          }
+          if (active) setState({ id, restaurant, error: "", loading: false });
+        } catch (error) {
+          if (active) setState({ id, restaurant: null, error: error.message || "Kh\xF4ng th\u1EC3 ki\u1EC3m tra tr\u1EA1ng th\xE1i qu\xE1n.", loading: false });
+        } finally {
+          pending = false;
+        }
+      }
+      function onVisible() {
+        if (document.visibilityState === "visible") void refresh();
+      }
+      void refresh();
+      const timer = window.setInterval(onVisible, 15e3);
+      window.addEventListener("focus", onVisible);
+      document.addEventListener("visibilitychange", onVisible);
+      return () => {
+        active = false;
+        window.clearInterval(timer);
+        window.removeEventListener("focus", onVisible);
+        document.removeEventListener("visibilitychange", onVisible);
+      };
+    }, [id, enabled]);
+    return state.id === id ? state : { restaurant: null, error: "", loading: enabled };
+  }
+
   // src/App.jsx
-  var import_jsx_runtime40 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime56 = __toESM(require_jsx_runtime(), 1);
   var formatMoney = (value2) => `${Number(value2 || 0).toLocaleString("vi-VN")}\u0111`;
-  var demoMenu = { id: "mock-com-tam", name: "C\u01A1m T\u1EA5m M\u1EABu", address: "Qu\u1EADn 1, TP. H\u1ED3 Ch\xED Minh", rating: 4.8, menuItems: [{ id: "demo-com-tam", name: "C\u01A1m t\u1EA5m s\u01B0\u1EDDn b\xEC ch\u1EA3", description: "S\u01B0\u1EDDn n\u01B0\u1EDBng, b\xEC, ch\u1EA3 tr\u1EE9ng v\xE0 \u0111\u1ED3 chua", price: 6e4, available: true }, { id: "demo-tra-dao", name: "Tr\xE0 \u0111\xE0o cam s\u1EA3", description: "Ly m\xE1t l\u1EA1nh", price: 25e3, available: true }] };
   function Header() {
     const { carts } = useCart();
     const navItems2 = [
@@ -30897,9 +32515,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       { path: "/my-orders", label: "\u0110\u01A1n c\u1EE7a t\xF4i" },
       { path: "/my-carts", label: `Gi\u1ECF c\u1EE7a t\xF4i${carts.length ? ` (${carts.length})` : ""}` }
     ];
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("header", { className: "consumer-header", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Link, { className: "consumer-logo", to: "/", children: "RouteBite" }),
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("nav", { "aria-label": "\u0110i\u1EC1u h\u01B0\u1EDBng ch\xEDnh", children: navItems2.map((item) => /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("header", { className: "consumer-header", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Link, { className: "consumer-logo", to: "/", children: "RouteBite" }),
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("nav", { "aria-label": "\u0110i\u1EC1u h\u01B0\u1EDBng ch\xEDnh", children: navItems2.map((item) => /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
         NavLink,
         {
           to: item.path,
@@ -30909,9 +32527,10 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         },
         item.path
       )) }),
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "account-menu", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(NotificationBell, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AvatarDropdown, {})
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "account-menu", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(NotificationBell, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ChatBell, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AvatarDropdown, {})
       ] })
     ] });
   }
@@ -30921,65 +32540,53 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     const origin = readRouteOrigin(params);
     const navigate = useNavigate();
     const { cart, add, change } = useCart();
-    const [restaurant, setRestaurant] = (0, import_react30.useState)(null);
-    const [error, setError] = (0, import_react30.useState)("");
-    const [pickup, setPickup] = (0, import_react30.useState)("15");
-    (0, import_react30.useEffect)(() => {
-      let active = true;
-      setError("");
-      setRestaurant(null);
-      if (id.startsWith("mock-")) {
-        setRestaurant({ ...demoMenu, id });
-      } else {
-        request("/restaurants/" + id, { authorized: false }).then((data2) => {
-          if (active) setRestaurant(data2);
-        }).catch((e) => {
-          if (active) setError(e.message);
-        });
-      }
-      return () => {
-        active = false;
-      };
-    }, [id]);
-    if (error) return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Page, { title: "Kh\xF4ng m\u1EDF \u0111\u01B0\u1EE3c menu", children: error });
-    if (!restaurant) return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Page, { title: "Menu qu\xE1n", children: "\u0110ang t\u1EA3i menu\u2026" });
+    const { restaurant, error } = usePublicRestaurant(id);
+    const [pickup, setPickup] = (0, import_react46.useState)("15");
+    if (error) return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(Page, { title: "Kh\xF4ng m\u1EDF \u0111\u01B0\u1EE3c menu", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { role: "alert", children: error }),
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Link, { to: "/kham-pha", children: "Kh\xE1m ph\xE1 qu\xE1n kh\xE1c" })
+    ] });
+    if (!restaurant) return /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Page, { title: "Menu qu\xE1n", children: "\u0110ang t\u1EA3i menu\u2026" });
     const menu = (restaurant.menuItems || []).filter((item) => item.available);
     const selected = cart.filter((item) => item.restaurantId === restaurant.id);
     const count = selected.reduce((sum, item) => sum + item.quantity, 0);
     const total = selected.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("main", { className: "app-page rb-commerce-page rb-menu-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("button", { type: "button", className: "back-link", onClick: () => navigate(-1), children: "\u2190 Quay l\u1EA1i" }),
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("section", { className: "item-card rb-restaurant-intro", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(FoodThumbnail, { src: restaurant.imageUrl, name: restaurant.name, className: "rb-restaurant-image" }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { className: "rb-eyebrow", children: "GH\xC9 L\u1EA4Y MANG \u0110I" }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h1", { children: restaurant.name }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: restaurant.address }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("span", { children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("main", { className: "app-page rb-commerce-page rb-menu-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("button", { type: "button", className: "back-link", onClick: () => navigate(-1), children: "\u2190 Quay l\u1EA1i" }),
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("section", { className: "item-card rb-restaurant-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(FoodThumbnail, { src: restaurant.imageUrl, name: restaurant.name, className: "rb-restaurant-image" }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { className: "rb-eyebrow", children: "GH\xC9 L\u1EA4Y MANG \u0110I" }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h1", { children: restaurant.name }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { children: restaurant.address }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("span", { children: [
             "\u2B50 ",
             restaurant.rating || "M\u1EDBi"
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("a", { className: "btn secondary", target: "_blank", rel: "noreferrer", href: "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(restaurant.address), children: "Ch\u1EC9 \u0111\u01B0\u1EDDng" })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("section", { className: "item-card rb-pickup-choice", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("label", { htmlFor: "menu-pickup", children: "Th\u1EDDi gian gh\xE9 l\u1EA5y" }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("select", { id: "menu-pickup", value: pickup, onChange: (e) => setPickup(e.target.value), children: [
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("option", { value: "15", children: "Sau 15 ph\xFAt" }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("option", { value: "30", children: "Sau 30 ph\xFAt" }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("option", { value: "45", children: "Sau 45 ph\xFAt" })
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-restaurant-actions", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("a", { className: "btn secondary", target: "_blank", rel: "noreferrer", href: "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(restaurant.address), children: "Ch\u1EC9 \u0111\u01B0\u1EDDng" }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ShareRestaurantButton, { restaurantId: restaurant.id, restaurantName: restaurant.name }, restaurant.id)
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("section", { className: "rb-menu-list", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h2", { children: "Menu m\xF3n \u0103n" }),
-        menu.length ? menu.map((item) => /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("article", { className: "item-card rb-product-row", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(FoodThumbnail, { src: item.imageUrl, name: item.name }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-product-copy", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h3", { children: item.name }),
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: item.description || "M\xF3n ngon c\u1EE7a qu\xE1n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("strong", { children: formatMoney(item.price) })
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("section", { className: "item-card rb-pickup-choice", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("label", { htmlFor: "menu-pickup", children: "Th\u1EDDi gian gh\xE9 l\u1EA5y" }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("select", { id: "menu-pickup", value: pickup, onChange: (e) => setPickup(e.target.value), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("option", { value: "15", children: "Sau 15 ph\xFAt" }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("option", { value: "30", children: "Sau 30 ph\xFAt" }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("option", { value: "45", children: "Sau 45 ph\xFAt" })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("section", { className: "rb-menu-list", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h2", { children: "Menu m\xF3n \u0103n" }),
+        menu.length ? menu.map((item) => /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("article", { className: "item-card rb-product-row", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(FoodThumbnail, { src: item.imageUrl, name: item.name }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-product-copy", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h3", { children: item.name }),
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { children: item.description || "M\xF3n ngon c\u1EE7a qu\xE1n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("strong", { children: formatMoney(item.price) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
             QuantityStepper,
             {
               name: item.name,
@@ -30988,54 +32595,48 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
               onDecrease: () => change(restaurant.id, item.id, -1)
             }
           )
-        ] }, item.id)) : /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { className: "item-card rb-empty", children: "Qu\xE1n ch\u01B0a c\xF3 m\xF3n \u0111ang b\xE1n." })
+        ] }, item.id)) : /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("div", { className: "item-card rb-empty", children: "Qu\xE1n ch\u01B0a c\xF3 m\xF3n \u0111ang b\xE1n." })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(Link, { className: "rb-menu-cart", to: "/restaurants/" + restaurant.id + "/cart" + routeQuery(origin), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("span", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ReviewsSection, { embeddedReviews: restaurant.reviews }, restaurant.id),
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(Link, { className: "rb-menu-cart", to: "/restaurants/" + restaurant.id + "/cart" + routeQuery(origin), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("span", { children: [
           "Xem gi\u1ECF h\xE0ng \xB7 ",
           count,
           " m\xF3n"
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("strong", { children: formatMoney(total) })
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("strong", { children: formatMoney(total) })
       ] })
     ] });
   }
   function CartPage() {
+    const { currentUser } = useAuth();
     const navigate = useNavigate();
     const { id } = useParams();
     const { carts, change, clear, rememberOrigin } = useCart();
     const [params] = useSearchParams();
     const savedCart = carts.find((entry) => entry.restaurantId === id);
     const cart = savedCart?.items || [];
-    const [restaurant, setRestaurant] = (0, import_react30.useState)(null);
-    (0, import_react30.useEffect)(() => {
+    const { restaurant, error: restaurantError, loading: restaurantLoading } = usePublicRestaurant(id, !!savedCart);
+    (0, import_react46.useEffect)(() => {
       const origin = readRouteOrigin(params);
       if (origin) rememberOrigin(id, origin);
     }, [id, params, rememberOrigin]);
-    (0, import_react30.useEffect)(() => {
-      let active = true;
-      setRestaurant(null);
-      if (savedCart && !savedCart.destination) request("/restaurants/" + id, { authorized: false }).then((data2) => {
-        if (active) setRestaurant(data2);
-      }).catch(() => {
-      });
-      return () => {
-        active = false;
-      };
-    }, [id, !!savedCart, savedCart?.destination]);
-    const [createdOrder, setCreatedOrder] = (0, import_react30.useState)(null);
+    const [createdOrder, setCreatedOrder] = (0, import_react46.useState)(null);
+    const showConfirmation = createdOrder && createdOrder.checkoutRestaurantId === id && createdOrder.checkoutUserId === currentUser?.id;
     const routeEta = Math.max(1, Number(localStorage.getItem("routebite_route_eta_minutes")) || 15);
     const [method, setMethod] = usePaymentMethod();
-    const [pickupType, setPickupType] = (0, import_react30.useState)("asap");
-    const [minutes, setMinutes] = (0, import_react30.useState)(cart[0]?.pickupMinutes || routeEta);
-    const [scheduledTime, setScheduledTime] = (0, import_react30.useState)("");
-    const [busy, setBusy] = (0, import_react30.useState)(false);
-    const [message, setMessage] = (0, import_react30.useState)("");
+    const [pickupType, setPickupType] = (0, import_react46.useState)("asap");
+    const [minutes, setMinutes] = (0, import_react46.useState)(cart[0]?.pickupMinutes || routeEta);
+    const [scheduledTime, setScheduledTime] = (0, import_react46.useState)("");
+    const [busy, setBusy] = (0, import_react46.useState)(false);
+    const [message, setMessage] = (0, import_react46.useState)("");
     const total = cart.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
+    const vouchers = useCheckoutVouchers(total, id);
+    const payable = total - vouchers.discount;
     const count = cart.reduce((sum, item) => sum + item.quantity, 0);
     const minuteOptions = [.../* @__PURE__ */ new Set([routeEta, Number(minutes), 15, 30, 45])];
     async function checkout() {
-      if (!cart.length || busy) return;
+      if (!cart.length || busy || restaurantLoading || restaurantError) return;
       if (!localStorage.getItem(TOKEN_KEY)) return navigate("/login");
       setBusy(true);
       setMessage("");
@@ -31051,46 +32652,52 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
             restaurantId: cart[0].restaurantId,
             pickupOption,
             payment: { method },
+            ...vouchers.selected ? { userVoucherId: vouchers.selected.id } : {},
             items: cart.map((item) => ({ menuItemId: item.id, quantity: item.quantity }))
           })
         });
-        setCreatedOrder(order);
+        setCreatedOrder({ paymentMethod: method, ...order, checkoutRestaurantId: id, checkoutUserId: currentUser?.id });
         clear(id);
-        if (method === "vnpay") {
+        if (method === "vnpay" && order.totalAmount !== 0) {
           const payment = await request("/payments/create", { method: "POST", body: { orderId: order.id } });
           if (!payment.checkoutUrl) throw new Error("Kh\xF4ng t\u1EA1o \u0111\u01B0\u1EE3c li\xEAn k\u1EBFt thanh to\xE1n VNPAY");
           window.location.assign(payment.checkoutUrl);
           return;
         }
-        setMessage("\u0110\u01A1n " + order.orderCode + " \u0111\xE3 \u0111\u1EB7t. Thanh to\xE1n ti\u1EC1n m\u1EB7t khi gh\xE9 l\u1EA5y.");
       } catch (e) {
         setMessage(e.message);
       } finally {
         setBusy(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("main", { className: "app-page rb-commerce-page rb-cart-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Link, { className: "back-link", to: "/my-carts", children: "\u2190 Gi\u1ECF h\xE0ng c\u1EE7a t\xF4i" }),
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "page-intro", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { className: "rb-eyebrow", children: "GI\u1ECE H\xC0NG" }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h1", { children: "Gh\xE9 l\u1EA5y mang \u0111i" }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: "Ki\u1EC3m tra m\xF3n, ch\u1ECDn gi\u1EDD l\u1EA5y v\xE0 ph\u01B0\u01A1ng th\u1EE9c thanh to\xE1n." })
+    return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("main", { className: "app-page rb-commerce-page rb-cart-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Link, { className: "back-link", to: "/my-carts", children: "\u2190 Gi\u1ECF h\xE0ng c\u1EE7a t\xF4i" }),
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "page-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { className: "rb-eyebrow", children: "GI\u1ECE H\xC0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h1", { children: "Gh\xE9 l\u1EA5y mang \u0111i" }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { children: "Ki\u1EC3m tra m\xF3n, ch\u1ECDn gi\u1EDD l\u1EA5y v\xE0 ph\u01B0\u01A1ng th\u1EE9c thanh to\xE1n." })
       ] }),
-      message && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { className: "item-card rb-feedback", role: "status", children: message }),
-      cart.length ? /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-cart-layout", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("section", { className: "item-card rb-cart-items", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h2", { children: cart[0].restaurantName || "M\xF3n \u0111\xE3 ch\u1ECDn" }),
-          cart.map((item) => /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("article", { className: "rb-product-row rb-cart-row", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(FoodThumbnail, { src: item.imageUrl, name: item.name }),
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-product-copy", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h3", { children: item.name }),
-              /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("p", { children: [
+      message && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { className: "item-card rb-feedback", role: "status", children: message }),
+      !!savedCart && restaurantError && /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("p", { className: "item-card rb-feedback", role: "alert", children: [
+        restaurantError,
+        " Gi\u1ECF h\xE0ng \u0111\u01B0\u1EE3c gi\u1EEF l\u1EA1i; b\u1EA1n c\xF3 th\u1EC3 quay l\u1EA1i ch\u1ECDn qu\xE1n kh\xE1c."
+      ] }),
+      !!savedCart && restaurantLoading && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { role: "status", children: "\u0110ang ki\u1EC3m tra tr\u1EA1ng th\xE1i qu\xE1n\u2026" }),
+      showConfirmation && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(PlacedOrderConfirmation, { initialOrder: createdOrder }, createdOrder.id + ":" + currentUser?.id),
+      cart.length ? /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-cart-layout", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("section", { className: "item-card rb-cart-items", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h2", { children: cart[0].restaurantName || "M\xF3n \u0111\xE3 ch\u1ECDn" }),
+          cart.map((item) => /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("article", { className: "rb-product-row rb-cart-row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(FoodThumbnail, { src: item.imageUrl, name: item.name }),
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-product-copy", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h3", { children: item.name }),
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("p", { children: [
                 formatMoney(item.price),
                 " / m\xF3n"
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("strong", { children: formatMoney(Number(item.price) * item.quantity) })
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("strong", { children: formatMoney(Number(item.price) * item.quantity) })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
               QuantityStepper,
               {
                 name: item.name,
@@ -31102,8 +32709,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
             )
           ] }, item.id))
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("aside", { className: "item-card rb-cart-summary", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("aside", { className: "item-card rb-cart-summary", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
             RouteSummaryCard,
             {
               restaurantName: savedCart.restaurantName,
@@ -31112,40 +32719,70 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
               origin: savedCart.routeOrigin
             }
           ),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-cart-total", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h2", { children: "T\u1ED5ng c\u1ED9ng" }),
-              /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("span", { children: [
+          vouchers.enabled && /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-checkout-voucher", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("label", { htmlFor: "checkout-voucher", children: "Voucher gi\u1EA3m gi\xE1" }),
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("select", { id: "checkout-voucher", value: vouchers.selectedId, disabled: busy || vouchers.loading, onChange: (e) => vouchers.setSelectedId(e.target.value), children: [
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("option", { value: "", children: vouchers.loading ? "\u0110ang t\u1EA3i voucher\u2026" : "Kh\xF4ng d\xF9ng voucher" }),
+              vouchers.available.map((row) => /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("option", { value: row.id, disabled: total < row.voucher.minOrderAmount, children: [
+                row.voucher.title,
+                " \xB7 ",
+                voucherTerms(row.voucher)
+              ] }, row.id))
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Link, { to: "/my-points", children: "\u0110\u1ED5i xu / Nh\u1EADn voucher" }),
+            vouchers.error && /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("p", { role: "status", children: [
+              vouchers.error,
+              " ",
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("button", { type: "button", disabled: busy, onClick: vouchers.retry, children: "Th\u1EED l\u1EA1i" })
+            ] }),
+            vouchers.selected && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("small", { children: "Voucher s\u1EBD \u0111\u01B0\u1EE3c d\xF9ng khi t\u1EA1o \u0111\u01A1n th\xE0nh c\xF4ng, kh\xF4ng t\u1EF1 ho\xE0n khi h\u1EE7y." })
+          ] }),
+          vouchers.discount > 0 && /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(import_jsx_runtime56.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-discount-row", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("span", { children: "T\u1EA1m t\xEDnh" }),
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("span", { children: formatMoney(total) })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-discount-row saving", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("span", { children: "Gi\u1EA3m voucher" }),
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("strong", { children: [
+                "\u2212",
+                formatMoney(vouchers.discount)
+              ] })
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-cart-total", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h2", { children: "T\u1ED5ng c\u1ED9ng" }),
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("span", { children: [
                 count,
                 " m\xF3n"
               ] })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("strong", { children: formatMoney(total) })
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("strong", { children: formatMoney(payable) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("fieldset", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("legend", { children: "Gi\u1EDD l\u1EA5y h\xE0ng" }),
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("label", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("input", { name: "pickup-type", type: "radio", disabled: busy, checked: pickupType === "asap", onChange: () => setPickupType("asap") }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("fieldset", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("legend", { children: "Gi\u1EDD l\u1EA5y h\xE0ng" }),
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("label", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("input", { name: "pickup-type", type: "radio", disabled: busy, checked: pickupType === "asap", onChange: () => setPickupType("asap") }),
               " L\u1EA5y s\u1EDBm nh\u1EA5t"
             ] }),
-            pickupType === "asap" && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("select", { "aria-label": "Th\u1EDDi gian l\u1EA5y m\xF3n", disabled: busy, value: minutes, onChange: (e) => setMinutes(Number(e.target.value)), children: minuteOptions.map((value2) => /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("option", { value: value2, children: [
+            pickupType === "asap" && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("select", { "aria-label": "Th\u1EDDi gian l\u1EA5y m\xF3n", disabled: busy, value: minutes, onChange: (e) => setMinutes(Number(e.target.value)), children: minuteOptions.map((value2) => /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("option", { value: value2, children: [
               value2 === routeEta ? "Theo l\u1ED9 tr\xECnh: kho\u1EA3ng " : "Sau kho\u1EA3ng ",
               value2,
               " ph\xFAt"
             ] }, value2)) }),
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("label", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("input", { name: "pickup-type", type: "radio", disabled: busy, checked: pickupType === "scheduled", onChange: () => setPickupType("scheduled") }),
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("label", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("input", { name: "pickup-type", type: "radio", disabled: busy, checked: pickupType === "scheduled", onChange: () => setPickupType("scheduled") }),
               " H\u1EB9n gi\u1EDD l\u1EA5y m\xF3n"
             ] }),
-            pickupType === "scheduled" && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("input", { "aria-label": "Gi\u1EDD h\u1EB9n l\u1EA5y m\xF3n", type: "datetime-local", disabled: busy, value: scheduledTime, onChange: (e) => setScheduledTime(e.target.value), required: true })
+            pickupType === "scheduled" && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("input", { "aria-label": "Gi\u1EDD h\u1EB9n l\u1EA5y m\xF3n", type: "datetime-local", disabled: busy, value: scheduledTime, onChange: (e) => setScheduledTime(e.target.value), required: true })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(PaymentMethodSelector, { value: method, onChange: setMethod, disabled: busy }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("button", { type: "button", className: "rb-checkout-button", disabled: busy || pickupType === "scheduled" && !scheduledTime, onClick: checkout, children: busy ? "\u0110ang t\u1EA1o \u0111\u01A1n\u2026" : method === "vnpay" ? "Ti\u1EBFp t\u1EE5c \u0111\u1EBFn VNPAY" : "\u0110\u1EB7t h\xE0ng" })
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(PaymentMethodSelector, { value: method, onChange: setMethod, disabled: busy }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("button", { type: "button", className: "rb-checkout-button", disabled: busy || restaurantLoading || !!restaurantError || pickupType === "scheduled" && !scheduledTime, onClick: checkout, children: busy ? "\u0110ang t\u1EA1o \u0111\u01A1n\u2026" : method === "vnpay" && payable > 0 ? "Ti\u1EBFp t\u1EE5c \u0111\u1EBFn VNPAY" : "\u0110\u1EB7t h\xE0ng" })
         ] })
-      ] }) : /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("section", { className: "item-card rb-empty", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: "Gi\u1ECF h\xE0ng \u0111ang tr\u1ED1ng. H\xE3y ch\u1ECDn m\xF3n t\u1EEB menu qu\xE1n." }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Link, { to: "/", children: "Kh\xE1m ph\xE1 qu\xE1n" }),
-        createdOrder && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Link, { to: "/orders/" + createdOrder.id, children: "Xem \u0111\u01A1n v\u1EEBa \u0111\u1EB7t" })
+      ] }) : !showConfirmation && /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("section", { className: "item-card rb-empty", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { children: "Gi\u1ECF h\xE0ng \u0111ang tr\u1ED1ng. H\xE3y ch\u1ECDn m\xF3n t\u1EEB menu qu\xE1n." }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Link, { to: "/", children: "Kh\xE1m ph\xE1 qu\xE1n" })
       ] })
     ] });
   }
@@ -31158,13 +32795,15 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   function OrdersPage() {
     const navigate = useNavigate();
     const { currentUser } = useAuth();
-    const [activeFilter, setActiveFilter] = (0, import_react30.useState)("all");
-    const [cancelling, setCancelling] = (0, import_react30.useState)(null);
-    const [cancelError, setCancelError] = (0, import_react30.useState)("");
-    const [orders, setOrders] = (0, import_react30.useState)(null);
-    const [error, setError] = (0, import_react30.useState)("");
+    const [activeFilter, setActiveFilter] = (0, import_react46.useState)("all");
+    const [cancelling, setCancelling] = (0, import_react46.useState)(null);
+    const [cancelError, setCancelError] = (0, import_react46.useState)("");
+    const [orders, setOrders] = (0, import_react46.useState)(null);
+    const [error, setError] = (0, import_react46.useState)("");
+    const [reviewTarget, setReviewTarget] = (0, import_react46.useState)(null);
+    const [reviewMessage, setReviewMessage] = (0, import_react46.useState)("");
     const token = localStorage.getItem(TOKEN_KEY);
-    (0, import_react30.useEffect)(() => {
+    (0, import_react46.useEffect)(() => {
       let active = true;
       setError("");
       if (!token) {
@@ -31180,13 +32819,13 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         active = false;
       };
     }, [token]);
-    if (!token) return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: [
+    if (!token) return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: [
       "Vui l\xF2ng ",
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Link, { to: "/login", children: "\u0111\u0103ng nh\u1EADp" }),
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Link, { to: "/login", children: "\u0111\u0103ng nh\u1EADp" }),
       " \u0111\u1EC3 xem \u0111\u01A1n h\xE0ng."
     ] });
-    if (error) return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: error });
-    if (!orders) return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: "\u0110ang t\u1EA3i\u2026" });
+    if (error) return /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: error });
+    if (!orders) return /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: "\u0110ang t\u1EA3i\u2026" });
     const matches = (filter2, order) => filter2.key === "all" || filter2.statuses.includes(String(order.status).toUpperCase());
     const filter = ORDER_FILTERS.find((entry) => entry.key === activeFilter);
     const filteredOrders = orders.filter((order) => matches(filter, order));
@@ -31203,44 +32842,45 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setCancelling(null);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("main", { className: "app-page rb-commerce-page rb-orders-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "page-intro", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { className: "rb-eyebrow", children: "\u0110\u01A0N H\xC0NG" }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h1", { children: "\u0110\u01A1n c\u1EE7a t\xF4i" }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: "Theo d\xF5i tr\u1EA1ng th\xE1i v\xE0 ti\u1EBFn \u0111\u1ED9 \u0111\u01A1n h\xE0ng c\u1EE7a b\u1EA1n." })
+    return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("main", { className: "app-page rb-commerce-page rb-orders-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "page-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { className: "rb-eyebrow", children: "\u0110\u01A0N H\xC0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h1", { children: "\u0110\u01A1n c\u1EE7a t\xF4i" }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { children: "Theo d\xF5i tr\u1EA1ng th\xE1i v\xE0 ti\u1EBFn \u0111\u1ED9 \u0111\u01A1n h\xE0ng c\u1EE7a b\u1EA1n." })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { className: "rb-order-filters", "aria-label": "L\u1ECDc tr\u1EA1ng th\xE1i \u0111\u01A1n", children: ORDER_FILTERS.map((entry) => /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("button", { type: "button", "aria-pressed": entry.key === activeFilter, onClick: () => setActiveFilter(entry.key), children: [
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("div", { className: "rb-order-filters", "aria-label": "L\u1ECDc tr\u1EA1ng th\xE1i \u0111\u01A1n", children: ORDER_FILTERS.map((entry) => /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("button", { type: "button", "aria-pressed": entry.key === activeFilter, onClick: () => setActiveFilter(entry.key), children: [
         entry.label,
         " (",
         orders.filter((order) => matches(entry, order)).length,
         ")"
       ] }, entry.key)) }),
-      cancelError && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { className: "auth-alert", role: "alert", children: cancelError }),
-      filteredOrders.length ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("section", { className: "rb-orders-list", children: filteredOrders.map((order) => {
+      cancelError && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { className: "auth-alert", role: "alert", children: cancelError }),
+      reviewMessage && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { className: "rb-pickup-due", role: "status", children: reviewMessage }),
+      filteredOrders.length ? /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("section", { className: "rb-orders-list", children: filteredOrders.map((order) => {
         const status = String(order.status).toUpperCase();
         const first = order.items?.[0];
-        return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("article", { className: "item-card rb-order-card rb-clickable-order", onClick: () => navigate("/orders/" + order.id), children: [
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-order-heading", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(FoodThumbnail, { src: first?.imageUrl || order.restaurant?.imageUrl, name: first?.itemName || first?.name || "M\xF3n trong \u0111\u01A1n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-order-copy", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("small", { children: new Date(order.createdAt).toLocaleString("vi-VN") }),
-              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { className: "rb-order-code", children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Link, { to: "/orders/" + order.id, children: order.orderCode }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h3", { children: order.restaurant?.name || order.restaurantName || "Qu\xE1n \u0103n" }),
-              /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("p", { children: [
+        return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("article", { className: "item-card rb-order-card rb-clickable-order", onClick: () => navigate("/orders/" + order.id), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-order-heading", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(FoodThumbnail, { src: first?.imageUrl || order.restaurant?.imageUrl, name: first?.itemName || first?.name || "M\xF3n trong \u0111\u01A1n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-order-copy", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("small", { children: new Date(order.createdAt).toLocaleString("vi-VN") }),
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { className: "rb-order-code", children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Link, { to: "/orders/" + order.id, children: order.orderCode }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h3", { children: order.restaurant?.name || order.restaurantName || "Qu\xE1n \u0103n" }),
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("p", { children: [
                 first?.itemName || first?.name || "M\xF3n \u0111\xE3 \u0111\u1EB7t",
                 order.items?.length > 1 ? " v\xE0 " + (order.items.length - 1) + " m\xF3n kh\xE1c" : ""
               ] })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(OrderStatusBadge, { status: order.status })
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(OrderStatusBadge, { status: order.status })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-order-footer", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("strong", { children: formatMoney(order.totalAmount) }),
-            status === "COMPLETED" ? /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("span", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-order-footer", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("strong", { children: formatMoney(order.totalAmount) }),
+            status === "COMPLETED" ? /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("span", { children: [
               (order.items || []).reduce((sum, item) => sum + item.quantity, 0),
               " m\xF3n"
-            ] }) : status === "CANCELLED" ? null : status === "READY" ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("span", { className: "rb-pickup-due", children: "M\xF3n \u0111\xE3 s\u1EB5n s\xE0ng, gh\xE9 l\u1EA5y nh\xE9!" }) : ["PENDING", "CONFIRMED", "PREPARING"].includes(status) ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }) : null
+            ] }) : status === "CANCELLED" ? null : status === "READY" ? /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("span", { className: "rb-pickup-due", children: "M\xF3n \u0111\xE3 s\u1EB5n s\xE0ng, gh\xE9 l\u1EA5y nh\xE9!" }) : ["PENDING", "CONFIRMED", "PREPARING"].includes(status) ? /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }) : null
           ] }),
-          status === "PENDING" && currentUser?.role === "customer" && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+          status === "PENDING" && currentUser?.role === "customer" && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
             "button",
             {
               type: "button",
@@ -31252,66 +32892,90 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
               },
               children: cancelling === order.id ? "\u0110ang h\u1EE7y\u2026" : "H\u1EE7y \u0111\u01A1n"
             }
-          )
+          ),
+          status === "COMPLETED" && currentUser?.role === "customer" && order.userId === currentUser.id && (order.hasReview || order.review ? /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("span", { className: "rb-reviewed-label", children: "\u0110\xE3 \u0111\xE1nh gi\xE1" }) : /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("button", { type: "button", className: "rb-review-now", onClick: (event) => {
+            event.stopPropagation();
+            setReviewMessage("");
+            setReviewTarget(order);
+          }, children: "\u2605 \u0110\xE1nh gi\xE1 ngay" }))
         ] }, order.id);
-      }) }) : /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("section", { className: "item-card rb-empty", children: filter.empty })
+      }) }) : /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("section", { className: "item-card rb-empty", children: filter.empty }),
+      reviewTarget && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
+        ReviewModal,
+        {
+          orderId: reviewTarget.id,
+          restaurantName: reviewTarget.restaurant?.name || reviewTarget.restaurantName || "Qu\xE1n \u0103n",
+          onClose: () => setReviewTarget(null),
+          onSuccess: (review) => {
+            setOrders((rows) => rows.map((order) => order.id === reviewTarget.id ? { ...order, hasReview: true, review } : order));
+            setReviewMessage("C\u1EA3m \u01A1n b\u1EA1n! \u0110\xE1nh gi\xE1 \u0111\xE3 \u0111\u01B0\u1EE3c g\u1EEDi th\xE0nh c\xF4ng.");
+          },
+          onAlreadyReviewed: (review) => setOrders((rows) => rows.map((order) => order.id === reviewTarget.id ? { ...order, hasReview: true, review } : order))
+        },
+        reviewTarget.id
+      )
     ] });
   }
   function Page({ title, children }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("main", { className: "app-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "page-intro", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: "ROUTEBITE" }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h1", { children: title })
+    return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("main", { className: "app-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "page-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { children: "ROUTEBITE" }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h1", { children: title })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("section", { className: "orders-empty-v2", children: children || "T\xEDnh n\u0103ng \u0111ang \u0111\u01B0\u1EE3c \u0111\u1ED3ng b\u1ED9." })
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("section", { className: "orders-empty-v2", children: children || "T\xEDnh n\u0103ng \u0111ang \u0111\u01B0\u1EE3c \u0111\u1ED3ng b\u1ED9." })
     ] });
   }
   function AppShell() {
     const { pathname } = useLocation();
     const merchantRoute = pathname === "/merchant" || pathname.startsWith("/merchant/");
     const adminRoute = pathname === "/admin" || pathname.startsWith("/admin/");
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(CartProvider, { children: [
-      !merchantRoute && !adminRoute && /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Header, {}),
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(Routes, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Home, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/login", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(LoginPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/register", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(RegisterPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/profile", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(ProfilePage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/partner/register", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(PartnerRegistrationPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/restaurant/:id", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(RestaurantMenu, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/my-carts", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(MyCartsPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/restaurants/:id/cart", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(CartPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/my-orders", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(OrdersPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/orders/:id", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(OrderDetailPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(Route, { path: "/merchant", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(ProtectedRoute, { allowedRoles: ["merchant"], children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(MerchantProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(MerchantLayout, {}) }) }), children: [
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { index: true, element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Navigate, { to: "dashboard", replace: true }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "dashboard", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(DashboardPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "menu", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(MenuManagementPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "orders", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(OrdersKanbanPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "orders/:id", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(OrderDetailPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "onboarding", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(OnboardingPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "profile", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(ProfilePage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "*", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Navigate, { to: "/merchant/dashboard", replace: true }) })
+    return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(CartProvider, { children: [
+      !merchantRoute && !adminRoute && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Header, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(Routes, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Home, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/login", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(LoginPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/register", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(RegisterPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/profile", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ProfilePage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/partner/register", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(PartnerRegistrationPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/restaurant/:id", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(RestaurantMenu, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/my-carts", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(MyCartsPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/restaurants/:id/cart", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(CartPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/my-orders", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(OrdersPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/orders/:id", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(OrderDetailPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(Route, { path: "/merchant", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ProtectedRoute, { allowedRoles: ["merchant"], children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(MerchantProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(MerchantLayout, {}) }) }), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { index: true, element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Navigate, { to: "dashboard", replace: true }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "dashboard", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(DashboardPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "menu", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(MenuManagementPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "reviews", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(MerchantReviewsPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "orders", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(OrdersKanbanPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "orders/:id", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(OrderDetailPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "onboarding", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(OnboardingPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "profile", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ProfilePage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "*", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Navigate, { to: "/merchant/dashboard", replace: true }) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)(Route, { path: "/admin", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(ProtectedRoute, { allowedRoles: ["admin"], children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AdminLayout, {}) }), children: [
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { index: true, element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Navigate, { to: "overview", replace: true }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "overview", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AdminOverviewPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "restaurants", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AdminRestaurantsPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "users", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AdminUsersPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "merchant-applications", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AdminMerchantApplicationsPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "*", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Navigate, { to: "/admin/overview", replace: true }) })
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(Route, { path: "/admin", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ProtectedRoute, { allowedRoles: ["admin"], children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AdminLayout, {}) }), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { index: true, element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Navigate, { to: "overview", replace: true }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "overview", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AdminOverviewPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "restaurants", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AdminRestaurantsPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "users", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AdminUsersPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "vouchers", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AdminVouchersPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "merchant-applications", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AdminMerchantApplicationsPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "*", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Navigate, { to: "/admin/overview", replace: true }) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Route, { path: "/kham-pha", element: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(ExplorePage, {}) })
-      ] })
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/kham-pha", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ExplorePage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/my-favorites", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ProtectedRoute, { allowedRoles: ["customer", "merchant", "admin"], children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(MyFavoritesPage, {}) }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/my-points", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ProtectedRoute, { allowedRoles: ["customer"], children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(MyPointsPage, {}) }) })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AiSupportWidget, {})
     ] });
   }
   function App() {
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AuthProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(BrowserRouter, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(SocketProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(NotificationsProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AppShell, {}) }) }) }) });
+    return /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AuthProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(BrowserRouter, { children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(SocketProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(NotificationsProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ChatInboxProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(FavoritesProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AppShell, {}) }) }) }) }) }) });
   }
 
   // src/entry.jsx
-  var import_jsx_runtime41 = __toESM(require_jsx_runtime(), 1);
-  import_client.default.createRoot(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime41.jsx)(App, {}));
+  var import_jsx_runtime57 = __toESM(require_jsx_runtime(), 1);
+  import_client.default.createRoot(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime57.jsx)(App, {}));
 })();
 /*! Bundled license information:
 

@@ -32,6 +32,14 @@ export class RestaurantsController {
     return this.service.findOne(id);
   }
 
+  @Get(':id/manage')
+  @ApiBearerAuth()
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @Roles(UserRole.MERCHANT, UserRole.ADMIN)
+  findManaged(@Param('id', ParseUUIDPipe) id: string, @CurrentUser() user: AuthenticatedUser) {
+    return this.service.findOne(id, user);
+  }
+
   @Post()
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard, RolesGuard)

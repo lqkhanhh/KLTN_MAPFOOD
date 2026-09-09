@@ -36,7 +36,7 @@
 .rb-stock-toggle { border: 0; border-radius: 999px; padding: 10px 12px; background: #fce8e5; color: #9f2922; font-size: 12px; font-weight: 600; white-space: nowrap; }
 .rb-stock-toggle.available { background: #e8f3eb; color: #276541; }
 .rb-menu-save-bar { position: sticky; bottom: 18px; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: 14px; padding: 18px; margin-top: 22px; border: 1px solid var(--color-border); border-radius: 16px; background: var(--color-surface); box-shadow: var(--shadow); z-index: 20; font-size: 13px; }
-.rb-kanban-board { display: grid; grid-template-columns: repeat(4, minmax(230px, 1fr)); gap: 16px; overflow-x: auto; align-items: start; padding-bottom: 18px; }
+.rb-kanban-board { display: grid; grid-template-columns: repeat(3, minmax(230px, 1fr)); gap: 16px; overflow-x: auto; align-items: start; padding-bottom: 18px; }
 .rb-kanban-column { min-width: 0; padding: 12px; border-radius: 16px; background: #efe5dc; }
 .rb-kanban-column h2 { display: flex; gap: 8px; align-items: center; justify-content: space-between; min-height: 38px; margin: 0 0 16px; font-size: 13px; line-height: 1.5; }
 .rb-kanban-column h2 span { border-radius: 99px; padding: 3px 8px; background: #fff8; }
@@ -45,7 +45,9 @@
 .rb-kanban-card p { margin: 0; line-height: 1.5; }
 .rb-kanban-card > span { color: var(--color-muted); }
 .rb-kanban-card .rb-order-code { font-weight: 700; color: var(--color-primary-dark); }
-.rb-cancelled-toggle { margin-top: 20px; }
+.rb-order-archive-toggles { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 20px; }
+.rb-order-archive-toggles button[aria-expanded="true"] { background: var(--color-primary-dark, #943410); color: white; }
+.rb-archive-heading { margin-top: 24px; font-size: 18px; }
 .rb-cancelled-orders { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; margin-top: 16px; }
 .rb-onboarding { max-width: 720px; margin: 0 auto; }
 .rb-onboarding > p { line-height: 1.7; color: var(--color-muted); }

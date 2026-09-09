@@ -26,10 +26,14 @@ export default function AvatarDropdown() {
     <div className="avatar-dropdown" ref={ref}>
       <button className="profile-trigger" type="button" aria-label="Mở menu tài khoản" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen(!open)}>{initials}</button>
       {open && <div className="avatar-menu" role="menu">
-        <header><strong>{currentUser.fullName}</strong><span>{ROLE_LABELS[currentUser.role] || currentUser.role}</span></header>
+        <header className="rb-account-summary"><span className="rb-account-initials" aria-hidden="true">{initials}</span>
+          <div><strong>{currentUser.fullName}</strong><span className="rb-account-role">{ROLE_LABELS[currentUser.role] || currentUser.role}</span></div>
+        </header>
         <div className="avatar-menu-items">
           <MenuItem label="Thông tin tài khoản" onClick={() => go(currentUser.role === 'merchant' ? '/merchant/profile' : '/profile')} />
           <MenuItem label="Đổi mật khẩu" onClick={() => { setOpen(false); setShowPassword(true); }} />
+          <MenuItem label="Quán đã lưu" onClick={() => go('/my-favorites')} />
+          {currentUser.role === 'customer' && <MenuItem label="Điểm của tôi" onClick={() => go('/my-points')} />}
           {currentUser.role === 'merchant' ? <><MenuItem label="Quản lý quán" onClick={() => go('/merchant/dashboard')} /><MenuItem label="Đơn hàng của quán" onClick={() => go('/merchant/orders')} /></>
             : currentUser.role === 'admin' ? <MenuItem label="Quản trị hệ thống" onClick={() => go('/admin/overview')} />
               : <><MenuItem label="Đơn của tôi" onClick={() => go('/my-orders')} /><MenuItem label="Giỏ hàng của tôi" onClick={() => go('/my-carts')} /></>}

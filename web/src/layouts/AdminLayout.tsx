@@ -5,6 +5,7 @@ const ADMIN_NAV = [
   { path: '/admin/overview', label: 'Tổng quan' },
   { path: '/admin/restaurants', label: 'Quán ăn' },
   { path: '/admin/users', label: 'Người dùng' },
+  { path: '/admin/vouchers', label: 'Voucher' },
   { path: '/admin/merchant-applications', label: 'Hồ sơ đối tác' },
 ];
 

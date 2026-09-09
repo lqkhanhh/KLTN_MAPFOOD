@@ -35,7 +35,7 @@ describe('Thông báo: quyền sở hữu và tính nhất quán với đơn hà
       publish: jest.fn(() => { events.push('emit-notice'); }),
     };
     const ds = { transaction: async (callback: any) => { const result = await callback(manager); events.push('commit'); return result; } };
-    const service = new OrdersService(ds as never, { emitStatusUpdated: jest.fn() } as never, notifications as never);
+    const service = new OrdersService(ds as never, { emitStatusUpdated: jest.fn() } as never, notifications as never, { earn: jest.fn() } as never);
     jest.spyOn(service, 'findEntity').mockResolvedValue(order as never);
     jest.spyOn(service, 'toPublicOrder').mockImplementation((value) => value as never);
     await service.updateStatus('order', next, { sub: 'merchant', role: UserRole.MERCHANT, email: 'm@test.local' });
@@ -46,7 +46,7 @@ describe('Thông báo: quyền sở hữu và tính nhất quán với đơn hà
     const notifications = { create: jest.fn().mockRejectedValue(new Error('write failed')), publish: jest.fn() };
     const order = { id: 'order', userId: 'customer', status: OrderStatus.PENDING };
     const manager = { findOne: async () => order, findOneBy: async () => ({ ownerId: 'merchant' }), save: jest.fn() };
-    const service = new OrdersService({ transaction: (callback: any) => callback(manager) } as never, {} as never, notifications as never);
+    const service = new OrdersService({ transaction: (callback: any) => callback(manager) } as never, {} as never, notifications as never, { earn: jest.fn() } as never);
     await expect(service.updateStatus('order', OrderStatus.CONFIRMED, { sub: 'merchant', role: UserRole.MERCHANT, email: 'm@test.local' })).rejects.toThrow('write failed');
     expect(notifications.publish).not.toHaveBeenCalled();
   });

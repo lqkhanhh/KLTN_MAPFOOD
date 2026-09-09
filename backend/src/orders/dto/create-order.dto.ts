@@ -62,6 +62,11 @@ export class PaymentOptionDto {
 }
 
 export class CreateOrderDto {
+  @ApiPropertyOptional({ format: 'uuid' })
+  @IsOptional()
+  @IsUUID()
+  userVoucherId?: string;
+
   @ApiProperty({ format: 'uuid' })
   @IsUUID()
   restaurantId: string;

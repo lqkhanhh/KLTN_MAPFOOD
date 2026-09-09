@@ -1,0 +1,39 @@
+.rb-chat-bell { position: relative; }
+.account-menu .rb-chat-bell button.rb-chat-bell-trigger { position: relative; display: grid; place-items: center; width: 40px; height: 40px; padding: 0; border: 1px solid var(--color-border); border-radius: 50%; background: white; color: var(--color-text); cursor: pointer; }
+.account-menu .rb-chat-bell button::after { content: none; }
+.rb-chat-unread { position: absolute; top: -5px; right: -5px; min-width: 20px; height: 20px; padding: 0 4px; border-radius: 20px; background: var(--color-primary); color: white; font: 700 10px/20px var(--font-vietnamese); text-align: center; }
+.rb-chat-inbox { position: absolute; right: 0; top: calc(100% + 10px); width: min(340px, calc(100vw - 24px)); max-height: min(480px, calc(100dvh - 140px)); overflow: auto; background: white; border: 1px solid var(--color-border); border-radius: 16px; box-shadow: var(--shadow); z-index: 160; }
+.rb-chat-inbox header { padding: 16px; border-bottom: 1px solid var(--color-border); }
+.rb-chat-inbox h2 { margin: 0; font: 700 17px/1.5 var(--font-vietnamese); }
+.rb-chat-inbox>p,.rb-inbox-error { padding: 16px; font-size: 13px; }
+.account-menu .rb-chat-inbox button.rb-conversation { display: grid; gap: 5px; width: 100%; height: auto; padding: 14px 16px; border: 0; border-bottom: 1px solid var(--color-border); border-radius: 0; background: white; color: var(--color-text); text-align: left; white-space: normal; cursor: pointer; font: 14px/1.5 var(--font-vietnamese); }
+.account-menu .rb-chat-inbox button.rb-conversation.unread { background: var(--color-primary-soft); }
+.account-menu .rb-chat-inbox button.rb-conversation:hover { background: #faf1e9; }
+.rb-conversation>span:first-child { display: flex; justify-content: space-between; gap: 8px; }
+.rb-conversation strong { overflow-wrap: anywhere; }
+.rb-conversation b { flex-shrink: 0; border-radius: 12px; padding: 0 6px; background: var(--color-primary); color: white; }
+.rb-conversation-preview { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; min-width: 0; }
+.rb-conversation time,.rb-conversation small { font-size: 11px; color: var(--color-muted); }
+.rb-ai-trigger { position: fixed; right: 20px; bottom: 100px; z-index: 130; width: 50px; height: 50px; border: 0; border-radius: 50%; background: var(--color-primary-dark); color: white; font-weight: 800; box-shadow: var(--shadow); cursor: pointer; }
+.rb-ai-panel { position: fixed; right: 20px; bottom: 160px; width: min(380px, calc(100vw - 24px)); height: min(590px, calc(100dvh - 180px)); display: flex; flex-direction: column; z-index: 140; border: 1px solid var(--color-border); border-radius: 18px; background: white; overflow: hidden; box-shadow: var(--shadow); }
+.rb-ai-panel>header { display: flex; align-items: center; gap: 8px; padding: 14px; background: var(--color-primary-soft); }
+.rb-ai-panel h2 { font: 700 17px/1.5 var(--font-vietnamese); margin: 0; }
+.rb-ai-panel header small { font-size: 11px; }
+.rb-ai-panel header button { margin-left: auto; border: 0; border-radius: 50%; background: white; width: 32px; height: 32px; flex-shrink: 0; font-size: 22px; cursor: pointer; }
+.rb-ai-disclaimer { margin: 0; padding: 10px 14px; color: var(--color-muted); font-size: 11px; line-height: 1.5; }
+.rb-ai-messages { flex: 1; min-height: 40px; overflow: auto; overscroll-behavior: contain; padding: 12px; display: flex; flex-direction: column; gap: 12px; font-size: 13px; }
+.rb-ai-message { max-width: 90%; align-self: flex-start; border-radius: 12px; background: #f5ede6; padding: 10px 12px; overflow-wrap: anywhere; }
+.rb-ai-message.user { align-self: flex-end; background: var(--color-primary-dark); color: white; }
+.rb-ai-message small { font-size: 10px; }
+.rb-ai-message p { white-space: pre-wrap; margin: 5px 0 0; line-height: 1.6; }
+.rb-ai-suggestions { display: grid; gap: 8px; }
+.rb-ai-suggestions button { background: white; border: 1px solid var(--color-border); border-radius: 12px; padding: 8px; text-align: left; font: inherit; cursor: pointer; }
+.rb-ai-actions { padding: 8px 12px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; font-size: 11px; }
+.rb-ai-actions button { border: 0; background: transparent; color: var(--color-primary-dark); cursor: pointer; font: inherit; }
+.rb-ai-panel>form { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--color-border); align-items: flex-end; }
+.rb-ai-panel form label { display: grid; gap: 4px; font-size: 11px; flex: 1; min-width: 0; }
+.rb-ai-panel input { width: 100%; min-width: 0; font-size: 13px; padding: 10px; }
+.rb-ai-panel form button { padding: 10px 14px; border: 0; border-radius: 14px; background: var(--color-primary-dark); color: white; cursor: pointer; }
+.rb-ai-panel button:disabled { opacity: .5; cursor: not-allowed; }
+.rb-ai-error { margin: 0; padding: 8px 12px; max-height: 90px; overflow: auto; background: #fff0eb; color: var(--color-danger); font-size: 12px; }
+@media(max-width:600px) { .rb-chat-inbox { position: fixed; top: 116px; right: 12px; } .rb-ai-panel { right: 12px; } .rb-ai-trigger { right: 12px; } }

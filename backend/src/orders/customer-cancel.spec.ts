@@ -15,7 +15,7 @@ describe('Customer cancellation authorization', () => {
     manager.findOne.mockImplementation(async () => order);
     manager.findOneBy.mockResolvedValue({ ownerId: 'merchant' });
     const dataSource = { transaction: async (callback: (value: typeof manager) => unknown) => callback(manager) };
-    service = new OrdersService(dataSource as never, gateway as never, { create: jest.fn().mockResolvedValue(undefined), publish: jest.fn() } as never);
+    service = new OrdersService(dataSource as never, gateway as never, { create: jest.fn().mockResolvedValue(undefined), publish: jest.fn() } as never, { earn: jest.fn() } as never);
     jest.spyOn(service, 'findEntity').mockImplementation(async () => order);
     jest.spyOn(service, 'toPublicOrder').mockImplementation((value) => value as never);
   });

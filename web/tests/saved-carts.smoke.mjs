@@ -39,6 +39,9 @@ await page.route('**/*', async (route) => {
   apiCalls.push(method + ' ' + path);
   if (path.startsWith('/api/restaurants/')) return route.fulfill({ json: restaurant(path.split('/').at(-1)) });
   if (path === '/api/restaurants') return route.fulfill({ json: { data: [], total: 0 } });
+  if (path === '/api/favorites' || path === '/api/vouchers/my-vouchers') return route.fulfill({ json: [] });
+  if (path === '/api/notifications/unread-count') return route.fulfill({ json: { unreadCount: 0 } });
+  if (path === '/api/orders/created') return route.fulfill({ json: { id: 'created', orderCode: 'Đơn mới', status: 'PENDING', paymentMethod: 'cash', paymentStatus: 'UNPAID', totalAmount: 100000 } });
   if (path === '/api/orders' && method === 'POST') {
     assert.equal(route.request().postDataJSON().restaurantId, 'A');
     return route.fulfill({ json: { id: 'created', orderCode: 'Đơn mới' } });

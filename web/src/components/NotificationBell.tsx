@@ -30,7 +30,7 @@ export function NotificationBell() {
       if (notification) {
         await markRead(notification);
         setOpen(false);
-        if (typeof notification.data?.orderId === 'string') navigate(`${currentUser.role === 'merchant' ? '/merchant' : ''}/orders/${encodeURIComponent(notification.data.orderId)}`);
+        if (typeof notification.data?.orderId === 'string') navigate(`${currentUser.role === 'merchant' ? '/merchant' : ''}/orders/${encodeURIComponent(notification.data.orderId)}${notification.data.type === 'new_message' ? '?chat=1' : ''}`);
       } else await markAll();
     } catch { setActionError('Không thể đánh dấu đã đọc. Vui lòng thử lại.'); }
     finally { setBusy(false); }

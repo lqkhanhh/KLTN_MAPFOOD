@@ -1,17 +1,19 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
 export function useCurrentLocation() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  function getCurrentLocation() {
+  const getCurrentLocation = useCallback(({ resolveAddress = true } = {}) => {
     return new Promise((resolve, reject) => {
       if (!navigator.geolocation) { const message = 'Trình duyệt không hỗ trợ định vị.'; setError(message); reject(new Error(message)); return; }
       setLoading(true); setError('');
       navigator.geolocation.getCurrentPosition(async ({ coords }) => {
         const point = { lat: coords.latitude, lng: coords.longitude, address: `${coords.latitude.toFixed(5)}, ${coords.longitude.toFixed(5)}` };
         try {
+          if (resolveAddress) {
           const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&accept-language=vi&lat=${point.lat}&lon=${point.lng}`);
           const data = await response.json(); point.address = data.display_name || point.address;
+          }
         } catch { /* Vẫn dùng được tọa độ thật nếu reverse geocode lỗi. */ }
         setLoading(false); resolve(point);
       }, (positionError) => {
@@ -19,6 +21,6 @@ export function useCurrentLocation() {
         setLoading(false); setError(message); reject(new Error(message));
       }, { enableHighAccuracy: true, timeout: 10000 });
     });
-  }
+  }, []);
   return { getCurrentLocation, loading, error };
 }

@@ -15,7 +15,8 @@ export class RestaurantsService {
     const qb = this.restaurants
       .createQueryBuilder('restaurant')
       .leftJoinAndSelect('restaurant.menuItems', 'menuItems')
-      .where('restaurant.active = :active', { active: true });
+      .where('restaurant.active = :active', { active: true })
+      .andWhere('restaurant.suspendedAt IS NULL AND restaurant.suspendedReason IS NULL');
 
     if (query.category?.trim()) {
       qb.andWhere('restaurant.category = :category', { category: query.category.trim() });
@@ -26,7 +27,8 @@ export class RestaurantsService {
         new Brackets((where) =>
           where
             .where('restaurant.name ILIKE :search', { search })
-            .orWhere('menuItems.name ILIKE :search', { search }),
+            // Tìm món bằng EXISTS để không cắt mất các món khác trong menu trả về.
+            .orWhere('EXISTS (SELECT 1 FROM menu_items dish WHERE dish."restaurantId" = restaurant.id AND dish.name ILIKE :search)', { search }),
         ),
       );
     }
@@ -35,6 +37,7 @@ export class RestaurantsService {
       .orderBy('restaurant.rating', 'DESC')
       .addOrderBy('restaurant.reviewCount', 'DESC')
       .addOrderBy('restaurant.createdAt', 'DESC')
+      .addOrderBy('restaurant.id', 'ASC')
       .skip((page - 1) * limit)
       .take(limit)
       .getManyAndCount();
@@ -49,13 +52,33 @@ export class RestaurantsService {
     });
   }
 
-  async findOne(id: string) {
-    const restaurant = await this.restaurants.findOne({
-      where: { id },
-      relations: ['menuItems', 'reviews'],
-    });
+  async findOne(id: string, manager?: AuthenticatedUser) {
+    const restaurant = await this.restaurants.createQueryBuilder('restaurant')
+      .leftJoinAndSelect('restaurant.menuItems', 'menuItems')
+      .leftJoinAndSelect('restaurant.reviews', 'review')
+      // Chỉ lấy tên hiển thị, tuyệt đối không tải toàn bộ tài khoản người đánh giá.
+      .leftJoin('review.user', 'reviewUser')
+      .addSelect(['reviewUser.id', 'reviewUser.fullName'])
+      .where('restaurant.id = :id', { id })
+      .orderBy('review.createdAt', 'DESC')
+      .addOrderBy('review.id', 'DESC')
+      .getOne();
     if (!restaurant) throw new NotFoundException('Không tìm thấy quán');
-    return restaurant;
+    // Đường dẫn công khai không được lộ menu của quán đã ngưng hoạt động.
+    // Quyền quản lý được cấp ở endpoint riêng, không theo dữ liệu client tự khai báo.
+    if (manager) {
+      if (manager.role !== UserRole.ADMIN && restaurant.ownerId !== manager.sub) throw new ForbiddenException();
+    } else if (!restaurant.active || restaurant.suspendedAt != null || restaurant.suspendedReason != null) {
+      throw new ForbiddenException('Quán đang tạm ngưng hoạt động, không thể xem menu hoặc đặt món.');
+    }
+    return {
+      ...restaurant,
+      reviews: (restaurant.reviews ?? []).map((review) => ({
+        id: review.id, rating: review.rating, comment: review.comment,
+        createdAt: review.createdAt,
+        customer: { fullName: review.user?.fullName || 'Khách hàng' },
+      })),
+    };
   }
 
   create(dto: RestaurantDto, user: AuthenticatedUser) {
@@ -82,13 +105,18 @@ export class RestaurantsService {
     if (restaurant.ownerId !== user.sub && user.role !== UserRole.ADMIN) {
       throw new ForbiddenException();
     }
+    const suspended = restaurant.suspendedAt != null || restaurant.suspendedReason != null;
+    // Endpoint sửa quán không có quyền gỡ đình chỉ, kể cả client gửi active cũ khi lưu menu.
+    if (suspended && dto.active === true) {
+      throw new ForbiddenException('Quán đang bị Admin đình chỉ. Chỉ Admin mới được kích hoạt lại quán.');
+    }
     Object.assign(restaurant, {
       name: dto.name,
       address: dto.address,
       category: dto.category?.trim() || undefined,
       imageUrl: dto.imageUrl !== undefined ? dto.imageUrl?.trim() || null : restaurant.imageUrl,
       openingHours: dto.openingHours,
-      active: dto.active ?? restaurant.active,
+      active: suspended ? false : dto.active ?? restaurant.active,
       location: { type: 'Point', coordinates: [dto.longitude, dto.latitude] },
     });
     await manager.save(Restaurant, restaurant);

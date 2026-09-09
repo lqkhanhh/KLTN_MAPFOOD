@@ -86,8 +86,9 @@ export class AuthService {
       secret: process.env.JWT_REFRESH_SECRET,
       expiresIn: '30d',
     });
-    user.refreshTokenHash = await bcrypt.hash(refreshToken, 10);
-    await this.users.save(user);
+    // Không ghi lại toàn bộ user: tránh đè số dư xu vừa thay đổi ở transaction khác.
+    await this.users.update(user.id, { refreshTokenHash: await bcrypt.hash(refreshToken, 10) });
+    const balance = await this.users.findOne({ where: { id: user.id }, select: { pointsBalance: true } });
     return {
       accessToken,
       refreshToken,
@@ -97,6 +98,7 @@ export class AuthService {
         fullName: user.fullName,
         phone: user.phone,
         role: user.role,
+        pointsBalance: balance?.pointsBalance ?? 0,
       },
     };
   }

@@ -9,6 +9,7 @@ import {
 import { Restaurant } from './restaurant.entity';
 import { Order } from './order.entity';
 import { Review } from './review.entity';
+import { integerMoneyTransformer } from './numeric.transformer';
 
 export enum UserRole {
   CUSTOMER = 'customer',
@@ -35,6 +36,9 @@ export class User {
 
   @Column({ type: 'enum', enum: UserRole, default: UserRole.CUSTOMER })
   role: UserRole;
+
+  @Column({ type: 'numeric', precision: 14, scale: 0, default: 0, transformer: integerMoneyTransformer })
+  pointsBalance: number;
 
   @Column({ nullable: true })
   refreshTokenHash?: string;

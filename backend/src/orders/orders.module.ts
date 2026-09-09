@@ -6,9 +6,10 @@ import { OrdersService } from './orders.service';
 import { OrdersController } from './orders.controller';
 import { OrdersGateway } from './gateway/orders.gateway';
 import { NotificationsModule } from '../notifications/notifications.module';
+import { LoyaltyModule } from '../loyalty/loyalty.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Order, Restaurant]), AuthModule, NotificationsModule],
+  imports: [TypeOrmModule.forFeature([Order, Restaurant]), AuthModule, NotificationsModule, LoyaltyModule],
   providers: [OrdersService, OrdersGateway],
   controllers: [OrdersController],
   exports: [OrdersService, OrdersGateway],

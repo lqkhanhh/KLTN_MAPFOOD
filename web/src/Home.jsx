@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { request } from './api';
 import { useCurrentLocation } from './hooks/useCurrentLocation';
 import RestaurantCard from './components/RestaurantCard';
+import { ReorderSuggestions } from './components/ReorderSuggestions';
 import LocationAutocomplete from './components/LocationAutocomplete';
 import { routeQuery } from './utils/routeContext';
 
@@ -69,6 +70,7 @@ export default function Home() {
     </section>
     <section className="route-categories"><h2>Danh mục nhanh</h2><div><button type="button" className={!activeCategory ? 'active' : ''} onClick={() => { setActiveCategory(''); setSearched(false); }}>Tất cả</button>{QUICK_CATEGORIES.map((category) => <button type="button" className={activeCategory === category.value ? 'active' : ''} key={category.value} onClick={() => { setActiveCategory(category.value); setSearched(false); }}>{category.label}</button>)}</div></section>
     <section className="route-results"><div className="route-results-heading"><div><p>{searched ? 'TÌM THEO LỘ TRÌNH' : 'KHÁM PHÁ GẦN BẠN'}</p><h2>{heading}</h2></div>{message && <span>{message}</span>}</div>{searching ? <div className="restaurant-result-grid">{[1, 2, 3].map((item) => <div className="restaurant-skeleton" key={item} />)}</div> : restaurants.length ? <div className="restaurant-result-grid">{restaurants.map((restaurant, index) => <RestaurantCard key={restaurant.id} restaurant={restaurant} rank={searched ? index + 1 : undefined} onOpen={() => navigate(`/restaurant/${restaurant.id}${routeQuery(resultOrigin)}`)} />)}</div> : <div className="route-empty">{searched ? 'Không tìm thấy quán phù hợp trong phạm vi 500m quanh tuyến đường này.' : 'Chưa có quán công khai để hiển thị.'}</div>}</section>
+    {!searched && <ReorderSuggestions />}
     {mapTarget && <MapPicker initialCenter={mapTarget === 'start' ? startPoint : endPoint} onClose={() => setMapTarget(null)} onPick={(location) => { (mapTarget === 'start' ? setStartPoint : setEndPoint)(location); setMapTarget(null); }} />}
   </main>;
 }

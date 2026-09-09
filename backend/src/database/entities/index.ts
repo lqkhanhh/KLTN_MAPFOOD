@@ -2,4 +2,7 @@ export * from './user.entity'; export * from './restaurant.entity'; export * fro
 import { User } from './user.entity'; import { Restaurant } from './restaurant.entity'; import { MenuItem } from './menu-item.entity'; import { Order } from './order.entity'; import { OrderItem } from './order-item.entity'; import { Payment } from './payment.entity'; import { Review } from './review.entity'; import { RouteSearchLog } from './route-search-log.entity';
 import { Notification } from '../../notifications/entities/notification.entity';
 import { MerchantApplication, MerchantApplicationDocument } from '../../merchant-applications/merchant-application.entity';
-export const entities = [User, Restaurant, MenuItem, Order, OrderItem, Payment, Review, RouteSearchLog, Notification, MerchantApplication, MerchantApplicationDocument];
+import { Favorite } from '../../favorites/favorite.entity';
+import { Message } from '../../messages/message.entity';
+import { Voucher, UserVoucher, PointsTransaction } from '../../loyalty/loyalty.entity';
+export const entities = [User, Restaurant, MenuItem, Order, OrderItem, Payment, Review, RouteSearchLog, Notification, MerchantApplication, MerchantApplicationDocument, Favorite, Message, Voucher, UserVoucher, PointsTransaction];

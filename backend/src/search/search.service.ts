@@ -24,7 +24,7 @@ export class SearchService {
       `SELECT r.*, ST_Distance(r.location, route.line) AS distance_meters,
        (COALESCE(r.rating,0) * 100 - ST_Distance(r.location, route.line) / 10) AS convenience_score
        FROM restaurants r CROSS JOIN (SELECT ST_GeogFromText($1) AS line) route
-       WHERE r.active = true AND ST_DWithin(r.location, route.line, $2)
+       WHERE r.active = true AND r."suspendedAt" IS NULL AND r."suspendedReason" IS NULL AND ST_DWithin(r.location, route.line, $2)
        ORDER BY convenience_score DESC, r.rating DESC`,
       [route.line, dto.radius],
     );

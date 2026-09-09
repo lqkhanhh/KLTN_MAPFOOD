@@ -78,7 +78,7 @@ describe('OrdersService', () => {
       getRepository: jest.fn(() => repository),
     } as unknown as DataSource;
     gateway = { emitCreated: jest.fn(), emitStatusUpdated: jest.fn() };
-    service = new OrdersService(dataSource, gateway as never, { create: jest.fn(), publish: jest.fn() } as never);
+    service = new OrdersService(dataSource, gateway as never, { create: jest.fn(), publish: jest.fn() } as never, { earn: jest.fn(), apply: jest.fn().mockResolvedValue({ discountAmount: 0, voucherId: null, userVoucher: null }) } as never);
   });
 
   it('creates a BOOKING in a transaction with PENDING/UNPAID', async () => {

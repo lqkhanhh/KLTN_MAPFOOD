@@ -1,0 +1,25 @@
+.rb-explore-search { margin: 24px 0 18px; }
+.rb-explore-search label { display: block; margin-bottom: 9px; font-weight: 700; }
+.rb-explore-search > div { display: flex; align-items: center; gap: 10px; padding: 5px 16px; background: white; border: 1px solid #e5d6c9; border-radius: 999px; }
+.rb-explore-search input { min-width: 0; flex: 1; border: 0; border-radius: 999px; padding: 12px 0; font: inherit; background: transparent; }
+.rb-explore-search > div:focus-within { outline: 2px solid #c1440e; outline-offset: 2px; }
+.rb-explore-search input:focus { outline: none; }
+.rb-explore-search button, .rb-favorites-feedback button, .rb-explore-map-section > p button { border: 0; background: #f4e4d6; color: #943410; border-radius: 999px; padding: 8px 14px; font: inherit; cursor: pointer; }
+.rb-explore-map-section { margin-bottom: 24px; padding: 14px; background: #fff; border: 1px solid #e5d6c9; border-radius: 20px; }
+.rb-map-toolbar { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+.rb-map-toolbar p { margin: 0; font-size: 14px; color: #716158; }
+.rb-explore-map { height: 400px; width: 100%; border-radius: 14px; background: #ebe5dc; z-index: 0; isolation: isolate; }
+.rb-shop-marker { display: grid; place-items: center; border: 3px solid white; border-radius: 50%; background: #c1440e; color: white; box-shadow: 0 2px 7px #0005; font-size: 14px; }
+.rb-map-note { margin: 12px 0 0; font-size: 13px; color: #716158; line-height: 1.6; }
+.rb-favorites-feedback { padding: 14px 22px; background: #fff1e7; color: #7e321a; border-bottom: 1px solid #e5d6c9; line-height: 1.6; }
+.restaurant-save[aria-pressed="true"] { color: #c1440e; background: #fff0e6; }
+.restaurant-save:disabled { opacity: .55; cursor: wait; }
+.restaurant-save:focus-visible, .restaurant-search-card:focus-visible { outline: 3px solid #c1440e; outline-offset: 3px; }
+.restaurant-search-body > div { flex-wrap: wrap; }
+.restaurant-search-body > small { display: block; margin-top: 8px; color: #9b341b; }
+@media (max-width: 600px) {
+  .rb-explore-map { height: 300px; }
+  .rb-explore-map-section { padding: 10px; }
+  .rb-map-toolbar { align-items: flex-start; }
+  .rb-map-toolbar button { width: 100%; }
+}

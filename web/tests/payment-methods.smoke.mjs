@@ -16,6 +16,7 @@ try {
     const errors = [];
     const orderBodies = [];
     const paymentBodies = [];
+    const fixtureOrder = { id: 'created', orderCode: 'TEST123', status: 'PENDING', paymentStatus: 'UNPAID', paymentMethod: scenario === 'cash' ? 'cash' : 'vnpay', totalAmount: 50000 };
     page.on('pageerror', (error) => errors.push(error.message));
     await context.addInitScript(() => {
       localStorage.setItem('routebite_access_token', 'isolated-payment-test');
@@ -32,7 +33,7 @@ try {
       } });
       if (path === '/api/orders' && route.request().method() === 'POST') {
         orderBodies.push(route.request().postDataJSON());
-        return route.fulfill({ json: { id: 'created', orderCode: 'TEST123' } });
+        return route.fulfill({ json: fixtureOrder });
       }
       if (path === '/api/payments/create') {
         paymentBodies.push(route.request().postDataJSON());
@@ -41,6 +42,7 @@ try {
           : route.fulfill({ json: { checkoutUrl: 'https://payment.example.test/checkout' } });
       }
       if (path === '/api/notifications') return route.fulfill({ json: { items: [], unreadCount: 0 } });
+      if (path === '/api/orders/created') return route.fulfill({ json: fixtureOrder });
       return route.abort();
     });
     await page.goto('http://127.0.0.1:4173/restaurant/test');
@@ -62,7 +64,9 @@ try {
     if (scenario === 'vnpay') await page.waitForURL('https://payment.example.test/checkout');
     else {
       await page.getByRole('status').filter({ hasText: scenario === 'cash' ? 'Thanh toán tiền mặt khi ghé lấy' : 'Chưa cấu hình VNPAY_TMN_CODE' }).waitFor();
-      await page.getByRole('link', { name: 'Xem đơn vừa đặt' }).waitFor();
+      await page.getByRole('link', { name: 'Xem chi tiết đơn' }).waitFor();
+      await page.locator('.rb-order-stepper [aria-current="step"]').filter({ hasText: 'Chờ xác nhận' }).waitFor();
+      assert.equal(await page.getByText('Đã thanh toán qua VNPAY.', { exact: false }).count(), 0);
       assert.deepEqual(await page.evaluate(() => JSON.parse(localStorage.getItem('routebite_saved_carts_v1'))), []);
     }
     assert.equal(orderBodies.length, 1);

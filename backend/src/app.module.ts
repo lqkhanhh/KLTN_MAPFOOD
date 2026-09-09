@@ -11,6 +11,9 @@ import { AdminModule } from './admin/admin.module';
 import { entities } from './database/entities';
 import { NotificationsModule } from './notifications/notifications.module';
 import { MerchantApplicationsModule } from './merchant-applications/merchant-applications.module';
+import { FavoritesModule } from './favorites/favorites.module';
+import { MessagesModule } from './messages/messages.module';
+import { SupportModule } from './support/support.module';
 
 @Module({ imports: [
   ConfigModule.forRoot({ isGlobal: true }),
@@ -28,6 +31,6 @@ import { MerchantApplicationsModule } from './merchant-applications/merchant-app
       autoLoadEntities: true,
     }),
   }),
-  AuthModule, RestaurantsModule, SearchModule, OrdersModule, PaymentsModule, ReviewsModule, AdminModule, NotificationsModule, MerchantApplicationsModule,
+  AuthModule, RestaurantsModule, SearchModule, OrdersModule, PaymentsModule, ReviewsModule, AdminModule, NotificationsModule, MerchantApplicationsModule, FavoritesModule, MessagesModule, SupportModule,
 ] })
 export class AppModule {}

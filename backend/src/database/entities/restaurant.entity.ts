@@ -1,5 +1,6 @@
 import {
   Column,
+  Check,
   CreateDateColumn,
   Entity,
   ManyToOne,
@@ -13,6 +14,7 @@ import { Review } from './review.entity';
 import { Order } from './order.entity';
 
 @Entity('restaurants')
+@Check('CHK_restaurants_suspension_inactive', 'NOT active OR ("suspendedAt" IS NULL AND "suspendedReason" IS NULL)')
 export class Restaurant {
   @PrimaryGeneratedColumn('uuid')
   id: string;

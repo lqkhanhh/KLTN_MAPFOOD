@@ -23,6 +23,8 @@ import {
 import { CreateOrderDto, ListOrdersQueryDto } from './dto';
 import { OrdersGateway } from './gateway/orders.gateway';
 import { NotificationsService } from '../notifications/notifications.service';
+import { LoyaltyService } from '../loyalty/loyalty.service';
+import { UserVoucher } from '../loyalty/loyalty.entity';
 
 export const ORDER_STATUS_TRANSITIONS: Readonly<Record<OrderStatus, readonly OrderStatus[]>> = {
   [OrderStatus.PENDING]: [OrderStatus.CONFIRMED, OrderStatus.CANCELLED],
@@ -41,6 +43,7 @@ export class OrdersService {
     private readonly dataSource: DataSource,
     private readonly gateway: OrdersGateway,
     private readonly notifications: NotificationsService,
+    private readonly loyalty: LoyaltyService,
   ) {}
 
   async create(dto: CreateOrderDto, user: AuthenticatedUser) {
@@ -53,7 +56,7 @@ export class OrdersService {
         lock: { mode: 'pessimistic_read' },
       });
       if (!restaurant) throw new NotFoundException('Không tìm thấy quán');
-      if (!restaurant.active) throw new ConflictException('Quán đang tạm ngừng nhận đơn');
+      if (!restaurant.active || restaurant.suspendedAt != null || restaurant.suspendedReason != null) throw new ConflictException('Quán đang tạm ngừng nhận đơn');
       const customer = await manager.findOneBy(User, { id: user.sub });
       if (!customer) throw new NotFoundException('Không tìm thấy tài khoản khách hàng');
       if (!customer.phone) throw new BadRequestException('Vui lòng cập nhật số điện thoại trước khi đặt đơn');
@@ -99,7 +102,8 @@ export class OrdersService {
         }
         return sum + item.lineTotal;
       }, 0);
-      const discountAmount = 0;
+      const applied = await this.loyalty.apply(manager, user.sub, dto.userVoucherId, subtotal);
+      const discountAmount = applied.discountAmount;
 
       const order = manager.create(Order, {
         orderCode: this.createOrderCode(),
@@ -111,9 +115,10 @@ export class OrdersService {
         estimatedPickupAt: pickup.estimatedPickupAt,
         paymentMethod: dto.payment.method,
         status: OrderStatus.PENDING,
-        paymentStatus: OrderPaymentStatus.UNPAID,
+        paymentStatus: subtotal === discountAmount ? OrderPaymentStatus.PAID : OrderPaymentStatus.UNPAID,
         subtotal,
         discountAmount,
+        appliedVoucherId: applied.voucherId,
         totalAmount: subtotal - discountAmount,
         customerName: customer.fullName,
         customerPhone: customer.phone,
@@ -121,7 +126,10 @@ export class OrdersService {
         items: snapshots,
       });
       const saved = await manager.save(Order, order);
-      const notification = saved.paymentMethod === OrderPaymentMethod.CASH
+      if (applied.userVoucher) {
+        await manager.update(UserVoucher, applied.userVoucher.id, { usedInOrderId: saved.id });
+      }
+      const notification = saved.paymentMethod === OrderPaymentMethod.CASH || saved.paymentStatus === OrderPaymentStatus.PAID
         ? await this.notifications.create(restaurant.ownerId, 'Bạn có đơn hàng mới', `Đơn ${saved.orderCode} đang chờ xác nhận.`, { orderId: saved.id, type: 'order_created' }, manager)
         : undefined;
       return { orderId: saved.id, notification };
@@ -130,7 +138,7 @@ export class OrdersService {
     this.notifications.publish(result.notification);
     const created = await this.findEntity(result.orderId);
     // Tiền mặt cần báo quán ngay; VNPAY chỉ báo đơn mới sau callback thanh toán hợp lệ.
-    if (created.paymentMethod === OrderPaymentMethod.CASH) this.gateway.emitCreated(created);
+    if (created.paymentMethod === OrderPaymentMethod.CASH || created.paymentStatus === OrderPaymentStatus.PAID) this.gateway.emitCreated(created);
     return this.toPublicOrder(created);
   }
 
@@ -204,6 +212,7 @@ export class OrdersService {
       order.statusUpdatedAt = new Date();
       order.statusUpdatedById = user.sub;
       await manager.save(Order, order);
+      if (nextStatus === OrderStatus.COMPLETED) await this.loyalty.earn(manager, order);
       const messages: Partial<Record<OrderStatus, string>> = {
         CONFIRMED: 'Đơn hàng của bạn đã được xác nhận', PREPARING: 'Quán đang chuẩn bị món cho bạn',
         READY: 'Món của bạn đã sẵn sàng, mời ghé lấy!', CANCELLED: 'Đơn hàng của bạn đã bị hủy', COMPLETED: 'Đơn hàng đã hoàn tất, cảm ơn bạn!',
@@ -247,6 +256,7 @@ export class OrdersService {
       paymentStatus: order.paymentStatus,
       subtotal: order.subtotal,
       discountAmount: order.discountAmount,
+      appliedVoucherId: order.appliedVoucherId,
       totalAmount: order.totalAmount,
       customerName: order.customerName,
       customerPhone: order.customerPhone,
@@ -272,6 +282,7 @@ export class OrdersService {
         paidAt: payment.paidAt,
         createdAt: payment.createdAt,
       })),
+      hasReview: Boolean(order.review),
       review: order.review
         ? {
             id: order.review.id,

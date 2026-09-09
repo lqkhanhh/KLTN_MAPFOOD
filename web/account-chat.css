@@ -1,0 +1,39 @@
+/* Ghi đè quy tắc first-child cũ, chỉ trong dropdown; không ảnh hưởng avatar/chuông. */
+.account-menu .avatar-menu button[role="menuitem"], .consumer-header .account-menu .avatar-menu button[role="menuitem"] {
+  display: flex; width: 100%; height: auto; min-height: 44px; padding: 12px 20px; border: 0; border-radius: 0;
+  background: transparent; color: var(--color-text, #2b2320); font: inherit; font-size: 14px; font-weight: 500; white-space: normal; text-align: left; cursor: pointer;
+}
+.account-menu .avatar-menu button[role="menuitem"]::after { content: none; }
+.account-menu .avatar-menu button[role="menuitem"]:focus { outline: none; }
+.account-menu .avatar-menu button[role="menuitem"]:focus-visible { outline: 2px solid #943410; outline-offset: -3px; }
+.account-menu .avatar-menu button[role="menuitem"]:hover, .consumer-header .account-menu .avatar-menu button[role="menuitem"]:hover { background: #faf7f4; }
+.account-menu .avatar-menu button.danger[role="menuitem"], .consumer-header .account-menu .avatar-menu button.danger[role="menuitem"] { color: #ad322a; font-weight: 600; }
+.account-menu .avatar-menu button.danger[role="menuitem"]:hover, .consumer-header .account-menu .avatar-menu button.danger[role="menuitem"]:hover { background: #fff0ef; }
+.avatar-menu header.rb-account-summary { display: flex; align-items: center; gap: 12px; padding: 16px 20px; }
+.rb-account-summary > div { min-width: 0; }
+.rb-account-summary strong { display: block; }
+.avatar-menu .rb-account-summary .rb-account-initials { display: grid; place-items: center; flex-shrink: 0; width: 44px; height: 44px; border-radius: 50%; background: #943410; color: white; font-weight: 700; font-size: 14px; }
+.avatar-menu .rb-account-summary .rb-account-role { display: inline-block; margin-top: 5px; padding: 3px 8px; border-radius: 999px; background: #f4e4d6; color: #943410; font-size: 11px; font-weight: 600; }
+.rb-reorder-suggestions { margin-top: 32px; }
+.rb-reorder-suggestions h2 { font-family: inherit; }
+.rb-reorder-suggestions > p { color: #716158; }
+.rb-reorder-strip { display: flex; gap: 16px; overflow-x: auto; padding: 5px 3px 16px; }
+.rb-reorder-strip > article { flex: 0 0 224px; min-width: 0; }
+.rb-chat-drawer { position: fixed; right: 20px; bottom: 20px; z-index: 150; display: flex; flex-direction: column; width: min(380px, calc(100vw - 24px)); height: min(560px, calc(100dvh - 28px)); border: 1px solid #dacabe; border-radius: 18px; background: white; color: #2b2320; box-shadow: 0 15px 50px #2b232035; overflow: hidden; }
+.rb-chat-drawer > header { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px; background: #f7eee6; }
+.rb-chat-drawer h2 { margin: 0 0 5px; font-family: inherit; font-size: 17px; font-weight: 700; line-height: 1.4; }
+.rb-chat-drawer header button { width: 36px; height: 36px; border: 0; border-radius: 50%; background: white; font-size: 24px; cursor: pointer; }
+.rb-chat-drawer small { overflow-wrap: anywhere; }
+.rb-chat-connection { padding: 8px 14px; margin: 0; border-bottom: 1px solid #eadfd6; font-size: 11px; color: #716158; }
+.rb-chat-error { padding: 10px 14px; background: #fff0eb; color: #943410; font-size: 13px; }
+.rb-chat-error button { margin-left: 8px; border: 0; padding: 5px; cursor: pointer; }
+.rb-chat-messages { display: flex; flex-direction: column; gap: 12px; flex: 1; min-height: 0; padding: 16px; overflow-y: auto; overscroll-behavior: contain; }
+.rb-chat-messages > p { color: #716158; font-size: 14px; }
+.rb-chat-message { align-self: flex-start; max-width: 85%; padding: 10px 12px; border-radius: 14px 14px 14px 3px; background: #f4e9df; overflow-wrap: anywhere; }
+.rb-chat-message.mine { align-self: flex-end; border-radius: 14px 14px 3px 14px; background: #943410; color: white; }
+.rb-chat-message p { margin: 6px 0; white-space: pre-wrap; font-size: 14px; line-height: 1.5; }
+.rb-chat-message time, .rb-chat-message small { font-size: 10px; opacity: .85; }
+.rb-chat-drawer > form { display: flex; align-items: flex-end; gap: 8px; padding: 12px; border-top: 1px solid #eadfd6; }
+.rb-chat-input { flex: 1; min-width: 0; display: grid; gap: 4px; font-size: 12px; }
+.rb-chat-input input { width: 100%; min-width: 0; box-sizing: border-box; padding: 10px; border: 1px solid #dacabe; border-radius: 12px; font: inherit; font-size: 14px; }
+@media (max-width: 480px) { .rb-chat-drawer { right: 12px; bottom: 12px; } }

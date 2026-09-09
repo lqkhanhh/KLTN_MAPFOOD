@@ -50,12 +50,16 @@ export class AdminService {
     return { data: rows, page: query.page, limit: query.limit, total };
   }
 
-  async suspend(id: string, reason: string) { const restaurant = await this.restaurantsRepo.findOneBy({ id }); if (!restaurant) throw new NotFoundException('Không tìm thấy quán'); restaurant.active = false; restaurant.suspendedReason = reason.trim(); restaurant.suspendedAt = new Date(); return this.restaurantsRepo.save(restaurant); }
+  async suspend(id: string, reason: string) {
+    // UPDATE nguyên tử trên cùng hàng được merchant khóa: không save snapshot cũ ghi đè dữ liệu.
+    const result = await this.restaurantsRepo.update(id, { active: false, suspendedReason: reason.trim(), suspendedAt: new Date() });
+    if (!result.affected) throw new NotFoundException('Không tìm thấy quán');
+    return this.restaurantsRepo.findOneByOrFail({ id });
+  }
   async activate(id: string) {
-    const restaurant = await this.restaurantsRepo.findOneBy({ id });
-    if (!restaurant) throw new NotFoundException('Không tìm thấy quán');
     // TypeORM bỏ qua undefined khi save; dùng SQL NULL để xóa thông tin tạm ngưng.
-    await this.restaurantsRepo.update(id, { active: true, suspendedReason: () => 'NULL', suspendedAt: () => 'NULL' });
+    const result = await this.restaurantsRepo.update(id, { active: true, suspendedReason: () => 'NULL', suspendedAt: () => 'NULL' });
+    if (!result.affected) throw new NotFoundException('Không tìm thấy quán');
     return this.restaurantsRepo.findOneByOrFail({ id });
   }
 }

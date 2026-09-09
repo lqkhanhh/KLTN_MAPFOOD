@@ -15,7 +15,7 @@ export function DashboardPage() {
       <article><span>Doanh thu đơn hoàn thành</span><strong>{complete.filter((o) => o.paymentStatus === 'PAID').reduce((sum, o) => sum + Number(o.totalAmount), 0).toLocaleString('vi-VN')}đ</strong></article>
       <article><span>Món đang bán</span><strong>{restaurant?.menuItems.filter((i: any) => i.available).length || 0}</strong></article>
     </div>}
-    <div className="item-card rb-merchant-shop"><h2>Thông tin quán</h2><p>{restaurant?.address}</p><p>Giờ mở cửa: {restaurant?.openingHours}</p><p>{restaurant?.active ? 'Đang hoạt động' : 'Đang tạm ngừng'}</p>
+    <div className="item-card rb-merchant-shop"><h2>Thông tin quán</h2><p>{restaurant?.address}</p><p>Giờ mở cửa: {restaurant?.openingHours}</p><p>{restaurant?.suspendedAt != null || restaurant?.suspendedReason != null ? 'Bị Admin đình chỉ' : restaurant?.active ? 'Đang hoạt động' : 'Đang tạm ngừng'}</p>
       <div className="btn-row"><Link className="btn primary" to="/merchant/orders">Xử lý đơn hàng</Link><Link className="btn secondary" to="/merchant/menu">Quản lý Menu</Link></div>
     </div>
     <p className="rb-merchant-hint">Số liệu tính từ toàn bộ đơn của quán đang chọn, không phải thống kê riêng hôm nay.</p>

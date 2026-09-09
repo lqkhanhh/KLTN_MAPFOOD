@@ -54,6 +54,8 @@ for (const file of files) {
 }
 if (issues.length) {
   console.error('BLOCKED: Git snapshot may contain sensitive/generated files. Values are redacted.');
-  for (const issue of [...new Set(issues)]) console.error('- ' + issue);
+  const unique = [...new Set(issues)];
+  for (const issue of unique.slice(0, 30)) console.error('- ' + issue);
+  if (unique.length > 30) console.error(`... ${unique.length - 30} additional findings (values redacted).`);
   process.exitCode = 1;
 } else console.log(`PASS: ${files.length} ${mode} files checked; no blocked paths or detected secrets. History is NOT covered by this check.`);

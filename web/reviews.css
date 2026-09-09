@@ -1,0 +1,55 @@
+.rb-review-now { margin-top: 12px; border: 0; border-radius: 999px; padding: 10px 16px; background: #f4e4d6; color: #943410; font: inherit; font-weight: 700; cursor: pointer; }
+.rb-reviewed-label { display: inline-block; margin-top: 12px; color: #6b655e; font-size: 14px; }
+.rb-review-dialog { width: min(460px, calc(100% - 32px)); max-height: calc(100dvh - 32px); box-sizing: border-box; padding: 24px; border: 1px solid #e5d6c9; border-radius: 20px; color: #2b2320; background: white; overflow: auto; }
+.rb-review-dialog::backdrop { background: rgba(43, 35, 32, .5); }
+.rb-review-dialog h2 { margin: 0 0 10px; font-family: inherit; font-size: 22px; overflow-wrap: anywhere; }
+.rb-review-dialog p { line-height: 1.6; }
+.rb-review-dialog fieldset { margin: 18px 0; padding: 12px 0; border: 0; text-align: center; }
+.rb-review-dialog legend { width: 100%; font-weight: 600; }
+.rb-review-rating > div { display: flex; justify-content: center; }
+.rb-review-rating button { min-width: 40px; min-height: 44px; border: 0; padding: 4px; background: transparent; font-size: 36px; color: #b4aba3; cursor: pointer; }
+.rb-review-rating button.selected { color: #c1440e; }
+.rb-review-rating button:focus-visible, .rb-review-now:focus-visible { outline: 2px solid #943410; outline-offset: 2px; border-radius: 8px; }
+.rb-review-comment { display: grid; gap: 8px; font-weight: 600; }
+.rb-review-comment textarea { width: 100%; box-sizing: border-box; resize: vertical; padding: 12px; border: 1px solid #dacabe; border-radius: 12px; font: inherit; }
+.rb-review-dialog small { display: block; margin: 6px 0 18px; text-align: right; color: #716158; }
+.rb-review-dialog .rb-dialog-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.rb-review-dialog .rb-dialog-actions button { flex: 1; }
+.rb-review-dialog button:disabled { opacity: .6; cursor: wait; }
+.rb-restaurant-reviews { margin: 24px 0; }
+.rb-restaurant-reviews h2 { font-family: inherit; }
+.rb-reviews-summary { display: grid; grid-template-columns: 140px minmax(0, 1fr); align-items: center; gap: 28px; margin: 20px 0; padding: 20px; border-radius: 16px; background: #fbf5ef; }
+.rb-review-average { text-align: center; }
+.rb-review-average > strong { display: block; font-size: 40px; line-height: 1.3; color: #943410; }
+.rb-review-average small { font-size: 18px; margin-left: 4px; color: #716158; }
+.rb-review-average p { margin: 8px 0 0; color: #716158; font-size: 14px; }
+.rb-average-stars { position: relative; display: inline-block; font-size: 22px; line-height: 1.4; white-space: nowrap; color: #d4c7bb; }
+.rb-average-stars > span:last-child { position: absolute; inset: 0 auto 0 0; overflow: hidden; color: #c1440e; }
+.rb-review-distribution { display: grid; gap: 9px; }
+.rb-distribution-row { display: grid; grid-template-columns: 38px minmax(0, 1fr) 32px; align-items: center; gap: 10px; font-size: 13px; }
+.rb-distribution-row > span:last-child { text-align: right; }
+.rb-distribution-track { height: 8px; border-radius: 999px; background: #ebdbce; overflow: hidden; }
+.rb-distribution-track > div { height: 100%; border-radius: inherit; background: #c1440e; }
+.rb-reviews-list article { padding: 18px 0; border-top: 1px solid #e5d6c9; }
+.rb-reviews-list article > header { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px; }
+.rb-reviews-list article > header strong { min-width: 0; overflow-wrap: anywhere; }
+.rb-reviews-list time, .rb-reviews-list small { color: #716158; font-size: 13px; }
+.rb-review-stars { margin: 9px 0 4px; color: #c1440e; font-size: 20px; }
+.rb-review-text { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.65; }
+.rb-reviews-empty { padding: 18px 0; line-height: 1.7; color: #716158; }
+.rb-review-filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 12px; }
+.rb-review-filters button { padding: 8px 16px; border: 0; border-radius: 999px; background: #f4e4d6; color: #493428; font: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+.rb-review-filters button[aria-pressed="true"] { background: #943410; color: white; }
+.rb-review-filter-status { font-size: 14px; color: #716158; }
+.rb-restaurant-actions { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 10px; max-width: 300px; }
+.rb-share-restaurant { min-width: 0; flex: 1; }
+.rb-share-restaurant > button { white-space: nowrap; }
+.rb-share-restaurant > p { margin: 8px 0 0; font-size: 13px; }
+.rb-share-restaurant input { width: 100%; box-sizing: border-box; margin-top: 8px; }
+@media (max-width: 760px) {
+  .rb-restaurant-intro > .rb-restaurant-actions { grid-column: 1 / -1; max-width: none; }
+}
+@media (max-width: 480px) {
+  .rb-reviews-summary { grid-template-columns: 1fr; gap: 18px; padding: 16px; }
+  .rb-reviews-list article > header { align-items: flex-start; flex-direction: column; }
+}

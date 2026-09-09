@@ -98,6 +98,9 @@ export class Order {
   })
   discountAmount: number;
 
+  @Column({ type: 'uuid', nullable: true })
+  appliedVoucherId: string | null;
+
   @Column({ type: 'numeric', precision: 14, scale: 0, transformer: integerMoneyTransformer })
   totalAmount: number;
 

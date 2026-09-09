@@ -1,19 +1,25 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { request, TOKEN_KEY } from '../api';
 import { useSockets } from '../contexts/SocketContext';
 import { useAuth } from '../contexts/AuthContext';
 import { OrderStatusBadge } from '../components/OrderStatusBadge';
+import { OrderStatusStepper } from '../components/OrderStatusStepper';
 import { PickupCountdown } from '../components/PickupCountdown';
 import { FoodThumbnail } from '../components/FoodThumbnail';
+import { ChatDrawer } from '../components/ChatDrawer';
 
 export function OrderDetailPage() {
   const { id } = useParams();
+  const [params, setParams] = useSearchParams();
   const { currentUser } = useAuth();
   const { orders: socket } = useSockets();
   const [order, setOrder] = useState(null);
   const [error, setError] = useState('');
   const [paying, setPaying] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
+  useEffect(() => { setChatOpen(params.get('chat') === '1'); }, [id, params]);
+  const closeChat = () => { setChatOpen(false); if (params.has('chat')) { const next = new URLSearchParams(params); next.delete('chat'); setParams(next, { replace: true }); } };
   const token = localStorage.getItem(TOKEN_KEY);
   useEffect(() => {
     if (!token) return;
@@ -53,13 +59,19 @@ export function OrderDetailPage() {
       {!order && !error && <p>Đang tải đơn hàng…</p>}
       {order && <><section className="item-card">
         <OrderStatusBadge status={order.status} /><h2>{order.restaurant?.name}</h2><p>{order.orderCode}</p><p>{order.restaurant?.address}</p>
+        <OrderStatusStepper currentStatus={order.status} />
         {!['COMPLETED', 'CANCELLED'].includes(order.status) && <PickupCountdown estimatedPickupAt={order.estimatedPickupAt} pickupType={order.pickupType} />}
         <p>{paymentLabels[order.paymentStatus] || 'Đang cập nhật thanh toán'} · {order.paymentMethod === 'cash' ? 'Tiền mặt' : 'VNPAY'}</p>
         {order.status === 'CANCELLED' && order.paymentStatus === 'PAID' && <p>Đơn đã hủy. Vui lòng liên hệ quán để được hỗ trợ hoàn tiền.</p>}
       </section>
+      {['customer', 'merchant'].includes(currentUser?.role) && <button className="btn secondary" type="button" onClick={() => setChatOpen(true)}>
+        {currentUser.role === 'merchant' ? 'Nhắn tin với khách' : 'Nhắn tin với quán'}
+      </button>}
+      {chatOpen && ['customer', 'merchant'].includes(currentUser?.role) && <ChatDrawer key={order.id} orderId={order.id} orderCode={order.orderCode} onClose={closeChat} />}
       <section className="item-card">{order.items?.map((item) => <div className="rb-product-row rb-cart-row" key={item.id || item.menuItemId}>
         <FoodThumbnail src={item.imageUrl} name={item.itemName} /><div><h3>{item.itemName}</h3><p>{item.quantity} × {money(item.unitPrice)}</p></div><strong>{money(item.lineTotal)}</strong>
-      </div>)}<div className="rb-order-footer"><span>Tổng cộng</span><strong>{money(order.totalAmount)}</strong></div></section>
+      </div>)}{order.discountAmount > 0 && <><div className="rb-discount-row"><span>Tạm tính</span><span>{money(order.subtotal)}</span></div><div className="rb-discount-row saving"><span>Giảm voucher</span><strong>−{money(order.discountAmount)}</strong></div></>}
+        <div className="rb-order-footer"><span>Tổng cộng</span><strong>{money(order.totalAmount)}</strong></div></section>
       {currentUser?.role !== 'merchant' && order.paymentMethod === 'vnpay' && !['PAID', 'REFUNDED'].includes(order.paymentStatus) && !['CANCELLED', 'COMPLETED'].includes(order.status) &&
         <button type="button" className="btn primary" disabled={paying} onClick={pay}>{paying ? 'Đang mở VNPAY…' : 'Tiếp tục thanh toán VNPAY'}</button>}
       </>}

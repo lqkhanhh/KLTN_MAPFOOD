@@ -17,7 +17,7 @@ export default function LoginPage() {
       else if (data.user.role === 'admin') navigate('/admin/overview');
       else {
         const application = await request('/merchant-applications/me').catch(() => null);
-        navigate(location.state?.from === '/partner/register' || application ? '/partner/register' : '/');
+        navigate(location.state?.from === '/partner/register' || application ? '/partner/register' : location.state?.from === '/my-favorites' ? '/my-favorites' : '/');
       }
     } catch (err) { setError(err.message || 'Đăng nhập thất bại, vui lòng thử lại.'); } finally { setBusy(false); }
   }
