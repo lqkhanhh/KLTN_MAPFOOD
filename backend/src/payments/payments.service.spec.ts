@@ -6,7 +6,8 @@ import {
   OrderItem,
   OrderPaymentStatus,
   OrderStatus,
-  OrderType,
+  PickupType,
+  OrderPaymentMethod,
   Payment,
   PaymentProvider,
   PaymentStatus,
@@ -34,7 +35,9 @@ describe('PaymentsService', () => {
     userId: user.sub,
     restaurantId: restaurant.id,
     restaurant,
-    type: OrderType.TAKE_AWAY,
+    pickupType: PickupType.ASAP,
+    estimatedPickupAt: new Date(),
+    paymentMethod: OrderPaymentMethod.VNPAY,
     status: OrderStatus.PENDING,
     paymentStatus: OrderPaymentStatus.UNPAID,
     subtotal: 120_000,
@@ -51,6 +54,7 @@ describe('PaymentsService', () => {
   let paymentState: Payment | null;
   let manager: {
     findOne: jest.Mock;
+    findOneBy: jest.Mock;
     findOneOrFail: jest.Mock;
     find: jest.Mock;
     create: jest.Mock;
@@ -58,7 +62,7 @@ describe('PaymentsService', () => {
   };
   let dataSource: DataSource;
   let ordersService: { findEntityForUser: jest.Mock; findEntity: jest.Mock };
-  let gateway: { emitPaymentStatusUpdated: jest.Mock };
+  let gateway: { emitPaymentStatusUpdated: jest.Mock; emitCreated: jest.Mock };
   let provider: PaymentProviderAdapter & {
     createPayment: jest.Mock;
     verifyWebhook: jest.Mock;
@@ -69,6 +73,7 @@ describe('PaymentsService', () => {
     paymentState = null;
     order.paymentStatus = OrderPaymentStatus.UNPAID;
     manager = {
+      findOneBy: jest.fn().mockResolvedValue(restaurant),
       findOne: jest.fn((entity) => Promise.resolve(entity === Order ? order : paymentState)),
       findOneOrFail: jest.fn(() => Promise.resolve(paymentState)),
       find: jest.fn((entity) =>
@@ -92,12 +97,12 @@ describe('PaymentsService', () => {
       findEntityForUser: jest.fn().mockResolvedValue(order),
       findEntity: jest.fn().mockResolvedValue(order),
     };
-    gateway = { emitPaymentStatusUpdated: jest.fn() };
+    gateway = { emitPaymentStatusUpdated: jest.fn(), emitCreated: jest.fn() };
     provider = {
-      provider: PaymentProvider.PAYOS,
+      provider: PaymentProvider.VNPAY,
       createPayment: jest.fn().mockResolvedValue({
         paymentLinkId: 'link-1',
-        checkoutUrl: 'https://pay.payos.vn/link-1',
+        checkoutUrl: 'https://example.invalid/checkout',
         qrCode: 'qr-data',
         safePayload: { status: 'PENDING' },
       }),
@@ -118,7 +123,7 @@ describe('PaymentsService', () => {
     expect(provider.createPayment).toHaveBeenCalledWith(
       expect.objectContaining({ amount: 120_000, orderCode: order.orderCode }),
     );
-    expect(response).toMatchObject({ amount: 120_000, checkoutUrl: 'https://pay.payos.vn/link-1' });
+    expect(response).toMatchObject({ amount: 120_000, checkoutUrl: 'https://example.invalid/checkout' });
     expect(order.paymentStatus).toBe(OrderPaymentStatus.PENDING);
   });
 
@@ -223,12 +228,62 @@ describe('PaymentsService', () => {
     expect(gateway.emitPaymentStatusUpdated).not.toHaveBeenCalled();
   });
 
+  it('returns IPN protocol codes without mutating rejected payments', async () => {
+    provider.verifyWebhook.mockRejectedValueOnce(new BadRequestException());
+    expect((await service.vnpayIpn({})).RspCode).toBe('97');
+    provider.verifyWebhook.mockResolvedValue({ transactionId: 'missing', amount: 1, status: PaymentStatus.PAID, safePayload: {} });
+    expect((await service.vnpayIpn({})).RspCode).toBe('01');
+    paymentState = payment();
+    expect((await service.vnpayIpn({})).RspCode).toBe('04');
+    expect(manager.save).not.toHaveBeenCalled();
+  });
+
+  it('acknowledges a successful IPN once and repeated IPNs with 02', async () => {
+    paymentState = payment();
+    provider.verifyWebhook.mockResolvedValue({ transactionId: paymentState.transactionId, amount: paymentState.amount, status: PaymentStatus.PAID, safePayload: {} });
+    expect((await service.vnpayIpn({})).RspCode).toBe('00');
+    manager.save.mockClear();
+    expect((await service.vnpayIpn({})).RspCode).toBe('02');
+    expect(manager.save).not.toHaveBeenCalled();
+    expect(gateway.emitCreated).toHaveBeenCalledTimes(1);
+  });
+
+  it('verifies browser return without marking the order paid', async () => {
+    paymentState = payment({ providerPayload: { orderInfo: 'order' } });
+    Object.assign(dataSource, { getRepository: () => ({ findOneBy: async () => paymentState }) });
+    provider.verifyWebhook.mockResolvedValue({ transactionId: paymentState.transactionId, amount: paymentState.amount, status: PaymentStatus.PAID, safePayload: { orderCode: 'order' } });
+    expect(await service.vnpayReturn({})).toEqual({ orderId: order.id, status: PaymentStatus.PENDING, providerStatus: PaymentStatus.PAID });
+    expect(dataSource.transaction).not.toHaveBeenCalled();
+    expect(manager.save).not.toHaveBeenCalled();
+  });
+
+  it('creates a new attempt without overwriting a failed transaction', async () => {
+    const previous = payment({ status: PaymentStatus.FAILED });
+    paymentState = previous;
+    await service.create(order.id, user);
+    expect(manager.create).toHaveBeenCalledWith(Payment, expect.not.objectContaining({ id: previous.id }));
+    expect(previous.status).toBe(PaymentStatus.FAILED);
+    expect(previous.transactionId).toBe('178802640000001');
+  });
+
+  it('does not let an older failed attempt downgrade the latest attempt', async () => {
+    const previous = payment();
+    const latest = payment({ id: 'latest' });
+    manager.findOne.mockImplementation((entity, options) => Promise.resolve(entity === Order ? order : options.order ? latest : previous));
+    order.paymentStatus = OrderPaymentStatus.PENDING;
+    provider.verifyWebhook.mockResolvedValue({ transactionId: previous.transactionId, amount: previous.amount, status: PaymentStatus.FAILED, safePayload: {} });
+    expect((await service.vnpayIpn({})).RspCode).toBe('00');
+    expect(previous.status).toBe(PaymentStatus.FAILED);
+    expect(order.paymentStatus).toBe(OrderPaymentStatus.PENDING);
+    expect(gateway.emitPaymentStatusUpdated).not.toHaveBeenCalled();
+  });
+
   function payment(overrides: Partial<Payment> = {}): Payment {
     return {
       id: '44444444-4444-4444-8444-444444444444',
       orderId: order.id,
       order,
-      provider: PaymentProvider.PAYOS,
+      provider: PaymentProvider.VNPAY,
       transactionId: '178802640000001',
       paymentLinkId: 'link-1',
       amount: order.totalAmount,

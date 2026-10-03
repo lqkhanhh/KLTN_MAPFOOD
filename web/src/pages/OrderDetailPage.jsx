@@ -64,7 +64,7 @@ export function OrderDetailPage() {
         <p>{paymentLabels[order.paymentStatus] || 'Đang cập nhật thanh toán'} · {order.paymentMethod === 'cash' ? 'Tiền mặt' : 'VNPAY'}</p>
         {order.status === 'CANCELLED' && order.paymentStatus === 'PAID' && <p>Đơn đã hủy. Vui lòng liên hệ quán để được hỗ trợ hoàn tiền.</p>}
       </section>
-      {['customer', 'merchant'].includes(currentUser?.role) && <button className="btn secondary" type="button" onClick={() => setChatOpen(true)}>
+      {['customer', 'merchant'].includes(currentUser?.role) && <button className="btn secondary rb-order-chat-action" type="button" onClick={() => setChatOpen(true)}>
         {currentUser.role === 'merchant' ? 'Nhắn tin với khách' : 'Nhắn tin với quán'}
       </button>}
       {chatOpen && ['customer', 'merchant'].includes(currentUser?.role) && <ChatDrawer key={order.id} orderId={order.id} orderCode={order.orderCode} onClose={closeChat} />}

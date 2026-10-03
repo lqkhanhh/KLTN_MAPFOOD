@@ -27,7 +27,7 @@ export enum PaymentStatus {
 }
 
 @Entity('payments')
-@Index('UQ_payments_order_id', ['orderId'], { unique: true })
+@Index('IDX_payments_order_id', ['orderId'])
 @Index('UQ_payments_provider_transaction', ['provider', 'transactionId'], { unique: true })
 @Index('UQ_payments_provider_link', ['provider', 'paymentLinkId'], {
   unique: true,

@@ -47,7 +47,7 @@ async function main() {
     const shop = await ds.getRepository(Restaurant).save(ds.getRepository(Restaurant).create({ id: fixtureId, ownerId: owner.id, name: 'Admin fixture ' + fixtureId, address: 'Dữ liệu kiểm thử tạm', location: { type: 'Point', coordinates: [106.7, 10.8] }, active: true, source: 'demo' }));
     // Chỉ giả lập nhà cung cấp chỉ đường; vẫn kiểm thử SQL không gian thực tế.
     const search = app.get(SearchService);
-    search.directions = async () => ({ line: 'LINESTRING(106.7 10.799,106.7 10.801)', polyline: '', provider: 'test-fixture', travelTimeMinutes: 1 });
+    search.directions = async () => ({ line: 'LINESTRING(106.7 10.799,106.7 10.801)', polyline: '', provider: 'test-fixture', travelTimeMinutes: 1, durationSeconds: 60, distanceMeters: 250 });
     const originalSave = search.logs.save.bind(search.logs);
     search.logs.save = async (log) => { const saved = await originalSave(log); logIds.push(saved.id); return saved; };
     const visible = async (expected) => {

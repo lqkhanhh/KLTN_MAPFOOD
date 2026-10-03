@@ -59,6 +59,7 @@ try {
   for (const width of [1280, 375, 320]) {
     await page.setViewportSize({ width, height: 900 });
     await page.getByRole('link', { name: /Xem giỏ hàng/ }).click();
+    await page.waitForURL('**/cart');
     await text(quantity(), '2');
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Cart must not overflow');
     for (const button of await page.locator('.rb-quantity-stepper button').all()) {

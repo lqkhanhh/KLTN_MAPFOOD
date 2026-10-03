@@ -10,7 +10,9 @@ import {
   Order,
   OrderPaymentStatus,
   OrderStatus,
-  OrderType,
+  PickupType,
+  OrderPaymentMethod,
+  User,
   Restaurant,
   UserRole,
 } from '../database/entities';
@@ -59,7 +61,7 @@ describe('OrdersService', () => {
     savedOrder = undefined;
     manager = {
       findOne: jest.fn(),
-      findOneBy: jest.fn().mockResolvedValue(restaurant),
+      findOneBy: jest.fn((entity) => Promise.resolve(entity === User ? { fullName: "Test Customer", phone: "0900000000" } : restaurant)),
       find: jest.fn(),
       create: jest.fn((_entity, value) => value),
       save: jest.fn((entity, value) => {
@@ -81,38 +83,25 @@ describe('OrdersService', () => {
     service = new OrdersService(dataSource, gateway as never, { create: jest.fn(), publish: jest.fn() } as never, { earn: jest.fn(), apply: jest.fn().mockResolvedValue({ discountAmount: 0, voucherId: null, userVoucher: null }) } as never);
   });
 
-  it('creates a BOOKING in a transaction with PENDING/UNPAID', async () => {
+  it('creates a scheduled cash order with PENDING/UNPAID', async () => {
     manager.findOne.mockResolvedValue(restaurant);
+    manager.find.mockResolvedValue([menuItem]);
     repository.findOne.mockImplementation(async () => completeOrder(savedOrder!));
-
-    const result = await service.create(
-      {
-        restaurantId: restaurant.id,
-        type: OrderType.BOOKING,
-        customerName: ' Nguyễn Văn A ',
-        customerPhone: '0900000000',
-        bookingTime: futureIso(),
-        guestCount: 4,
-        items: [],
-      },
-      customer,
-    );
-
-    expect(savedOrder).toMatchObject({
-      userId: customer.sub,
-      type: OrderType.BOOKING,
-      status: OrderStatus.PENDING,
-      paymentStatus: OrderPaymentStatus.UNPAID,
-      customerName: 'Nguyễn Văn A',
-      subtotal: 0,
-      totalAmount: 0,
-      guestCount: 4,
-    });
-    expect(result.type).toBe(OrderType.BOOKING);
+    const scheduledTime = futureIso();
+    const result = await service.create({
+      restaurantId: restaurant.id,
+      pickupOption: { type: PickupType.SCHEDULED, scheduledTime },
+      payment: { method: OrderPaymentMethod.CASH },
+      items: [{ menuItemId: menuItem.id, quantity: 1 }],
+    }, customer);
+    expect(savedOrder).toMatchObject({ userId: customer.sub, pickupType: PickupType.SCHEDULED,
+      scheduledPickupTime: new Date(scheduledTime), status: OrderStatus.PENDING,
+      paymentStatus: OrderPaymentStatus.UNPAID, customerName: 'Test Customer', totalAmount: 50_000 });
+    expect(result.pickupType).toBe(PickupType.SCHEDULED);
     expect(gateway.emitCreated).toHaveBeenCalledTimes(1);
   });
 
-  it('creates a TAKE_AWAY and calculates snapshot totals from the database', async () => {
+  it('creates an ASAP cash order and calculates snapshot totals from the database', async () => {
     manager.findOne.mockResolvedValue(restaurant);
     manager.find.mockResolvedValue([menuItem]);
     repository.findOne.mockImplementation(async () => completeOrder(savedOrder!));
@@ -120,10 +109,8 @@ describe('OrdersService', () => {
     const result = await service.create(
       {
         restaurantId: restaurant.id,
-        type: OrderType.TAKE_AWAY,
-        customerName: 'Nguyễn Văn A',
-        customerPhone: '0900000000',
-        pickupTime: futureIso(),
+        pickupOption: { type: PickupType.ASAP, estimatedPickupMinutes: 15 },
+        payment: { method: OrderPaymentMethod.CASH },
         items: [{ menuItemId: menuItem.id, quantity: 2, note: ' Không hành ' }],
       },
       customer,
@@ -148,10 +135,8 @@ describe('OrdersService', () => {
       service.create(
         {
           restaurantId: restaurant.id,
-          type: OrderType.TAKE_AWAY,
-          customerName: 'Nguyễn Văn A',
-          customerPhone: '0900000000',
-          pickupTime: futureIso(),
+          pickupOption: { type: PickupType.ASAP, estimatedPickupMinutes: 15 },
+        payment: { method: OrderPaymentMethod.CASH },
           items: [{ menuItemId: menuItem.id, quantity: 1 }],
         },
         customer,
@@ -235,7 +220,8 @@ describe('OrdersService', () => {
       userId: customer.sub,
       restaurantId: restaurant.id,
       restaurant,
-      type: OrderType.TAKE_AWAY,
+      pickupType: PickupType.ASAP,
+      paymentMethod: OrderPaymentMethod.CASH,
       status: OrderStatus.PENDING,
       paymentStatus: OrderPaymentStatus.UNPAID,
       subtotal: 50_000,
@@ -243,7 +229,7 @@ describe('OrdersService', () => {
       totalAmount: 50_000,
       customerName: 'Nguyễn Văn A',
       customerPhone: '0900000000',
-      pickupTime: new Date(futureIso()),
+      estimatedPickupAt: new Date(futureIso()),
       items: [],
       payments: [],
       createdAt: new Date(),

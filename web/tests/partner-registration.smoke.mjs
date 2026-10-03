@@ -45,6 +45,7 @@ async function openPage(role) {
   return page;
 }
 async function tickAndSend(page) {
+  await page.getByRole('checkbox').first().waitFor();
   assert.equal(await page.getByRole('checkbox').count(), 3);
   const submit = page.getByRole('button', { name: 'Gửi hồ sơ cho Admin duyệt' });
   assert.equal(await submit.isEnabled(), false);

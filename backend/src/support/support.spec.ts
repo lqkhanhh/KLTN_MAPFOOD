@@ -22,9 +22,11 @@ describe('Trợ lý hỗ trợ: hợp đồng API, quyền và giới hạn chi 
     expect(body.system).toBe(SUPPORT_POLICY); expect(body.max_tokens).toBe(500); expect(body.model).toBe(config.ANTHROPIC_MODEL);
     expect(body.messages).toHaveLength(3); expect(options.body).not.toContain(id); expect(body.tools).toBeUndefined();
   });
-  it('thiếu khóa trả lỗi rõ ràng, không giả câu trả lời AI', async () => {
+  it('thiếu khóa trả hướng dẫn có nhãn FAQ, không gọi AI', async () => {
     delete config.ANTHROPIC_API_KEY;
-    await expect(service.chat({ message: 'Xin chào' }, id)).rejects.toMatchObject({ status: 503 }); expect(fetcher).not.toHaveBeenCalled();
+    await expect(service.chat({ message: 'Làm sao hủy đơn?' }, id)).resolves.toMatchObject({ source: 'faq', reply: expect.stringContaining('Chờ xác nhận') });
+    await expect(service.chat({ message: 'Nội dung ngoài phạm vi' }, id)).resolves.toMatchObject({ source: 'faq', reply: expect.stringContaining('AI hiện chưa sẵn sàng') });
+    expect(fetcher).not.toHaveBeenCalled();
   });
   it('không tin user/role từ frontend', async () => {
     account = { id, role: 'admin' }; await expect(service.chat({ message: 'X' }, id)).rejects.toMatchObject({ status: 403 });

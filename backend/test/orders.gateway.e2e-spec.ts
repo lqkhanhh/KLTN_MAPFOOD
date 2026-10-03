@@ -14,7 +14,8 @@ import {
   Order,
   OrderPaymentStatus,
   OrderStatus,
-  OrderType,
+  PickupType,
+  OrderPaymentMethod,
   PaymentStatus,
   Restaurant,
   UserRole,
@@ -24,6 +25,8 @@ import {
   OrdersGateway,
 } from '../src/orders/gateway/orders.gateway';
 import { OrdersController } from '../src/orders/orders.controller';
+import { NotificationsService } from '../src/notifications/notifications.service';
+import { LoyaltyService } from '../src/loyalty/loyalty.service';
 import { OrdersService } from '../src/orders/orders.service';
 
 describe('OrdersGateway network transport (e2e)', () => {
@@ -43,7 +46,9 @@ describe('OrdersGateway network transport (e2e)', () => {
     userId: customerId,
     restaurantId: restaurant.id,
     restaurant,
-    type: OrderType.TAKE_AWAY,
+    pickupType: PickupType.ASAP,
+    estimatedPickupAt: new Date(),
+    paymentMethod: OrderPaymentMethod.CASH,
     status: OrderStatus.PREPARING,
     paymentStatus: OrderPaymentStatus.UNPAID,
     updatedAt: new Date('2026-08-30T03:00:00.000Z'),
@@ -86,6 +91,8 @@ describe('OrdersGateway network transport (e2e)', () => {
       providers: [
         OrdersGateway,
         OrdersService,
+        { provide: NotificationsService, useValue: { create: jest.fn(), publish: jest.fn() } },
+        { provide: LoyaltyService, useValue: { earn: jest.fn() } },
         JwtAuthGuard,
         RolesGuard,
         Reflector,

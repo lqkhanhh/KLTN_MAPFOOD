@@ -23,6 +23,7 @@ class TestModule {}
 Module({ imports: [ConfigModule.forRoot({ isGlobal: true, ignoreEnvFile: true }), TypeOrmModule.forRoot({ type: 'postgres', url: env.DATABASE_URL, entities, synchronize: false }), RestaurantsModule, AdminModule, OrdersModule, SearchModule, FavoritesModule] })(TestModule);
 async function main() {
   const app = await NestFactory.create(TestModule, { logger: ['error'] });
+  app.get(SearchService).directions = async () => ({ line: 'LINESTRING(106.699 10.78,106.701 10.78)', polyline: '', provider: 'test-fixture', durationSeconds: 60, distanceMeters: 250, travelTimeMinutes: 1 });
   app.setGlobalPrefix('api'); app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true, transform: true }));
   const users = [randomUUID(), randomUUID(), randomUUID()], roles = ['merchant', 'admin', 'customer'], shopId = randomUUID(), menuId = randomUUID();
   try {

@@ -1,3 +1,4 @@
+import { geocodeGoogle } from '../utils/googleMaps';
 import { useCallback, useState } from 'react';
 
 export function useCurrentLocation() {
@@ -11,8 +12,7 @@ export function useCurrentLocation() {
         const point = { lat: coords.latitude, lng: coords.longitude, address: `${coords.latitude.toFixed(5)}, ${coords.longitude.toFixed(5)}` };
         try {
           if (resolveAddress) {
-          const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&accept-language=vi&lat=${point.lat}&lon=${point.lng}`);
-          const data = await response.json(); point.address = data.display_name || point.address;
+          const rows = await geocodeGoogle(point); point.address = rows[0]?.display_name || point.address;
           }
         } catch { /* Vẫn dùng được tọa độ thật nếu reverse geocode lỗi. */ }
         setLoading(false); resolve(point);

@@ -20,6 +20,7 @@ import { readRouteOrigin, restaurantPoint, routeQuery } from './utils/routeConte
 import { CartProvider, useCart } from './contexts/CartContext';
 import { MyCartsPage } from './pages/MyCartsPage';
 import { OrderDetailPage } from './pages/OrderDetailPage';
+import { VnpayReturnPage } from './pages/VnpayReturnPage';
 import { ExplorePage } from './pages/ExplorePage';
 import { MyFavoritesPage } from './pages/MyFavoritesPage';
 import { ReviewModal } from './components/ReviewModal';
@@ -50,22 +51,23 @@ import { MyPointsPage } from './pages/MyPointsPage';
 import { AdminVouchersPage } from './pages/admin/AdminVouchersPage';
 import { useCheckoutVouchers, voucherTerms } from './loyalty';
 import { usePublicRestaurant } from './hooks/usePublicRestaurant';
+import { MaterialIcon } from './components/MaterialIcon';
 const formatMoney = (value) => `${Number(value || 0).toLocaleString('vi-VN')}đ`;
 
 function Header() {
   const { carts } = useCart();
   const navItems = [
-    { path: '/', label: 'Trang chủ' },
-    { path: '/kham-pha', label: 'Khám phá' },
-    { path: '/my-orders', label: 'Đơn của tôi' },
-    { path: '/my-carts', label: `Giỏ của tôi${carts.length ? ` (${carts.length})` : ''}` },
+    { path: '/', label: 'Trang chủ', icon: 'home' },
+    { path: '/kham-pha', label: 'Khám phá', icon: 'explore' },
+    { path: '/my-orders', label: 'Đơn của tôi', icon: 'orders' },
+    { path: '/my-carts', label: `Giỏ của tôi${carts.length ? ` (${carts.length})` : ''}`, icon: 'cart' },
   ];
   return <header className="consumer-header">
-    <Link className="consumer-logo" to="/">RouteBite</Link>
+    <Link className="consumer-logo" to="/"><MaterialIcon name="shop" />RouteBite</Link>
     <nav aria-label="Điều hướng chính">
       {navItems.map((item) => <NavLink key={item.path} to={item.path} end={item.path === '/'}
         className={({ isActive }) => `consumer-nav${isActive ? ' active' : ''}`}>
-        {item.label}
+        <MaterialIcon name={item.icon} /><span>{item.label}</span>
       </NavLink>)}
     </nav>
     <div className="account-menu"><NotificationBell /><ChatBell /><AvatarDropdown /></div>
@@ -321,6 +323,7 @@ function AppShell() {
     <Route path="/" element={<Home />} /><Route path="/login" element={<LoginPage />} />
     <Route path="/register" element={<RegisterPage />} /><Route path="/profile" element={<ProfilePage />} />
     <Route path="/partner/register" element={<PartnerRegistrationPage />} />
+    <Route path="/payment/vnpay-return" element={<VnpayReturnPage />} />
     <Route path="/restaurant/:id" element={<RestaurantMenu />} />
     <Route path="/my-carts" element={<MyCartsPage />} />
     <Route path="/restaurants/:id/cart" element={<CartPage />} />

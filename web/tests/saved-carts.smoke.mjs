@@ -127,11 +127,10 @@ try {
   for (const width of [1280, 375]) {
     await page.setViewportSize({ width, height: 900 });
     assert.ok(await page.locator('.route-hero-copy > span').evaluate((node) => {
-      const range = document.createRange(); range.selectNodeContents(node);
-      return range.getClientRects().length === 1;
-    }), 'Hero description must be one line');
+      return node.scrollWidth <= node.clientWidth + 1 && getComputedStyle(node).whiteSpace === 'normal';
+    }), 'Material 3 hero description wraps without clipping');
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), 'Hero must not overflow page');
   }
   assert.deepEqual(errors, []);
-  console.log('PASS: legacy cart migration, FIFO 10 carts, multi-restaurant checkout/delete, filter counts, cancel confirmation, detail route, password modal and one-line Hero.');
+  console.log('PASS: legacy cart migration, FIFO 10 carts, multi-restaurant checkout/delete, filter counts, cancel confirmation, detail route, password modal and responsive Material 3 Hero.');
 } finally { await browser.close(); }

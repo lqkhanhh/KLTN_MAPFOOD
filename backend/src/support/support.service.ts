@@ -4,6 +4,7 @@ import { DataSource } from 'typeorm';
 import { isUUID } from 'class-validator';
 import { User, UserRole } from '../database/entities/user.entity';
 import { SupportChatDto } from './support.dto';
+import { supportFaq } from './support-faq';
 
 export const SUPPORT_FETCH = Symbol('SUPPORT_FETCH');
 export const SUPPORT_POLICY = `Bạn là trợ lý AI hỗ trợ khách hàng RouteBite, ứng dụng tìm quán ăn theo lộ trình rồi ghé lấy mang đi.
@@ -35,7 +36,7 @@ export class SupportService {
       throw new BadRequestException('Lịch sử hội thoại không hợp lệ hoặc quá dài. Vui lòng bắt đầu cuộc trò chuyện mới.');
     }
     const key = this.config.get<string>('ANTHROPIC_API_KEY')?.trim();
-    if (!key) throw new ServiceUnavailableException('Trợ lý AI chưa được cấu hình. Bạn vẫn có thể nhắn tin trực tiếp với quán trong chi tiết đơn.');
+    if (!key) return supportFaq(dto.message);
     const now = Date.now(), minute = Math.floor(now / 60000), day = Math.floor(now / 86400000);
     for (const [id, quota] of this.quotas) if (quota.day !== day && !quota.busy) this.quotas.delete(id);
     const quota = this.quotas.get(userId) || { minute, day, minuteCount: 0, dayCount: 0, busy: false };
@@ -62,7 +63,7 @@ export class SupportService {
       const data = await response.json();
       const reply = Array.isArray(data.content) ? data.content.filter((part: { type: string; text?: string }) => part.type === 'text' && typeof part.text === 'string').map((part: { text: string }) => part.text).join('\n').trim() : '';
       if (!reply || reply.length > 4000) throw new BadGatewayException('Câu trả lời không hợp lệ. Vui lòng thử lại.');
-      return { reply };
+      return { reply, source: 'ai' as const };
     } catch (error) {
       if (error instanceof HttpException) throw error;
       if (abort.signal.aborted) throw new GatewayTimeoutException('Trợ lý phản hồi quá lâu. Vui lòng thử lại.');

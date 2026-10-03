@@ -14,6 +14,7 @@ export interface CreateProviderPaymentRequest {
   amount: number;
   items: ProviderOrderItem[];
   expiresAt: Date;
+  ipAddress?: string;
 }
 
 export interface CreateProviderPaymentResult {

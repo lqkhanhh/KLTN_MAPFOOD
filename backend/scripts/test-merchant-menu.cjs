@@ -38,7 +38,10 @@ async function main() {
     const second = await call('', merchant, 'POST', { ...payload, name: payload.name + ' B' }); assert.equal(second.status, 201); created.push(second.data.id);
     const hijack = await call('/' + id, merchant, 'PUT', { ...payload, name: 'Must roll back', menuItems: [{ id: second.data.menuItems[0].id, name: 'Hijack', price: 1 }] });
     assert.equal(hijack.status, 400);
-    assert.equal((await call('/' + id, merchant)).data.name, payload.name);
+    assert.equal((await call('/' + id, merchant)).status, 403);
+    const managed = await call('/' + id + '/manage', merchant);
+    assert.equal(managed.status, 200);
+    assert.equal(managed.data.name, payload.name);
     assert.equal((await call('', merchant, 'POST', { ...payload, menuItems: [{ id: a.id, name: 'Bad', price: 1 }] })).status, 400);
     assert.equal((await call('/' + id, merchant, 'PUT', { ...payload, imageUrl: 'javascript:alert(1)', menuItems: [] })).status, 400);
     assert.equal((await call('/' + id, merchant, 'PUT', { ...payload, menuItems: [{ name: 'Bad image', price: 1, imageUrl: 'data:image/png;base64,test' }] })).status, 400);

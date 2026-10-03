@@ -4,6 +4,7 @@ import { useMerchant } from '../contexts/MerchantContext';
 import { NotificationBell } from '../components/NotificationBell';
 import { ChatBell } from '../components/ChatBell';
 import AvatarDropdown from '../components/AvatarDropdown';
+import { MaterialIcon } from '../components/MaterialIcon';
 
 const navItems = [{ path: '/merchant/dashboard', label: 'Tổng quan' }, { path: '/merchant/menu', label: 'Quản lý Menu' }, { path: '/merchant/orders', label: 'Đơn hàng' }, { path: '/merchant/reviews', label: 'Đánh giá' }];
 export function MerchantLayout() {
@@ -15,7 +16,7 @@ export function MerchantLayout() {
   return <div className="rb-merchant-shell">
     <aside className="rb-merchant-sidebar"><div className="rb-merchant-brand"><strong>RouteBite</strong><span>Không gian Merchant</span></div>
       <nav aria-label="Điều hướng merchant">{navItems.map((item) => <NavLink key={item.path} to={item.path}
-        className={({ isActive }) => isActive ? 'active' : ''} onClick={(event) => { if (location.pathname !== item.path && !canLeave()) event.preventDefault(); }}>{item.label}</NavLink>)}</nav>
+        className={({ isActive }) => isActive ? 'active' : ''} onClick={(event) => { if (location.pathname !== item.path && !canLeave()) event.preventDefault(); }}><MaterialIcon name={item.path.endsWith('dashboard') ? 'dashboard' : item.path.endsWith('menu') ? 'menu' : item.path.endsWith('reviews') ? 'reviews' : 'orders'} /><span>{item.label}</span></NavLink>)}</nav>
       <footer><strong>{currentUser.fullName}</strong><button type="button" onClick={() => { if (canLeave()) { logout(); navigate('/login'); } }}>Đăng xuất</button></footer>
     </aside>
     <div className="rb-merchant-main">

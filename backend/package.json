@@ -12,6 +12,7 @@
     "test": "jest",
     "test:e2e": "jest --config ./test/jest-e2e.json --runInBand",
     "migration:run": "typeorm-ts-node-commonjs -d src/database/data-source.ts migration:run",
+    "migration:run:prod": "typeorm -d dist/database/data-source.js migration:run",
     "migration:revert": "typeorm-ts-node-commonjs -d src/database/data-source.ts migration:revert",
     "migration:generate": "typeorm-ts-node-commonjs -d src/database/data-source.ts migration:generate"
   },
@@ -29,6 +30,7 @@
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
+    "firebase-admin": "^14.5.0",
     "pg": "^8.12.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
@@ -70,5 +72,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

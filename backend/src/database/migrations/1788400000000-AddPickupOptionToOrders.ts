@@ -16,5 +16,5 @@ export class AddPickupOptionToOrders1788400000000 implements MigrationInterface 
     await queryRunner.query(`ALTER TABLE "orders" DROP COLUMN "type", DROP COLUMN "bookingTime", DROP COLUMN "guestCount", DROP COLUMN "pickupTime"`);
     await queryRunner.query(`ALTER TABLE "orders" ADD CONSTRAINT "CHK_orders_pickup_option" CHECK (("pickupType" = 'asap' AND "estimatedPickupMinutes" > 0 AND "scheduledPickupTime" IS NULL) OR ("pickupType" = 'scheduled' AND "scheduledPickupTime" IS NOT NULL AND "estimatedPickupMinutes" IS NULL))`);
   }
-  async down(queryRunner: QueryRunner): Promise<void> { throw new Error('Irreversible checkout redesign migration'); }
+  async down(_queryRunner: QueryRunner): Promise<void> { throw new Error('Irreversible checkout redesign migration'); }
 }

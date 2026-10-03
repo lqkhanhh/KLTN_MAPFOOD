@@ -1,4 +1,5 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Request } from 'express';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -25,8 +26,8 @@ export class PaymentsController {
   @ApiOperation({ summary: 'Tạo hoặc lấy lại giao dịch hiện hành của đơn' })
   @ApiCreatedResponse({ description: 'Thông tin checkout/QR lấy từ provider đã cấu hình' })
   @ApiConflictResponse({ description: 'Đơn đã thanh toán, đã hủy hoặc không cần thanh toán' })
-  create(@Body() dto: CreatePaymentDto, @CurrentUser() user: AuthenticatedUser) {
-    return this.paymentsService.create(dto.orderId, user);
+  create(@Body() dto: CreatePaymentDto, @CurrentUser() user: AuthenticatedUser, @Req() req: Request) {
+    return this.paymentsService.create(dto.orderId, user, req.ip?.replace(/^::ffff:/, ''));
   }
 
   @Post('webhook')
@@ -41,13 +42,18 @@ export class PaymentsController {
   @Get('vnpay-return')
   @ApiOperation({ summary: 'Xác minh kết quả VNPAY trả về trình duyệt' })
   vnpayReturn(@Query() query: Record<string, string>) {
-    return this.paymentsService.webhook(query);
+    return this.paymentsService.vnpayReturn(query);
+  }
+
+  @Get('vnpay-ipn')
+  vnpayIpnGet(@Query() query: Record<string, string>) {
+    return this.paymentsService.vnpayIpn(query);
   }
 
   @Post('vnpay-ipn')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'IPN VNPAY, luôn xác minh chữ ký SHA512' })
   vnpayIpn(@Body() payload: Record<string, string>) {
-    return this.paymentsService.webhook(payload);
+    return this.paymentsService.vnpayIpn(payload);
   }
 }

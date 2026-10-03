@@ -45,6 +45,7 @@ try {
   await page.getByRole('heading', { name: 'Kết quả gợi ý trên tuyến', exact: true }).waitFor();
   assert.equal(await page.locator('.route-results-heading p').textContent(), 'TÌM THEO LỘ TRÌNH');
   await page.getByRole('navigation', { name: 'Điều hướng chính' }).getByRole('link', { name: 'Khám phá' }).click();
+  await page.waitForURL('**/kham-pha');
   await activeNav('Khám phá');
   await page.locator('.restaurant-search-card').waitFor();
   assert.equal(await page.locator('.restaurant-search-card').count(), 1);

@@ -1,6 +1,7 @@
 import { BadRequestException, ServiceUnavailableException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { createHmac, timingSafeEqual } from 'crypto';
+import { isIP } from 'net';
 import { PaymentProvider, PaymentStatus } from '../../database/entities';
 import {
   CreateProviderPaymentRequest,
@@ -41,10 +42,13 @@ export class VnpayProvider implements PaymentProviderAdapter {
     // Không gửi khách lại liên kết cũ thiếu trường hoặc ký bằng cấu hình cũ.
     try {
       const url = new URL(checkoutUrl);
+      const configured = new URL(this.config.get<string>('VNPAY_URL', 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html'));
+      if (url.origin !== configured.origin || url.pathname !== configured.pathname) return false;
       const params = Object.fromEntries(url.searchParams);
       const signature = params.vnp_SecureHash;
       delete params.vnp_SecureHash;
       return params.vnp_TmnCode === this.config.get<string>('VNPAY_TMN_CODE') &&
+        params.vnp_ReturnUrl === this.config.get<string>('VNPAY_RETURN_URL') &&
         /^\d{14}$/.test(params.vnp_ExpireDate || '') &&
         params.vnp_ExpireDate > this.formatDate(new Date()) &&
         signature === createHmac('sha512', this.config.getOrThrow<string>('VNPAY_HASH_SECRET'))
@@ -69,7 +73,7 @@ export class VnpayProvider implements PaymentProviderAdapter {
       vnp_CreateDate: this.formatDate(now),
       vnp_ExpireDate: this.formatDate(request.expiresAt),
       vnp_CurrCode: 'VND',
-      vnp_IpAddr: '127.0.0.1',
+      vnp_IpAddr: request.ipAddress && isIP(request.ipAddress) ? request.ipAddress : '127.0.0.1',
       vnp_Locale: 'vn',
       vnp_OrderInfo: orderInfo,
       vnp_OrderType: 'other',
@@ -88,7 +92,7 @@ export class VnpayProvider implements PaymentProviderAdapter {
 
   async verifyWebhook(payload: unknown): Promise<VerifiedPaymentWebhook> {
     this.validateConfiguration();
-    if (!payload || typeof payload !== 'object') throw new BadRequestException('Dữ liệu VNPAY không hợp lệ');
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload) || Object.values(payload).some(item => typeof item !== 'string')) throw new BadRequestException('Dữ liệu VNPAY không hợp lệ');
     const value = Object.fromEntries(Object.entries(payload as VnpayPayload).filter(([, item]) => typeof item === 'string')) as Record<string, string>;
     const received = value.vnp_SecureHash;
     if (!received) throw new BadRequestException('Thiếu chữ ký VNPAY');
@@ -104,13 +108,13 @@ export class VnpayProvider implements PaymentProviderAdapter {
     }
     if (value.vnp_TmnCode !== this.config.get<string>('VNPAY_TMN_CODE')) throw new BadRequestException('Mã website VNPAY không khớp');
     const amount = Number(value.vnp_Amount) / 100;
-    if (!value.vnp_TxnRef || !Number.isInteger(amount) || amount <= 0) {
+    if (!/^[a-zA-Z0-9]{1,100}$/.test(value.vnp_TxnRef || '') || !/^\d{1,12}$/.test(value.vnp_Amount || '') || !Number.isSafeInteger(amount) || amount <= 0 || !/^\d{2}$/.test(value.vnp_ResponseCode || '') || !/^\d{2}$/.test(value.vnp_TransactionStatus || '') || !value.vnp_OrderInfo) {
       throw new BadRequestException('Dữ liệu giao dịch VNPAY không hợp lệ');
     }
     return {
       transactionId: value.vnp_TxnRef,
       amount,
-      status: value.vnp_ResponseCode === '00' && value.vnp_TransactionStatus === '00' ? PaymentStatus.PAID : PaymentStatus.FAILED,
+      status: value.vnp_ResponseCode === '00' && value.vnp_TransactionStatus === '00' ? PaymentStatus.PAID : value.vnp_ResponseCode === '24' ? PaymentStatus.CANCELLED : value.vnp_ResponseCode === '15' ? PaymentStatus.EXPIRED : PaymentStatus.FAILED,
       reference: value.vnp_TransactionNo,
       safePayload: { orderCode: value.vnp_OrderInfo, responseCode: value.vnp_ResponseCode, transactionNo: value.vnp_TransactionNo },
     };

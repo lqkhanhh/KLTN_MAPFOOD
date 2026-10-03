@@ -69,7 +69,8 @@ try {
   assert.equal(await page.locator('.rb-admin-metrics article').first().locator('strong').textContent(), '16');
   assert.equal(await page.locator('.consumer-header').count(), 0);
   const nav = page.getByRole('navigation', { name: 'Điều hướng admin' });
-  assert.equal(await nav.getByRole('link').count(), 4);
+  assert.equal(await nav.getByRole('link').count(), 5);
+  assert.equal(await nav.getByRole('link', { name: 'Voucher', exact: true }).getAttribute('href'), '/admin/vouchers');
   await nav.getByRole('link', { name: 'Quán ăn', exact: true }).click();
   await page.getByRole('button', { name: 'Trang sau' }).click();
   await page.getByText('Quán trang sau', { exact: true }).waitFor();

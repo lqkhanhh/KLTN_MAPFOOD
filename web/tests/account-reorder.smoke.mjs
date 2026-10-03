@@ -32,7 +32,10 @@ try {
       const item = page.getByRole('menuitem', { name, exact: true });
       const css = await item.evaluate((node) => ({ bg: getComputedStyle(node).backgroundColor, font: getComputedStyle(node).fontSize, after: getComputedStyle(node, '::after').content }));
       assert.equal(css.bg, 'rgba(0, 0, 0, 0)'); assert.equal(css.font, '14px'); assert.equal(css.after, 'none');
-      await item.hover(); assert.notEqual(await item.evaluate((node) => getComputedStyle(node).backgroundColor), css.bg); await page.mouse.move(0, 0);
+      await item.hover();
+      await page.waitForFunction(({ node, bg }) => getComputedStyle(node).backgroundColor !== bg, { node: await item.elementHandle(), bg: css.bg });
+      await page.mouse.move(0, 0);
+      await page.waitForFunction(({ node, bg }) => getComputedStyle(node).backgroundColor === bg, { node: await item.elementHandle(), bg: css.bg });
     }
     await page.keyboard.press('Tab');
     await page.getByRole('menuitem', { name: 'Thông tin tài khoản', exact: true }).focus();

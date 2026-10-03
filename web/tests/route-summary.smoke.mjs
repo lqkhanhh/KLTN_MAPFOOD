@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
+import { installGoogleMapsFixture } from './google-maps.fixture.mjs';
 import { build } from 'esbuild';
 
 const compiled = await build({ entryPoints: ['src/utils/routeContext.ts'], bundle: true, write: false, format: 'esm', platform: 'node' });
@@ -14,6 +15,7 @@ assert.equal(restaurantPoint({ latitude: null, longitude: null }), undefined);
 
 const browser = await chromium.launch({ channel: process.env.BROWSER_CHANNEL || 'msedge', headless: true });
 const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+await installGoogleMapsFixture(page.context(), { rows: [{ place_id: 1, display_name: origin.address, lat: origin.lat, lon: origin.lng }] });
 const errors = [];
 page.on('pageerror', (error) => errors.push(error.message));
 const restaurant = (id) => ({ id, name: 'Quán ' + id, address: '12 Lê Lợi, Quận 1',
@@ -27,7 +29,7 @@ await page.route('**/*', async (route) => {
   if (url.pathname.startsWith('/api/restaurants/')) return route.fulfill({ json: restaurant(url.pathname.split('/').at(-1)) });
   if (url.pathname === '/api/search/route') {
     assert.equal(route.request().postDataJSON().pointA.latitude, origin.lat);
-    return route.fulfill({ json: { restaurants: [restaurant('A')], route: { travelTimeMinutes: 15 } } });
+    return route.fulfill({ json: { restaurants: [restaurant('A')], route: { travelTimeMinutes: 15, distanceMeters: 5000, polyline: "fixture" } } });
   }
   return route.abort();
 });
@@ -35,7 +37,7 @@ await page.route('**/*', async (route) => {
 try {
   await page.goto('http://127.0.0.1:4173/');
   await page.getByPlaceholder('Nhập điểm xuất phát').fill('Nguyễn Huệ');
-  await page.getByPlaceholder('Nhập điểm đích').fill('Lê Lợi');
+  await page.getByPlaceholder('Nhập điểm đến', { exact: true }).fill('Lê Lợi');
   await page.getByRole('button', { name: 'Tìm gợi ý', exact: true }).click();
   await page.getByRole('heading', { name: 'Kết quả gợi ý trên tuyến' }).waitFor();
   await page.locator('.restaurant-search-card').click();

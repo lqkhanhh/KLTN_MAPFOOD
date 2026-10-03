@@ -1,11 +1,13 @@
 import assert from 'node:assert/strict';
 import { chromium } from 'playwright';
+import { installGoogleMapsFixture } from './google-maps.fixture.mjs';
 
 // Giả lập dịch vụ địa điểm, không gửi truy vấn tới OpenStreetMap khi kiểm thử.
 const browser = await chromium.launch({ channel: process.env.BROWSER_CHANNEL || 'msedge', headless: true });
 try {
   const context = await browser.newContext({ permissions: ['geolocation'], geolocation: { latitude: 10.78, longitude: 106.7 } });
   const page = await context.newPage();
+  await installGoogleMapsFixture(context, { reverseAddress: 'Vị trí kiểm thử, TP.HCM', rows: Array.from({ length: 8 }, (_, i) => ({ place_id: i+1, display_name: i ? `Địa điểm ${i}, đường Nguyễn Văn Bảo, khu vực Gò Vấp, Thành phố Hồ Chí Minh, Việt Nam` : 'Nhà thờ Đức Bà, TP.HCM', lat: 10.779, lon: 106.699 })) });
   const errors = [];
   page.on('pageerror', (error) => errors.push(error.message));
   await page.route('**/*', async (route) => {
@@ -13,7 +15,7 @@ try {
     if (url.port === '4173') return route.continue();
     if (url.hostname === 'nominatim.openstreetmap.org') return route.fulfill({ json: url.pathname === '/reverse'
       ? { display_name: 'Vị trí kiểm thử, TP.HCM' }
-      : [{ place_id: 1, display_name: 'Nhà thờ Đức Bà, TP.HCM', lat: '10.779', lon: '106.699' }] });
+      : Array.from({ length: 8 }, (_, i) => ({ place_id: i + 1, display_name: i ? `Địa điểm ${i}, đường Nguyễn Văn Bảo, khu vực Gò Vấp, Thành phố Hồ Chí Minh, Việt Nam` : 'Nhà thờ Đức Bà, TP.HCM', lat: '10.779', lon: '106.699' })) });
     if (url.pathname === '/api/restaurants') return route.fulfill({ json: [] });
     return route.abort();
   });
@@ -33,6 +35,22 @@ try {
     assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `No overflow at ${width}px`);
   }
   const start = page.getByPlaceholder('Nhập điểm xuất phát');
+  const destination = page.getByPlaceholder('Nhập điểm đến');
+  for (const width of [1440, 375, 320]) {
+    await page.setViewportSize({ width, height: 900 });
+    await destination.fill('Gò Vấp');
+    const last = page.getByRole('option', { name: /Địa điểm 4,/ });
+    await last.waitFor();
+    await last.scrollIntoViewIfNeeded();
+    const uncovered = await last.evaluate(node => {
+      const box = node.getBoundingClientRect();
+      const hit = document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2);
+      return !!hit && node.contains(hit);
+    });
+    assert.ok(uncovered, `Last suggestion must be visible and clickable at ${width}px`);
+    await last.click();
+    assert.match(await destination.inputValue(), /Địa điểm 4/);
+  }
   await start.fill('Nhà thờ');
   await page.getByRole('option', { name: /Nhà thờ Đức Bà/ }).click();
   assert.equal(await start.inputValue(), 'Nhà thờ Đức Bà, TP.HCM');

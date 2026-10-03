@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -21,6 +22,10 @@ export enum UserRole {
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @Index('IDX_users_firebase_uid', { unique: true })
+  @Column({ type: 'varchar', length: 128, nullable: true, select: false })
+  firebaseUid?: string;
 
   @Column({ unique: true })
   email: string;

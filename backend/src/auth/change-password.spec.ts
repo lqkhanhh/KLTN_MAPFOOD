@@ -4,9 +4,11 @@ import { validate } from 'class-validator';
 import { AuthService } from './auth.service';
 import { ChangePasswordDto } from './dto';
 
+jest.mock('./firebase.service', () => ({ FirebaseService: jest.fn() }));
+
 describe('Change password', () => {
   const repo = { findOneBy: jest.fn(), update: jest.fn() };
-  const service = new AuthService(repo as never, {} as never);
+  const service = new AuthService(repo as never, {} as never, {} as never, {} as never);
   beforeEach(async () => {
     jest.resetAllMocks();
     repo.findOneBy.mockResolvedValue({ id: 'owner', passwordHash: await bcrypt.hash('old-pass', 4) });

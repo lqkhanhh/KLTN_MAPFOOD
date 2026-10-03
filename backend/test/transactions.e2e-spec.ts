@@ -59,15 +59,13 @@ describe('Transaction API validation (e2e)', () => {
 
   beforeEach(() => jest.clearAllMocks());
 
-  it('accepts a valid TAKE_AWAY request through controller and validation', async () => {
+  it('accepts a valid ASAP cash request through controller and validation', async () => {
     await request(app.getHttpServer())
       .post('/api/orders')
       .send({
         restaurantId: '22222222-2222-4222-8222-222222222222',
-        type: 'TAKE_AWAY',
-        customerName: 'Nguyễn Văn A',
-        customerPhone: '0900000000',
-        pickupTime: new Date(Date.now() + 60_000).toISOString(),
+        pickupOption: { type: 'asap', estimatedPickupMinutes: 15 },
+        payment: { method: 'cash' },
         items: [{ menuItemId: '33333333-3333-4333-8333-333333333333', quantity: 2 }],
       })
       .expect(201)
@@ -80,10 +78,8 @@ describe('Transaction API validation (e2e)', () => {
       .post('/api/orders')
       .send({
         restaurantId: '22222222-2222-4222-8222-222222222222',
-        type: 'TAKE_AWAY',
-        customerName: 'Nguyễn Văn A',
-        customerPhone: '0900000000',
-        pickupTime: new Date(Date.now() + 60_000).toISOString(),
+        pickupOption: { type: 'asap', estimatedPickupMinutes: 15 },
+        payment: { method: 'cash' },
         items: [{ menuItemId: '33333333-3333-4333-8333-333333333333', quantity: 0 }],
       })
       .expect(400);
@@ -95,11 +91,9 @@ describe('Transaction API validation (e2e)', () => {
       .post('/api/orders')
       .send({
         restaurantId: '22222222-2222-4222-8222-222222222222',
-        type: 'BOOKING',
-        customerName: 'Nguyễn Văn A',
-        customerPhone: '0900000000',
-        bookingTime: new Date(Date.now() + 60_000).toISOString(),
-        guestCount: 2,
+        pickupOption: { type: 'asap', estimatedPickupMinutes: 15 },
+        payment: { method: 'cash' },
+        items: [{ menuItemId: '33333333-3333-4333-8333-333333333333', quantity: 1 }],
         userId: 'attacker',
         totalAmount: 1,
         status: 'COMPLETED',

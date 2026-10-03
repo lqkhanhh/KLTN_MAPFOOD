@@ -95,16 +95,22 @@ async function main() {
     await customer.locator('.rb-notification-item').filter({ hasText: 'Tin của đơn mới' }).click(); await customer.waitForURL(`**/orders/${orders[1]}?chat=1`);
     await customer.locator('.rb-chat-message').filter({ hasText: 'Tin của đơn mới' }).waitFor(); await customer.getByRole('button', { name: 'Tin nhắn, 1 chưa đọc', exact: true }).waitFor();
     await customer.goto('http://127.0.0.1:4173/'); await customer.getByRole('button', { name: 'Hỗ trợ AI', exact: true }).click();
-    await customer.getByRole('button', { name: 'Làm sao hủy đơn?', exact: true }).click(); await customer.getByRole('button', { name: 'Gửi', exact: true }).click();
+    assert.equal(await customer.locator('[aria-label="Câu hỏi thường gặp"] button').count(), 6);
+    await customer.getByRole('button', { name: 'Làm sao hủy đơn?', exact: true }).click();
     await customer.locator('.rb-ai-message.assistant').filter({ hasText: 'chỉ tự hủy' }).waitFor();
     assert.equal(providerCalls, 1); assert.equal(await customer.locator('.rb-ai-message.user').count(), 1);
     for (const width of [320, 375, 1280]) { await customer.setViewportSize({ width, height: 850 }); const box = await customer.locator('.rb-ai-panel').boundingBox(); assert.ok(box.x >= 0 && box.x + box.width <= width); assert.ok(box.y >= 0); }
     delete process.env.ANTHROPIC_API_KEY;
     await customer.getByPlaceholder('Nhập câu hỏi...').fill('Tôi cần hỗ trợ'); await customer.getByRole('button', { name: 'Gửi', exact: true }).click();
-    await customer.getByRole('alert').filter({ hasText: 'chưa được cấu hình' }).waitFor(); assert.equal(providerCalls, 1);
-    assert.equal(await customer.getByPlaceholder('Nhập câu hỏi...').inputValue(), 'Tôi cần hỗ trợ'); assert.equal(await customer.locator('.rb-ai-message.assistant').count(), 1);
+    await customer.locator('.rb-ai-message.assistant').filter({ hasText: 'AI chưa được cấu hình' }).waitFor(); assert.equal(providerCalls, 1);
+    assert.equal(await customer.getByPlaceholder('Nhập câu hỏi...').inputValue(), ''); assert.equal(await customer.locator('.rb-ai-message.assistant').count(), 2);
+    await customer.locator('[aria-label="Câu hỏi liên quan"]').getByRole('button', { name: 'Làm sao hủy đơn?', exact: true }).click();
+    await customer.locator('.rb-ai-message.assistant').filter({ hasText: 'Bạn chỉ tự hủy được đơn' }).waitFor();
+    assert.equal(providerCalls, 1);
+    await customer.getByRole('button', { name: 'Hội thoại mới', exact: true }).click();
+    assert.equal(await customer.locator('[aria-label="Câu hỏi thường gặp"] button').count(), 6);
     assert.deepEqual(pageErrors, []);
-    console.log('PASS: real DB inbox ownership/latest/unread + two-browser chat/notification badges + first conversation delivery + mark read isolation + drawer auto-open + shared socket remains alive + responsive panels. AI widget/proxy validated with FAKE provider; missing-key recovery preserves draft.');
+    console.log('PASS: real DB inbox ownership/latest/unread + two-browser chat/notification badges + first conversation delivery + mark read isolation + drawer auto-open + shared socket remains alive + responsive panels. AI widget/proxy validated with FAKE provider; missing-key returns explicitly labelled FAQ.');
   } finally {
     await browser?.close(); const ds = app.get(DataSource);
     if (ds.isInitialized) { await ds.getRepository(Order).delete({ id: In(orders) }); await ds.getRepository(Restaurant).delete({ id: restaurantId }); await ds.getRepository(User).delete({ id: In(users) }); }

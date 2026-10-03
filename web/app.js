@@ -13,8 +13,8 @@
     }
   };
   var __export = (target, all) => {
-    for (var name in all)
-      __defProp(target, name, { get: all[name], enumerable: true });
+    for (var name4 in all)
+      __defProp(target, name4, { get: all[name4], enumerable: true });
   };
   var __copyProps = (to, from, except, desc) => {
     if (from && typeof from === "object" || typeof from === "function") {
@@ -39,7 +39,7 @@
       "use strict";
       (function() {
         function defineDeprecationWarning(methodName, info) {
-          Object.defineProperty(Component4.prototype, methodName, {
+          Object.defineProperty(Component5.prototype, methodName, {
             get: function() {
               console.warn(
                 "%s(...) is deprecated in plain JavaScript React classes. %s",
@@ -64,7 +64,7 @@
             publicInstance
           ), didWarnStateUpdateForUnmountedComponent[warningKey] = true);
         }
-        function Component4(props, context, updater) {
+        function Component5(props, context, updater) {
           this.props = props;
           this.context = context;
           this.refs = emptyObject;
@@ -78,7 +78,7 @@
           this.refs = emptyObject;
           this.updater = updater || ReactNoopUpdateQueue;
         }
-        function noop() {
+        function noop2() {
         }
         function testStringCoercion(value2) {
           return "" + value2;
@@ -153,8 +153,8 @@
           if ("object" === typeof type && null !== type && type.$$typeof === REACT_LAZY_TYPE)
             return "<...>";
           try {
-            var name = getComponentNameFromType(type);
-            return name ? "<" + name + ">" : "<...>";
+            var name4 = getComponentNameFromType(type);
+            return name4 ? "<" + name4 + ">" : "<...>";
           } catch (x) {
             return "<...>";
           }
@@ -269,7 +269,7 @@
             case "rejected":
               throw thenable.reason;
             default:
-              switch ("string" === typeof thenable.status ? thenable.then(noop, noop) : (thenable.status = "pending", thenable.then(
+              switch ("string" === typeof thenable.status ? thenable.then(noop2, noop2) : (thenable.status = "pending", thenable.then(
                 function(fulfilledValue) {
                   "pending" === thenable.status && (thenable.status = "fulfilled", thenable.value = fulfilledValue);
                 },
@@ -517,15 +517,15 @@
           }
         }, assign = Object.assign, emptyObject = {};
         Object.freeze(emptyObject);
-        Component4.prototype.isReactComponent = {};
-        Component4.prototype.setState = function(partialState, callback) {
+        Component5.prototype.isReactComponent = {};
+        Component5.prototype.setState = function(partialState, callback) {
           if ("object" !== typeof partialState && "function" !== typeof partialState && null != partialState)
             throw Error(
               "takes an object of state variables to update or a function which returns an object of state variables."
             );
           this.updater.enqueueSetState(this, partialState, callback, "setState");
         };
-        Component4.prototype.forceUpdate = function(callback) {
+        Component5.prototype.forceUpdate = function(callback) {
           this.updater.enqueueForceUpdate(this, callback, "forceUpdate");
         };
         var deprecatedAPIs = {
@@ -540,10 +540,10 @@
         };
         for (fnName in deprecatedAPIs)
           deprecatedAPIs.hasOwnProperty(fnName) && defineDeprecationWarning(fnName, deprecatedAPIs[fnName]);
-        ComponentDummy.prototype = Component4.prototype;
+        ComponentDummy.prototype = Component5.prototype;
         deprecatedAPIs = PureComponent.prototype = new ComponentDummy();
         deprecatedAPIs.constructor = PureComponent;
-        assign(deprecatedAPIs, Component4.prototype);
+        assign(deprecatedAPIs, Component5.prototype);
         deprecatedAPIs.isPureReactComponent = true;
         var isArrayImpl = Array.isArray, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = {
           H: null,
@@ -631,7 +631,7 @@
         };
         exports.Activity = REACT_ACTIVITY_TYPE;
         exports.Children = fnName;
-        exports.Component = Component4;
+        exports.Component = Component5;
         exports.Fragment = REACT_FRAGMENT_TYPE;
         exports.Profiler = REACT_PROFILER_TYPE;
         exports.PureComponent = PureComponent;
@@ -849,9 +849,9 @@
             get: function() {
               return ownName;
             },
-            set: function(name) {
-              ownName = name;
-              render.name || render.displayName || (Object.defineProperty(render, "name", { value: name }), render.displayName = name);
+            set: function(name4) {
+              ownName = name4;
+              render.name || render.displayName || (Object.defineProperty(render, "name", { value: name4 }), render.displayName = name4);
             }
           });
           return elementType;
@@ -893,9 +893,9 @@
             get: function() {
               return ownName;
             },
-            set: function(name) {
-              ownName = name;
-              type.name || type.displayName || (Object.defineProperty(type, "name", { value: name }), type.displayName = name);
+            set: function(name4) {
+              ownName = name4;
+              type.name || type.displayName || (Object.defineProperty(type, "name", { value: name4 }), type.displayName = name4);
             }
           });
           return compare;
@@ -907,7 +907,7 @@
           try {
             var returnValue = scope(), onStartTransitionFinish = ReactSharedInternals.S;
             null !== onStartTransitionFinish && onStartTransitionFinish(currentTransition, returnValue);
-            "object" === typeof returnValue && null !== returnValue && "function" === typeof returnValue.then && (ReactSharedInternals.asyncTransitions++, returnValue.then(releaseAsyncTransition, releaseAsyncTransition), returnValue.then(noop, reportGlobalError));
+            "object" === typeof returnValue && null !== returnValue && "function" === typeof returnValue.then && (ReactSharedInternals.asyncTransitions++, returnValue.then(releaseAsyncTransition, releaseAsyncTransition), returnValue.then(noop2, reportGlobalError));
           } catch (error) {
             reportGlobalError(error);
           } finally {
@@ -1293,7 +1293,7 @@
     "node_modules/react-dom/cjs/react-dom.development.js"(exports) {
       "use strict";
       (function() {
-        function noop() {
+        function noop2() {
         }
         function testStringCoercion(value2) {
           return "" + value2;
@@ -1337,25 +1337,25 @@
           return dispatcher;
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var React13 = require_react(), Internals = {
+        var React14 = require_react(), Internals = {
           d: {
-            f: noop,
+            f: noop2,
             r: function() {
               throw Error(
                 "Invalid form element. requestFormReset must be passed a form that was rendered by React."
               );
             },
-            D: noop,
-            C: noop,
-            L: noop,
-            m: noop,
-            X: noop,
-            S: noop,
-            M: noop
+            D: noop2,
+            C: noop2,
+            L: noop2,
+            m: noop2,
+            X: noop2,
+            S: noop2,
+            M: noop2
           },
           p: 0,
           findDOMNode: null
-        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React13.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
+        }, REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), ReactSharedInternals = React14.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE;
         "function" === typeof Map && null != Map.prototype && "function" === typeof Map.prototype.forEach && "function" === typeof Set && null != Set.prototype && "function" === typeof Set.prototype.clear && "function" === typeof Set.prototype.forEach || console.error(
           "React depends on Map and Set built-in types. Make sure that you load a polyfill in older browsers. https://reactjs.org/link/react-polyfills"
         );
@@ -1608,7 +1608,7 @@
             "Context can only be read while React is rendering. In classes, you can read it in the render method or getDerivedStateFromProps. In function components, you can read it directly in the function body, but not inside Hooks like useReducer() or useMemo()."
           );
         }
-        function noop() {
+        function noop2() {
         }
         function warnForMissingKey() {
         }
@@ -2020,7 +2020,7 @@
           else return "";
           return error;
         }
-        function describeBuiltInComponentFrame(name) {
+        function describeBuiltInComponentFrame(name4) {
           if (void 0 === prefix)
             try {
               throw Error();
@@ -2029,7 +2029,7 @@
               prefix = match && match[1] || "";
               suffix = -1 < x.stack.indexOf("\n    at") ? " (<anonymous>)" : -1 < x.stack.indexOf("@") ? "@unknown:0:0" : "";
             }
-          return "\n" + prefix + name + suffix;
+          return "\n" + prefix + name4 + suffix;
         }
         function describeNativeComponentFrame(fn, construct) {
           if (!fn || reentry) return "";
@@ -2172,16 +2172,16 @@
                   if ("string" === typeof entry.name) {
                     var JSCompiler_temp_const = info;
                     a: {
-                      var name = entry.name, env = entry.env, location2 = entry.debugLocation;
+                      var name4 = entry.name, env = entry.env, location2 = entry.debugLocation;
                       if (null != location2) {
                         var childStack = formatOwnerStack(location2), idx = childStack.lastIndexOf("\n"), lastLine = -1 === idx ? childStack : childStack.slice(idx + 1);
-                        if (-1 !== lastLine.indexOf(name)) {
+                        if (-1 !== lastLine.indexOf(name4)) {
                           var JSCompiler_inline_result = "\n" + lastLine;
                           break a;
                         }
                       }
                       JSCompiler_inline_result = describeBuiltInComponentFrame(
-                        name + (env ? " [" + env + "]" : "")
+                        name4 + (env ? " [" + env + "]" : "")
                       );
                     }
                     info = JSCompiler_temp_const + JSCompiler_inline_result;
@@ -2677,9 +2677,9 @@
           console.error("Invalid attribute name: `%s`", attributeName);
           return false;
         }
-        function getValueForAttributeOnCustomComponent(node, name, expected) {
-          if (isAttributeNameSafe(name)) {
-            if (!node.hasAttribute(name)) {
+        function getValueForAttributeOnCustomComponent(node, name4, expected) {
+          if (isAttributeNameSafe(name4)) {
+            if (!node.hasAttribute(name4)) {
               switch (typeof expected) {
                 case "symbol":
                 case "object":
@@ -2691,61 +2691,61 @@
               }
               return void 0 === expected ? void 0 : null;
             }
-            node = node.getAttribute(name);
+            node = node.getAttribute(name4);
             if ("" === node && true === expected) return true;
-            checkAttributeStringCoercion(expected, name);
+            checkAttributeStringCoercion(expected, name4);
             return node === "" + expected ? expected : node;
           }
         }
-        function setValueForAttribute(node, name, value2) {
-          if (isAttributeNameSafe(name))
-            if (null === value2) node.removeAttribute(name);
+        function setValueForAttribute(node, name4, value2) {
+          if (isAttributeNameSafe(name4))
+            if (null === value2) node.removeAttribute(name4);
             else {
               switch (typeof value2) {
                 case "undefined":
                 case "function":
                 case "symbol":
-                  node.removeAttribute(name);
+                  node.removeAttribute(name4);
                   return;
                 case "boolean":
-                  var prefix2 = name.toLowerCase().slice(0, 5);
+                  var prefix2 = name4.toLowerCase().slice(0, 5);
                   if ("data-" !== prefix2 && "aria-" !== prefix2) {
-                    node.removeAttribute(name);
+                    node.removeAttribute(name4);
                     return;
                   }
               }
-              checkAttributeStringCoercion(value2, name);
-              node.setAttribute(name, "" + value2);
+              checkAttributeStringCoercion(value2, name4);
+              node.setAttribute(name4, "" + value2);
             }
         }
-        function setValueForKnownAttribute(node, name, value2) {
-          if (null === value2) node.removeAttribute(name);
+        function setValueForKnownAttribute(node, name4, value2) {
+          if (null === value2) node.removeAttribute(name4);
           else {
             switch (typeof value2) {
               case "undefined":
               case "function":
               case "symbol":
               case "boolean":
-                node.removeAttribute(name);
+                node.removeAttribute(name4);
                 return;
             }
-            checkAttributeStringCoercion(value2, name);
-            node.setAttribute(name, "" + value2);
+            checkAttributeStringCoercion(value2, name4);
+            node.setAttribute(name4, "" + value2);
           }
         }
-        function setValueForNamespacedAttribute(node, namespace, name, value2) {
-          if (null === value2) node.removeAttribute(name);
+        function setValueForNamespacedAttribute(node, namespace, name4, value2) {
+          if (null === value2) node.removeAttribute(name4);
           else {
             switch (typeof value2) {
               case "undefined":
               case "function":
               case "symbol":
               case "boolean":
-                node.removeAttribute(name);
+                node.removeAttribute(name4);
                 return;
             }
-            checkAttributeStringCoercion(value2, name);
-            node.setAttributeNS(namespace, name, "" + value2);
+            checkAttributeStringCoercion(value2, name4);
+            node.setAttributeNS(namespace, name4, "" + value2);
           }
         }
         function getToStringValue(value2) {
@@ -2851,7 +2851,7 @@
             props.type
           ), didWarnValueDefaultValue$1 = true);
         }
-        function updateInput(element, value2, defaultValue, lastDefaultValue, checked, defaultChecked, type, name) {
+        function updateInput(element, value2, defaultValue, lastDefaultValue, checked, defaultChecked, type, name4) {
           element.name = "";
           null != type && "function" !== typeof type && "symbol" !== typeof type && "boolean" !== typeof type ? (checkAttributeStringCoercion(type, "type"), element.type = type) : element.removeAttribute("type");
           if (null != value2)
@@ -2865,9 +2865,9 @@
           null != value2 ? setDefaultValue(element, type, getToStringValue(value2)) : null != defaultValue ? setDefaultValue(element, type, getToStringValue(defaultValue)) : null != lastDefaultValue && element.removeAttribute("value");
           null == checked && null != defaultChecked && (element.defaultChecked = !!defaultChecked);
           null != checked && (element.checked = checked && "function" !== typeof checked && "symbol" !== typeof checked);
-          null != name && "function" !== typeof name && "symbol" !== typeof name && "boolean" !== typeof name ? (checkAttributeStringCoercion(name, "name"), element.name = "" + getToStringValue(name)) : element.removeAttribute("name");
+          null != name4 && "function" !== typeof name4 && "symbol" !== typeof name4 && "boolean" !== typeof name4 ? (checkAttributeStringCoercion(name4, "name"), element.name = "" + getToStringValue(name4)) : element.removeAttribute("name");
         }
-        function initInput(element, value2, defaultValue, checked, defaultChecked, type, name, isHydrating2) {
+        function initInput(element, value2, defaultValue, checked, defaultChecked, type, name4, isHydrating2) {
           null != type && "function" !== typeof type && "symbol" !== typeof type && "boolean" !== typeof type && (checkAttributeStringCoercion(type, "type"), element.type = type);
           if (null != value2 || null != defaultValue) {
             if (!("submit" !== type && "reset" !== type || void 0 !== value2 && null !== value2)) {
@@ -2883,14 +2883,14 @@
           checked = "function" !== typeof checked && "symbol" !== typeof checked && !!checked;
           element.checked = isHydrating2 ? element.checked : !!checked;
           element.defaultChecked = !!checked;
-          null != name && "function" !== typeof name && "symbol" !== typeof name && "boolean" !== typeof name && (checkAttributeStringCoercion(name, "name"), element.name = name);
+          null != name4 && "function" !== typeof name4 && "symbol" !== typeof name4 && "boolean" !== typeof name4 && (checkAttributeStringCoercion(name4, "name"), element.name = name4);
           track(element);
         }
         function setDefaultValue(node, type, value2) {
           "number" === type && getActiveElement(node.ownerDocument) === node || node.defaultValue === "" + value2 || (node.defaultValue = "" + value2);
         }
         function validateOptionProps(element, props) {
-          null == props.value && ("object" === typeof props.children && null !== props.children ? React13.Children.forEach(props.children, function(child) {
+          null == props.value && ("object" === typeof props.children && null !== props.children ? React14.Children.forEach(props.children, function(child) {
             null == child || "string" === typeof child || "number" === typeof child || "bigint" === typeof child || didWarnInvalidChild || (didWarnInvalidChild = true, console.error(
               "Cannot infer the option value of complex children. Pass a `value` prop or use a plain string as children to <option>."
             ));
@@ -3051,9 +3051,9 @@
               if (isArrayImpl(value2)) return "[...]";
               if (value2.$$typeof === REACT_ELEMENT_TYPE)
                 return (maxLength = getComponentNameFromType(value2.type)) ? "<" + maxLength + ">" : "<...>";
-              var name = objectName(value2);
-              if ("Object" === name) {
-                name = "";
+              var name4 = objectName(value2);
+              if ("Object" === name4) {
+                name4 = "";
                 maxLength -= 2;
                 for (var propName in value2)
                   if (value2.hasOwnProperty(propName)) {
@@ -3066,14 +3066,14 @@
                     );
                     maxLength -= jsonPropName.length;
                     if (0 > maxLength) {
-                      name += "" === name ? "..." : ", ...";
+                      name4 += "" === name4 ? "..." : ", ...";
                       break;
                     }
-                    name += ("" === name ? "" : ",") + propName + ":" + jsonPropName;
+                    name4 += ("" === name4 ? "" : ",") + propName + ":" + jsonPropName;
                   }
-                return "{" + name + "}";
+                return "{" + name4 + "}";
               }
-              return name;
+              return name4;
             case "function":
               return (maxLength = value2.displayName || value2.name) ? "function " + maxLength : "function";
             default:
@@ -3558,36 +3558,36 @@
               return true;
           }
         }
-        function getAttributeAlias(name) {
-          return aliases.get(name) || name;
+        function getAttributeAlias(name4) {
+          return aliases.get(name4) || name4;
         }
-        function validateProperty$1(tagName, name) {
-          if (hasOwnProperty.call(warnedProperties$1, name) && warnedProperties$1[name])
+        function validateProperty$1(tagName, name4) {
+          if (hasOwnProperty.call(warnedProperties$1, name4) && warnedProperties$1[name4])
             return true;
-          if (rARIACamel$1.test(name)) {
-            tagName = "aria-" + name.slice(4).toLowerCase();
+          if (rARIACamel$1.test(name4)) {
+            tagName = "aria-" + name4.slice(4).toLowerCase();
             tagName = ariaProperties.hasOwnProperty(tagName) ? tagName : null;
             if (null == tagName)
               return console.error(
                 "Invalid ARIA attribute `%s`. ARIA attributes follow the pattern aria-* and must be lowercase.",
-                name
-              ), warnedProperties$1[name] = true;
-            if (name !== tagName)
+                name4
+              ), warnedProperties$1[name4] = true;
+            if (name4 !== tagName)
               return console.error(
                 "Invalid ARIA attribute `%s`. Did you mean `%s`?",
-                name,
+                name4,
                 tagName
-              ), warnedProperties$1[name] = true;
+              ), warnedProperties$1[name4] = true;
           }
-          if (rARIA$1.test(name)) {
-            tagName = name.toLowerCase();
+          if (rARIA$1.test(name4)) {
+            tagName = name4.toLowerCase();
             tagName = ariaProperties.hasOwnProperty(tagName) ? tagName : null;
-            if (null == tagName) return warnedProperties$1[name] = true, false;
-            name !== tagName && (console.error(
+            if (null == tagName) return warnedProperties$1[name4] = true, false;
+            name4 !== tagName && (console.error(
               "Unknown ARIA attribute `%s`. Did you mean `%s`?",
-              name,
+              name4,
               tagName
-            ), warnedProperties$1[name] = true);
+            ), warnedProperties$1[name4] = true);
           }
           return true;
         }
@@ -3608,70 +3608,70 @@
             type
           );
         }
-        function validateProperty(tagName, name, value2, eventRegistry) {
-          if (hasOwnProperty.call(warnedProperties, name) && warnedProperties[name])
+        function validateProperty(tagName, name4, value2, eventRegistry) {
+          if (hasOwnProperty.call(warnedProperties, name4) && warnedProperties[name4])
             return true;
-          var lowerCasedName = name.toLowerCase();
+          var lowerCasedName = name4.toLowerCase();
           if ("onfocusin" === lowerCasedName || "onfocusout" === lowerCasedName)
             return console.error(
               "React uses onFocus and onBlur instead of onFocusIn and onFocusOut. All React events are normalized to bubble, so onFocusIn and onFocusOut are not needed/supported by React."
-            ), warnedProperties[name] = true;
-          if ("function" === typeof value2 && ("form" === tagName && "action" === name || "input" === tagName && "formAction" === name || "button" === tagName && "formAction" === name))
+            ), warnedProperties[name4] = true;
+          if ("function" === typeof value2 && ("form" === tagName && "action" === name4 || "input" === tagName && "formAction" === name4 || "button" === tagName && "formAction" === name4))
             return true;
           if (null != eventRegistry) {
             tagName = eventRegistry.possibleRegistrationNames;
-            if (eventRegistry.registrationNameDependencies.hasOwnProperty(name))
+            if (eventRegistry.registrationNameDependencies.hasOwnProperty(name4))
               return true;
             eventRegistry = tagName.hasOwnProperty(lowerCasedName) ? tagName[lowerCasedName] : null;
             if (null != eventRegistry)
               return console.error(
                 "Invalid event handler property `%s`. Did you mean `%s`?",
-                name,
+                name4,
                 eventRegistry
-              ), warnedProperties[name] = true;
-            if (EVENT_NAME_REGEX.test(name))
+              ), warnedProperties[name4] = true;
+            if (EVENT_NAME_REGEX.test(name4))
               return console.error(
                 "Unknown event handler property `%s`. It will be ignored.",
-                name
-              ), warnedProperties[name] = true;
-          } else if (EVENT_NAME_REGEX.test(name))
-            return INVALID_EVENT_NAME_REGEX.test(name) && console.error(
+                name4
+              ), warnedProperties[name4] = true;
+          } else if (EVENT_NAME_REGEX.test(name4))
+            return INVALID_EVENT_NAME_REGEX.test(name4) && console.error(
               "Invalid event handler property `%s`. React events use the camelCase naming convention, for example `onClick`.",
-              name
-            ), warnedProperties[name] = true;
-          if (rARIA.test(name) || rARIACamel.test(name)) return true;
+              name4
+            ), warnedProperties[name4] = true;
+          if (rARIA.test(name4) || rARIACamel.test(name4)) return true;
           if ("innerhtml" === lowerCasedName)
             return console.error(
               "Directly setting property `innerHTML` is not permitted. For more information, lookup documentation on `dangerouslySetInnerHTML`."
-            ), warnedProperties[name] = true;
+            ), warnedProperties[name4] = true;
           if ("aria" === lowerCasedName)
             return console.error(
               "The `aria` attribute is reserved for future use in React. Pass individual `aria-` attributes instead."
-            ), warnedProperties[name] = true;
+            ), warnedProperties[name4] = true;
           if ("is" === lowerCasedName && null !== value2 && void 0 !== value2 && "string" !== typeof value2)
             return console.error(
               "Received a `%s` for a string attribute `is`. If this is expected, cast the value to a string.",
               typeof value2
-            ), warnedProperties[name] = true;
+            ), warnedProperties[name4] = true;
           if ("number" === typeof value2 && isNaN(value2))
             return console.error(
               "Received NaN for the `%s` attribute. If this is expected, cast the value to a string.",
-              name
-            ), warnedProperties[name] = true;
+              name4
+            ), warnedProperties[name4] = true;
           if (possibleStandardNames.hasOwnProperty(lowerCasedName)) {
-            if (lowerCasedName = possibleStandardNames[lowerCasedName], lowerCasedName !== name)
+            if (lowerCasedName = possibleStandardNames[lowerCasedName], lowerCasedName !== name4)
               return console.error(
                 "Invalid DOM property `%s`. Did you mean `%s`?",
-                name,
+                name4,
                 lowerCasedName
-              ), warnedProperties[name] = true;
-          } else if (name !== lowerCasedName)
+              ), warnedProperties[name4] = true;
+          } else if (name4 !== lowerCasedName)
             return console.error(
               "React does not recognize the `%s` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `%s` instead. If you accidentally passed it from a parent component, remove it from the DOM element.",
-              name,
+              name4,
               lowerCasedName
-            ), warnedProperties[name] = true;
-          switch (name) {
+            ), warnedProperties[name4] = true;
+          switch (name4) {
             case "dangerouslySetInnerHTML":
             case "children":
             case "style":
@@ -3688,7 +3688,7 @@
           }
           switch (typeof value2) {
             case "boolean":
-              switch (name) {
+              switch (name4) {
                 case "autoFocus":
                 case "checked":
                 case "multiple":
@@ -3729,34 +3729,34 @@
                 case "inert":
                   return true;
                 default:
-                  lowerCasedName = name.toLowerCase().slice(0, 5);
+                  lowerCasedName = name4.toLowerCase().slice(0, 5);
                   if ("data-" === lowerCasedName || "aria-" === lowerCasedName)
                     return true;
                   value2 ? console.error(
                     'Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s="%s" or %s={value.toString()}.',
                     value2,
-                    name,
-                    name,
+                    name4,
+                    name4,
                     value2,
-                    name
+                    name4
                   ) : console.error(
                     'Received `%s` for a non-boolean attribute `%s`.\n\nIf you want to write it to the DOM, pass a string instead: %s="%s" or %s={value.toString()}.\n\nIf you used to conditionally omit it with %s={condition && value}, pass %s={condition ? value : undefined} instead.',
                     value2,
-                    name,
-                    name,
+                    name4,
+                    name4,
                     value2,
-                    name,
-                    name,
-                    name
+                    name4,
+                    name4,
+                    name4
                   );
-                  return warnedProperties[name] = true;
+                  return warnedProperties[name4] = true;
               }
             case "function":
             case "symbol":
-              return warnedProperties[name] = true, false;
+              return warnedProperties[name4] = true, false;
             case "string":
               if ("false" === value2 || "true" === value2) {
-                switch (name) {
+                switch (name4) {
                   case "checked":
                   case "selected":
                   case "multiple":
@@ -3791,12 +3791,12 @@
                 console.error(
                   "Received the string `%s` for the boolean attribute `%s`. %s Did you mean %s={%s}?",
                   value2,
-                  name,
+                  name4,
                   "false" === value2 ? "The browser will interpret it as a truthy value." : 'Although this works, it will not work as expected if you pass the string "false".',
-                  name,
+                  name4,
                   value2
                 );
-                warnedProperties[name] = true;
+                warnedProperties[name4] = true;
               }
           }
           return true;
@@ -4431,8 +4431,8 @@
           logComponentTrigger(fiber, startTime, endTime, "Reconnect");
         }
         function logComponentRender(fiber, startTime, endTime, wasHydrated, committedLanes) {
-          var name = getComponentNameFromFiber(fiber);
-          if (null !== name && supportsUserTiming) {
+          var name4 = getComponentNameFromFiber(fiber);
+          if (null !== name4 && supportsUserTiming) {
             var alternate = fiber.alternate, selfTime = fiber.actualDuration;
             if (null === alternate || alternate.child !== fiber.child)
               for (var child = fiber.child; null !== child; child = child.sibling)
@@ -4445,19 +4445,19 @@
               props,
               child,
               0
-            ), 1 < child.length && (props && !alreadyWarnedForDeepEquality && 0 === (alternate.lanes & committedLanes) && 100 < fiber.actualDuration ? (alreadyWarnedForDeepEquality = true, child[0] = reusableDeeplyEqualPropsEntry, reusableComponentDevToolDetails.color = "warning", reusableComponentDevToolDetails.tooltipText = DEEP_EQUALITY_WARNING) : (reusableComponentDevToolDetails.color = wasHydrated, reusableComponentDevToolDetails.tooltipText = name), reusableComponentDevToolDetails.properties = child, reusableComponentOptions.start = startTime, reusableComponentOptions.end = endTime, null != selfTime ? selfTime.run(
+            ), 1 < child.length && (props && !alreadyWarnedForDeepEquality && 0 === (alternate.lanes & committedLanes) && 100 < fiber.actualDuration ? (alreadyWarnedForDeepEquality = true, child[0] = reusableDeeplyEqualPropsEntry, reusableComponentDevToolDetails.color = "warning", reusableComponentDevToolDetails.tooltipText = DEEP_EQUALITY_WARNING) : (reusableComponentDevToolDetails.color = wasHydrated, reusableComponentDevToolDetails.tooltipText = name4), reusableComponentDevToolDetails.properties = child, reusableComponentOptions.start = startTime, reusableComponentOptions.end = endTime, null != selfTime ? selfTime.run(
               performance.measure.bind(
                 performance,
-                "\u200B" + name,
+                "\u200B" + name4,
                 reusableComponentOptions
               )
             ) : performance.measure(
-              "\u200B" + name,
+              "\u200B" + name4,
               reusableComponentOptions
             ))) : null != selfTime ? selfTime.run(
               console.timeStamp.bind(
                 console,
-                name,
+                name4,
                 startTime,
                 endTime,
                 COMPONENTS_TRACK,
@@ -4465,7 +4465,7 @@
                 wasHydrated
               )
             ) : console.timeStamp(
-              name,
+              name4,
               startTime,
               endTime,
               COMPONENTS_TRACK,
@@ -4476,8 +4476,8 @@
         }
         function logComponentErrored(fiber, startTime, endTime, errors) {
           if (supportsUserTiming) {
-            var name = getComponentNameFromFiber(fiber);
-            if (null !== name) {
+            var name4 = getComponentNameFromFiber(fiber);
+            if (null !== name4) {
               for (var debugTask = null, properties = [], i = 0; i < errors.length; i++) {
                 var capturedValue = errors[i];
                 null == debugTask && null !== capturedValue.source && (debugTask = capturedValue.source._debugTask);
@@ -4503,16 +4503,16 @@
                 }
               };
               debugTask ? debugTask.run(
-                performance.measure.bind(performance, "\u200B" + name, fiber)
-              ) : performance.measure("\u200B" + name, fiber);
+                performance.measure.bind(performance, "\u200B" + name4, fiber)
+              ) : performance.measure("\u200B" + name4, fiber);
             }
           }
         }
         function logComponentEffect(fiber, startTime, endTime, selfTime, errors) {
           if (null !== errors) {
             if (supportsUserTiming) {
-              var name = getComponentNameFromFiber(fiber);
-              if (null !== name) {
+              var name4 = getComponentNameFromFiber(fiber);
+              if (null !== name4) {
                 selfTime = [];
                 for (var i = 0; i < errors.length; i++) {
                   var error = errors[i].value;
@@ -4538,17 +4538,17 @@
                 (fiber = fiber._debugTask) ? fiber.run(
                   performance.measure.bind(
                     performance,
-                    "\u200B" + name,
+                    "\u200B" + name4,
                     startTime
                   )
-                ) : performance.measure("\u200B" + name, startTime);
+                ) : performance.measure("\u200B" + name4, startTime);
               }
             }
           } else
-            name = getComponentNameFromFiber(fiber), null !== name && supportsUserTiming && (errors = 1 > selfTime ? "secondary-light" : 100 > selfTime ? "secondary" : 500 > selfTime ? "secondary-dark" : "error", (fiber = fiber._debugTask) ? fiber.run(
+            name4 = getComponentNameFromFiber(fiber), null !== name4 && supportsUserTiming && (errors = 1 > selfTime ? "secondary-light" : 100 > selfTime ? "secondary" : 500 > selfTime ? "secondary-dark" : "error", (fiber = fiber._debugTask) ? fiber.run(
               console.timeStamp.bind(
                 console,
-                name,
+                name4,
                 startTime,
                 endTime,
                 COMPONENTS_TRACK,
@@ -4556,7 +4556,7 @@
                 errors
               )
             ) : console.timeStamp(
-              name,
+              name4,
               startTime,
               endTime,
               COMPONENTS_TRACK,
@@ -4890,9 +4890,9 @@
           this._debugHookTypes = null;
           hasBadMapPolyfill || "function" !== typeof Object.preventExtensions || Object.preventExtensions(this);
         }
-        function shouldConstruct(Component4) {
-          Component4 = Component4.prototype;
-          return !(!Component4 || !Component4.isReactComponent);
+        function shouldConstruct(Component5) {
+          Component5 = Component5.prototype;
+          return !(!Component5 || !Component5.isReactComponent);
         }
         function createWorkInProgress(current2, pendingProps) {
           var workInProgress2 = current2.alternate;
@@ -6901,13 +6901,13 @@
             if (!objectIs(nextDeps[i], prevDeps[i])) return false;
           return true;
         }
-        function renderWithHooks(current2, workInProgress2, Component4, props, secondArg, nextRenderLanes) {
+        function renderWithHooks(current2, workInProgress2, Component5, props, secondArg, nextRenderLanes) {
           renderLanes = nextRenderLanes;
           currentlyRenderingFiber = workInProgress2;
           hookTypesDev = null !== current2 ? current2._debugHookTypes : null;
           hookTypesUpdateIndexDev = -1;
           ignorePreviousDependencies = null !== current2 && current2.type !== workInProgress2.type;
-          if ("[object AsyncFunction]" === Object.prototype.toString.call(Component4) || "[object AsyncGeneratorFunction]" === Object.prototype.toString.call(Component4))
+          if ("[object AsyncFunction]" === Object.prototype.toString.call(Component5) || "[object AsyncGeneratorFunction]" === Object.prototype.toString.call(Component5))
             nextRenderLanes = getComponentNameFromFiber(currentlyRenderingFiber), didWarnAboutAsyncClientComponent.has(nextRenderLanes) || (didWarnAboutAsyncClientComponent.add(nextRenderLanes), console.error(
               "%s is an async Client Component. Only Server Components can be async at the moment. This error is often caused by accidentally adding `'use client'` to a module that was originally written for the server.",
               null === nextRenderLanes ? "An unknown Component" : "<" + nextRenderLanes + ">"
@@ -6917,11 +6917,11 @@
           workInProgress2.lanes = 0;
           ReactSharedInternals.H = null !== current2 && null !== current2.memoizedState ? HooksDispatcherOnUpdateInDEV : null !== hookTypesDev ? HooksDispatcherOnMountWithHookTypesInDEV : HooksDispatcherOnMountInDEV;
           shouldDoubleInvokeUserFnsInHooksDEV = nextRenderLanes = (workInProgress2.mode & StrictLegacyMode) !== NoMode;
-          var children = callComponentInDEV(Component4, props, secondArg);
+          var children = callComponentInDEV(Component5, props, secondArg);
           shouldDoubleInvokeUserFnsInHooksDEV = false;
           didScheduleRenderPhaseUpdateDuringThisPass && (children = renderWithHooksAgain(
             workInProgress2,
-            Component4,
+            Component5,
             props,
             secondArg
           ));
@@ -6930,7 +6930,7 @@
             try {
               children = renderWithHooksAgain(
                 workInProgress2,
-                Component4,
+                Component5,
                 props,
                 secondArg
               );
@@ -6969,7 +6969,7 @@
             "`use` was called from inside a try/catch block. This is not allowed and can lead to unexpected behavior. To handle errors triggered by `use`, wrap your component in a error boundary."
           )));
         }
-        function renderWithHooksAgain(workInProgress2, Component4, props, secondArg) {
+        function renderWithHooksAgain(workInProgress2, Component5, props, secondArg) {
           currentlyRenderingFiber = workInProgress2;
           var numberOfReRenders = 0;
           do {
@@ -6992,7 +6992,7 @@
             }
             hookTypesUpdateIndexDev = -1;
             ReactSharedInternals.H = HooksDispatcherOnRerenderInDEV;
-            children = callComponentInDEV(Component4, props, secondArg);
+            children = callComponentInDEV(Component5, props, secondArg);
           } while (didScheduleRenderPhaseUpdateDuringThisPass);
           return children;
         }
@@ -7923,7 +7923,7 @@
             queue,
             pendingState,
             NotPendingTransition,
-            null === action ? noop : function() {
+            null === action ? noop2 : function() {
               requestFormReset$1(formFiber);
               return action(formData);
             }
@@ -8213,17 +8213,17 @@
             null
           ));
         }
-        function resolveClassComponentProps(Component4, baseProps) {
+        function resolveClassComponentProps(Component5, baseProps) {
           var newProps = baseProps;
           if ("ref" in baseProps) {
             newProps = {};
             for (var propName in baseProps)
               "ref" !== propName && (newProps[propName] = baseProps[propName]);
           }
-          if (Component4 = Component4.defaultProps) {
+          if (Component5 = Component5.defaultProps) {
             newProps === baseProps && (newProps = assign({}, newProps));
-            for (var _propName in Component4)
-              void 0 === newProps[_propName] && (newProps[_propName] = Component4[_propName]);
+            for (var _propName in Component5)
+              void 0 === newProps[_propName] && (newProps[_propName] = Component5[_propName]);
           }
           return newProps;
         }
@@ -8452,8 +8452,8 @@
             renderLanes2
           );
         }
-        function updateForwardRef(current2, workInProgress2, Component4, nextProps, renderLanes2) {
-          Component4 = Component4.render;
+        function updateForwardRef(current2, workInProgress2, Component5, nextProps, renderLanes2) {
+          Component5 = Component5.render;
           var ref = workInProgress2.ref;
           if ("ref" in nextProps) {
             var propsWithoutRef = {};
@@ -8464,7 +8464,7 @@
           nextProps = renderWithHooks(
             current2,
             workInProgress2,
-            Component4,
+            Component5,
             propsWithoutRef,
             ref,
             renderLanes2
@@ -8477,19 +8477,19 @@
           reconcileChildren(current2, workInProgress2, nextProps, renderLanes2);
           return workInProgress2.child;
         }
-        function updateMemoComponent(current2, workInProgress2, Component4, nextProps, renderLanes2) {
+        function updateMemoComponent(current2, workInProgress2, Component5, nextProps, renderLanes2) {
           if (null === current2) {
-            var type = Component4.type;
-            if ("function" === typeof type && !shouldConstruct(type) && void 0 === type.defaultProps && null === Component4.compare)
-              return Component4 = resolveFunctionForHotReloading(type), workInProgress2.tag = 15, workInProgress2.type = Component4, validateFunctionComponentInDev(workInProgress2, type), updateSimpleMemoComponent(
+            var type = Component5.type;
+            if ("function" === typeof type && !shouldConstruct(type) && void 0 === type.defaultProps && null === Component5.compare)
+              return Component5 = resolveFunctionForHotReloading(type), workInProgress2.tag = 15, workInProgress2.type = Component5, validateFunctionComponentInDev(workInProgress2, type), updateSimpleMemoComponent(
                 current2,
                 workInProgress2,
-                Component4,
+                Component5,
                 nextProps,
                 renderLanes2
               );
             current2 = createFiberFromTypeAndProps(
-              Component4.type,
+              Component5.type,
               null,
               nextProps,
               workInProgress2,
@@ -8503,9 +8503,9 @@
           type = current2.child;
           if (!checkScheduledUpdateOrContext(current2, renderLanes2)) {
             var prevProps = type.memoizedProps;
-            Component4 = Component4.compare;
-            Component4 = null !== Component4 ? Component4 : shallowEqual;
-            if (Component4(prevProps, nextProps) && current2.ref === workInProgress2.ref)
+            Component5 = Component5.compare;
+            Component5 = null !== Component5 ? Component5 : shallowEqual;
+            if (Component5(prevProps, nextProps) && current2.ref === workInProgress2.ref)
               return bailoutOnAlreadyFinishedWork(
                 current2,
                 workInProgress2,
@@ -8518,7 +8518,7 @@
           current2.return = workInProgress2;
           return workInProgress2.child = current2;
         }
-        function updateSimpleMemoComponent(current2, workInProgress2, Component4, nextProps, renderLanes2) {
+        function updateSimpleMemoComponent(current2, workInProgress2, Component5, nextProps, renderLanes2) {
           if (null !== current2) {
             var prevProps = current2.memoizedProps;
             if (shallowEqual(prevProps, nextProps) && current2.ref === workInProgress2.ref && workInProgress2.type === current2.type)
@@ -8530,7 +8530,7 @@
           return updateFunctionComponent(
             current2,
             workInProgress2,
-            Component4,
+            Component5,
             nextProps,
             renderLanes2
           );
@@ -8720,9 +8720,9 @@
               workInProgress2.flags |= 4194816;
           }
         }
-        function updateFunctionComponent(current2, workInProgress2, Component4, nextProps, renderLanes2) {
-          if (Component4.prototype && "function" === typeof Component4.prototype.render) {
-            var componentName2 = getComponentNameFromType(Component4) || "Unknown";
+        function updateFunctionComponent(current2, workInProgress2, Component5, nextProps, renderLanes2) {
+          if (Component5.prototype && "function" === typeof Component5.prototype.render) {
+            var componentName2 = getComponentNameFromType(Component5) || "Unknown";
             didWarnAboutBadClass[componentName2] || (console.error(
               "The <%s /> component appears to have a render method, but doesn't extend React.Component. This is likely to cause errors. Change %s to extend React.Component instead.",
               componentName2,
@@ -8733,15 +8733,15 @@
             workInProgress2,
             null
           );
-          null === current2 && (validateFunctionComponentInDev(workInProgress2, workInProgress2.type), Component4.contextTypes && (componentName2 = getComponentNameFromType(Component4) || "Unknown", didWarnAboutContextTypes[componentName2] || (didWarnAboutContextTypes[componentName2] = true, console.error(
+          null === current2 && (validateFunctionComponentInDev(workInProgress2, workInProgress2.type), Component5.contextTypes && (componentName2 = getComponentNameFromType(Component5) || "Unknown", didWarnAboutContextTypes[componentName2] || (didWarnAboutContextTypes[componentName2] = true, console.error(
             "%s uses the legacy contextTypes API which was removed in React 19. Use React.createContext() with React.useContext() instead. (https://react.dev/link/legacy-context)",
             componentName2
           ))));
           prepareToReadContext(workInProgress2);
-          Component4 = renderWithHooks(
+          Component5 = renderWithHooks(
             current2,
             workInProgress2,
-            Component4,
+            Component5,
             nextProps,
             void 0,
             renderLanes2
@@ -8751,30 +8751,30 @@
             return bailoutHooks(current2, workInProgress2, renderLanes2), bailoutOnAlreadyFinishedWork(current2, workInProgress2, renderLanes2);
           isHydrating && nextProps && pushMaterializedTreeId(workInProgress2);
           workInProgress2.flags |= 1;
-          reconcileChildren(current2, workInProgress2, Component4, renderLanes2);
+          reconcileChildren(current2, workInProgress2, Component5, renderLanes2);
           return workInProgress2.child;
         }
-        function replayFunctionComponent(current2, workInProgress2, nextProps, Component4, secondArg, renderLanes2) {
+        function replayFunctionComponent(current2, workInProgress2, nextProps, Component5, secondArg, renderLanes2) {
           prepareToReadContext(workInProgress2);
           hookTypesUpdateIndexDev = -1;
           ignorePreviousDependencies = null !== current2 && current2.type !== workInProgress2.type;
           workInProgress2.updateQueue = null;
           nextProps = renderWithHooksAgain(
             workInProgress2,
-            Component4,
+            Component5,
             nextProps,
             secondArg
           );
           finishRenderingHooks(current2, workInProgress2);
-          Component4 = checkDidRenderIdHook();
+          Component5 = checkDidRenderIdHook();
           if (null !== current2 && !didReceiveUpdate)
             return bailoutHooks(current2, workInProgress2, renderLanes2), bailoutOnAlreadyFinishedWork(current2, workInProgress2, renderLanes2);
-          isHydrating && Component4 && pushMaterializedTreeId(workInProgress2);
+          isHydrating && Component5 && pushMaterializedTreeId(workInProgress2);
           workInProgress2.flags |= 1;
           reconcileChildren(current2, workInProgress2, nextProps, renderLanes2);
           return workInProgress2.child;
         }
-        function updateClassComponent(current2, workInProgress2, Component4, nextProps, renderLanes2) {
+        function updateClassComponent(current2, workInProgress2, Component5, nextProps, renderLanes2) {
           switch (shouldErrorImpl(workInProgress2)) {
             case false:
               var _instance = workInProgress2.stateNode, state = new workInProgress2.type(
@@ -8806,18 +8806,18 @@
           prepareToReadContext(workInProgress2);
           if (null === workInProgress2.stateNode) {
             state = emptyContextObject;
-            _instance = Component4.contextType;
-            "contextType" in Component4 && null !== _instance && (void 0 === _instance || _instance.$$typeof !== REACT_CONTEXT_TYPE) && !didWarnAboutInvalidateContextType.has(Component4) && (didWarnAboutInvalidateContextType.add(Component4), lane = void 0 === _instance ? " However, it is set to undefined. This can be caused by a typo or by mixing up named and default imports. This can also happen due to a circular dependency, so try moving the createContext() call to a separate file." : "object" !== typeof _instance ? " However, it is set to a " + typeof _instance + "." : _instance.$$typeof === REACT_CONSUMER_TYPE ? " Did you accidentally pass the Context.Consumer instead?" : " However, it is set to an object with keys {" + Object.keys(_instance).join(", ") + "}.", console.error(
+            _instance = Component5.contextType;
+            "contextType" in Component5 && null !== _instance && (void 0 === _instance || _instance.$$typeof !== REACT_CONTEXT_TYPE) && !didWarnAboutInvalidateContextType.has(Component5) && (didWarnAboutInvalidateContextType.add(Component5), lane = void 0 === _instance ? " However, it is set to undefined. This can be caused by a typo or by mixing up named and default imports. This can also happen due to a circular dependency, so try moving the createContext() call to a separate file." : "object" !== typeof _instance ? " However, it is set to a " + typeof _instance + "." : _instance.$$typeof === REACT_CONSUMER_TYPE ? " Did you accidentally pass the Context.Consumer instead?" : " However, it is set to an object with keys {" + Object.keys(_instance).join(", ") + "}.", console.error(
               "%s defines an invalid contextType. contextType should point to the Context object returned by React.createContext().%s",
-              getComponentNameFromType(Component4) || "Component",
+              getComponentNameFromType(Component5) || "Component",
               lane
             ));
             "object" === typeof _instance && null !== _instance && (state = readContext(_instance));
-            _instance = new Component4(nextProps, state);
+            _instance = new Component5(nextProps, state);
             if (workInProgress2.mode & StrictLegacyMode) {
               setIsStrictModeForDevtools(true);
               try {
-                _instance = new Component4(nextProps, state);
+                _instance = new Component5(nextProps, state);
               } finally {
                 setIsStrictModeForDevtools(false);
               }
@@ -8827,20 +8827,20 @@
             workInProgress2.stateNode = _instance;
             _instance._reactInternals = workInProgress2;
             _instance._reactInternalInstance = fakeInternalInstance;
-            "function" === typeof Component4.getDerivedStateFromProps && null === state && (state = getComponentNameFromType(Component4) || "Component", didWarnAboutUninitializedState.has(state) || (didWarnAboutUninitializedState.add(state), console.error(
+            "function" === typeof Component5.getDerivedStateFromProps && null === state && (state = getComponentNameFromType(Component5) || "Component", didWarnAboutUninitializedState.has(state) || (didWarnAboutUninitializedState.add(state), console.error(
               "`%s` uses `getDerivedStateFromProps` but its initial state is %s. This is not recommended. Instead, define the initial state by assigning an object to `this.state` in the constructor of `%s`. This ensures that `getDerivedStateFromProps` arguments have a consistent shape.",
               state,
               null === _instance.state ? "null" : "undefined",
               state
             )));
-            if ("function" === typeof Component4.getDerivedStateFromProps || "function" === typeof _instance.getSnapshotBeforeUpdate) {
+            if ("function" === typeof Component5.getDerivedStateFromProps || "function" === typeof _instance.getSnapshotBeforeUpdate) {
               var foundWillUpdateName = lane = state = null;
               "function" === typeof _instance.componentWillMount && true !== _instance.componentWillMount.__suppressDeprecationWarning ? state = "componentWillMount" : "function" === typeof _instance.UNSAFE_componentWillMount && (state = "UNSAFE_componentWillMount");
               "function" === typeof _instance.componentWillReceiveProps && true !== _instance.componentWillReceiveProps.__suppressDeprecationWarning ? lane = "componentWillReceiveProps" : "function" === typeof _instance.UNSAFE_componentWillReceiveProps && (lane = "UNSAFE_componentWillReceiveProps");
               "function" === typeof _instance.componentWillUpdate && true !== _instance.componentWillUpdate.__suppressDeprecationWarning ? foundWillUpdateName = "componentWillUpdate" : "function" === typeof _instance.UNSAFE_componentWillUpdate && (foundWillUpdateName = "UNSAFE_componentWillUpdate");
               if (null !== state || null !== lane || null !== foundWillUpdateName) {
-                _instance = getComponentNameFromType(Component4) || "Component";
-                var newApiName = "function" === typeof Component4.getDerivedStateFromProps ? "getDerivedStateFromProps()" : "getSnapshotBeforeUpdate()";
+                _instance = getComponentNameFromType(Component5) || "Component";
+                var newApiName = "function" === typeof Component5.getDerivedStateFromProps ? "getDerivedStateFromProps()" : "getSnapshotBeforeUpdate()";
                 didWarnAboutLegacyLifecyclesAndDerivedState.has(_instance) || (didWarnAboutLegacyLifecyclesAndDerivedState.add(_instance), console.error(
                   "Unsafe legacy lifecycles will not be called for components using new component APIs.\n\n%s uses %s but also contains the following legacy lifecycles:%s%s%s\n\nThe above lifecycles should be removed. Learn more about this warning here:\nhttps://react.dev/link/unsafe-component-lifecycles",
                   _instance,
@@ -8852,8 +8852,8 @@
               }
             }
             _instance = workInProgress2.stateNode;
-            state = getComponentNameFromType(Component4) || "Component";
-            _instance.render || (Component4.prototype && "function" === typeof Component4.prototype.render ? console.error(
+            state = getComponentNameFromType(Component5) || "Component";
+            _instance.render || (Component5.prototype && "function" === typeof Component5.prototype.render ? console.error(
               "No `render` method found on the %s instance: did you accidentally return an object from the constructor?",
               state
             ) : console.error(
@@ -8872,11 +8872,11 @@
               "contextType was defined as an instance property on %s. Use a static property to define contextType instead.",
               state
             );
-            Component4.childContextTypes && !didWarnAboutChildContextTypes.has(Component4) && (didWarnAboutChildContextTypes.add(Component4), console.error(
+            Component5.childContextTypes && !didWarnAboutChildContextTypes.has(Component5) && (didWarnAboutChildContextTypes.add(Component5), console.error(
               "%s uses the legacy childContextTypes API which was removed in React 19. Use React.createContext() instead. (https://react.dev/link/legacy-context)",
               state
             ));
-            Component4.contextTypes && !didWarnAboutContextTypes$1.has(Component4) && (didWarnAboutContextTypes$1.add(Component4), console.error(
+            Component5.contextTypes && !didWarnAboutContextTypes$1.has(Component5) && (didWarnAboutContextTypes$1.add(Component5), console.error(
               "%s uses the legacy contextTypes API which was removed in React 19. Use React.createContext() with static contextType instead. (https://react.dev/link/legacy-context)",
               state
             ));
@@ -8884,9 +8884,9 @@
               "%s has a method called componentShouldUpdate(). Did you mean shouldComponentUpdate()? The name is phrased as a question because the function is expected to return a value.",
               state
             );
-            Component4.prototype && Component4.prototype.isPureReactComponent && "undefined" !== typeof _instance.shouldComponentUpdate && console.error(
+            Component5.prototype && Component5.prototype.isPureReactComponent && "undefined" !== typeof _instance.shouldComponentUpdate && console.error(
               "%s has a method called shouldComponentUpdate(). shouldComponentUpdate should not be used when extending React.PureComponent. Please extend React.Component if shouldComponentUpdate is used.",
-              getComponentNameFromType(Component4) || "A pure component"
+              getComponentNameFromType(Component5) || "A pure component"
             );
             "function" === typeof _instance.componentDidUnmount && console.error(
               "%s has a method called componentDidUnmount(). But there is no such lifecycle method. Did you mean componentWillUnmount()?",
@@ -8914,9 +8914,9 @@
               state,
               state
             );
-            "function" !== typeof _instance.getSnapshotBeforeUpdate || "function" === typeof _instance.componentDidUpdate || didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate.has(Component4) || (didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate.add(Component4), console.error(
+            "function" !== typeof _instance.getSnapshotBeforeUpdate || "function" === typeof _instance.componentDidUpdate || didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate.has(Component5) || (didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate.add(Component5), console.error(
               "%s: getSnapshotBeforeUpdate() should be used with componentDidUpdate(). This component defines getSnapshotBeforeUpdate() only.",
-              getComponentNameFromType(Component4)
+              getComponentNameFromType(Component5)
             ));
             "function" === typeof _instance.getDerivedStateFromProps && console.error(
               "%s: getDerivedStateFromProps() is defined as an instance method and will be ignored. Instead, declare it as a static method.",
@@ -8926,12 +8926,12 @@
               "%s: getDerivedStateFromError() is defined as an instance method and will be ignored. Instead, declare it as a static method.",
               state
             );
-            "function" === typeof Component4.getSnapshotBeforeUpdate && console.error(
+            "function" === typeof Component5.getSnapshotBeforeUpdate && console.error(
               "%s: getSnapshotBeforeUpdate() is defined as a static method and will be ignored. Instead, declare it as an instance method.",
               state
             );
             (lane = _instance.state) && ("object" !== typeof lane || isArrayImpl(lane)) && console.error("%s.state: must be set to an object or null", state);
-            "function" === typeof _instance.getChildContext && "object" !== typeof Component4.childContextTypes && console.error(
+            "function" === typeof _instance.getChildContext && "object" !== typeof Component5.childContextTypes && console.error(
               "%s.getChildContext(): childContextTypes must be defined in order to use getChildContext().",
               state
             );
@@ -8940,9 +8940,9 @@
             _instance.state = workInProgress2.memoizedState;
             _instance.refs = {};
             initializeUpdateQueue(workInProgress2);
-            state = Component4.contextType;
+            state = Component5.contextType;
             _instance.context = "object" === typeof state && null !== state ? readContext(state) : emptyContextObject;
-            _instance.state === nextProps && (state = getComponentNameFromType(Component4) || "Component", didWarnAboutDirectlyAssigningPropsToState.has(state) || (didWarnAboutDirectlyAssigningPropsToState.add(state), console.error(
+            _instance.state === nextProps && (state = getComponentNameFromType(Component5) || "Component", didWarnAboutDirectlyAssigningPropsToState.has(state) || (didWarnAboutDirectlyAssigningPropsToState.add(state), console.error(
               "%s: It is not recommended to assign props directly to state because updates to props won't be reflected in state. In most cases, it is better to use props directly.",
               state
             )));
@@ -8955,14 +8955,14 @@
               _instance
             );
             _instance.state = workInProgress2.memoizedState;
-            state = Component4.getDerivedStateFromProps;
+            state = Component5.getDerivedStateFromProps;
             "function" === typeof state && (applyDerivedStateFromProps(
               workInProgress2,
-              Component4,
+              Component5,
               state,
               nextProps
             ), _instance.state = workInProgress2.memoizedState);
-            "function" === typeof Component4.getDerivedStateFromProps || "function" === typeof _instance.getSnapshotBeforeUpdate || "function" !== typeof _instance.UNSAFE_componentWillMount && "function" !== typeof _instance.componentWillMount || (state = _instance.state, "function" === typeof _instance.componentWillMount && _instance.componentWillMount(), "function" === typeof _instance.UNSAFE_componentWillMount && _instance.UNSAFE_componentWillMount(), state !== _instance.state && (console.error(
+            "function" === typeof Component5.getDerivedStateFromProps || "function" === typeof _instance.getSnapshotBeforeUpdate || "function" !== typeof _instance.UNSAFE_componentWillMount && "function" !== typeof _instance.componentWillMount || (state = _instance.state, "function" === typeof _instance.componentWillMount && _instance.componentWillMount(), "function" === typeof _instance.UNSAFE_componentWillMount && _instance.UNSAFE_componentWillMount(), state !== _instance.state && (console.error(
               "%s.componentWillMount(): Assigning directly to this.state is deprecated (except inside a component's constructor). Use setState instead.",
               getComponentNameFromFiber(workInProgress2) || "Component"
             ), classComponentUpdater.enqueueReplaceState(
@@ -8976,13 +8976,13 @@
           } else if (null === current2) {
             _instance = workInProgress2.stateNode;
             var unresolvedOldProps = workInProgress2.memoizedProps;
-            lane = resolveClassComponentProps(Component4, unresolvedOldProps);
+            lane = resolveClassComponentProps(Component5, unresolvedOldProps);
             _instance.props = lane;
             var oldContext = _instance.context;
-            foundWillUpdateName = Component4.contextType;
+            foundWillUpdateName = Component5.contextType;
             state = emptyContextObject;
             "object" === typeof foundWillUpdateName && null !== foundWillUpdateName && (state = readContext(foundWillUpdateName));
-            newApiName = Component4.getDerivedStateFromProps;
+            newApiName = Component5.getDerivedStateFromProps;
             foundWillUpdateName = "function" === typeof newApiName || "function" === typeof _instance.getSnapshotBeforeUpdate;
             unresolvedOldProps = workInProgress2.pendingProps !== unresolvedOldProps;
             foundWillUpdateName || "function" !== typeof _instance.UNSAFE_componentWillReceiveProps && "function" !== typeof _instance.componentWillReceiveProps || (unresolvedOldProps || oldContext !== state) && callComponentWillReceiveProps(
@@ -8999,12 +8999,12 @@
             oldContext = workInProgress2.memoizedState;
             unresolvedOldProps || oldState !== oldContext || hasForceUpdate ? ("function" === typeof newApiName && (applyDerivedStateFromProps(
               workInProgress2,
-              Component4,
+              Component5,
               newApiName,
               nextProps
             ), oldContext = workInProgress2.memoizedState), (lane = hasForceUpdate || checkShouldComponentUpdate(
               workInProgress2,
-              Component4,
+              Component5,
               lane,
               nextProps,
               oldState,
@@ -9015,14 +9015,14 @@
             _instance = workInProgress2.stateNode;
             cloneUpdateQueue(current2, workInProgress2);
             state = workInProgress2.memoizedProps;
-            foundWillUpdateName = resolveClassComponentProps(Component4, state);
+            foundWillUpdateName = resolveClassComponentProps(Component5, state);
             _instance.props = foundWillUpdateName;
             newApiName = workInProgress2.pendingProps;
             oldState = _instance.context;
-            oldContext = Component4.contextType;
+            oldContext = Component5.contextType;
             lane = emptyContextObject;
             "object" === typeof oldContext && null !== oldContext && (lane = readContext(oldContext));
-            unresolvedOldProps = Component4.getDerivedStateFromProps;
+            unresolvedOldProps = Component5.getDerivedStateFromProps;
             (oldContext = "function" === typeof unresolvedOldProps || "function" === typeof _instance.getSnapshotBeforeUpdate) || "function" !== typeof _instance.UNSAFE_componentWillReceiveProps && "function" !== typeof _instance.componentWillReceiveProps || (state !== newApiName || oldState !== lane) && callComponentWillReceiveProps(
               workInProgress2,
               _instance,
@@ -9037,12 +9037,12 @@
             var newState = workInProgress2.memoizedState;
             state !== newApiName || oldState !== newState || hasForceUpdate || null !== current2 && null !== current2.dependencies && checkIfContextChanged(current2.dependencies) ? ("function" === typeof unresolvedOldProps && (applyDerivedStateFromProps(
               workInProgress2,
-              Component4,
+              Component5,
               unresolvedOldProps,
               nextProps
             ), newState = workInProgress2.memoizedState), (foundWillUpdateName = hasForceUpdate || checkShouldComponentUpdate(
               workInProgress2,
-              Component4,
+              Component5,
               foundWillUpdateName,
               nextProps,
               oldState,
@@ -9060,9 +9060,9 @@
           if (lane || state) {
             lane = workInProgress2.stateNode;
             setCurrentFiber(workInProgress2);
-            if (state && "function" !== typeof Component4.getDerivedStateFromError)
-              Component4 = null, profilerStartTime = -1;
-            else if (Component4 = callRenderInDEV(lane), workInProgress2.mode & StrictLegacyMode) {
+            if (state && "function" !== typeof Component5.getDerivedStateFromError)
+              Component5 = null, profilerStartTime = -1;
+            else if (Component5 = callRenderInDEV(lane), workInProgress2.mode & StrictLegacyMode) {
               setIsStrictModeForDevtools(true);
               try {
                 callRenderInDEV(lane);
@@ -9079,9 +9079,9 @@
             ), workInProgress2.child = reconcileChildFibers(
               workInProgress2,
               null,
-              Component4,
+              Component5,
               renderLanes2
-            )) : reconcileChildren(current2, workInProgress2, Component4, renderLanes2);
+            )) : reconcileChildren(current2, workInProgress2, Component5, renderLanes2);
             workInProgress2.memoizedState = lane.state;
             current2 = workInProgress2.child;
           } else
@@ -9103,19 +9103,19 @@
           reconcileChildren(current2, workInProgress2, nextChildren, renderLanes2);
           return workInProgress2.child;
         }
-        function validateFunctionComponentInDev(workInProgress2, Component4) {
-          Component4 && Component4.childContextTypes && console.error(
+        function validateFunctionComponentInDev(workInProgress2, Component5) {
+          Component5 && Component5.childContextTypes && console.error(
             "childContextTypes cannot be defined on a function component.\n  %s.childContextTypes = ...",
-            Component4.displayName || Component4.name || "Component"
+            Component5.displayName || Component5.name || "Component"
           );
-          "function" === typeof Component4.getDerivedStateFromProps && (workInProgress2 = getComponentNameFromType(Component4) || "Unknown", didWarnAboutGetDerivedStateOnFunctionComponent[workInProgress2] || (console.error(
+          "function" === typeof Component5.getDerivedStateFromProps && (workInProgress2 = getComponentNameFromType(Component5) || "Unknown", didWarnAboutGetDerivedStateOnFunctionComponent[workInProgress2] || (console.error(
             "%s: Function components do not support getDerivedStateFromProps.",
             workInProgress2
           ), didWarnAboutGetDerivedStateOnFunctionComponent[workInProgress2] = true));
-          "object" === typeof Component4.contextType && null !== Component4.contextType && (Component4 = getComponentNameFromType(Component4) || "Unknown", didWarnAboutContextTypeOnFunctionComponent[Component4] || (console.error(
+          "object" === typeof Component5.contextType && null !== Component5.contextType && (Component5 = getComponentNameFromType(Component5) || "Unknown", didWarnAboutContextTypeOnFunctionComponent[Component5] || (console.error(
             "%s: Function components do not support contextType.",
-            Component4
-          ), didWarnAboutContextTypeOnFunctionComponent[Component4] = true));
+            Component5
+          ), didWarnAboutContextTypeOnFunctionComponent[Component5] = true));
         }
         function mountSuspenseOffscreenState(renderLanes2) {
           return { baseLanes: renderLanes2, cachePool: getSuspendedCache() };
@@ -16062,7 +16062,7 @@
             case "li":
               break;
             case "input":
-              var name = null, type = null, value2 = null, defaultValue = null, lastDefaultValue = null, checked = null, defaultChecked = null;
+              var name4 = null, type = null, value2 = null, defaultValue = null, lastDefaultValue = null, checked = null, defaultChecked = null;
               for (propKey in lastProps) {
                 var lastProp = lastProps[propKey];
                 if (lastProps.hasOwnProperty(propKey) && null != lastProp)
@@ -16093,7 +16093,7 @@
                       type = propKey;
                       break;
                     case "name":
-                      name = propKey;
+                      name4 = propKey;
                       break;
                     case "checked":
                       checked = propKey;
@@ -16141,7 +16141,7 @@
                 checked,
                 defaultChecked,
                 type,
-                name
+                name4
               );
               return;
             case "select":
@@ -16163,9 +16163,9 @@
                         lastDefaultValue
                       );
                   }
-              for (name in nextProps)
-                if (type = nextProps[name], lastDefaultValue = lastProps[name], nextProps.hasOwnProperty(name) && (null != type || null != lastDefaultValue))
-                  switch (name) {
+              for (name4 in nextProps)
+                if (type = nextProps[name4], lastDefaultValue = lastProps[name4], nextProps.hasOwnProperty(name4) && (null != type || null != lastDefaultValue))
+                  switch (name4) {
                     case "value":
                       _propKey8 = type;
                       break;
@@ -16178,7 +16178,7 @@
                       type !== lastDefaultValue && setProp(
                         domElement,
                         tag,
-                        name,
+                        name4,
                         type,
                         nextProps,
                         lastDefaultValue
@@ -16192,34 +16192,34 @@
             case "textarea":
               propKey = _propKey8 = null;
               for (defaultValue in lastProps)
-                if (name = lastProps[defaultValue], lastProps.hasOwnProperty(defaultValue) && null != name && !nextProps.hasOwnProperty(defaultValue))
+                if (name4 = lastProps[defaultValue], lastProps.hasOwnProperty(defaultValue) && null != name4 && !nextProps.hasOwnProperty(defaultValue))
                   switch (defaultValue) {
                     case "value":
                       break;
                     case "children":
                       break;
                     default:
-                      setProp(domElement, tag, defaultValue, null, nextProps, name);
+                      setProp(domElement, tag, defaultValue, null, nextProps, name4);
                   }
               for (value2 in nextProps)
-                if (name = nextProps[value2], type = lastProps[value2], nextProps.hasOwnProperty(value2) && (null != name || null != type))
+                if (name4 = nextProps[value2], type = lastProps[value2], nextProps.hasOwnProperty(value2) && (null != name4 || null != type))
                   switch (value2) {
                     case "value":
-                      _propKey8 = name;
+                      _propKey8 = name4;
                       break;
                     case "defaultValue":
-                      propKey = name;
+                      propKey = name4;
                       break;
                     case "children":
                       break;
                     case "dangerouslySetInnerHTML":
-                      if (null != name)
+                      if (null != name4)
                         throw Error(
                           "`dangerouslySetInnerHTML` does not make sense on <textarea>."
                         );
                       break;
                     default:
-                      name !== type && setProp(domElement, tag, value2, name, nextProps, type);
+                      name4 !== type && setProp(domElement, tag, value2, name4, nextProps, type);
                   }
               updateTextarea(domElement, _propKey8, propKey);
               return;
@@ -17286,8 +17286,8 @@
             } else if (!inRootOrSingleton)
               if ("input" === type && "hidden" === instance.type) {
                 checkAttributeStringCoercion(anyProps.name, "name");
-                var name = null == anyProps.name ? null : "" + anyProps.name;
-                if ("hidden" === anyProps.type && instance.getAttribute("name") === name)
+                var name4 = null == anyProps.name ? null : "" + anyProps.name;
+                if ("hidden" === anyProps.type && instance.getAttribute("name") === name4)
                   return instance;
               } else return instance;
             else if (!instance[internalHoistableMarker])
@@ -17296,18 +17296,18 @@
                   if (!instance.hasAttribute("itemprop")) break;
                   return instance;
                 case "link":
-                  name = instance.getAttribute("rel");
-                  if ("stylesheet" === name && instance.hasAttribute("data-precedence"))
+                  name4 = instance.getAttribute("rel");
+                  if ("stylesheet" === name4 && instance.hasAttribute("data-precedence"))
                     break;
-                  else if (name !== anyProps.rel || instance.getAttribute("href") !== (null == anyProps.href || "" === anyProps.href ? null : anyProps.href) || instance.getAttribute("crossorigin") !== (null == anyProps.crossOrigin ? null : anyProps.crossOrigin) || instance.getAttribute("title") !== (null == anyProps.title ? null : anyProps.title))
+                  else if (name4 !== anyProps.rel || instance.getAttribute("href") !== (null == anyProps.href || "" === anyProps.href ? null : anyProps.href) || instance.getAttribute("crossorigin") !== (null == anyProps.crossOrigin ? null : anyProps.crossOrigin) || instance.getAttribute("title") !== (null == anyProps.title ? null : anyProps.title))
                     break;
                   return instance;
                 case "style":
                   if (instance.hasAttribute("data-precedence")) break;
                   return instance;
                 case "script":
-                  name = instance.getAttribute("src");
-                  if ((name !== (null == anyProps.src ? null : anyProps.src) || instance.getAttribute("type") !== (null == anyProps.type ? null : anyProps.type) || instance.getAttribute("crossorigin") !== (null == anyProps.crossOrigin ? null : anyProps.crossOrigin)) && name && instance.hasAttribute("async") && !instance.hasAttribute("itemprop"))
+                  name4 = instance.getAttribute("src");
+                  if ((name4 !== (null == anyProps.src ? null : anyProps.src) || instance.getAttribute("type") !== (null == anyProps.type ? null : anyProps.type) || instance.getAttribute("crossorigin") !== (null == anyProps.crossOrigin ? null : anyProps.crossOrigin)) && name4 && instance.hasAttribute("async") && !instance.hasAttribute("itemprop"))
                     break;
                   return instance;
                 default:
@@ -18522,14 +18522,14 @@
           ));
         }
         "undefined" !== typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ && "function" === typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart && __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(Error());
-        var Scheduler = require_scheduler(), React13 = require_react(), ReactDOM2 = require_react_dom(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
+        var Scheduler = require_scheduler(), React14 = require_react(), ReactDOM2 = require_react_dom(), assign = Object.assign, REACT_LEGACY_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.element"), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy");
         /* @__PURE__ */ Symbol.for("react.scope");
         var REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity");
         /* @__PURE__ */ Symbol.for("react.legacy_hidden");
         /* @__PURE__ */ Symbol.for("react.tracing_marker");
         var REACT_MEMO_CACHE_SENTINEL = /* @__PURE__ */ Symbol.for("react.memo_cache_sentinel");
         /* @__PURE__ */ Symbol.for("react.view_transition");
-        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React13.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM2.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
+        var MAYBE_ITERATOR_SYMBOL = Symbol.iterator, REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), isArrayImpl = Array.isArray, ReactSharedInternals = React14.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, ReactDOMSharedInternals = ReactDOM2.__DOM_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, NotPending = Object.freeze({
           pending: false,
           data: null,
           method: null,
@@ -19768,11 +19768,11 @@
           pendingLegacyContextWarning = /* @__PURE__ */ new Map();
         };
         var callComponent = {
-          react_stack_bottom_frame: function(Component4, props, secondArg) {
+          react_stack_bottom_frame: function(Component5, props, secondArg) {
             var wasRendering = isRendering;
             isRendering = true;
             try {
-              return Component4(props, secondArg);
+              return Component5(props, secondArg);
             } finally {
               isRendering = wasRendering;
             }
@@ -21317,7 +21317,7 @@
           }
         };
         (function() {
-          var isomorphicReactPackageVersion = React13.version;
+          var isomorphicReactPackageVersion = React14.version;
           if ("19.2.8" !== isomorphicReactPackageVersion)
             throw Error(
               'Incompatible React versions: The "react" and "react-dom" packages must have the exact same version. Instead got:\n  - react:      ' + (isomorphicReactPackageVersion + "\n  - react-dom:  19.2.8\nLearn more: https://react.dev/warnings/version-mismatch")
@@ -21535,8 +21535,8 @@
           if ("object" === typeof type && null !== type && type.$$typeof === REACT_LAZY_TYPE)
             return "<...>";
           try {
-            var name = getComponentNameFromType(type);
-            return name ? "<" + name + ">" : "<...>";
+            var name4 = getComponentNameFromType(type);
+            return name4 ? "<" + name4 + ">" : "<...>";
           } catch (x) {
             return "<...>";
           }
@@ -21671,18 +21671,18 @@
         function isValidElement2(object) {
           return "object" === typeof object && null !== object && object.$$typeof === REACT_ELEMENT_TYPE;
         }
-        var React13 = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React13.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
+        var React14 = require_react(), REACT_ELEMENT_TYPE = /* @__PURE__ */ Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE = /* @__PURE__ */ Symbol.for("react.portal"), REACT_FRAGMENT_TYPE = /* @__PURE__ */ Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE = /* @__PURE__ */ Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE = /* @__PURE__ */ Symbol.for("react.profiler"), REACT_CONSUMER_TYPE = /* @__PURE__ */ Symbol.for("react.consumer"), REACT_CONTEXT_TYPE = /* @__PURE__ */ Symbol.for("react.context"), REACT_FORWARD_REF_TYPE = /* @__PURE__ */ Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE = /* @__PURE__ */ Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE = /* @__PURE__ */ Symbol.for("react.suspense_list"), REACT_MEMO_TYPE = /* @__PURE__ */ Symbol.for("react.memo"), REACT_LAZY_TYPE = /* @__PURE__ */ Symbol.for("react.lazy"), REACT_ACTIVITY_TYPE = /* @__PURE__ */ Symbol.for("react.activity"), REACT_CLIENT_REFERENCE = /* @__PURE__ */ Symbol.for("react.client.reference"), ReactSharedInternals = React14.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty = Object.prototype.hasOwnProperty, isArrayImpl = Array.isArray, createTask = console.createTask ? console.createTask : function() {
           return null;
         };
-        React13 = {
+        React14 = {
           react_stack_bottom_frame: function(callStackForError) {
             return callStackForError();
           }
         };
         var specialPropKeyWarningShown;
         var didWarnAboutElementRef = {};
-        var unknownOwnerDebugStack = React13.react_stack_bottom_frame.bind(
-          React13,
+        var unknownOwnerDebugStack = React14.react_stack_bottom_frame.bind(
+          React14,
           UnknownOwner
         )();
         var unknownOwnerDebugTask = createTask(getTaskName(UnknownOwner));
@@ -21727,11 +21727,11 @@
   });
 
   // src/entry.jsx
-  var import_react47 = __toESM(require_react(), 1);
+  var import_react53 = __toESM(require_react(), 1);
   var import_client = __toESM(require_client(), 1);
 
   // src/App.jsx
-  var import_react46 = __toESM(require_react(), 1);
+  var import_react52 = __toESM(require_react(), 1);
 
   // node_modules/react-router/dist/development/chunk-BV7QT456.mjs
   var React = __toESM(require_react(), 1);
@@ -22383,7 +22383,7 @@
     return path;
   }
   var removeDoubleSlashes = (path) => path.replace(/[\\/]{2,}/g, "/");
-  var joinPaths = (paths) => removeDoubleSlashes(paths.join("/"));
+  var joinPaths = (paths2) => removeDoubleSlashes(paths2.join("/"));
   function removeTrailingSlash(path, minLength = 0) {
     let end = path.length;
     while (end > minLength && path.charCodeAt(end - 1) === 47) {
@@ -23479,13 +23479,13 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       encType = getFormEncType(target.getAttribute("formenctype")) || getFormEncType(form.getAttribute("enctype")) || defaultEncType;
       formData = new FormData(form, target);
       if (!isFormDataSubmitterSupported()) {
-        let { name, type, value: value2 } = target;
+        let { name: name4, type, value: value2 } = target;
         if (type === "image") {
-          let prefix = name ? `${name}.` : "";
+          let prefix = name4 ? `${name4}.` : "";
           formData.append(`${prefix}x`, "0");
           formData.append(`${prefix}y`, "0");
-        } else if (name) {
-          formData.append(name, value2);
+        } else if (name4) {
+          formData.append(name4, value2);
         }
       }
     } else if (isHtmlElement(target)) {
@@ -24635,14 +24635,20 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
 
   // src/Home.jsx
-  var import_react6 = __toESM(require_react(), 1);
+  var import_react7 = __toESM(require_react(), 1);
 
   // src/api.js
   var config = window.ROUTEBITE_CONFIG || {};
   var API_BASE = config.apiBase || "http://127.0.0.1:3000/api";
-  var GOOGLE_CLIENT_ID = config.googleClientId || "";
   var TOKEN_KEY = "routebite_access_token";
   var REFRESH_TOKEN_KEY = "routebite_refresh_token";
+  var refreshing = null;
+  function clearSession() {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(REFRESH_TOKEN_KEY);
+    localStorage.removeItem("routebite_user");
+    window.dispatchEvent(new Event("routebite:session-changed"));
+  }
   async function request(path, options = {}) {
     const { method = "GET", body, token = localStorage.getItem(TOKEN_KEY), authorized = true, retried = false, responseType = "json" } = options;
     const multipart = body instanceof FormData;
@@ -24652,27 +24658,80 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       const refreshToken = localStorage.getItem(REFRESH_TOKEN_KEY);
       if (refreshToken) {
         try {
-          const refresh = await request("/auth/refresh", { method: "POST", body: { refreshToken }, authorized: false, retried: true });
+          if (!refreshing) refreshing = request("/auth/refresh", { method: "POST", body: { refreshToken }, authorized: false, retried: true }).finally(() => {
+            refreshing = null;
+          });
+          const refresh = await refreshing;
+          if (localStorage.getItem(REFRESH_TOKEN_KEY) !== refreshToken && localStorage.getItem(REFRESH_TOKEN_KEY) !== refresh.refreshToken) throw Object.assign(new Error("Phi\xEAn \u0111\u0103ng nh\u1EADp \u0111\xE3 thay \u0111\u1ED5i."), { status: 401 });
           localStorage.setItem(TOKEN_KEY, refresh.accessToken);
           if (refresh.refreshToken) localStorage.setItem(REFRESH_TOKEN_KEY, refresh.refreshToken);
           if (refresh.user) localStorage.setItem("routebite_user", JSON.stringify(refresh.user));
           window.dispatchEvent(new Event("routebite:session-changed"));
           return request(path, { ...options, token: refresh.accessToken, retried: true });
-        } catch {
-          localStorage.removeItem(TOKEN_KEY);
-          localStorage.removeItem(REFRESH_TOKEN_KEY);
-          localStorage.removeItem("routebite_user");
+        } catch (error) {
+          if (error.status === 401 && localStorage.getItem(REFRESH_TOKEN_KEY) === refreshToken) clearSession();
+          throw error;
         }
+      } else if (token === localStorage.getItem(TOKEN_KEY)) {
+        clearSession();
       }
     }
     if (!response.ok) throw Object.assign(new Error(data2?.message || `Request failed (${response.status})`), { status: response.status });
     return data2;
   }
 
+  // src/utils/googleMaps.js
+  var loading;
+  function loadGoogleMaps() {
+    if (window.google?.maps?.importLibrary) return Promise.resolve(window.google.maps);
+    if (loading) return loading;
+    loading = (async () => {
+      const runtime = await fetch("/maps-config.json").then((r) => r.json()).catch(() => ({}));
+      const key = window.ROUTEBITE_CONFIG?.googleMapsApiKey || runtime.googleMapsApiKey;
+      if (!key) throw new Error("Google Maps ch\u01B0a \u0111\u01B0\u1EE3c c\u1EA5u h\xECnh. B\u1EA1n v\u1EABn c\xF3 th\u1EC3 xem danh s\xE1ch qu\xE1n.");
+      return new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        const timer = setTimeout(() => fail(), 15e3);
+        function fail() {
+          clearTimeout(timer);
+          script.remove();
+          reject(new Error("Kh\xF4ng t\u1EA3i \u0111\u01B0\u1EE3c Google Maps. Vui l\xF2ng ki\u1EC3m tra k\u1EBFt n\u1ED1i ho\u1EB7c c\u1EA5u h\xECnh."));
+        }
+        window.routebiteGoogleReady = () => {
+          clearTimeout(timer);
+          resolve(window.google.maps);
+        };
+        window.gm_authFailure = () => {
+          window.dispatchEvent(new Event("routebite:maps-auth-error"));
+          fail();
+        };
+        script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(key)}&v=weekly&loading=async&language=vi&region=VN&callback=routebiteGoogleReady`;
+        script.async = true;
+        script.onerror = fail;
+        document.head.appendChild(script);
+      });
+    })().catch((error) => {
+      loading = void 0;
+      throw error;
+    });
+    return loading;
+  }
+  async function geocodeGoogle(query) {
+    const maps = await loadGoogleMaps();
+    const { Geocoder } = await maps.importLibrary("geocoding");
+    const response = await new Geocoder().geocode(typeof query === "string" ? { address: query, region: "vn" } : { location: { lat: query.lat, lng: query.lng } });
+    return response.results.map((row) => ({
+      place_id: row.place_id,
+      display_name: row.formatted_address,
+      lat: row.geometry.location.lat(),
+      lon: row.geometry.location.lng()
+    }));
+  }
+
   // src/hooks/useCurrentLocation.js
   var import_react = __toESM(require_react(), 1);
   function useCurrentLocation() {
-    const [loading, setLoading] = (0, import_react.useState)(false);
+    const [loading2, setLoading] = (0, import_react.useState)(false);
     const [error, setError] = (0, import_react.useState)("");
     const getCurrentLocation = (0, import_react.useCallback)(({ resolveAddress = true } = {}) => {
       return new Promise((resolve, reject) => {
@@ -24688,9 +24747,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           const point = { lat: coords.latitude, lng: coords.longitude, address: `${coords.latitude.toFixed(5)}, ${coords.longitude.toFixed(5)}` };
           try {
             if (resolveAddress) {
-              const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&accept-language=vi&lat=${point.lat}&lon=${point.lng}`);
-              const data2 = await response.json();
-              point.address = data2.display_name || point.address;
+              const rows = await geocodeGoogle(point);
+              point.address = rows[0]?.display_name || point.address;
             }
           } catch {
           }
@@ -24704,7 +24762,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         }, { enableHighAccuracy: true, timeout: 1e4 });
       });
     }, []);
-    return { getCurrentLocation, loading, error };
+    return { getCurrentLocation, loading: loading2, error };
   }
 
   // src/contexts/FavoritesContext.jsx
@@ -24724,6 +24782,28 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         return null;
       }
     });
+    (0, import_react2.useEffect)(() => {
+      const sync = () => {
+        try {
+          setCurrentUserState(JSON.parse(localStorage.getItem(USER_KEY) || "null"));
+        } catch {
+          setCurrentUserState(null);
+        }
+      };
+      window.addEventListener("routebite:session-changed", sync);
+      window.addEventListener("storage", sync);
+      if (localStorage.getItem(USER_KEY)) {
+        const token = localStorage.getItem(TOKEN_KEY);
+        request("/auth/profile").then((user) => {
+          if (localStorage.getItem(TOKEN_KEY) === token) setCurrentUser(user);
+        }).catch(() => {
+        });
+      }
+      return () => {
+        window.removeEventListener("routebite:session-changed", sync);
+        window.removeEventListener("storage", sync);
+      };
+    }, []);
     function setCurrentUser(user) {
       setCurrentUserState(user);
       if (user) localStorage.setItem(USER_KEY, JSON.stringify(user));
@@ -24758,14 +24838,14 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   function AccountFavorites({ user, children }) {
     const navigate = useNavigate();
     const [favorites, setFavorites] = (0, import_react3.useState)([]);
-    const [loading, setLoading] = (0, import_react3.useState)(!!user);
+    const [loading2, setLoading] = (0, import_react3.useState)(!!user);
     const [ready, setReady] = (0, import_react3.useState)(!user);
     const [error, setError] = (0, import_react3.useState)("");
     const [pending, setPending] = (0, import_react3.useState)(/* @__PURE__ */ new Set());
     const locks = (0, import_react3.useRef)(/* @__PURE__ */ new Set());
     const alive = (0, import_react3.useRef)(true);
     const loadingRef = (0, import_react3.useRef)(false);
-    const reload = (0, import_react3.useCallback)(async () => {
+    const reload2 = (0, import_react3.useCallback)(async () => {
       if (!user || loadingRef.current || locks.current.size) return;
       loadingRef.current = true;
       setLoading(true);
@@ -24786,11 +24866,11 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     }, [user?.id]);
     (0, import_react3.useEffect)(() => {
       alive.current = true;
-      reload();
+      reload2();
       return () => {
         alive.current = false;
       };
-    }, [reload]);
+    }, [reload2]);
     async function toggle(restaurant) {
       if (!user || !localStorage.getItem(TOKEN_KEY)) {
         navigate("/login", { state: { from: "/my-favorites" } });
@@ -24814,11 +24894,11 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         if (alive.current) setPending(new Set(locks.current));
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(FavoritesContext.Provider, { value: { favorites, loading, ready, error, pending, reload, toggle }, children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)(FavoritesContext.Provider, { value: { favorites, loading: loading2, ready, error, pending, reload: reload2, toggle }, children: [
       error && /* @__PURE__ */ (0, import_jsx_runtime2.jsxs)("aside", { className: "rb-favorites-feedback", role: "alert", children: [
         error,
         " ",
-        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { type: "button", disabled: loading || pending.size > 0, onClick: reload, children: "Th\u1EED l\u1EA1i" })
+        /* @__PURE__ */ (0, import_jsx_runtime2.jsx)("button", { type: "button", disabled: loading2 || pending.size > 0, onClick: reload2, children: "Th\u1EED l\u1EA1i" })
       ] }),
       children
     ] });
@@ -24916,8 +24996,19 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
             "\u2B50 ",
             Number(restaurant.rating) > 0 ? restaurant.rating : "M\u1EDBi"
           ] }),
-          distanceLabel && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { title: directMeters !== null ? "Kho\u1EA3ng c\xE1ch \u0111\u01B0\u1EDDng th\u1EB3ng t\u1EEB v\u1ECB tr\xED c\u1EE7a b\u1EA1n" : "Kho\u1EA3ng c\xE1ch t\u1EDBi tuy\u1EBFn \u0111\u01B0\u1EDDng", children: distanceLabel })
+          distanceLabel && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("span", { title: "Kho\u1EA3ng c\xE1ch \u0111\u1ECBa l\xFD, kh\xF4ng ph\u1EA3i \u0111\u01B0\u1EDDng ch\u1EA1y xe", children: distanceLabel })
         ] }),
+        Number.isFinite(restaurant.detourDistanceMeters) && /* @__PURE__ */ (0, import_jsx_runtime3.jsxs)("p", { className: "rb-detour", children: [
+          "Gh\xE9 qu\xE1n: th\xEAm ",
+          formatDistance(restaurant.detourDistanceMeters),
+          " \xB7 ",
+          Math.ceil(restaurant.detourDurationSeconds / 60),
+          " ph\xFAt ch\u1EA1y xe"
+        ] }),
+        restaurant.viaRoute && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("button", { type: "button", className: "btn secondary", onClick: (event) => {
+          event.stopPropagation();
+          window.dispatchEvent(new CustomEvent("routebite:preview-route", { detail: { ...restaurant.viaRoute, restaurantName: restaurant.name } }));
+        }, children: "Xem \u0111\u01B0\u1EDDng gh\xE9 qu\xE1n" }),
         restaurant.active === false && /* @__PURE__ */ (0, import_jsx_runtime3.jsx)("small", { children: "Qu\xE1n \u0111ang ng\u1EEBng ho\u1EA1t \u0111\u1ED9ng" })
       ] })
     ] });
@@ -24974,11 +25065,11 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   // src/components/LocationAutocomplete.jsx
   var import_react5 = __toESM(require_react(), 1);
   var import_jsx_runtime5 = __toESM(require_jsx_runtime(), 1);
-  var NOMINATIM_SEARCH_URL = "https://nominatim.openstreetmap.org/search";
   function LocationAutocomplete({ value: value2, placeholder, onChange, onSelect, children }) {
     const [suggestions, setSuggestions] = (0, import_react5.useState)([]);
-    const [loading, setLoading] = (0, import_react5.useState)(false);
+    const [loading2, setLoading] = (0, import_react5.useState)(false);
     const [focused, setFocused] = (0, import_react5.useState)(false);
+    const [error, setError] = (0, import_react5.useState)("");
     const timer = (0, import_react5.useRef)(null);
     (0, import_react5.useEffect)(() => {
       const text = value2?.address?.trim() || "";
@@ -24991,14 +25082,18 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       const controller = new AbortController();
       timer.current = setTimeout(async () => {
         setLoading(true);
+        setError("");
         try {
-          const params = new URLSearchParams({ format: "jsonv2", limit: "5", "accept-language": "vi", q: text });
-          const response = await fetch(`${NOMINATIM_SEARCH_URL}?${params}`, { signal: controller.signal });
-          if (!response.ok) throw new Error("Nominatim unavailable");
-          const rows = await response.json();
-          setSuggestions(Array.isArray(rows) ? rows : []);
-        } catch (error) {
-          if (error.name !== "AbortError") setSuggestions([]);
+          const rows = await geocodeGoogle(text);
+          if (!controller.signal.aborted) {
+            setSuggestions(rows.slice(0, 5));
+            if (!rows.length) setError("Kh\xF4ng t\xECm th\u1EA5y \u0111\u1ECBa \u0111i\u1EC3m ph\xF9 h\u1EE3p.");
+          }
+        } catch (error2) {
+          if (!controller.signal.aborted) {
+            setSuggestions([]);
+            setError(error2.message || "Ch\u01B0a t\xECm \u0111\u01B0\u1EE3c \u0111\u1ECBa \u0111i\u1EC3m.");
+          }
         } finally {
           if (!controller.signal.aborted) setLoading(false);
         }
@@ -25017,15 +25112,143 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("input", { value: value2?.address || "", placeholder, autoComplete: "off", onFocus: () => setFocused(true), onBlur: () => window.setTimeout(() => setFocused(false), 160), onChange: (event) => onChange({ address: event.target.value, lat: null, lng: null }) }),
         children ? /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "location-input-actions", children }) : null
       ] }),
-      focused && (loading || suggestions.length > 0) ? /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "location-suggestions", role: "listbox", children: loading ? /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { children: "\u0110ang t\xECm \u0111\u1ECBa \u0111i\u1EC3m\u2026" }) : suggestions.map((place) => /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("button", { type: "button", role: "option", onMouseDown: (event) => event.preventDefault(), onClick: () => select(place), children: [
+      focused && error && /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { role: "status", children: error }),
+      focused && (loading2 || suggestions.length > 0) ? /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("div", { className: "location-suggestions", role: "listbox", children: loading2 ? /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("p", { children: "\u0110ang t\xECm \u0111\u1ECBa \u0111i\u1EC3m\u2026" }) : suggestions.map((place) => /* @__PURE__ */ (0, import_jsx_runtime5.jsxs)("button", { type: "button", role: "option", onMouseDown: (event) => event.preventDefault(), onClick: () => select(place), children: [
         /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("span", { children: "\u{1F4CD}" }),
         /* @__PURE__ */ (0, import_jsx_runtime5.jsx)("strong", { children: place.display_name })
       ] }, place.place_id)) }) : null
     ] });
   }
 
-  // src/Home.jsx
+  // src/components/GoogleMap.jsx
+  var import_react6 = __toESM(require_react(), 1);
   var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
+  function GoogleMap({ points = [], polyline, focusPoint, onPick, onOpen, className = "rb-explore-map" }) {
+    const node = (0, import_react6.useRef)(null), map = (0, import_react6.useRef)(null), pick2 = (0, import_react6.useRef)(onPick);
+    pick2.current = onPick;
+    const [ready, setReady] = (0, import_react6.useState)(false), [error, setError] = (0, import_react6.useState)(""), [retry, setRetry] = (0, import_react6.useState)(0);
+    (0, import_react6.useEffect)(() => {
+      let active = true, listener;
+      const authError2 = () => setError("Google Maps t\u1EEB ch\u1ED1i kh\xF3a truy c\u1EADp. Vui l\xF2ng ki\u1EC3m tra c\u1EA5u h\xECnh.");
+      window.addEventListener("routebite:maps-auth-error", authError2);
+      setError("");
+      setReady(false);
+      loadGoogleMaps().then(async (maps) => {
+        const { Map: Map2 } = await maps.importLibrary("maps");
+        await maps.importLibrary("marker");
+        await maps.importLibrary("geometry");
+        if (!active) return;
+        map.current = new Map2(node.current, { center: { lat: 10.8408, lng: 106.6685 }, zoom: 13, mapId: "DEMO_MAP_ID", gestureHandling: "cooperative", streetViewControl: false });
+        listener = map.current.addListener("click", (event) => {
+          if (event.latLng) pick2.current?.({ lat: event.latLng.lat(), lng: event.latLng.lng() });
+        });
+        setReady(true);
+      }).catch((e) => {
+        if (active) setError(e.message);
+      });
+      return () => {
+        active = false;
+        listener?.remove();
+        window.removeEventListener("routebite:maps-auth-error", authError2);
+        map.current = null;
+      };
+    }, [retry]);
+    (0, import_react6.useEffect)(() => {
+      if (!ready || !map.current) return;
+      const maps = window.google.maps, bounds = new maps.LatLngBounds(), markers = [];
+      const info = new maps.InfoWindow();
+      for (const point of points) {
+        if (!Number.isFinite(point.lat) || !Number.isFinite(point.lng)) continue;
+        const position = { lat: point.lat, lng: point.lng };
+        bounds.extend(position);
+        const marker = new maps.marker.AdvancedMarkerElement({ map: map.current, position, title: point.name || "V\u1ECB tr\xED \u0111\xE3 ch\u1ECDn" });
+        markers.push(marker);
+        if (point.id && onOpen) marker.addListener("click", () => {
+          const content = document.createElement("div"), title = document.createElement("strong"), button = document.createElement("button");
+          title.textContent = point.name;
+          button.textContent = "Xem qu\xE1n";
+          button.type = "button";
+          button.onclick = () => onOpen(point.id);
+          content.append(title, document.createElement("br"), button);
+          info.setContent(content);
+          info.open({ map: map.current, anchor: marker });
+        });
+      }
+      let line;
+      if (polyline) {
+        const path = maps.geometry.encoding.decodePath(polyline);
+        path.forEach((p) => bounds.extend(p));
+        line = new maps.Polyline({ map: map.current, path, strokeColor: "#9b432b", strokeWeight: 5 });
+      }
+      if (!bounds.isEmpty()) map.current.fitBounds(bounds, 40);
+      const idle = map.current.addListener("idle", () => {
+        if (map.current?.getZoom() > 16) map.current.setZoom(16);
+      });
+      return () => {
+        idle.remove();
+        info.close();
+        markers.forEach((marker) => {
+          maps.event.clearInstanceListeners(marker);
+          marker.map = null;
+        });
+        line?.setMap(null);
+      };
+    }, [ready, points, polyline, onOpen]);
+    (0, import_react6.useEffect)(() => {
+      if (ready && map.current && focusPoint) {
+        map.current.panTo({ lat: focusPoint.lat, lng: focusPoint.lng });
+        map.current.setZoom(15);
+      }
+    }, [ready, focusPoint]);
+    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { ref: node, className, "aria-label": "B\u1EA3n \u0111\u1ED3 Google Maps" }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("p", { role: "alert", children: [
+        error,
+        " ",
+        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { type: "button", onClick: () => setRetry((n) => n + 1), children: "Th\u1EED t\u1EA3i l\u1EA1i b\u1EA3n \u0111\u1ED3" })
+      ] })
+    ] });
+  }
+
+  // src/components/FoodJourney.jsx
+  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
+  function FoodJourney() {
+    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "food-journey", "aria-hidden": "true", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("svg", { viewBox: "0 0 400 310", focusable: "false", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("ellipse", { cx: "205", cy: "275", rx: "140", ry: "18", fill: "#8b493b", opacity: ".1" }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M25 230C-5 90 155 285 195 90S380 90 370 220", fill: "none", stroke: "#bd7755", strokeWidth: "2", strokeDasharray: "7 9" }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "200", cy: "155", r: "121", fill: "#e9b778" }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "200", cy: "155", r: "108", fill: "#fffdf5" }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "200", cy: "155", r: "87", fill: "#f4e9d7", stroke: "#e6d8be", strokeWidth: "2" }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M125 152Q130 85 194 95Q228 130 185 193Q130 198 125 152", fill: "#fffdf5" }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("g", { fill: "#e2cfaa", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("ellipse", { cx: "148", cy: "128", rx: "3", ry: "1.5" }),
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("ellipse", { cx: "164", cy: "153", rx: "3", ry: "1.5" }),
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("ellipse", { cx: "145", cy: "165", rx: "3", ry: "1.5" }),
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("ellipse", { cx: "184", cy: "117", rx: "3", ry: "1.5" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M194 166Q168 127 205 111Q251 98 271 150Q262 186 221 194Z", fill: "#aa4c2d" }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "m204 125 39 40m-47-22 29 33m-8-53 36 33", stroke: "#673421", strokeWidth: "5", strokeLinecap: "round" }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("g", { fill: "#68916a", stroke: "#d4e5b7", strokeWidth: "5", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "231", cy: "216", r: "18" }),
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "262", cy: "199", r: "18" }),
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "278", cy: "176", r: "18" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M137 203Q143 181 172 192Q193 206 172 225Q147 236 137 203", fill: "#fff" }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "163", cy: "209", r: "12", fill: "#efb43f" }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M100 55q-10-17 6-29m13 26q-10-17 6-29", fill: "none", stroke: "#a06e48", strokeWidth: "3", strokeLinecap: "round", className: "food-steam" }),
+        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("g", { transform: "translate(316 44)", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("path", { d: "M0 0a22 22 0 1 1 44 0c0 18-22 36-22 36S0 18 0 0", fill: "#9b432b" }),
+          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("circle", { cx: "22", cy: "0", r: "7", fill: "#ffedcf" })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: "journey-note journey-note-top", children: "M\u1ED9t \u0111i\u1EC3m d\u1EEBng ngon" }),
+      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { className: "journey-note journey-note-bottom", children: "Ch\u1ECDn m\xF3n \xB7 Gh\xE9 l\u1EA5y \xB7 \u0110i ti\u1EBFp" })
+    ] });
+  }
+
+  // src/Home.jsx
+  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
   var QUICK_CATEGORIES = [
     { label: "C\xE0 ph\xEA", value: "ca-phe" },
     { label: "C\u01A1m", value: "com" },
@@ -25037,263 +25260,8623 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   function Home() {
     const navigate = useNavigate();
     const { getCurrentLocation, loading: locating, error: locationError } = useCurrentLocation();
-    const [startPoint, setStartPoint] = (0, import_react6.useState)(emptyPoint());
-    const [endPoint, setEndPoint] = (0, import_react6.useState)(emptyPoint());
-    const [restaurants, setRestaurants] = (0, import_react6.useState)([]);
-    const [resultOrigin, setResultOrigin] = (0, import_react6.useState)(void 0);
-    const [searched, setSearched] = (0, import_react6.useState)(false);
-    const [searching, setSearching] = (0, import_react6.useState)(false);
-    const [message, setMessage] = (0, import_react6.useState)("");
-    const [mapTarget, setMapTarget] = (0, import_react6.useState)(null);
-    const [activeCategory, setActiveCategory] = (0, import_react6.useState)("");
-    (0, import_react6.useEffect)(() => {
+    const [startPoint, setStartPoint] = (0, import_react7.useState)(emptyPoint());
+    const [endPoint, setEndPoint] = (0, import_react7.useState)(emptyPoint());
+    const [restaurants, setRestaurants] = (0, import_react7.useState)([]);
+    const [resultOrigin, setResultOrigin] = (0, import_react7.useState)(void 0);
+    const [searched, setSearched] = (0, import_react7.useState)(false);
+    const [searching, setSearching] = (0, import_react7.useState)(false);
+    const [message, setMessage] = (0, import_react7.useState)("");
+    const [mapTarget, setMapTarget] = (0, import_react7.useState)(null);
+    const [activeCategory, setActiveCategory] = (0, import_react7.useState)("");
+    const searchVersion = (0, import_react7.useRef)(0);
+    const [roadRoute, setRoadRoute] = (0, import_react7.useState)(null);
+    const [travelMode, setTravelMode] = (0, import_react7.useState)("DRIVE");
+    const [preview, setPreview] = (0, import_react7.useState)(null);
+    function changePoint(setter, point) {
+      searchVersion.current++;
+      setter(point);
+      setRoadRoute(null);
+      setPreview(null);
+      setMessage("");
+      setSearching(false);
+      if (searched) {
+        setSearched(false);
+        setRestaurants([]);
+      }
+    }
+    (0, import_react7.useEffect)(() => {
+      const show = (event) => setPreview(event.detail);
+      window.addEventListener("routebite:preview-route", show);
+      return () => window.removeEventListener("routebite:preview-route", show);
+    }, []);
+    (0, import_react7.useEffect)(() => {
+      setPreview(null);
+    }, [roadRoute]);
+    (0, import_react7.useEffect)(() => {
+      const version4 = ++searchVersion.current;
+      setSearching(false);
       const query = activeCategory ? `?category=${encodeURIComponent(activeCategory)}` : "";
       setResultOrigin(void 0);
-      request(`/restaurants${query}`, { authorized: false }).then((response) => setRestaurants(Array.isArray(response) ? response : response.data || [])).catch(() => setRestaurants([]));
+      request(`/restaurants${query}`, { authorized: false }).then((response) => {
+        if (version4 === searchVersion.current) setRestaurants(Array.isArray(response) ? response : response.data || []);
+      }).catch(() => {
+        if (version4 === searchVersion.current) setRestaurants([]);
+      });
     }, [activeCategory]);
-    (0, import_react6.useEffect)(() => {
+    (0, import_react7.useEffect)(() => {
       if (locationError) setMessage(locationError);
     }, [locationError]);
     async function geocode(point, label) {
       if (Number.isFinite(point.lat) && Number.isFinite(point.lng)) return point;
       if (!point.address.trim()) throw new Error(`Vui l\xF2ng nh\u1EADp ${label}.`);
-      const params = new URLSearchParams({ format: "jsonv2", limit: "1", "accept-language": "vi", q: point.address });
-      const response = await fetch(`https://nominatim.openstreetmap.org/search?${params}`);
-      const rows = await response.json();
+      const rows = await geocodeGoogle(point.address);
       if (!rows?.[0]) throw new Error(`Kh\xF4ng t\xECm th\u1EA5y ${label.toLowerCase()}.`);
       return { address: rows[0].display_name || point.address, lat: Number(rows[0].lat), lng: Number(rows[0].lon) };
     }
     async function useLocation2() {
       try {
-        setStartPoint(await getCurrentLocation());
+        changePoint(setStartPoint, await getCurrentLocation());
       } catch {
       }
     }
     async function search(event) {
+      const version4 = ++searchVersion.current;
       event.preventDefault();
       setSearching(true);
       setSearched(true);
+      setRoadRoute(null);
       setMessage("");
       try {
         const [pointA, pointB] = await Promise.all([geocode(startPoint, "\u0111i\u1EC3m \u0111i"), geocode(endPoint, "\u0111i\u1EC3m \u0111\u1EBFn")]);
         setStartPoint(pointA);
         setEndPoint(pointB);
-        const result = await request("/search/route", { method: "POST", authorized: false, body: { pointA: { latitude: pointA.lat, longitude: pointA.lng }, pointB: { latitude: pointB.lat, longitude: pointB.lng }, radius: 500 } });
+        const result = await request("/search/route", { method: "POST", authorized: false, body: { pointA: { latitude: pointA.lat, longitude: pointA.lng }, pointB: { latitude: pointB.lat, longitude: pointB.lng }, radius: 500, travelMode } });
+        if (version4 !== searchVersion.current) return;
+        setRoadRoute(result.route);
         const eta = Number(result.route?.travelTimeMinutes);
         setResultOrigin(pointA);
         if (Number.isFinite(eta) && eta > 0) localStorage.setItem("routebite_route_eta_minutes", String(eta));
         setRestaurants(result.restaurants || []);
-        setMessage(`\u0110\xE3 t\xECm theo tuy\u1EBFn \u0111\u01B0\u1EDDng \xB7 th\u1EDDi gian di chuy\u1EC3n kho\u1EA3ng ${eta || "?"} ph\xFAt.`);
+        setMessage(`\u0110\xE3 t\xECm theo tuy\u1EBFn \u0111\u01B0\u1EDDng \xB7 th\u1EDDi gian di chuy\u1EC3n kho\u1EA3ng ${eta || "?"} ph\xFAt. ${result.warning || ""}`);
       } catch (error) {
-        setRestaurants([]);
-        setMessage(error.message || "C\xF3 l\u1ED7i khi t\xECm qu\xE1n, vui l\xF2ng th\u1EED l\u1EA1i.");
+        if (version4 === searchVersion.current) {
+          setRestaurants([]);
+          setMessage(error.message || "C\xF3 l\u1ED7i khi t\xECm qu\xE1n, vui l\xF2ng th\u1EED l\u1EA1i.");
+        }
       } finally {
-        setSearching(false);
+        if (version4 === searchVersion.current) setSearching(false);
       }
     }
     const heading = searched ? "K\u1EBFt qu\u1EA3 g\u1EE3i \xFD tr\xEAn tuy\u1EBFn" : "Qu\xE1n n\u1ED5i b\u1EADt";
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("main", { className: "route-home", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("section", { className: "route-hero", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "route-hero-copy", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("p", { children: "H\xC0NH TR\xCCNH \u1EA8M TH\u1EF0C" }),
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h1", { children: "T\xECm qu\xE1n tr\xEAn \u0111\u01B0\u1EDDng \u0111i." }),
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: "Ch\u1ECDn \u0111i\u1EC3m \u0111i v\xE0 \u0111i\u1EC3m \u0111\u1EBFn. RouteBite s\u1EBD g\u1EE3i \xFD \u0111i\u1EC3m d\u1EEBng ph\xF9 h\u1EE3p trong ph\u1EA1m vi l\u1EC7ch tuy\u1EBFn 500m." })
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("main", { className: "route-home", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("section", { className: "route-hero", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "route-hero-copy", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { children: "H\xC0NH TR\xCCNH \u1EA8M TH\u1EF0C" }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h1", { children: "T\xECm qu\xE1n tr\xEAn \u0111\u01B0\u1EDDng \u0111i." }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { children: "Ch\u1ECDn \u0111i\u1EC3m \u0111i v\xE0 \u0111i\u1EC3m \u0111\u1EBFn. T\xECm qu\xE1n g\u1EA7n tuy\u1EBFn trong ph\u1EA1m vi \u0111\u1ECBa l\xFD 500 m, r\u1ED3i so s\xE1nh th\u1EDDi gian v\xE0 qu\xE3ng \u0111\u01B0\u1EDDng ch\u1EA1y xe \u0111i th\xEAm khi gh\xE9 qu\xE1n." })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("form", { className: "route-form", onSubmit: search, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "route-field", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("label", { children: "\u0110i\u1EC3m \u0111i" }),
-            /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)(LocationAutocomplete, { value: startPoint, placeholder: "Nh\u1EADp \u0111i\u1EC3m xu\u1EA5t ph\xE1t", onChange: setStartPoint, onSelect: setStartPoint, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { type: "button", onClick: () => setMapTarget("start"), children: "Ch\u1ECDn tr\xEAn b\u1EA3n \u0111\u1ED3" }),
-              /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { className: "location-action", type: "button", disabled: locating, onClick: useLocation2, children: locating ? "\u0110ang \u0111\u1ECBnh v\u1ECB\u2026" : "D\xF9ng v\u1ECB tr\xED hi\u1EC7n t\u1EA1i" })
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(FoodJourney, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("label", { children: [
+          "Ph\u01B0\u01A1ng ti\u1EC7n ",
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("select", { value: travelMode, disabled: searching, onChange: (event) => {
+            setTravelMode(event.target.value);
+            setRoadRoute(null);
+            setRestaurants([]);
+            setSearched(false);
+          }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("option", { value: "DRIVE", children: "\xD4 t\xF4" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("option", { value: "TWO_WHEELER", children: "Xe m\xE1y" })
+          ] })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("form", { className: "route-form", onSubmit: search, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "route-field", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("label", { children: "\u0110i\u1EC3m \u0111i" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(LocationAutocomplete, { value: startPoint, placeholder: "Nh\u1EADp \u0111i\u1EC3m xu\u1EA5t ph\xE1t", onChange: (point) => changePoint(setStartPoint, point), onSelect: (point) => changePoint(setStartPoint, point), children: [
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", onClick: () => setMapTarget("start"), children: "Ch\u1ECDn tr\xEAn b\u1EA3n \u0111\u1ED3" }),
+              /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { className: "location-action", type: "button", disabled: locating, onClick: useLocation2, children: locating ? "\u0110ang \u0111\u1ECBnh v\u1ECB\u2026" : "D\xF9ng v\u1ECB tr\xED hi\u1EC7n t\u1EA1i" })
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "route-field", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("label", { children: "\u0110i\u1EC3m \u0111\u1EBFn" }),
-            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(LocationAutocomplete, { value: endPoint, placeholder: "Nh\u1EADp \u0111i\u1EC3m \u0111\u1EBFn", onChange: setEndPoint, onSelect: setEndPoint, children: /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { type: "button", onClick: () => setMapTarget("end"), children: "Ch\u1ECDn tr\xEAn b\u1EA3n \u0111\u1ED3" }) })
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "route-field", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("label", { children: "\u0110i\u1EC3m \u0111\u1EBFn" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(LocationAutocomplete, { value: endPoint, placeholder: "Nh\u1EADp \u0111i\u1EC3m \u0111\u1EBFn", onChange: (point) => changePoint(setEndPoint, point), onSelect: (point) => changePoint(setEndPoint, point), children: /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", onClick: () => setMapTarget("end"), children: "Ch\u1ECDn tr\xEAn b\u1EA3n \u0111\u1ED3" }) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { className: "route-submit", disabled: searching, children: searching ? "\u0110ang t\xECm\u2026" : "T\xECm g\u1EE3i \xFD" })
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { className: "route-submit", disabled: searching, children: searching ? "\u0110ang t\xECm\u2026" : "T\xECm g\u1EE3i \xFD" })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("section", { className: "route-categories", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h2", { children: "Danh m\u1EE5c nhanh" }),
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { type: "button", className: !activeCategory ? "active" : "", onClick: () => {
+      roadRoute && /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("section", { className: "rb-explore-map-section", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h2", { children: "Tuy\u1EBFn \u0111\u01B0\u1EDDng \u0111\u1EC1 xu\u1EA5t" }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("p", { children: [
+          (roadRoute.distanceMeters / 1e3).toFixed(1),
+          " km \xB7 kho\u1EA3ng ",
+          roadRoute.travelTimeMinutes,
+          " ph\xFAt ch\u1EA1y xe. Ch\u01B0a g\u1ED3m th\u1EDDi gian ch\u1EDD v\xE0 l\u1EA5y m\xF3n."
+        ] }),
+        preview && /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("p", { children: [
+          "\u0110ang xem \u0111\u01B0\u1EDDng gh\xE9 ",
+          preview.restaurantName,
+          " \xB7 ",
+          (preview.distanceMeters / 1e3).toFixed(1),
+          " km \xB7 ",
+          preview.travelTimeMinutes,
+          " ph\xFAt ",
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", onClick: () => setPreview(null), children: "Xem tuy\u1EBFn g\u1ED1c" })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(GoogleMap, { polyline: (preview || roadRoute).polyline, points: [startPoint, endPoint] }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { children: "Qu\xE1n \u0111\u01B0\u1EE3c l\u1ECDc trong h\xE0nh lang 500 m theo \u0111\u1ECBa l\xFD quanh tuy\u1EBFn; t\u1ED1i \u0111a 12 qu\xE1n \u0111\u01B0\u1EE3c t\xEDnh \u0111\u01B0\u1EDDng gh\xE9. X\u1EBFp h\u1EA1ng theo th\u1EDDi gian \u0111i th\xEAm, sau \u0111\xF3 qu\xE3ng \u0111\u01B0\u1EDDng \u0111i th\xEAm." })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("section", { className: "route-categories", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h2", { children: "Danh m\u1EE5c nhanh" }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: !activeCategory ? "active" : "", onClick: () => {
             setActiveCategory("");
             setSearched(false);
+            setRoadRoute(null);
           }, children: "T\u1EA5t c\u1EA3" }),
-          QUICK_CATEGORIES.map((category) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { type: "button", className: activeCategory === category.value ? "active" : "", onClick: () => {
+          QUICK_CATEGORIES.map((category) => /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", className: activeCategory === category.value ? "active" : "", onClick: () => {
             setActiveCategory(category.value);
             setSearched(false);
+            setRoadRoute(null);
           }, children: category.label }, category.value))
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("section", { className: "route-results", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { className: "route-results-heading", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("p", { children: searched ? "T\xCCM THEO L\u1ED8 TR\xCCNH" : "KH\xC1M PH\xC1 G\u1EA6N B\u1EA0N" }),
-            /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("h2", { children: heading })
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("section", { className: "route-results", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "route-results-heading", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { children: searched ? "T\xCCM THEO L\u1ED8 TR\xCCNH" : "KH\xC1M PH\xC1 G\u1EA6N B\u1EA0N" }),
+            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h2", { children: heading })
           ] }),
-          message && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: message })
+          message && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { children: message })
         ] }),
-        searching ? /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "restaurant-result-grid", children: [1, 2, 3].map((item) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "restaurant-skeleton" }, item)) }) : restaurants.length ? /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "restaurant-result-grid", children: restaurants.map((restaurant, index) => /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(RestaurantCard, { restaurant, rank: searched ? index + 1 : void 0, onOpen: () => navigate(`/restaurant/${restaurant.id}${routeQuery(resultOrigin)}`) }, restaurant.id)) }) : /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "route-empty", children: searched ? "Kh\xF4ng t\xECm th\u1EA5y qu\xE1n ph\xF9 h\u1EE3p trong ph\u1EA1m vi 500m quanh tuy\u1EBFn \u0111\u01B0\u1EDDng n\xE0y." : "Ch\u01B0a c\xF3 qu\xE1n c\xF4ng khai \u0111\u1EC3 hi\u1EC3n th\u1ECB." })
+        searching ? /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "restaurant-result-grid", children: [1, 2, 3].map((item) => /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "restaurant-skeleton" }, item)) }) : restaurants.length ? /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "restaurant-result-grid", children: restaurants.map((restaurant, index) => /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(RestaurantCard, { restaurant, rank: searched ? index + 1 : void 0, onOpen: () => navigate(`/restaurant/${restaurant.id}${routeQuery(resultOrigin)}`) }, restaurant.id)) }) : /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "route-empty", children: searched ? "Kh\xF4ng t\xECm th\u1EA5y qu\xE1n ph\xF9 h\u1EE3p trong ph\u1EA1m vi 500m quanh tuy\u1EBFn \u0111\u01B0\u1EDDng n\xE0y." : "Ch\u01B0a c\xF3 qu\xE1n c\xF4ng khai \u0111\u1EC3 hi\u1EC3n th\u1ECB." })
       ] }),
-      !searched && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(ReorderSuggestions, {}),
-      mapTarget && /* @__PURE__ */ (0, import_jsx_runtime6.jsx)(MapPicker, { initialCenter: mapTarget === "start" ? startPoint : endPoint, onClose: () => setMapTarget(null), onPick: (location2) => {
-        (mapTarget === "start" ? setStartPoint : setEndPoint)(location2);
+      !searched && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(ReorderSuggestions, {}),
+      mapTarget && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(MapPicker, { initialCenter: mapTarget === "start" ? startPoint : endPoint, onClose: () => setMapTarget(null), onPick: (location2) => {
+        changePoint(mapTarget === "start" ? setStartPoint : setEndPoint, location2);
         setMapTarget(null);
       } })
     ] });
   }
   function MapPicker({ initialCenter, onClose, onPick }) {
-    const node = (0, import_react6.useRef)(null);
-    const markerRef = (0, import_react6.useRef)(null);
-    const [selected, setSelected] = (0, import_react6.useState)(null);
-    const [address, setAddress] = (0, import_react6.useState)("");
-    const [loadingAddress, setLoadingAddress] = (0, import_react6.useState)(false);
-    (0, import_react6.useEffect)(() => {
-      const L = window.L;
-      if (!L || !node.current) return void 0;
-      const center = Number.isFinite(initialCenter?.lat) ? [initialCenter.lat, initialCenter.lng] : [10.7769, 106.7009];
-      const map = L.map(node.current).setView(center, 14);
-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "\xA9 OpenStreetMap contributors" }).addTo(map);
-      map.on("click", async (event) => {
-        const location2 = { lat: event.latlng.lat, lng: event.latlng.lng };
-        setSelected(location2);
-        if (markerRef.current) markerRef.current.remove();
-        markerRef.current = L.marker([location2.lat, location2.lng]).addTo(map);
-        setLoadingAddress(true);
-        setAddress("");
-        try {
-          const response = await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&accept-language=vi&lat=${location2.lat}&lon=${location2.lng}`);
-          const data2 = await response.json();
-          setAddress(data2.display_name || `${location2.lat.toFixed(5)}, ${location2.lng.toFixed(5)}`);
-        } catch {
-          setAddress(`${location2.lat.toFixed(5)}, ${location2.lng.toFixed(5)}`);
-        } finally {
-          setLoadingAddress(false);
-        }
-      });
-      return () => map.remove();
-    }, [initialCenter]);
-    return /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "location-map-modal", role: "dialog", "aria-modal": "true", children: /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("section", { className: "location-map-card", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("header", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("strong", { children: "Ch\u1ECDn v\u1ECB tr\xED tr\xEAn b\u1EA3n \u0111\u1ED3" }),
-          /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("span", { children: "Nh\u1EA5n v\xE0o v\u1ECB tr\xED mong mu\u1ED1n \u0111\u1EC3 \u0111\u1EB7t ghim." })
+    const requestId = (0, import_react7.useRef)(0);
+    const [selected, setSelected] = (0, import_react7.useState)(null);
+    const [address, setAddress] = (0, import_react7.useState)("");
+    const [loadingAddress, setLoadingAddress] = (0, import_react7.useState)(false);
+    (0, import_react7.useEffect)(() => () => {
+      requestId.current++;
+    }, []);
+    return /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "location-map-modal", role: "dialog", "aria-modal": "true", children: /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("section", { className: "location-map-card", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("header", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("strong", { children: "Ch\u1ECDn v\u1ECB tr\xED tr\xEAn b\u1EA3n \u0111\u1ED3" }),
+          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { children: "Nh\u1EA5n v\xE0o v\u1ECB tr\xED mong mu\u1ED1n \u0111\u1EC3 \u0111\u1EB7t ghim." })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { type: "button", onClick: onClose, children: "\xD7" })
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", onClick: onClose, children: "\xD7" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("div", { className: "location-map-canvas", ref: node }),
-      /* @__PURE__ */ (0, import_jsx_runtime6.jsxs)("footer", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("p", { children: !selected ? "Nh\u1EA5n v\xE0o b\u1EA3n \u0111\u1ED3 \u0111\u1EC3 ch\u1ECDn v\u1ECB tr\xED" : loadingAddress ? "\u0110ang x\xE1c \u0111\u1ECBnh \u0111\u1ECBa ch\u1EC9\u2026" : address }),
-        /* @__PURE__ */ (0, import_jsx_runtime6.jsx)("button", { type: "button", disabled: !selected || loadingAddress, onClick: () => onPick({ ...selected, address }), children: "X\xE1c nh\u1EADn v\u1ECB tr\xED" })
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(GoogleMap, { className: "location-map-canvas", points: selected ? [selected] : Number.isFinite(initialCenter?.lat) ? [initialCenter] : [], onPick: async (location2) => {
+        const id = ++requestId.current;
+        setSelected(location2);
+        setLoadingAddress(true);
+        try {
+          const rows = await geocodeGoogle(location2);
+          if (id === requestId.current) setAddress(rows[0]?.display_name || `${location2.lat}, ${location2.lng}`);
+        } catch {
+          if (id === requestId.current) setAddress(`${location2.lat}, ${location2.lng}`);
+        } finally {
+          if (id === requestId.current) setLoadingAddress(false);
+        }
+      } }),
+      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("footer", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { children: !selected ? "Nh\u1EA5n v\xE0o b\u1EA3n \u0111\u1ED3 \u0111\u1EC3 ch\u1ECDn v\u1ECB tr\xED" : loadingAddress ? "\u0110ang x\xE1c \u0111\u1ECBnh \u0111\u1ECBa ch\u1EC9\u2026" : address }),
+        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", disabled: !selected || loadingAddress, onClick: () => onPick({ ...selected, address }), children: "X\xE1c nh\u1EADn v\u1ECB tr\xED" })
       ] })
     ] }) });
   }
 
-  // src/LoginPage.jsx
-  var import_react7 = __toESM(require_react(), 1);
-
-  // src/layouts/AuthLayout.jsx
-  var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
-  function AuthLayout({ children }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("main", { className: "auth-layout", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("section", { className: "auth-brand-panel", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)(Link, { className: "auth-brand-logo", to: "/", children: "RouteBite" }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { className: "auth-eyebrow", children: "H\xC0NH TR\xCCNH \u1EA8M TH\u1EF0C" }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("h1", { children: [
-          "\u1EA8m th\u1EF1c tr\xEAn",
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("br", {}),
-          "m\u1ECDi n\u1EBBo \u0111\u01B0\u1EDDng."
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("p", { children: "Kh\xE1m ph\xE1 qu\xE1n ti\u1EC7n \u0111\u01B0\u1EDDng, \u0111\u1EB7t m\xF3n tr\u01B0\u1EDBc v\xE0 gh\xE9 l\u1EA5y \u0111\xFAng l\xFAc b\u1EA1n \u0111\u1EBFn n\u01A1i." }),
-        /* @__PURE__ */ (0, import_jsx_runtime7.jsxs)("div", { className: "auth-brand-stats", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { children: "\u{1F4CD} T\xECm qu\xE1n d\u1ECDc tuy\u1EBFn" }),
-          /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("span", { children: "\u26A1 \u0110\u1EB7t tr\u01B0\u1EDBc, gh\xE9 l\u1EA5y" })
-        ] })
+  // src/components/EmailOtpLogin.jsx
+  var import_react8 = __toESM(require_react(), 1);
+  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+  function EmailOtpLogin({ challenge, email, onSession, onBack, registration = false }) {
+    const ticketField = registration ? "registrationTicket" : "loginTicket";
+    const endpoint = registration ? "/auth/register" : "/auth/email-otp";
+    const [pending, setPending] = (0, import_react8.useState)(challenge), [code, setCode] = (0, import_react8.useState)("");
+    const [busy, setBusy] = (0, import_react8.useState)(false), [error, setError] = (0, import_react8.useState)("");
+    const [expiresAt, setExpiresAt] = (0, import_react8.useState)(Date.now() + challenge.expiresIn * 1e3);
+    const [retryAt, setRetryAt] = (0, import_react8.useState)(Date.now() + challenge.retryAfter * 1e3), [now, setNow] = (0, import_react8.useState)(Date.now());
+    const lock = (0, import_react8.useRef)(false), mounted = (0, import_react8.useRef)(true);
+    (0, import_react8.useEffect)(() => {
+      mounted.current = true;
+      const timer = setInterval(() => setNow(Date.now()), 1e3);
+      return () => {
+        mounted.current = false;
+        clearInterval(timer);
+      };
+    }, []);
+    const cooldown = Math.max(0, Math.ceil((retryAt - now) / 1e3)), expired = now >= expiresAt;
+    async function run(operation) {
+      if (lock.current) return;
+      lock.current = true;
+      setBusy(true);
+      setError("");
+      try {
+        await operation();
+      } catch (err) {
+        if (mounted.current) setError(err.message || "Kh\xF4ng th\u1EC3 x\xE1c minh. Vui l\xF2ng th\u1EED l\u1EA1i.");
+      } finally {
+        lock.current = false;
+        if (mounted.current) setBusy(false);
+      }
+    }
+    function verify(event) {
+      event.preventDefault();
+      if (expired || !/^\d{6}$/.test(code)) return;
+      return run(async () => {
+        const session = await request(`${endpoint}/verify`, { method: "POST", authorized: false, body: { [ticketField]: pending[ticketField], code } });
+        if (mounted.current) {
+          setCode("");
+          await onSession(session);
+        }
+      });
+    }
+    function resend() {
+      if (cooldown || expired) return;
+      return run(async () => {
+        const result = await request(`${endpoint}/resend`, { method: "POST", authorized: false, body: { [ticketField]: pending[ticketField] } });
+        if (!mounted.current) return;
+        setPending(result);
+        setCode("");
+        setNow(Date.now());
+        setRetryAt(Date.now() + result.retryAfter * 1e3);
+        setExpiresAt(Date.now() + result.expiresIn * 1e3);
+      });
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("section", { className: "rb-provider-login rb-email-otp", "aria-label": registration ? "X\xE1c minh \u0111\u0103ng k\xFD" : "X\xE1c minh \u0111\u0103ng nh\u1EADp", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("p", { role: "status", children: [
+        "M\xE3 x\xE1c minh \u0111\xE3 \u0111\u01B0\u1EE3c g\u1EEDi t\u1EDBi ",
+        email,
+        ". Ki\u1EC3m tra c\u1EA3 th\u01B0 r\xE1c."
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("section", { className: "auth-form-panel", children: /* @__PURE__ */ (0, import_jsx_runtime7.jsx)("div", { className: "auth-form-wrap", children }) })
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("p", { className: "rb-auth-note", children: [
+        "Nh\u1EADp m\xE3 6 s\u1ED1 \u0111\u1EC3 ho\xE0n t\u1EA5t ",
+        registration ? "\u0111\u0103ng k\xFD" : "\u0111\u0103ng nh\u1EADp",
+        ". M\xE3 c\xF3 hi\u1EC7u l\u1EF1c 5 ph\xFAt, ch\u1EC9 d\xF9ng m\u1ED9t l\u1EA7n."
+      ] }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+      expired && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { role: "alert", children: "Phi\xEAn x\xE1c minh \u0111\xE3 h\u1EBFt h\u1EA1n. H\xE3y quay l\u1EA1i nh\u1EADp th\xF4ng tin." }),
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("form", { className: "auth-form", onSubmit: verify, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { children: [
+          "M\xE3 OTP email",
+          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { inputMode: "numeric", autoComplete: "one-time-code", pattern: "[0-9]{6}", maxLength: 6, required: true, value: code, disabled: busy || expired, onChange: (event) => setCode(event.target.value.replace(/\D/g, "")) })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { className: "auth-submit", type: "submit", disabled: busy || expired || code.length !== 6, children: busy ? "\u0110ang x\xE1c minh\u2026" : registration ? "X\xE1c minh v\xE0 t\u1EA1o t\xE0i kho\u1EA3n" : "X\xE1c minh v\xE0 \u0111\u0103ng nh\u1EADp" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "rb-provider-buttons", style: { marginTop: 16 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", disabled: busy || cooldown > 0 || expired, onClick: resend, children: cooldown ? `G\u1EEDi l\u1EA1i sau ${cooldown}s` : "G\u1EEDi l\u1EA1i m\xE3 OTP" }),
+        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { type: "button", disabled: busy, onClick: onBack, children: registration ? "S\u1EEDa th\xF4ng tin \u0111\u0103ng k\xFD" : "Quay l\u1EA1i \u0111\u0103ng nh\u1EADp" })
+      ] })
     ] });
   }
 
   // src/LoginPage.jsx
-  var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
+  var import_react10 = __toESM(require_react(), 1);
+
+  // src/components/ProviderLogin.jsx
+  var import_react9 = __toESM(require_react(), 1);
+
+  // node_modules/@firebase/util/dist/postinstall.mjs
+  var getDefaultsFromPostinstall = () => void 0;
+
+  // node_modules/@firebase/util/dist/index.esm.js
+  var stringToByteArray$1 = function(str) {
+    const out = [];
+    let p = 0;
+    for (let i = 0; i < str.length; i++) {
+      let c = str.charCodeAt(i);
+      if (c < 128) {
+        out[p++] = c;
+      } else if (c < 2048) {
+        out[p++] = c >> 6 | 192;
+        out[p++] = c & 63 | 128;
+      } else if ((c & 64512) === 55296 && i + 1 < str.length && (str.charCodeAt(i + 1) & 64512) === 56320) {
+        c = 65536 + ((c & 1023) << 10) + (str.charCodeAt(++i) & 1023);
+        out[p++] = c >> 18 | 240;
+        out[p++] = c >> 12 & 63 | 128;
+        out[p++] = c >> 6 & 63 | 128;
+        out[p++] = c & 63 | 128;
+      } else {
+        out[p++] = c >> 12 | 224;
+        out[p++] = c >> 6 & 63 | 128;
+        out[p++] = c & 63 | 128;
+      }
+    }
+    return out;
+  };
+  var byteArrayToString = function(bytes) {
+    const out = [];
+    let pos = 0, c = 0;
+    while (pos < bytes.length) {
+      const c1 = bytes[pos++];
+      if (c1 < 128) {
+        out[c++] = String.fromCharCode(c1);
+      } else if (c1 > 191 && c1 < 224) {
+        const c2 = bytes[pos++];
+        out[c++] = String.fromCharCode((c1 & 31) << 6 | c2 & 63);
+      } else if (c1 > 239 && c1 < 365) {
+        const c2 = bytes[pos++];
+        const c3 = bytes[pos++];
+        const c4 = bytes[pos++];
+        const u = ((c1 & 7) << 18 | (c2 & 63) << 12 | (c3 & 63) << 6 | c4 & 63) - 65536;
+        out[c++] = String.fromCharCode(55296 + (u >> 10));
+        out[c++] = String.fromCharCode(56320 + (u & 1023));
+      } else {
+        const c2 = bytes[pos++];
+        const c3 = bytes[pos++];
+        out[c++] = String.fromCharCode((c1 & 15) << 12 | (c2 & 63) << 6 | c3 & 63);
+      }
+    }
+    return out.join("");
+  };
+  var base64 = {
+    /**
+     * Maps bytes to characters.
+     */
+    byteToCharMap_: null,
+    /**
+     * Maps characters to bytes.
+     */
+    charToByteMap_: null,
+    /**
+     * Maps bytes to websafe characters.
+     * @private
+     */
+    byteToCharMapWebSafe_: null,
+    /**
+     * Maps websafe characters to bytes.
+     * @private
+     */
+    charToByteMapWebSafe_: null,
+    /**
+     * Our default alphabet, shared between
+     * ENCODED_VALS and ENCODED_VALS_WEBSAFE
+     */
+    ENCODED_VALS_BASE: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
+    /**
+     * Our default alphabet. Value 64 (=) is special; it means "nothing."
+     */
+    get ENCODED_VALS() {
+      return this.ENCODED_VALS_BASE + "+/=";
+    },
+    /**
+     * Our websafe alphabet.
+     */
+    get ENCODED_VALS_WEBSAFE() {
+      return this.ENCODED_VALS_BASE + "-_.";
+    },
+    /**
+     * Whether this browser supports the atob and btoa functions. This extension
+     * started at Mozilla but is now implemented by many browsers. We use the
+     * ASSUME_* variables to avoid pulling in the full useragent detection library
+     * but still allowing the standard per-browser compilations.
+     *
+     */
+    HAS_NATIVE_SUPPORT: typeof atob === "function",
+    /**
+     * Base64-encode an array of bytes.
+     *
+     * @param input An array of bytes (numbers with
+     *     value in [0, 255]) to encode.
+     * @param webSafe Boolean indicating we should use the
+     *     alternative alphabet.
+     * @return The base64 encoded string.
+     */
+    encodeByteArray(input, webSafe) {
+      if (!Array.isArray(input)) {
+        throw Error("encodeByteArray takes an array as a parameter");
+      }
+      this.init_();
+      const byteToCharMap = webSafe ? this.byteToCharMapWebSafe_ : this.byteToCharMap_;
+      const output = [];
+      for (let i = 0; i < input.length; i += 3) {
+        const byte1 = input[i];
+        const haveByte2 = i + 1 < input.length;
+        const byte2 = haveByte2 ? input[i + 1] : 0;
+        const haveByte3 = i + 2 < input.length;
+        const byte3 = haveByte3 ? input[i + 2] : 0;
+        const outByte1 = byte1 >> 2;
+        const outByte2 = (byte1 & 3) << 4 | byte2 >> 4;
+        let outByte3 = (byte2 & 15) << 2 | byte3 >> 6;
+        let outByte4 = byte3 & 63;
+        if (!haveByte3) {
+          outByte4 = 64;
+          if (!haveByte2) {
+            outByte3 = 64;
+          }
+        }
+        output.push(byteToCharMap[outByte1], byteToCharMap[outByte2], byteToCharMap[outByte3], byteToCharMap[outByte4]);
+      }
+      return output.join("");
+    },
+    /**
+     * Base64-encode a string.
+     *
+     * @param input A string to encode.
+     * @param webSafe If true, we should use the
+     *     alternative alphabet.
+     * @return The base64 encoded string.
+     */
+    encodeString(input, webSafe) {
+      if (this.HAS_NATIVE_SUPPORT && !webSafe) {
+        return btoa(input);
+      }
+      return this.encodeByteArray(stringToByteArray$1(input), webSafe);
+    },
+    /**
+     * Base64-decode a string.
+     *
+     * @param input to decode.
+     * @param webSafe True if we should use the
+     *     alternative alphabet.
+     * @return string representing the decoded value.
+     */
+    decodeString(input, webSafe) {
+      if (this.HAS_NATIVE_SUPPORT && !webSafe) {
+        return atob(input);
+      }
+      return byteArrayToString(this.decodeStringToByteArray(input, webSafe));
+    },
+    /**
+     * Base64-decode a string.
+     *
+     * In base-64 decoding, groups of four characters are converted into three
+     * bytes.  If the encoder did not apply padding, the input length may not
+     * be a multiple of 4.
+     *
+     * In this case, the last group will have fewer than 4 characters, and
+     * padding will be inferred.  If the group has one or two characters, it decodes
+     * to one byte.  If the group has three characters, it decodes to two bytes.
+     *
+     * @param input Input to decode.
+     * @param webSafe True if we should use the web-safe alphabet.
+     * @return bytes representing the decoded value.
+     */
+    decodeStringToByteArray(input, webSafe) {
+      this.init_();
+      const charToByteMap = webSafe ? this.charToByteMapWebSafe_ : this.charToByteMap_;
+      const output = [];
+      for (let i = 0; i < input.length; ) {
+        const byte1 = charToByteMap[input.charAt(i++)];
+        const haveByte2 = i < input.length;
+        const byte2 = haveByte2 ? charToByteMap[input.charAt(i)] : 0;
+        ++i;
+        const haveByte3 = i < input.length;
+        const byte3 = haveByte3 ? charToByteMap[input.charAt(i)] : 64;
+        ++i;
+        const haveByte4 = i < input.length;
+        const byte4 = haveByte4 ? charToByteMap[input.charAt(i)] : 64;
+        ++i;
+        if (byte1 == null || byte2 == null || byte3 == null || byte4 == null) {
+          throw new DecodeBase64StringError();
+        }
+        const outByte1 = byte1 << 2 | byte2 >> 4;
+        output.push(outByte1);
+        if (byte3 !== 64) {
+          const outByte2 = byte2 << 4 & 240 | byte3 >> 2;
+          output.push(outByte2);
+          if (byte4 !== 64) {
+            const outByte3 = byte3 << 6 & 192 | byte4;
+            output.push(outByte3);
+          }
+        }
+      }
+      return output;
+    },
+    /**
+     * Lazy static initialization function. Called before
+     * accessing any of the static map variables.
+     * @private
+     */
+    init_() {
+      if (!this.byteToCharMap_) {
+        this.byteToCharMap_ = {};
+        this.charToByteMap_ = {};
+        this.byteToCharMapWebSafe_ = {};
+        this.charToByteMapWebSafe_ = {};
+        for (let i = 0; i < this.ENCODED_VALS.length; i++) {
+          this.byteToCharMap_[i] = this.ENCODED_VALS.charAt(i);
+          this.charToByteMap_[this.byteToCharMap_[i]] = i;
+          this.byteToCharMapWebSafe_[i] = this.ENCODED_VALS_WEBSAFE.charAt(i);
+          this.charToByteMapWebSafe_[this.byteToCharMapWebSafe_[i]] = i;
+          if (i >= this.ENCODED_VALS_BASE.length) {
+            this.charToByteMap_[this.ENCODED_VALS_WEBSAFE.charAt(i)] = i;
+            this.charToByteMapWebSafe_[this.ENCODED_VALS.charAt(i)] = i;
+          }
+        }
+      }
+    }
+  };
+  var DecodeBase64StringError = class extends Error {
+    constructor() {
+      super(...arguments);
+      this.name = "DecodeBase64StringError";
+    }
+  };
+  var base64Encode = function(str) {
+    const utf8Bytes = stringToByteArray$1(str);
+    return base64.encodeByteArray(utf8Bytes, true);
+  };
+  var base64urlEncodeWithoutPadding = function(str) {
+    return base64Encode(str).replace(/\./g, "");
+  };
+  var base64Decode = function(str) {
+    try {
+      return base64.decodeString(str, true);
+    } catch (e) {
+      console.error("base64Decode failed: ", e);
+    }
+    return null;
+  };
+  function getGlobal() {
+    if (typeof self !== "undefined") {
+      return self;
+    }
+    if (typeof window !== "undefined") {
+      return window;
+    }
+    if (typeof global !== "undefined") {
+      return global;
+    }
+    throw new Error("Unable to locate global object.");
+  }
+  var getDefaultsFromGlobal = () => getGlobal().__FIREBASE_DEFAULTS__;
+  var getDefaultsFromEnvVariable = () => {
+    if (typeof process === "undefined" || typeof process.env === "undefined") {
+      return;
+    }
+    const defaultsJsonString = process.env.__FIREBASE_DEFAULTS__;
+    if (defaultsJsonString) {
+      return JSON.parse(defaultsJsonString);
+    }
+  };
+  var getDefaultsFromCookie = () => {
+    if (typeof document === "undefined") {
+      return;
+    }
+    let match;
+    try {
+      match = document.cookie.match(/__FIREBASE_DEFAULTS__=([^;]+)/);
+    } catch (e) {
+      return;
+    }
+    const decoded = match && base64Decode(match[1]);
+    return decoded && JSON.parse(decoded);
+  };
+  var getDefaults = () => {
+    try {
+      return getDefaultsFromPostinstall() || getDefaultsFromGlobal() || getDefaultsFromEnvVariable() || getDefaultsFromCookie();
+    } catch (e) {
+      console.info(`Unable to get __FIREBASE_DEFAULTS__ due to: ${e}`);
+      return;
+    }
+  };
+  var getDefaultEmulatorHost = (productName) => getDefaults()?.emulatorHosts?.[productName];
+  var getDefaultAppConfig = () => getDefaults()?.config;
+  var getExperimentalSetting = (name4) => getDefaults()?.[`_${name4}`];
+  var Deferred = class {
+    constructor() {
+      this.reject = () => {
+      };
+      this.resolve = () => {
+      };
+      this.promise = new Promise((resolve, reject) => {
+        this.resolve = resolve;
+        this.reject = reject;
+      });
+    }
+    /**
+     * Our API internals are not promisified and cannot because our callback APIs have subtle expectations around
+     * invoking promises inline, which Promises are forbidden to do. This method accepts an optional node-style callback
+     * and returns a node-style callback which will resolve or reject the Deferred's promise.
+     */
+    wrapCallback(callback) {
+      return (error, value2) => {
+        if (error) {
+          this.reject(error);
+        } else {
+          this.resolve(value2);
+        }
+        if (typeof callback === "function") {
+          this.promise.catch(() => {
+          });
+          if (callback.length === 1) {
+            callback(error);
+          } else {
+            callback(error, value2);
+          }
+        }
+      };
+    }
+  };
+  function getUA() {
+    if (typeof navigator !== "undefined" && typeof navigator["userAgent"] === "string") {
+      return navigator["userAgent"];
+    } else {
+      return "";
+    }
+  }
+  function isMobileCordova() {
+    return typeof window !== "undefined" && // @ts-ignore Setting up an broadly applicable index signature for Window
+    // just to deal with this case would probably be a bad idea.
+    !!(window["cordova"] || window["phonegap"] || window["PhoneGap"]) && /ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(getUA());
+  }
+  function isCloudflareWorker() {
+    return typeof navigator !== "undefined" && navigator.userAgent === "Cloudflare-Workers";
+  }
+  function isBrowserExtension() {
+    const runtime = typeof chrome === "object" ? chrome.runtime : typeof browser === "object" ? browser.runtime : void 0;
+    return typeof runtime === "object" && runtime.id !== void 0;
+  }
+  function isReactNative() {
+    return typeof navigator === "object" && navigator["product"] === "ReactNative";
+  }
+  function isIE() {
+    const ua = getUA();
+    return ua.indexOf("MSIE ") >= 0 || ua.indexOf("Trident/") >= 0;
+  }
+  function isIndexedDBAvailable() {
+    try {
+      return typeof indexedDB === "object";
+    } catch (e) {
+      return false;
+    }
+  }
+  function validateIndexedDBOpenable() {
+    return new Promise((resolve, reject) => {
+      try {
+        let preExist = true;
+        const DB_CHECK_NAME = "validate-browser-context-for-indexeddb-analytics-module";
+        const request2 = self.indexedDB.open(DB_CHECK_NAME);
+        request2.onsuccess = () => {
+          request2.result.close();
+          if (!preExist) {
+            self.indexedDB.deleteDatabase(DB_CHECK_NAME);
+          }
+          resolve(true);
+        };
+        request2.onupgradeneeded = () => {
+          preExist = false;
+        };
+        request2.onerror = () => {
+          reject(request2.error?.message || "");
+        };
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+  var ERROR_NAME = "FirebaseError";
+  var FirebaseError = class _FirebaseError extends Error {
+    constructor(code, message, customData) {
+      super(message);
+      this.code = code;
+      this.customData = customData;
+      this.name = ERROR_NAME;
+      Object.setPrototypeOf(this, _FirebaseError.prototype);
+      if (Error.captureStackTrace) {
+        Error.captureStackTrace(this, ErrorFactory.prototype.create);
+      }
+    }
+  };
+  var ErrorFactory = class {
+    constructor(service, serviceName, errors) {
+      this.service = service;
+      this.serviceName = serviceName;
+      this.errors = errors;
+    }
+    create(code, ...data2) {
+      const customData = data2[0] || {};
+      const fullCode = `${this.service}/${code}`;
+      const template = this.errors[code];
+      const message = template ? replaceTemplate(template, customData) : "Error";
+      const fullMessage = `${this.serviceName}: ${message} (${fullCode}).`;
+      const error = new FirebaseError(fullCode, fullMessage, customData);
+      return error;
+    }
+  };
+  function replaceTemplate(template, data2) {
+    try {
+      let ptr = 0;
+      let result = "";
+      while (ptr < template.length) {
+        const start = template.indexOf("{$", ptr);
+        if (start === -1) {
+          result += template.substring(ptr);
+          break;
+        }
+        const end = template.indexOf("}", start + 2);
+        if (end === -1) {
+          result += template.substring(ptr);
+          break;
+        }
+        const key = template.substring(start + 2, end);
+        const value2 = data2[key];
+        result += template.substring(ptr, start) + (value2 != null ? String(value2) : `<${key}?>`);
+        ptr = end + 1;
+      }
+      return result;
+    } catch (e) {
+      return template;
+    }
+  }
+  function isEmpty(obj) {
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function deepEqual(a, b) {
+    if (a === b) {
+      return true;
+    }
+    const aKeys = Object.keys(a);
+    const bKeys = Object.keys(b);
+    for (const k of aKeys) {
+      if (!bKeys.includes(k)) {
+        return false;
+      }
+      const aProp = a[k];
+      const bProp = b[k];
+      if (isObject(aProp) && isObject(bProp)) {
+        if (!deepEqual(aProp, bProp)) {
+          return false;
+        }
+      } else if (aProp !== bProp) {
+        return false;
+      }
+    }
+    for (const k of bKeys) {
+      if (!aKeys.includes(k)) {
+        return false;
+      }
+    }
+    return true;
+  }
+  function isObject(thing) {
+    return thing !== null && typeof thing === "object";
+  }
+  function querystring(querystringParams) {
+    const params = [];
+    for (const [key, value2] of Object.entries(querystringParams)) {
+      if (Array.isArray(value2)) {
+        value2.forEach((arrayVal) => {
+          params.push(encodeURIComponent(key) + "=" + encodeURIComponent(arrayVal));
+        });
+      } else {
+        params.push(encodeURIComponent(key) + "=" + encodeURIComponent(value2));
+      }
+    }
+    return params.length ? "&" + params.join("&") : "";
+  }
+  function querystringDecode(querystring2) {
+    const obj = {};
+    const tokens = querystring2.replace(/^\?/, "").split("&");
+    tokens.forEach((token) => {
+      if (token) {
+        const [key, value2] = token.split("=");
+        obj[decodeURIComponent(key)] = decodeURIComponent(value2);
+      }
+    });
+    return obj;
+  }
+  function extractQuerystring(url2) {
+    const queryStart = url2.indexOf("?");
+    if (!queryStart) {
+      return "";
+    }
+    const fragmentStart = url2.indexOf("#", queryStart);
+    return url2.substring(queryStart, fragmentStart > 0 ? fragmentStart : void 0);
+  }
+  function createSubscribe(executor, onNoObservers) {
+    const proxy = new ObserverProxy(executor, onNoObservers);
+    return proxy.subscribe.bind(proxy);
+  }
+  var ObserverProxy = class {
+    /**
+     * @param executor Function which can make calls to a single Observer
+     *     as a proxy.
+     * @param onNoObservers Callback when count of Observers goes to zero.
+     */
+    constructor(executor, onNoObservers) {
+      this.observers = [];
+      this.unsubscribes = [];
+      this.observerCount = 0;
+      this.task = Promise.resolve();
+      this.finalized = false;
+      this.onNoObservers = onNoObservers;
+      this.task.then(() => {
+        executor(this);
+      }).catch((e) => {
+        this.error(e);
+      });
+    }
+    next(value2) {
+      this.forEachObserver((observer) => {
+        observer.next(value2);
+      });
+    }
+    error(error) {
+      this.forEachObserver((observer) => {
+        observer.error(error);
+      });
+      this.close(error);
+    }
+    complete() {
+      this.forEachObserver((observer) => {
+        observer.complete();
+      });
+      this.close();
+    }
+    /**
+     * Subscribe function that can be used to add an Observer to the fan-out list.
+     *
+     * - We require that no event is sent to a subscriber synchronously to their
+     *   call to subscribe().
+     */
+    subscribe(nextOrObserver, error, complete) {
+      let observer;
+      if (nextOrObserver === void 0 && error === void 0 && complete === void 0) {
+        throw new Error("Missing Observer.");
+      }
+      if (implementsAnyMethods(nextOrObserver, [
+        "next",
+        "error",
+        "complete"
+      ])) {
+        observer = nextOrObserver;
+      } else {
+        observer = {
+          next: nextOrObserver,
+          error,
+          complete
+        };
+      }
+      if (observer.next === void 0) {
+        observer.next = noop;
+      }
+      if (observer.error === void 0) {
+        observer.error = noop;
+      }
+      if (observer.complete === void 0) {
+        observer.complete = noop;
+      }
+      const unsub = this.unsubscribeOne.bind(this, this.observers.length);
+      if (this.finalized) {
+        this.task.then(() => {
+          try {
+            if (this.finalError) {
+              observer.error(this.finalError);
+            } else {
+              observer.complete();
+            }
+          } catch (e) {
+          }
+          return;
+        });
+      }
+      this.observers.push(observer);
+      return unsub;
+    }
+    // Unsubscribe is synchronous - we guarantee that no events are sent to
+    // any unsubscribed Observer.
+    unsubscribeOne(i) {
+      if (this.observers === void 0 || this.observers[i] === void 0) {
+        return;
+      }
+      delete this.observers[i];
+      this.observerCount -= 1;
+      if (this.observerCount === 0 && this.onNoObservers !== void 0) {
+        this.onNoObservers(this);
+      }
+    }
+    forEachObserver(fn) {
+      if (this.finalized) {
+        return;
+      }
+      for (let i = 0; i < this.observers.length; i++) {
+        this.sendOne(i, fn);
+      }
+    }
+    // Call the Observer via one of it's callback function. We are careful to
+    // confirm that the observe has not been unsubscribed since this asynchronous
+    // function had been queued.
+    sendOne(i, fn) {
+      this.task.then(() => {
+        if (this.observers !== void 0 && this.observers[i] !== void 0) {
+          try {
+            fn(this.observers[i]);
+          } catch (e) {
+            if (typeof console !== "undefined" && console.error) {
+              console.error(e);
+            }
+          }
+        }
+      });
+    }
+    close(err) {
+      if (this.finalized) {
+        return;
+      }
+      this.finalized = true;
+      if (err !== void 0) {
+        this.finalError = err;
+      }
+      this.task.then(() => {
+        this.observers = void 0;
+        this.onNoObservers = void 0;
+      });
+    }
+  };
+  function implementsAnyMethods(obj, methods) {
+    if (typeof obj !== "object" || obj === null) {
+      return false;
+    }
+    for (const method of methods) {
+      if (method in obj && typeof obj[method] === "function") {
+        return true;
+      }
+    }
+    return false;
+  }
+  function noop() {
+  }
+  var MAX_VALUE_MILLIS = 4 * 60 * 60 * 1e3;
+  function getModularInstance(service) {
+    if (service && service._delegate) {
+      return service._delegate;
+    } else {
+      return service;
+    }
+  }
+  function isCloudWorkstation(url2) {
+    try {
+      const host = url2.startsWith("http://") || url2.startsWith("https://") ? new URL(url2).hostname : url2;
+      return host.endsWith(".cloudworkstations.dev");
+    } catch {
+      return false;
+    }
+  }
+  async function pingServer(endpoint) {
+    const result = await fetch(endpoint, {
+      credentials: "include"
+    });
+    return result.ok;
+  }
+
+  // node_modules/@firebase/component/dist/esm/index.esm.js
+  var Component4 = class {
+    /**
+     *
+     * @param name The public service name, e.g. app, auth, firestore, database
+     * @param instanceFactory Service factory responsible for creating the public interface
+     * @param type whether the service provided by the component is public or private
+     */
+    constructor(name4, instanceFactory, type) {
+      this.name = name4;
+      this.instanceFactory = instanceFactory;
+      this.type = type;
+      this.multipleInstances = false;
+      this.serviceProps = {};
+      this.instantiationMode = "LAZY";
+      this.onInstanceCreated = null;
+    }
+    setInstantiationMode(mode) {
+      this.instantiationMode = mode;
+      return this;
+    }
+    setMultipleInstances(multipleInstances) {
+      this.multipleInstances = multipleInstances;
+      return this;
+    }
+    setServiceProps(props) {
+      this.serviceProps = props;
+      return this;
+    }
+    setInstanceCreatedCallback(callback) {
+      this.onInstanceCreated = callback;
+      return this;
+    }
+  };
+  var DEFAULT_ENTRY_NAME = "[DEFAULT]";
+  var Provider = class {
+    constructor(name4, container) {
+      this.name = name4;
+      this.container = container;
+      this.component = null;
+      this.instances = /* @__PURE__ */ new Map();
+      this.instancesDeferred = /* @__PURE__ */ new Map();
+      this.instancesOptions = /* @__PURE__ */ new Map();
+      this.onInitCallbacks = /* @__PURE__ */ new Map();
+    }
+    /**
+     * @param identifier A provider can provide multiple instances of a service
+     * if this.component.multipleInstances is true.
+     */
+    get(identifier) {
+      const normalizedIdentifier = this.normalizeInstanceIdentifier(identifier);
+      if (!this.instancesDeferred.has(normalizedIdentifier)) {
+        const deferred = new Deferred();
+        this.instancesDeferred.set(normalizedIdentifier, deferred);
+        if (this.isInitialized(normalizedIdentifier) || this.shouldAutoInitialize()) {
+          try {
+            const instance = this.getOrInitializeService({
+              instanceIdentifier: normalizedIdentifier
+            });
+            if (instance) {
+              deferred.resolve(instance);
+            }
+          } catch (e) {
+          }
+        }
+      }
+      return this.instancesDeferred.get(normalizedIdentifier).promise;
+    }
+    getImmediate(options) {
+      const normalizedIdentifier = this.normalizeInstanceIdentifier(options?.identifier);
+      const optional = options?.optional ?? false;
+      if (this.isInitialized(normalizedIdentifier) || this.shouldAutoInitialize()) {
+        try {
+          return this.getOrInitializeService({
+            instanceIdentifier: normalizedIdentifier
+          });
+        } catch (e) {
+          if (optional) {
+            return null;
+          } else {
+            throw e;
+          }
+        }
+      } else {
+        if (optional) {
+          return null;
+        } else {
+          throw Error(`Service ${this.name} is not available`);
+        }
+      }
+    }
+    getComponent() {
+      return this.component;
+    }
+    setComponent(component) {
+      if (component.name !== this.name) {
+        throw Error(`Mismatching Component ${component.name} for Provider ${this.name}.`);
+      }
+      if (this.component) {
+        throw Error(`Component for ${this.name} has already been provided`);
+      }
+      this.component = component;
+      if (!this.shouldAutoInitialize()) {
+        return;
+      }
+      if (isComponentEager(component)) {
+        try {
+          this.getOrInitializeService({ instanceIdentifier: DEFAULT_ENTRY_NAME });
+        } catch (e) {
+        }
+      }
+      for (const [instanceIdentifier, instanceDeferred] of this.instancesDeferred.entries()) {
+        const normalizedIdentifier = this.normalizeInstanceIdentifier(instanceIdentifier);
+        try {
+          const instance = this.getOrInitializeService({
+            instanceIdentifier: normalizedIdentifier
+          });
+          instanceDeferred.resolve(instance);
+        } catch (e) {
+        }
+      }
+    }
+    clearInstance(identifier = DEFAULT_ENTRY_NAME) {
+      this.instancesDeferred.delete(identifier);
+      this.instancesOptions.delete(identifier);
+      this.instances.delete(identifier);
+    }
+    // app.delete() will call this method on every provider to delete the services
+    // TODO: should we mark the provider as deleted?
+    async delete() {
+      const services = Array.from(this.instances.values());
+      await Promise.all([
+        ...services.filter((service) => "INTERNAL" in service).map((service) => service.INTERNAL.delete()),
+        ...services.filter((service) => "_delete" in service).map((service) => service._delete())
+      ]);
+    }
+    isComponentSet() {
+      return this.component != null;
+    }
+    isInitialized(identifier = DEFAULT_ENTRY_NAME) {
+      return this.instances.has(identifier);
+    }
+    getOptions(identifier = DEFAULT_ENTRY_NAME) {
+      return this.instancesOptions.get(identifier) || {};
+    }
+    initialize(opts = {}) {
+      const { options = {} } = opts;
+      const normalizedIdentifier = this.normalizeInstanceIdentifier(opts.instanceIdentifier);
+      if (this.isInitialized(normalizedIdentifier)) {
+        throw Error(`${this.name}(${normalizedIdentifier}) has already been initialized`);
+      }
+      if (!this.isComponentSet()) {
+        throw Error(`Component ${this.name} has not been registered yet`);
+      }
+      const instance = this.getOrInitializeService({
+        instanceIdentifier: normalizedIdentifier,
+        options
+      });
+      for (const [instanceIdentifier, instanceDeferred] of this.instancesDeferred.entries()) {
+        const normalizedDeferredIdentifier = this.normalizeInstanceIdentifier(instanceIdentifier);
+        if (normalizedIdentifier === normalizedDeferredIdentifier) {
+          instanceDeferred.resolve(instance);
+        }
+      }
+      return instance;
+    }
+    /**
+     *
+     * @param callback - a function that will be invoked  after the provider has been initialized by calling provider.initialize().
+     * The function is invoked SYNCHRONOUSLY, so it should not execute any longrunning tasks in order to not block the program.
+     *
+     * @param identifier An optional instance identifier
+     * @returns a function to unregister the callback
+     */
+    onInit(callback, identifier) {
+      const normalizedIdentifier = this.normalizeInstanceIdentifier(identifier);
+      const existingCallbacks = this.onInitCallbacks.get(normalizedIdentifier) ?? /* @__PURE__ */ new Set();
+      existingCallbacks.add(callback);
+      this.onInitCallbacks.set(normalizedIdentifier, existingCallbacks);
+      const existingInstance = this.instances.get(normalizedIdentifier);
+      if (existingInstance) {
+        callback(existingInstance, normalizedIdentifier);
+      }
+      return () => {
+        existingCallbacks.delete(callback);
+      };
+    }
+    /**
+     * Invoke onInit callbacks synchronously
+     * @param instance the service instance`
+     */
+    invokeOnInitCallbacks(instance, identifier) {
+      const callbacks = this.onInitCallbacks.get(identifier);
+      if (!callbacks) {
+        return;
+      }
+      for (const callback of callbacks) {
+        try {
+          callback(instance, identifier);
+        } catch {
+        }
+      }
+    }
+    getOrInitializeService({ instanceIdentifier, options = {} }) {
+      let instance = this.instances.get(instanceIdentifier);
+      if (!instance && this.component) {
+        instance = this.component.instanceFactory(this.container, {
+          instanceIdentifier: normalizeIdentifierForFactory(instanceIdentifier),
+          options
+        });
+        this.instances.set(instanceIdentifier, instance);
+        this.instancesOptions.set(instanceIdentifier, options);
+        this.invokeOnInitCallbacks(instance, instanceIdentifier);
+        if (this.component.onInstanceCreated) {
+          try {
+            this.component.onInstanceCreated(this.container, instanceIdentifier, instance);
+          } catch {
+          }
+        }
+      }
+      return instance || null;
+    }
+    normalizeInstanceIdentifier(identifier = DEFAULT_ENTRY_NAME) {
+      if (this.component) {
+        return this.component.multipleInstances ? identifier : DEFAULT_ENTRY_NAME;
+      } else {
+        return identifier;
+      }
+    }
+    shouldAutoInitialize() {
+      return !!this.component && this.component.instantiationMode !== "EXPLICIT";
+    }
+  };
+  function normalizeIdentifierForFactory(identifier) {
+    return identifier === DEFAULT_ENTRY_NAME ? void 0 : identifier;
+  }
+  function isComponentEager(component) {
+    return component.instantiationMode === "EAGER";
+  }
+  var ComponentContainer = class {
+    constructor(name4) {
+      this.name = name4;
+      this.providers = /* @__PURE__ */ new Map();
+    }
+    /**
+     *
+     * @param component Component being added
+     * @param overwrite When a component with the same name has already been registered,
+     * if overwrite is true: overwrite the existing component with the new component and create a new
+     * provider with the new component. It can be useful in tests where you want to use different mocks
+     * for different tests.
+     * if overwrite is false: throw an exception
+     */
+    addComponent(component) {
+      const provider = this.getProvider(component.name);
+      if (provider.isComponentSet()) {
+        throw new Error(`Component ${component.name} has already been registered with ${this.name}`);
+      }
+      provider.setComponent(component);
+    }
+    addOrOverwriteComponent(component) {
+      const provider = this.getProvider(component.name);
+      if (provider.isComponentSet()) {
+        this.providers.delete(component.name);
+      }
+      this.addComponent(component);
+    }
+    /**
+     * getProvider provides a type safe interface where it can only be called with a field name
+     * present in NameServiceMapping interface.
+     *
+     * Firebase SDKs providing services should extend NameServiceMapping interface to register
+     * themselves.
+     */
+    getProvider(name4) {
+      if (this.providers.has(name4)) {
+        return this.providers.get(name4);
+      }
+      const provider = new Provider(name4, this);
+      this.providers.set(name4, provider);
+      return provider;
+    }
+    getProviders() {
+      return Array.from(this.providers.values());
+    }
+  };
+
+  // node_modules/@firebase/logger/dist/esm/index.esm.js
+  var instances = [];
+  var LogLevel;
+  (function(LogLevel2) {
+    LogLevel2[LogLevel2["DEBUG"] = 0] = "DEBUG";
+    LogLevel2[LogLevel2["VERBOSE"] = 1] = "VERBOSE";
+    LogLevel2[LogLevel2["INFO"] = 2] = "INFO";
+    LogLevel2[LogLevel2["WARN"] = 3] = "WARN";
+    LogLevel2[LogLevel2["ERROR"] = 4] = "ERROR";
+    LogLevel2[LogLevel2["SILENT"] = 5] = "SILENT";
+  })(LogLevel || (LogLevel = {}));
+  var levelStringToEnum = {
+    "debug": LogLevel.DEBUG,
+    "verbose": LogLevel.VERBOSE,
+    "info": LogLevel.INFO,
+    "warn": LogLevel.WARN,
+    "error": LogLevel.ERROR,
+    "silent": LogLevel.SILENT
+  };
+  var defaultLogLevel = LogLevel.INFO;
+  var ConsoleMethod = {
+    [LogLevel.DEBUG]: "log",
+    [LogLevel.VERBOSE]: "log",
+    [LogLevel.INFO]: "info",
+    [LogLevel.WARN]: "warn",
+    [LogLevel.ERROR]: "error"
+  };
+  var defaultLogHandler = (instance, logType, ...args) => {
+    if (logType < instance.logLevel) {
+      return;
+    }
+    const now = (/* @__PURE__ */ new Date()).toISOString();
+    const method = ConsoleMethod[logType];
+    if (method) {
+      console[method](`[${now}]  ${instance.name}:`, ...args);
+    } else {
+      throw new Error(`Attempted to log a message with an invalid logType (value: ${logType})`);
+    }
+  };
+  var Logger = class {
+    /**
+     * Gives you an instance of a Logger to capture messages according to
+     * Firebase's logging scheme.
+     *
+     * @param name The name that the logs will be associated with
+     */
+    constructor(name4) {
+      this.name = name4;
+      this._logLevel = defaultLogLevel;
+      this._logHandler = defaultLogHandler;
+      this._userLogHandler = null;
+      instances.push(this);
+    }
+    get logLevel() {
+      return this._logLevel;
+    }
+    set logLevel(val) {
+      if (!(val in LogLevel)) {
+        throw new TypeError(`Invalid value "${val}" assigned to \`logLevel\``);
+      }
+      this._logLevel = val;
+    }
+    // Workaround for setter/getter having to be the same type.
+    setLogLevel(val) {
+      this._logLevel = typeof val === "string" ? levelStringToEnum[val] : val;
+    }
+    get logHandler() {
+      return this._logHandler;
+    }
+    set logHandler(val) {
+      if (typeof val !== "function") {
+        throw new TypeError("Value assigned to `logHandler` must be a function");
+      }
+      this._logHandler = val;
+    }
+    get userLogHandler() {
+      return this._userLogHandler;
+    }
+    set userLogHandler(val) {
+      this._userLogHandler = val;
+    }
+    /**
+     * The functions below are all based on the `console` interface
+     */
+    debug(...args) {
+      this._userLogHandler && this._userLogHandler(this, LogLevel.DEBUG, ...args);
+      this._logHandler(this, LogLevel.DEBUG, ...args);
+    }
+    log(...args) {
+      this._userLogHandler && this._userLogHandler(this, LogLevel.VERBOSE, ...args);
+      this._logHandler(this, LogLevel.VERBOSE, ...args);
+    }
+    info(...args) {
+      this._userLogHandler && this._userLogHandler(this, LogLevel.INFO, ...args);
+      this._logHandler(this, LogLevel.INFO, ...args);
+    }
+    warn(...args) {
+      this._userLogHandler && this._userLogHandler(this, LogLevel.WARN, ...args);
+      this._logHandler(this, LogLevel.WARN, ...args);
+    }
+    error(...args) {
+      this._userLogHandler && this._userLogHandler(this, LogLevel.ERROR, ...args);
+      this._logHandler(this, LogLevel.ERROR, ...args);
+    }
+  };
+
+  // node_modules/idb/build/wrap-idb-value.js
+  var instanceOfAny = (object, constructors) => constructors.some((c) => object instanceof c);
+  var idbProxyableTypes;
+  var cursorAdvanceMethods;
+  function getIdbProxyableTypes() {
+    return idbProxyableTypes || (idbProxyableTypes = [
+      IDBDatabase,
+      IDBObjectStore,
+      IDBIndex,
+      IDBCursor,
+      IDBTransaction
+    ]);
+  }
+  function getCursorAdvanceMethods() {
+    return cursorAdvanceMethods || (cursorAdvanceMethods = [
+      IDBCursor.prototype.advance,
+      IDBCursor.prototype.continue,
+      IDBCursor.prototype.continuePrimaryKey
+    ]);
+  }
+  var cursorRequestMap = /* @__PURE__ */ new WeakMap();
+  var transactionDoneMap = /* @__PURE__ */ new WeakMap();
+  var transactionStoreNamesMap = /* @__PURE__ */ new WeakMap();
+  var transformCache = /* @__PURE__ */ new WeakMap();
+  var reverseTransformCache = /* @__PURE__ */ new WeakMap();
+  function promisifyRequest(request2) {
+    const promise = new Promise((resolve, reject) => {
+      const unlisten = () => {
+        request2.removeEventListener("success", success);
+        request2.removeEventListener("error", error);
+      };
+      const success = () => {
+        resolve(wrap(request2.result));
+        unlisten();
+      };
+      const error = () => {
+        reject(request2.error);
+        unlisten();
+      };
+      request2.addEventListener("success", success);
+      request2.addEventListener("error", error);
+    });
+    promise.then((value2) => {
+      if (value2 instanceof IDBCursor) {
+        cursorRequestMap.set(value2, request2);
+      }
+    }).catch(() => {
+    });
+    reverseTransformCache.set(promise, request2);
+    return promise;
+  }
+  function cacheDonePromiseForTransaction(tx) {
+    if (transactionDoneMap.has(tx))
+      return;
+    const done = new Promise((resolve, reject) => {
+      const unlisten = () => {
+        tx.removeEventListener("complete", complete);
+        tx.removeEventListener("error", error);
+        tx.removeEventListener("abort", error);
+      };
+      const complete = () => {
+        resolve();
+        unlisten();
+      };
+      const error = () => {
+        reject(tx.error || new DOMException("AbortError", "AbortError"));
+        unlisten();
+      };
+      tx.addEventListener("complete", complete);
+      tx.addEventListener("error", error);
+      tx.addEventListener("abort", error);
+    });
+    transactionDoneMap.set(tx, done);
+  }
+  var idbProxyTraps = {
+    get(target, prop, receiver) {
+      if (target instanceof IDBTransaction) {
+        if (prop === "done")
+          return transactionDoneMap.get(target);
+        if (prop === "objectStoreNames") {
+          return target.objectStoreNames || transactionStoreNamesMap.get(target);
+        }
+        if (prop === "store") {
+          return receiver.objectStoreNames[1] ? void 0 : receiver.objectStore(receiver.objectStoreNames[0]);
+        }
+      }
+      return wrap(target[prop]);
+    },
+    set(target, prop, value2) {
+      target[prop] = value2;
+      return true;
+    },
+    has(target, prop) {
+      if (target instanceof IDBTransaction && (prop === "done" || prop === "store")) {
+        return true;
+      }
+      return prop in target;
+    }
+  };
+  function replaceTraps(callback) {
+    idbProxyTraps = callback(idbProxyTraps);
+  }
+  function wrapFunction(func) {
+    if (func === IDBDatabase.prototype.transaction && !("objectStoreNames" in IDBTransaction.prototype)) {
+      return function(storeNames, ...args) {
+        const tx = func.call(unwrap(this), storeNames, ...args);
+        transactionStoreNamesMap.set(tx, storeNames.sort ? storeNames.sort() : [storeNames]);
+        return wrap(tx);
+      };
+    }
+    if (getCursorAdvanceMethods().includes(func)) {
+      return function(...args) {
+        func.apply(unwrap(this), args);
+        return wrap(cursorRequestMap.get(this));
+      };
+    }
+    return function(...args) {
+      return wrap(func.apply(unwrap(this), args));
+    };
+  }
+  function transformCachableValue(value2) {
+    if (typeof value2 === "function")
+      return wrapFunction(value2);
+    if (value2 instanceof IDBTransaction)
+      cacheDonePromiseForTransaction(value2);
+    if (instanceOfAny(value2, getIdbProxyableTypes()))
+      return new Proxy(value2, idbProxyTraps);
+    return value2;
+  }
+  function wrap(value2) {
+    if (value2 instanceof IDBRequest)
+      return promisifyRequest(value2);
+    if (transformCache.has(value2))
+      return transformCache.get(value2);
+    const newValue = transformCachableValue(value2);
+    if (newValue !== value2) {
+      transformCache.set(value2, newValue);
+      reverseTransformCache.set(newValue, value2);
+    }
+    return newValue;
+  }
+  var unwrap = (value2) => reverseTransformCache.get(value2);
+
+  // node_modules/idb/build/index.js
+  function openDB(name4, version4, { blocked, upgrade, blocking, terminated } = {}) {
+    const request2 = indexedDB.open(name4, version4);
+    const openPromise = wrap(request2);
+    if (upgrade) {
+      request2.addEventListener("upgradeneeded", (event) => {
+        upgrade(wrap(request2.result), event.oldVersion, event.newVersion, wrap(request2.transaction), event);
+      });
+    }
+    if (blocked) {
+      request2.addEventListener("blocked", (event) => blocked(
+        // Casting due to https://github.com/microsoft/TypeScript-DOM-lib-generator/pull/1405
+        event.oldVersion,
+        event.newVersion,
+        event
+      ));
+    }
+    openPromise.then((db) => {
+      if (terminated)
+        db.addEventListener("close", () => terminated());
+      if (blocking) {
+        db.addEventListener("versionchange", (event) => blocking(event.oldVersion, event.newVersion, event));
+      }
+    }).catch(() => {
+    });
+    return openPromise;
+  }
+  var readMethods = ["get", "getKey", "getAll", "getAllKeys", "count"];
+  var writeMethods = ["put", "add", "delete", "clear"];
+  var cachedMethods = /* @__PURE__ */ new Map();
+  function getMethod(target, prop) {
+    if (!(target instanceof IDBDatabase && !(prop in target) && typeof prop === "string")) {
+      return;
+    }
+    if (cachedMethods.get(prop))
+      return cachedMethods.get(prop);
+    const targetFuncName = prop.replace(/FromIndex$/, "");
+    const useIndex = prop !== targetFuncName;
+    const isWrite = writeMethods.includes(targetFuncName);
+    if (
+      // Bail if the target doesn't exist on the target. Eg, getAll isn't in Edge.
+      !(targetFuncName in (useIndex ? IDBIndex : IDBObjectStore).prototype) || !(isWrite || readMethods.includes(targetFuncName))
+    ) {
+      return;
+    }
+    const method = async function(storeName, ...args) {
+      const tx = this.transaction(storeName, isWrite ? "readwrite" : "readonly");
+      let target2 = tx.store;
+      if (useIndex)
+        target2 = target2.index(args.shift());
+      return (await Promise.all([
+        target2[targetFuncName](...args),
+        isWrite && tx.done
+      ]))[0];
+    };
+    cachedMethods.set(prop, method);
+    return method;
+  }
+  replaceTraps((oldTraps) => ({
+    ...oldTraps,
+    get: (target, prop, receiver) => getMethod(target, prop) || oldTraps.get(target, prop, receiver),
+    has: (target, prop) => !!getMethod(target, prop) || oldTraps.has(target, prop)
+  }));
+
+  // node_modules/@firebase/app/dist/esm/index.esm.js
+  var PlatformLoggerServiceImpl = class {
+    constructor(container) {
+      this.container = container;
+    }
+    // In initial implementation, this will be called by installations on
+    // auth token refresh, and installations will send this string.
+    getPlatformInfoString() {
+      const providers = this.container.getProviders();
+      return providers.map((provider) => {
+        if (isVersionServiceProvider(provider)) {
+          const service = provider.getImmediate();
+          return `${service.library}/${service.version}`;
+        } else {
+          return null;
+        }
+      }).filter((logString) => logString).join(" ");
+    }
+  };
+  function isVersionServiceProvider(provider) {
+    const component = provider.getComponent();
+    return component?.type === "VERSION";
+  }
+  var name$q = "@firebase/app";
+  var version$1 = "0.16.2";
+  var logger = new Logger("@firebase/app");
+  var name$p = "@firebase/app-compat";
+  var name$o = "@firebase/analytics-compat";
+  var name$n = "@firebase/analytics";
+  var name$m = "@firebase/app-check-compat";
+  var name$l = "@firebase/app-check";
+  var name$k = "@firebase/auth";
+  var name$j = "@firebase/auth-compat";
+  var name$i = "@firebase/database";
+  var name$h = "@firebase/data-connect";
+  var name$g = "@firebase/database-compat";
+  var name$f = "@firebase/functions";
+  var name$e = "@firebase/functions-compat";
+  var name$d = "@firebase/installations";
+  var name$c = "@firebase/installations-compat";
+  var name$b = "@firebase/messaging";
+  var name$a = "@firebase/messaging-compat";
+  var name$9 = "@firebase/performance";
+  var name$8 = "@firebase/performance-compat";
+  var name$7 = "@firebase/remote-config";
+  var name$6 = "@firebase/remote-config-compat";
+  var name$5 = "@firebase/storage";
+  var name$4 = "@firebase/storage-compat";
+  var name$3 = "@firebase/firestore";
+  var name$2 = "@firebase/ai";
+  var name$1 = "@firebase/firestore-compat";
+  var name = "firebase";
+  var version = "12.19.0";
+  var DEFAULT_ENTRY_NAME2 = "[DEFAULT]";
+  var PLATFORM_LOG_STRING = {
+    [name$q]: "fire-core",
+    [name$p]: "fire-core-compat",
+    [name$n]: "fire-analytics",
+    [name$o]: "fire-analytics-compat",
+    [name$l]: "fire-app-check",
+    [name$m]: "fire-app-check-compat",
+    [name$k]: "fire-auth",
+    [name$j]: "fire-auth-compat",
+    [name$i]: "fire-rtdb",
+    [name$h]: "fire-data-connect",
+    [name$g]: "fire-rtdb-compat",
+    [name$f]: "fire-fn",
+    [name$e]: "fire-fn-compat",
+    [name$d]: "fire-iid",
+    [name$c]: "fire-iid-compat",
+    [name$b]: "fire-fcm",
+    [name$a]: "fire-fcm-compat",
+    [name$9]: "fire-perf",
+    [name$8]: "fire-perf-compat",
+    [name$7]: "fire-rc",
+    [name$6]: "fire-rc-compat",
+    [name$5]: "fire-gcs",
+    [name$4]: "fire-gcs-compat",
+    [name$3]: "fire-fst",
+    [name$1]: "fire-fst-compat",
+    [name$2]: "fire-vertex",
+    "fire-js": "fire-js",
+    // Platform identifier for JS SDK.
+    [name]: "fire-js-all"
+  };
+  var _apps = /* @__PURE__ */ new Map();
+  var _serverApps = /* @__PURE__ */ new Map();
+  var _components = /* @__PURE__ */ new Map();
+  function _addComponent(app, component) {
+    try {
+      app.container.addComponent(component);
+    } catch (e) {
+      logger.debug(`Component ${component.name} failed to register with FirebaseApp ${app.name}`, e);
+    }
+  }
+  function _registerComponent(component) {
+    const componentName = component.name;
+    if (_components.has(componentName)) {
+      logger.debug(`There were multiple attempts to register component ${componentName}.`);
+      return false;
+    }
+    _components.set(componentName, component);
+    for (const app of _apps.values()) {
+      _addComponent(app, component);
+    }
+    for (const serverApp of _serverApps.values()) {
+      _addComponent(serverApp, component);
+    }
+    return true;
+  }
+  function _getProvider(app, name4) {
+    const heartbeatController = app.container.getProvider("heartbeat").getImmediate({ optional: true });
+    if (heartbeatController) {
+      void heartbeatController.triggerHeartbeat();
+    }
+    return app.container.getProvider(name4);
+  }
+  function _isFirebaseServerApp(obj) {
+    if (obj === null || obj === void 0) {
+      return false;
+    }
+    return obj.settings !== void 0;
+  }
+  var ERRORS = {
+    [
+      "no-app"
+      /* AppError.NO_APP */
+    ]: "No Firebase App '{$appName}' has been created - call initializeApp() first",
+    [
+      "bad-app-name"
+      /* AppError.BAD_APP_NAME */
+    ]: "Illegal App name: '{$appName}'",
+    [
+      "duplicate-app"
+      /* AppError.DUPLICATE_APP */
+    ]: "Firebase App named '{$appName}' already exists with different {$mismatchedParam}. Existing: '{$oldValue}'. New: '{$newValue}'.",
+    [
+      "app-deleted"
+      /* AppError.APP_DELETED */
+    ]: "Firebase App named '{$appName}' already deleted",
+    [
+      "server-app-deleted"
+      /* AppError.SERVER_APP_DELETED */
+    ]: "Firebase Server App has been deleted",
+    [
+      "no-options"
+      /* AppError.NO_OPTIONS */
+    ]: "Need to provide options, when not being deployed to hosting via source.",
+    [
+      "invalid-app-argument"
+      /* AppError.INVALID_APP_ARGUMENT */
+    ]: "firebase.{$appName}() takes either no argument or a Firebase App instance.",
+    [
+      "invalid-log-argument"
+      /* AppError.INVALID_LOG_ARGUMENT */
+    ]: "First argument to `onLog` must be null or a function.",
+    [
+      "idb-open"
+      /* AppError.IDB_OPEN */
+    ]: "Error thrown when opening IndexedDB. Original error: {$originalErrorMessage}.",
+    [
+      "idb-get"
+      /* AppError.IDB_GET */
+    ]: "Error thrown when reading from IndexedDB. Original error: {$originalErrorMessage}.",
+    [
+      "idb-set"
+      /* AppError.IDB_WRITE */
+    ]: "Error thrown when writing to IndexedDB. Original error: {$originalErrorMessage}.",
+    [
+      "idb-delete"
+      /* AppError.IDB_DELETE */
+    ]: "Error thrown when deleting from IndexedDB. Original error: {$originalErrorMessage}.",
+    [
+      "finalization-registry-not-supported"
+      /* AppError.FINALIZATION_REGISTRY_NOT_SUPPORTED */
+    ]: "FirebaseServerApp deleteOnDeref field defined but the JS runtime does not support FinalizationRegistry.",
+    [
+      "invalid-server-app-environment"
+      /* AppError.INVALID_SERVER_APP_ENVIRONMENT */
+    ]: "FirebaseServerApp is not for use in browser environments."
+  };
+  var ERROR_FACTORY = new ErrorFactory("app", "Firebase", ERRORS);
+  var FirebaseAppImpl = class {
+    constructor(options, config2, container) {
+      this._isDeleted = false;
+      this._options = { ...options };
+      this._config = { ...config2 };
+      this._name = config2.name;
+      this._automaticDataCollectionEnabled = config2.automaticDataCollectionEnabled;
+      this._container = container;
+      this.container.addComponent(new Component4(
+        "app",
+        () => this,
+        "PUBLIC"
+        /* ComponentType.PUBLIC */
+      ));
+    }
+    get automaticDataCollectionEnabled() {
+      this.checkDestroyed();
+      return this._automaticDataCollectionEnabled;
+    }
+    set automaticDataCollectionEnabled(val) {
+      this.checkDestroyed();
+      this._automaticDataCollectionEnabled = val;
+    }
+    get name() {
+      this.checkDestroyed();
+      return this._name;
+    }
+    get options() {
+      this.checkDestroyed();
+      return this._options;
+    }
+    get config() {
+      this.checkDestroyed();
+      return this._config;
+    }
+    get container() {
+      return this._container;
+    }
+    get isDeleted() {
+      return this._isDeleted;
+    }
+    set isDeleted(val) {
+      this._isDeleted = val;
+    }
+    /**
+     * This function will throw an Error if the App has already been deleted -
+     * use before performing API actions on the App.
+     */
+    checkDestroyed() {
+      if (this.isDeleted) {
+        throw ERROR_FACTORY.create("app-deleted", { appName: this._name });
+      }
+    }
+  };
+  var SDK_VERSION = version;
+  function initializeApp(_options, rawConfig = {}) {
+    let options = _options;
+    if (typeof rawConfig !== "object") {
+      const name5 = rawConfig;
+      rawConfig = { name: name5 };
+    }
+    const config2 = {
+      name: DEFAULT_ENTRY_NAME2,
+      automaticDataCollectionEnabled: true,
+      ...rawConfig
+    };
+    const name4 = config2.name;
+    if (typeof name4 !== "string" || !name4) {
+      throw ERROR_FACTORY.create("bad-app-name", {
+        appName: String(name4)
+      });
+    }
+    options || (options = getDefaultAppConfig());
+    if (!options) {
+      throw ERROR_FACTORY.create(
+        "no-options"
+        /* AppError.NO_OPTIONS */
+      );
+    }
+    const existingApp = _apps.get(name4);
+    if (existingApp) {
+      if (!deepEqual(options, existingApp.options)) {
+        throw ERROR_FACTORY.create("duplicate-app", {
+          appName: name4,
+          mismatchedParam: "options",
+          oldValue: JSON.stringify(existingApp.options),
+          newValue: JSON.stringify(options)
+        });
+      } else if (!deepEqual(config2, existingApp.config)) {
+        throw ERROR_FACTORY.create("duplicate-app", {
+          appName: name4,
+          mismatchedParam: "config",
+          oldValue: JSON.stringify(existingApp.config),
+          newValue: JSON.stringify(config2)
+        });
+      } else {
+        return existingApp;
+      }
+    }
+    const container = new ComponentContainer(name4);
+    for (const component of _components.values()) {
+      container.addComponent(component);
+    }
+    const newApp = new FirebaseAppImpl(options, config2, container);
+    _apps.set(name4, newApp);
+    return newApp;
+  }
+  function getApp(name4 = DEFAULT_ENTRY_NAME2) {
+    const app = _apps.get(name4);
+    if (!app && name4 === DEFAULT_ENTRY_NAME2 && getDefaultAppConfig()) {
+      return initializeApp();
+    }
+    if (!app) {
+      throw ERROR_FACTORY.create("no-app", { appName: name4 });
+    }
+    return app;
+  }
+  function getApps() {
+    return Array.from(_apps.values());
+  }
+  function registerVersion(libraryKeyOrName, version4, variant) {
+    let library = PLATFORM_LOG_STRING[libraryKeyOrName] ?? libraryKeyOrName;
+    if (variant) {
+      library += `-${variant}`;
+    }
+    const libraryMismatch = library.match(/\s|\//);
+    const versionMismatch = version4.match(/\s|\//);
+    if (libraryMismatch || versionMismatch) {
+      const warning2 = [
+        `Unable to register library "${library}" with version "${version4}":`
+      ];
+      if (libraryMismatch) {
+        warning2.push(`library name "${library}" contains illegal characters (whitespace or "/")`);
+      }
+      if (libraryMismatch && versionMismatch) {
+        warning2.push("and");
+      }
+      if (versionMismatch) {
+        warning2.push(`version name "${version4}" contains illegal characters (whitespace or "/")`);
+      }
+      logger.warn(warning2.join(" "));
+      return;
+    }
+    _registerComponent(new Component4(
+      `${library}-version`,
+      () => ({ library, version: version4 }),
+      "VERSION"
+      /* ComponentType.VERSION */
+    ));
+  }
+  var DB_NAME = "firebase-heartbeat-database";
+  var DB_VERSION = 1;
+  var STORE_NAME = "firebase-heartbeat-store";
+  var dbPromise = null;
+  function getDbPromise() {
+    if (!dbPromise) {
+      dbPromise = openDB(DB_NAME, DB_VERSION, {
+        upgrade: (db, oldVersion) => {
+          switch (oldVersion) {
+            case 0:
+              try {
+                db.createObjectStore(STORE_NAME);
+              } catch (e) {
+                console.warn(e);
+              }
+          }
+        }
+      }).catch((e) => {
+        throw ERROR_FACTORY.create("idb-open", {
+          originalErrorMessage: e.message
+        });
+      });
+    }
+    return dbPromise;
+  }
+  async function readHeartbeatsFromIndexedDB(app) {
+    try {
+      const db = await getDbPromise();
+      const tx = db.transaction(STORE_NAME);
+      const result = await tx.objectStore(STORE_NAME).get(computeKey(app));
+      await tx.done;
+      return result;
+    } catch (e) {
+      if (e instanceof FirebaseError) {
+        logger.warn(e.message);
+      } else {
+        const idbGetError = ERROR_FACTORY.create("idb-get", {
+          originalErrorMessage: e?.message
+        });
+        logger.warn(idbGetError.message);
+      }
+    }
+  }
+  async function writeHeartbeatsToIndexedDB(app, heartbeatObject) {
+    try {
+      const db = await getDbPromise();
+      const tx = db.transaction(STORE_NAME, "readwrite");
+      const objectStore = tx.objectStore(STORE_NAME);
+      await objectStore.put(heartbeatObject, computeKey(app));
+      await tx.done;
+    } catch (e) {
+      if (e instanceof FirebaseError) {
+        logger.warn(e.message);
+      } else {
+        const idbGetError = ERROR_FACTORY.create("idb-set", {
+          originalErrorMessage: e?.message
+        });
+        logger.warn(idbGetError.message);
+      }
+    }
+  }
+  function computeKey(app) {
+    return `${app.name}!${app.options.appId}`;
+  }
+  var MAX_HEADER_BYTES = 1024;
+  var MAX_NUM_STORED_HEARTBEATS = 30;
+  var HeartbeatServiceImpl = class {
+    constructor(container) {
+      this.container = container;
+      this._heartbeatsCache = null;
+      const app = this.container.getProvider("app").getImmediate();
+      this._storage = new HeartbeatStorageImpl(app);
+      this._heartbeatsCachePromise = this._storage.read().then((result) => {
+        this._heartbeatsCache = result;
+        return result;
+      });
+    }
+    /**
+     * Called to report a heartbeat. The function will generate
+     * a HeartbeatsByUserAgent object, update heartbeatsCache, and persist it
+     * to IndexedDB.
+     * Note that we only store one heartbeat per day. So if a heartbeat for today is
+     * already logged, subsequent calls to this function in the same day will be ignored.
+     */
+    async triggerHeartbeat() {
+      try {
+        const platformLogger = this.container.getProvider("platform-logger").getImmediate();
+        const agent = platformLogger.getPlatformInfoString();
+        const date = getUTCDateString();
+        if (this._heartbeatsCache?.heartbeats == null) {
+          this._heartbeatsCache = await this._heartbeatsCachePromise;
+          if (this._heartbeatsCache?.heartbeats == null) {
+            return;
+          }
+        }
+        if (this._heartbeatsCache.lastSentHeartbeatDate === date || this._heartbeatsCache.heartbeats.some((singleDateHeartbeat) => singleDateHeartbeat.date === date)) {
+          return;
+        } else {
+          this._heartbeatsCache.heartbeats.push({ date, agent });
+          if (this._heartbeatsCache.heartbeats.length > MAX_NUM_STORED_HEARTBEATS) {
+            const earliestHeartbeatIdx = getEarliestHeartbeatIdx(this._heartbeatsCache.heartbeats);
+            this._heartbeatsCache.heartbeats.splice(earliestHeartbeatIdx, 1);
+          }
+        }
+        return this._storage.overwrite(this._heartbeatsCache);
+      } catch (e) {
+        logger.warn(e);
+      }
+    }
+    /**
+     * Returns a base64 encoded string which can be attached to the heartbeat-specific header directly.
+     * It also clears all heartbeats from memory as well as in IndexedDB.
+     *
+     * NOTE: Consuming product SDKs should not send the header if this method
+     * returns an empty string.
+     */
+    async getHeartbeatsHeader() {
+      try {
+        if (this._heartbeatsCache === null) {
+          await this._heartbeatsCachePromise;
+        }
+        if (this._heartbeatsCache?.heartbeats == null || this._heartbeatsCache.heartbeats.length === 0) {
+          return "";
+        }
+        const date = getUTCDateString();
+        const { heartbeatsToSend, unsentEntries } = extractHeartbeatsForHeader(this._heartbeatsCache.heartbeats);
+        const headerString = base64urlEncodeWithoutPadding(JSON.stringify({ version: 2, heartbeats: heartbeatsToSend }));
+        this._heartbeatsCache.lastSentHeartbeatDate = date;
+        if (unsentEntries.length > 0) {
+          this._heartbeatsCache.heartbeats = unsentEntries;
+          await this._storage.overwrite(this._heartbeatsCache);
+        } else {
+          this._heartbeatsCache.heartbeats = [];
+          void this._storage.overwrite(this._heartbeatsCache);
+        }
+        return headerString;
+      } catch (e) {
+        logger.warn(e);
+        return "";
+      }
+    }
+  };
+  function getUTCDateString() {
+    const today = /* @__PURE__ */ new Date();
+    return today.toISOString().substring(0, 10);
+  }
+  function extractHeartbeatsForHeader(heartbeatsCache, maxSize = MAX_HEADER_BYTES) {
+    const heartbeatsToSend = [];
+    let unsentEntries = heartbeatsCache.slice();
+    for (const singleDateHeartbeat of heartbeatsCache) {
+      const heartbeatEntry = heartbeatsToSend.find((hb) => hb.agent === singleDateHeartbeat.agent);
+      if (!heartbeatEntry) {
+        heartbeatsToSend.push({
+          agent: singleDateHeartbeat.agent,
+          dates: [singleDateHeartbeat.date]
+        });
+        if (countBytes(heartbeatsToSend) > maxSize) {
+          heartbeatsToSend.pop();
+          break;
+        }
+      } else {
+        heartbeatEntry.dates.push(singleDateHeartbeat.date);
+        if (countBytes(heartbeatsToSend) > maxSize) {
+          heartbeatEntry.dates.pop();
+          break;
+        }
+      }
+      unsentEntries = unsentEntries.slice(1);
+    }
+    return {
+      heartbeatsToSend,
+      unsentEntries
+    };
+  }
+  var HeartbeatStorageImpl = class {
+    constructor(app) {
+      this.app = app;
+      this._canUseIndexedDBPromise = this.runIndexedDBEnvironmentCheck();
+    }
+    async runIndexedDBEnvironmentCheck() {
+      if (!isIndexedDBAvailable()) {
+        return false;
+      } else {
+        return validateIndexedDBOpenable().then(() => true).catch(() => false);
+      }
+    }
+    /**
+     * Read all heartbeats.
+     */
+    async read() {
+      const canUseIndexedDB = await this._canUseIndexedDBPromise;
+      if (!canUseIndexedDB) {
+        return { heartbeats: [] };
+      } else {
+        const idbHeartbeatObject = await readHeartbeatsFromIndexedDB(this.app);
+        if (idbHeartbeatObject?.heartbeats) {
+          return idbHeartbeatObject;
+        } else {
+          return { heartbeats: [] };
+        }
+      }
+    }
+    // overwrite the storage with the provided heartbeats
+    async overwrite(heartbeatsObject) {
+      const canUseIndexedDB = await this._canUseIndexedDBPromise;
+      if (!canUseIndexedDB) {
+        return;
+      } else {
+        const existingHeartbeatsObject = await this.read();
+        return writeHeartbeatsToIndexedDB(this.app, {
+          lastSentHeartbeatDate: heartbeatsObject.lastSentHeartbeatDate ?? existingHeartbeatsObject.lastSentHeartbeatDate,
+          heartbeats: heartbeatsObject.heartbeats
+        });
+      }
+    }
+    // add heartbeats
+    async add(heartbeatsObject) {
+      const canUseIndexedDB = await this._canUseIndexedDBPromise;
+      if (!canUseIndexedDB) {
+        return;
+      } else {
+        const existingHeartbeatsObject = await this.read();
+        return writeHeartbeatsToIndexedDB(this.app, {
+          lastSentHeartbeatDate: heartbeatsObject.lastSentHeartbeatDate ?? existingHeartbeatsObject.lastSentHeartbeatDate,
+          heartbeats: [
+            ...existingHeartbeatsObject.heartbeats,
+            ...heartbeatsObject.heartbeats
+          ]
+        });
+      }
+    }
+  };
+  function countBytes(heartbeatsCache) {
+    return base64urlEncodeWithoutPadding(
+      // heartbeatsCache wrapper properties
+      JSON.stringify({ version: 2, heartbeats: heartbeatsCache })
+    ).length;
+  }
+  function getEarliestHeartbeatIdx(heartbeats) {
+    if (heartbeats.length === 0) {
+      return -1;
+    }
+    let earliestHeartbeatIdx = 0;
+    let earliestHeartbeatDate = heartbeats[0].date;
+    for (let i = 1; i < heartbeats.length; i++) {
+      if (heartbeats[i].date < earliestHeartbeatDate) {
+        earliestHeartbeatDate = heartbeats[i].date;
+        earliestHeartbeatIdx = i;
+      }
+    }
+    return earliestHeartbeatIdx;
+  }
+  function registerCoreComponents(variant) {
+    _registerComponent(new Component4(
+      "platform-logger",
+      (container) => new PlatformLoggerServiceImpl(container),
+      "PRIVATE"
+      /* ComponentType.PRIVATE */
+    ));
+    _registerComponent(new Component4(
+      "heartbeat",
+      (container) => new HeartbeatServiceImpl(container),
+      "PRIVATE"
+      /* ComponentType.PRIVATE */
+    ));
+    registerVersion(name$q, version$1, variant);
+    registerVersion(name$q, version$1, "esm2020");
+    registerVersion("fire-js", "");
+  }
+  registerCoreComponents("");
+
+  // node_modules/firebase/app/dist/esm/index.esm.js
+  var name2 = "firebase";
+  var version2 = "12.19.0";
+  registerVersion(name2, version2, "app");
+
+  // node_modules/@firebase/auth/dist/esm/index-4NFEPWkC.js
+  function _prodErrorMap() {
+    return {
+      [
+        "dependent-sdk-initialized-before-auth"
+        /* AuthErrorCode.DEPENDENT_SDK_INIT_BEFORE_AUTH */
+      ]: "Another Firebase SDK was initialized and is trying to use Auth before Auth is initialized. Please be sure to call `initializeAuth` or `getAuth` before starting any other Firebase SDK."
+    };
+  }
+  var prodErrorMap = _prodErrorMap;
+  var _DEFAULT_AUTH_ERROR_FACTORY = new ErrorFactory("auth", "Firebase", _prodErrorMap());
+  var logClient = new Logger("@firebase/auth");
+  function _logWarn(msg, ...args) {
+    if (logClient.logLevel <= LogLevel.WARN) {
+      logClient.warn(`Auth (${SDK_VERSION}): ${msg}`, ...args);
+    }
+  }
+  function _logError(msg, ...args) {
+    if (logClient.logLevel <= LogLevel.ERROR) {
+      logClient.error(`Auth (${SDK_VERSION}): ${msg}`, ...args);
+    }
+  }
+  function _fail(authOrCode, ...rest) {
+    throw createErrorInternal(authOrCode, ...rest);
+  }
+  function _createError(authOrCode, ...rest) {
+    return createErrorInternal(authOrCode, ...rest);
+  }
+  function _errorWithCustomMessage(auth, code, message) {
+    const errorMap = {
+      ...prodErrorMap(),
+      [code]: message
+    };
+    const factory = new ErrorFactory("auth", "Firebase", errorMap);
+    return factory.create(code, {
+      appName: auth.name
+    });
+  }
+  function _serverAppCurrentUserOperationNotSupportedError(auth) {
+    return _errorWithCustomMessage(auth, "operation-not-supported-in-this-environment", "Operations that alter the current user are not supported in conjunction with FirebaseServerApp");
+  }
+  function _assertInstanceOf(auth, object, instance) {
+    const constructorInstance = instance;
+    if (!(object instanceof constructorInstance)) {
+      if (constructorInstance.name !== object.constructor.name) {
+        _fail(
+          auth,
+          "argument-error"
+          /* AuthErrorCode.ARGUMENT_ERROR */
+        );
+      }
+      throw _errorWithCustomMessage(auth, "argument-error", `Type of ${object.constructor.name} does not match expected instance.Did you pass a reference from a different Auth SDK?`);
+    }
+  }
+  function createErrorInternal(authOrCode, ...rest) {
+    if (typeof authOrCode !== "string") {
+      const code = rest[0];
+      const fullParams = [...rest.slice(1)];
+      if (fullParams[0]) {
+        fullParams[0].appName = authOrCode.name;
+      }
+      return authOrCode._errorFactory.create(code, ...fullParams);
+    }
+    return _DEFAULT_AUTH_ERROR_FACTORY.create(authOrCode, ...rest);
+  }
+  function _assert(assertion, authOrCode, ...rest) {
+    if (!assertion) {
+      throw createErrorInternal(authOrCode, ...rest);
+    }
+  }
+  function debugFail(failure) {
+    const message = `INTERNAL ASSERTION FAILED: ` + failure;
+    _logError(message);
+    throw new Error(message);
+  }
+  function debugAssert(assertion, message) {
+    if (!assertion) {
+      debugFail(message);
+    }
+  }
+  function _getCurrentUrl() {
+    return typeof self !== "undefined" && self.location?.href || "";
+  }
+  function _isHttpOrHttps() {
+    return _getCurrentScheme() === "http:" || _getCurrentScheme() === "https:";
+  }
+  function _getCurrentScheme() {
+    return typeof self !== "undefined" && self.location?.protocol || null;
+  }
+  function _isOnline() {
+    if (typeof navigator !== "undefined" && navigator && "onLine" in navigator && typeof navigator.onLine === "boolean" && // Apply only for traditional web apps and Chrome extensions.
+    // This is especially true for Cordova apps which have unreliable
+    // navigator.onLine behavior unless cordova-plugin-network-information is
+    // installed which overwrites the native navigator.onLine value and
+    // defines navigator.connection.
+    (_isHttpOrHttps() || isBrowserExtension() || "connection" in navigator)) {
+      return navigator.onLine;
+    }
+    return true;
+  }
+  function _getUserLanguage() {
+    if (typeof navigator === "undefined") {
+      return null;
+    }
+    const navigatorLanguage = navigator;
+    return (
+      // Most reliable, but only supported in Chrome/Firefox.
+      navigatorLanguage.languages && navigatorLanguage.languages[0] || // Supported in most browsers, but returns the language of the browser
+      // UI, not the language set in browser settings.
+      navigatorLanguage.language || // Couldn't determine language.
+      null
+    );
+  }
+  var Delay = class {
+    constructor(shortDelay, longDelay) {
+      this.shortDelay = shortDelay;
+      this.longDelay = longDelay;
+      debugAssert(longDelay > shortDelay, "Short delay should be less than long delay!");
+      this.isMobile = isMobileCordova() || isReactNative();
+    }
+    get() {
+      if (!_isOnline()) {
+        return Math.min(5e3, this.shortDelay);
+      }
+      return this.isMobile ? this.longDelay : this.shortDelay;
+    }
+  };
+  function _emulatorUrl(config2, path) {
+    debugAssert(config2.emulator, "Emulator should always be set here");
+    const { url: url2 } = config2.emulator;
+    if (!path) {
+      return url2;
+    }
+    return `${url2}${path.startsWith("/") ? path.slice(1) : path}`;
+  }
+  var FetchProvider = class {
+    static initialize(fetchImpl, headersImpl, responseImpl) {
+      this.fetchImpl = fetchImpl;
+      if (headersImpl) {
+        this.headersImpl = headersImpl;
+      }
+      if (responseImpl) {
+        this.responseImpl = responseImpl;
+      }
+    }
+    static fetch() {
+      if (this.fetchImpl) {
+        return this.fetchImpl;
+      }
+      if (typeof self !== "undefined" && "fetch" in self) {
+        return self.fetch;
+      }
+      if (typeof globalThis !== "undefined" && globalThis.fetch) {
+        return globalThis.fetch;
+      }
+      if (typeof fetch !== "undefined") {
+        return fetch;
+      }
+      debugFail("Could not find fetch implementation, make sure you call FetchProvider.initialize() with an appropriate polyfill");
+    }
+    static headers() {
+      if (this.headersImpl) {
+        return this.headersImpl;
+      }
+      if (typeof self !== "undefined" && "Headers" in self) {
+        return self.Headers;
+      }
+      if (typeof globalThis !== "undefined" && globalThis.Headers) {
+        return globalThis.Headers;
+      }
+      if (typeof Headers !== "undefined") {
+        return Headers;
+      }
+      debugFail("Could not find Headers implementation, make sure you call FetchProvider.initialize() with an appropriate polyfill");
+    }
+    static response() {
+      if (this.responseImpl) {
+        return this.responseImpl;
+      }
+      if (typeof self !== "undefined" && "Response" in self) {
+        return self.Response;
+      }
+      if (typeof globalThis !== "undefined" && globalThis.Response) {
+        return globalThis.Response;
+      }
+      if (typeof Response !== "undefined") {
+        return Response;
+      }
+      debugFail("Could not find Response implementation, make sure you call FetchProvider.initialize() with an appropriate polyfill");
+    }
+  };
+  var SERVER_ERROR_MAP = {
+    // Custom token errors.
+    [
+      "CREDENTIAL_MISMATCH"
+      /* ServerError.CREDENTIAL_MISMATCH */
+    ]: "custom-token-mismatch",
+    // This can only happen if the SDK sends a bad request.
+    [
+      "MISSING_CUSTOM_TOKEN"
+      /* ServerError.MISSING_CUSTOM_TOKEN */
+    ]: "internal-error",
+    // Create Auth URI errors.
+    [
+      "INVALID_IDENTIFIER"
+      /* ServerError.INVALID_IDENTIFIER */
+    ]: "invalid-email",
+    // This can only happen if the SDK sends a bad request.
+    [
+      "MISSING_CONTINUE_URI"
+      /* ServerError.MISSING_CONTINUE_URI */
+    ]: "internal-error",
+    // Sign in with email and password errors (some apply to sign up too).
+    [
+      "INVALID_PASSWORD"
+      /* ServerError.INVALID_PASSWORD */
+    ]: "wrong-password",
+    // This can only happen if the SDK sends a bad request.
+    [
+      "MISSING_PASSWORD"
+      /* ServerError.MISSING_PASSWORD */
+    ]: "missing-password",
+    // Thrown if Email Enumeration Protection is enabled in the project and the email or password is
+    // invalid.
+    [
+      "INVALID_LOGIN_CREDENTIALS"
+      /* ServerError.INVALID_LOGIN_CREDENTIALS */
+    ]: "invalid-credential",
+    // Sign up with email and password errors.
+    [
+      "EMAIL_EXISTS"
+      /* ServerError.EMAIL_EXISTS */
+    ]: "email-already-in-use",
+    [
+      "PASSWORD_LOGIN_DISABLED"
+      /* ServerError.PASSWORD_LOGIN_DISABLED */
+    ]: "operation-not-allowed",
+    // Verify assertion for sign in with credential errors:
+    [
+      "INVALID_IDP_RESPONSE"
+      /* ServerError.INVALID_IDP_RESPONSE */
+    ]: "invalid-credential",
+    [
+      "INVALID_PENDING_TOKEN"
+      /* ServerError.INVALID_PENDING_TOKEN */
+    ]: "invalid-credential",
+    [
+      "FEDERATED_USER_ID_ALREADY_LINKED"
+      /* ServerError.FEDERATED_USER_ID_ALREADY_LINKED */
+    ]: "credential-already-in-use",
+    // This can only happen if the SDK sends a bad request.
+    [
+      "MISSING_REQ_TYPE"
+      /* ServerError.MISSING_REQ_TYPE */
+    ]: "internal-error",
+    // Send Password reset email errors:
+    [
+      "EMAIL_NOT_FOUND"
+      /* ServerError.EMAIL_NOT_FOUND */
+    ]: "user-not-found",
+    [
+      "RESET_PASSWORD_EXCEED_LIMIT"
+      /* ServerError.RESET_PASSWORD_EXCEED_LIMIT */
+    ]: "too-many-requests",
+    [
+      "EXPIRED_OOB_CODE"
+      /* ServerError.EXPIRED_OOB_CODE */
+    ]: "expired-action-code",
+    [
+      "INVALID_OOB_CODE"
+      /* ServerError.INVALID_OOB_CODE */
+    ]: "invalid-action-code",
+    // This can only happen if the SDK sends a bad request.
+    [
+      "MISSING_OOB_CODE"
+      /* ServerError.MISSING_OOB_CODE */
+    ]: "internal-error",
+    // Operations that require ID token in request:
+    [
+      "CREDENTIAL_TOO_OLD_LOGIN_AGAIN"
+      /* ServerError.CREDENTIAL_TOO_OLD_LOGIN_AGAIN */
+    ]: "requires-recent-login",
+    [
+      "INVALID_ID_TOKEN"
+      /* ServerError.INVALID_ID_TOKEN */
+    ]: "invalid-user-token",
+    [
+      "TOKEN_EXPIRED"
+      /* ServerError.TOKEN_EXPIRED */
+    ]: "user-token-expired",
+    [
+      "USER_NOT_FOUND"
+      /* ServerError.USER_NOT_FOUND */
+    ]: "user-token-expired",
+    // Other errors.
+    [
+      "TOO_MANY_ATTEMPTS_TRY_LATER"
+      /* ServerError.TOO_MANY_ATTEMPTS_TRY_LATER */
+    ]: "too-many-requests",
+    [
+      "PASSWORD_DOES_NOT_MEET_REQUIREMENTS"
+      /* ServerError.PASSWORD_DOES_NOT_MEET_REQUIREMENTS */
+    ]: "password-does-not-meet-requirements",
+    // Phone Auth related errors.
+    [
+      "INVALID_CODE"
+      /* ServerError.INVALID_CODE */
+    ]: "invalid-verification-code",
+    [
+      "INVALID_SESSION_INFO"
+      /* ServerError.INVALID_SESSION_INFO */
+    ]: "invalid-verification-id",
+    [
+      "INVALID_TEMPORARY_PROOF"
+      /* ServerError.INVALID_TEMPORARY_PROOF */
+    ]: "invalid-credential",
+    [
+      "MISSING_SESSION_INFO"
+      /* ServerError.MISSING_SESSION_INFO */
+    ]: "missing-verification-id",
+    [
+      "SESSION_EXPIRED"
+      /* ServerError.SESSION_EXPIRED */
+    ]: "code-expired",
+    // Other action code errors when additional settings passed.
+    // MISSING_CONTINUE_URI is getting mapped to INTERNAL_ERROR above.
+    // This is OK as this error will be caught by client side validation.
+    [
+      "MISSING_ANDROID_PACKAGE_NAME"
+      /* ServerError.MISSING_ANDROID_PACKAGE_NAME */
+    ]: "missing-android-pkg-name",
+    [
+      "UNAUTHORIZED_DOMAIN"
+      /* ServerError.UNAUTHORIZED_DOMAIN */
+    ]: "unauthorized-continue-uri",
+    // getProjectConfig errors when clientId is passed.
+    [
+      "INVALID_OAUTH_CLIENT_ID"
+      /* ServerError.INVALID_OAUTH_CLIENT_ID */
+    ]: "invalid-oauth-client-id",
+    // User actions (sign-up or deletion) disabled errors.
+    [
+      "ADMIN_ONLY_OPERATION"
+      /* ServerError.ADMIN_ONLY_OPERATION */
+    ]: "admin-restricted-operation",
+    // Multi factor related errors.
+    [
+      "INVALID_MFA_PENDING_CREDENTIAL"
+      /* ServerError.INVALID_MFA_PENDING_CREDENTIAL */
+    ]: "invalid-multi-factor-session",
+    [
+      "MFA_ENROLLMENT_NOT_FOUND"
+      /* ServerError.MFA_ENROLLMENT_NOT_FOUND */
+    ]: "multi-factor-info-not-found",
+    [
+      "MISSING_MFA_ENROLLMENT_ID"
+      /* ServerError.MISSING_MFA_ENROLLMENT_ID */
+    ]: "missing-multi-factor-info",
+    [
+      "MISSING_MFA_PENDING_CREDENTIAL"
+      /* ServerError.MISSING_MFA_PENDING_CREDENTIAL */
+    ]: "missing-multi-factor-session",
+    [
+      "SECOND_FACTOR_EXISTS"
+      /* ServerError.SECOND_FACTOR_EXISTS */
+    ]: "second-factor-already-in-use",
+    [
+      "SECOND_FACTOR_LIMIT_EXCEEDED"
+      /* ServerError.SECOND_FACTOR_LIMIT_EXCEEDED */
+    ]: "maximum-second-factor-count-exceeded",
+    // Blocking functions related errors.
+    [
+      "BLOCKING_FUNCTION_ERROR_RESPONSE"
+      /* ServerError.BLOCKING_FUNCTION_ERROR_RESPONSE */
+    ]: "internal-error",
+    // Recaptcha related errors.
+    [
+      "RECAPTCHA_NOT_ENABLED"
+      /* ServerError.RECAPTCHA_NOT_ENABLED */
+    ]: "recaptcha-not-enabled",
+    [
+      "MISSING_RECAPTCHA_TOKEN"
+      /* ServerError.MISSING_RECAPTCHA_TOKEN */
+    ]: "missing-recaptcha-token",
+    [
+      "INVALID_RECAPTCHA_TOKEN"
+      /* ServerError.INVALID_RECAPTCHA_TOKEN */
+    ]: "invalid-recaptcha-token",
+    [
+      "INVALID_RECAPTCHA_ACTION"
+      /* ServerError.INVALID_RECAPTCHA_ACTION */
+    ]: "invalid-recaptcha-action",
+    [
+      "MISSING_CLIENT_TYPE"
+      /* ServerError.MISSING_CLIENT_TYPE */
+    ]: "missing-client-type",
+    [
+      "MISSING_RECAPTCHA_VERSION"
+      /* ServerError.MISSING_RECAPTCHA_VERSION */
+    ]: "missing-recaptcha-version",
+    [
+      "INVALID_RECAPTCHA_VERSION"
+      /* ServerError.INVALID_RECAPTCHA_VERSION */
+    ]: "invalid-recaptcha-version",
+    [
+      "INVALID_REQ_TYPE"
+      /* ServerError.INVALID_REQ_TYPE */
+    ]: "invalid-req-type"
+    /* AuthErrorCode.INVALID_REQ_TYPE */
+  };
+  var CookieAuthProxiedEndpoints = [
+    "/v1/accounts:signInWithCustomToken",
+    "/v1/accounts:signInWithEmailLink",
+    "/v1/accounts:signInWithIdp",
+    "/v1/accounts:signInWithPassword",
+    "/v1/accounts:signInWithPhoneNumber",
+    "/v1/token"
+    /* Endpoint.TOKEN */
+  ];
+  var DEFAULT_API_TIMEOUT_MS = new Delay(3e4, 6e4);
+  function _addTidIfNecessary(auth, request2) {
+    if (auth.tenantId && !request2.tenantId) {
+      return {
+        ...request2,
+        tenantId: auth.tenantId
+      };
+    }
+    return request2;
+  }
+  async function _performApiRequest(auth, method, path, request2, customErrorMap = {}) {
+    return _performFetchWithErrorHandling(auth, customErrorMap, async () => {
+      let body = {};
+      let params = {};
+      if (request2) {
+        if (method === "GET") {
+          params = request2;
+        } else {
+          body = {
+            body: JSON.stringify(request2)
+          };
+        }
+      }
+      const query = querystring({
+        ...params,
+        key: auth.config.apiKey
+      }).slice(1);
+      const headers = await auth._getAdditionalHeaders();
+      headers[
+        "Content-Type"
+        /* HttpHeader.CONTENT_TYPE */
+      ] = "application/json";
+      if (auth.languageCode) {
+        headers[
+          "X-Firebase-Locale"
+          /* HttpHeader.X_FIREBASE_LOCALE */
+        ] = auth.languageCode;
+      }
+      const fetchArgs = {
+        method,
+        headers,
+        ...body
+      };
+      if (!isCloudflareWorker()) {
+        fetchArgs.referrerPolicy = "strict-origin-when-cross-origin";
+      }
+      if (auth.emulatorConfig && isCloudWorkstation(auth.emulatorConfig.host)) {
+        fetchArgs.credentials = "include";
+      }
+      return FetchProvider.fetch()(await _getFinalTarget(auth, auth.config.apiHost, path, query), fetchArgs);
+    });
+  }
+  async function _performFetchWithErrorHandling(auth, customErrorMap, fetchFn) {
+    auth._canInitEmulator = false;
+    const errorMap = { ...SERVER_ERROR_MAP, ...customErrorMap };
+    try {
+      const networkTimeout = new NetworkTimeout(auth);
+      const response = await Promise.race([
+        fetchFn(),
+        networkTimeout.promise
+      ]);
+      networkTimeout.clearNetworkTimeout();
+      const json = await response.json();
+      if ("needConfirmation" in json) {
+        throw _makeTaggedError(auth, "account-exists-with-different-credential", json);
+      }
+      if (response.ok && !("errorMessage" in json)) {
+        return json;
+      } else {
+        const errorMessage = response.ok ? json.errorMessage : json.error.message;
+        const [serverErrorCode, serverErrorMessage] = errorMessage.split(" : ");
+        if (serverErrorCode === "FEDERATED_USER_ID_ALREADY_LINKED") {
+          throw _makeTaggedError(auth, "credential-already-in-use", json);
+        } else if (serverErrorCode === "EMAIL_EXISTS") {
+          throw _makeTaggedError(auth, "email-already-in-use", json);
+        } else if (serverErrorCode === "USER_DISABLED") {
+          throw _makeTaggedError(auth, "user-disabled", json);
+        }
+        const authError2 = errorMap[serverErrorCode] || serverErrorCode.toLowerCase().replace(/[_\s]+/g, "-");
+        if (serverErrorMessage) {
+          throw _errorWithCustomMessage(auth, authError2, serverErrorMessage);
+        } else {
+          _fail(auth, authError2);
+        }
+      }
+    } catch (e) {
+      if (e instanceof FirebaseError) {
+        throw e;
+      }
+      _fail(auth, "network-request-failed", { "message": String(e) });
+    }
+  }
+  async function _performSignInRequest(auth, method, path, request2, customErrorMap = {}) {
+    const serverResponse = await _performApiRequest(auth, method, path, request2, customErrorMap);
+    if ("mfaPendingCredential" in serverResponse) {
+      _fail(auth, "multi-factor-auth-required", {
+        _serverResponse: serverResponse
+      });
+    }
+    return serverResponse;
+  }
+  async function _getFinalTarget(auth, host, path, query) {
+    const base = `${host}${path}?${query}`;
+    const authInternal = auth;
+    const finalTarget = authInternal.config.emulator ? _emulatorUrl(auth.config, base) : `${auth.config.apiScheme}://${base}`;
+    if (CookieAuthProxiedEndpoints.includes(path)) {
+      await authInternal._persistenceManagerAvailable;
+      if (authInternal._getPersistenceType() === "COOKIE") {
+        const cookiePersistence = authInternal._getPersistence();
+        return cookiePersistence._getFinalTarget(finalTarget).toString();
+      }
+    }
+    return finalTarget;
+  }
+  function _parseEnforcementState(enforcementStateStr) {
+    switch (enforcementStateStr) {
+      case "ENFORCE":
+        return "ENFORCE";
+      case "AUDIT":
+        return "AUDIT";
+      case "OFF":
+        return "OFF";
+      default:
+        return "ENFORCEMENT_STATE_UNSPECIFIED";
+    }
+  }
+  var NetworkTimeout = class {
+    clearNetworkTimeout() {
+      clearTimeout(this.timer);
+    }
+    constructor(auth) {
+      this.auth = auth;
+      this.timer = null;
+      this.promise = new Promise((_, reject) => {
+        this.timer = setTimeout(() => {
+          return reject(_createError(
+            this.auth,
+            "network-request-failed"
+            /* AuthErrorCode.NETWORK_REQUEST_FAILED */
+          ));
+        }, DEFAULT_API_TIMEOUT_MS.get());
+      });
+    }
+  };
+  function _makeTaggedError(auth, code, response) {
+    const errorParams = {
+      appName: auth.name
+    };
+    if (response.email) {
+      errorParams.email = response.email;
+    }
+    if (response.phoneNumber) {
+      errorParams.phoneNumber = response.phoneNumber;
+    }
+    const error = _createError(auth, code, errorParams);
+    error.customData._tokenResponse = response;
+    return error;
+  }
+  function isEnterprise(grecaptcha) {
+    return grecaptcha !== void 0 && grecaptcha.enterprise !== void 0;
+  }
+  var RecaptchaConfig = class {
+    constructor(response) {
+      this.siteKey = "";
+      this.recaptchaEnforcementState = [];
+      if (response.recaptchaKey === void 0) {
+        throw new Error("recaptchaKey undefined");
+      }
+      this.siteKey = response.recaptchaKey.split("/")[3];
+      this.recaptchaEnforcementState = response.recaptchaEnforcementState;
+    }
+    /**
+     * Returns the reCAPTCHA Enterprise enforcement state for the given provider.
+     *
+     * @param providerStr - The provider whose enforcement state is to be returned.
+     * @returns The reCAPTCHA Enterprise enforcement state for the given provider.
+     */
+    getProviderEnforcementState(providerStr) {
+      if (!this.recaptchaEnforcementState || this.recaptchaEnforcementState.length === 0) {
+        return null;
+      }
+      for (const recaptchaEnforcementState of this.recaptchaEnforcementState) {
+        if (recaptchaEnforcementState.provider && recaptchaEnforcementState.provider === providerStr) {
+          return _parseEnforcementState(recaptchaEnforcementState.enforcementState);
+        }
+      }
+      return null;
+    }
+    /**
+     * Returns true if the reCAPTCHA Enterprise enforcement state for the provider is set to ENFORCE or AUDIT.
+     *
+     * @param providerStr - The provider whose enablement state is to be returned.
+     * @returns Whether or not reCAPTCHA Enterprise protection is enabled for the given provider.
+     */
+    isProviderEnabled(providerStr) {
+      return this.getProviderEnforcementState(providerStr) === "ENFORCE" || this.getProviderEnforcementState(providerStr) === "AUDIT";
+    }
+    /**
+     * Returns true if reCAPTCHA Enterprise protection is enabled in at least one provider, otherwise
+     * returns false.
+     *
+     * @returns Whether or not reCAPTCHA Enterprise protection is enabled for at least one provider.
+     */
+    isAnyProviderEnabled() {
+      return this.isProviderEnabled(
+        "EMAIL_PASSWORD_PROVIDER"
+        /* RecaptchaAuthProvider.EMAIL_PASSWORD_PROVIDER */
+      ) || this.isProviderEnabled(
+        "PHONE_PROVIDER"
+        /* RecaptchaAuthProvider.PHONE_PROVIDER */
+      );
+    }
+  };
+  async function getRecaptchaConfig(auth, request2) {
+    return _performApiRequest(auth, "GET", "/v2/recaptchaConfig", _addTidIfNecessary(auth, request2));
+  }
+  async function deleteAccount(auth, request2) {
+    return _performApiRequest(auth, "POST", "/v1/accounts:delete", request2);
+  }
+  async function getAccountInfo(auth, request2) {
+    return _performApiRequest(auth, "POST", "/v1/accounts:lookup", request2);
+  }
+  function utcTimestampToDateString(utcTimestamp) {
+    if (!utcTimestamp) {
+      return void 0;
+    }
+    try {
+      const date = new Date(Number(utcTimestamp));
+      if (!isNaN(date.getTime())) {
+        return date.toUTCString();
+      }
+    } catch (e) {
+    }
+    return void 0;
+  }
+  async function getIdTokenResult(user, forceRefresh = false) {
+    const userInternal = getModularInstance(user);
+    const token = await userInternal.getIdToken(forceRefresh);
+    const claims = _parseToken(token);
+    _assert(
+      claims && claims.exp && claims.auth_time && claims.iat,
+      userInternal.auth,
+      "internal-error"
+      /* AuthErrorCode.INTERNAL_ERROR */
+    );
+    const firebase = typeof claims.firebase === "object" ? claims.firebase : void 0;
+    const signInProvider = firebase?.["sign_in_provider"];
+    return {
+      claims,
+      token,
+      authTime: utcTimestampToDateString(secondsStringToMilliseconds(claims.auth_time)),
+      issuedAtTime: utcTimestampToDateString(secondsStringToMilliseconds(claims.iat)),
+      expirationTime: utcTimestampToDateString(secondsStringToMilliseconds(claims.exp)),
+      signInProvider: signInProvider || null,
+      signInSecondFactor: firebase?.["sign_in_second_factor"] || null
+    };
+  }
+  function secondsStringToMilliseconds(seconds) {
+    return Number(seconds) * 1e3;
+  }
+  function _parseToken(token) {
+    const [algorithm, payload, signature] = token.split(".");
+    if (algorithm === void 0 || payload === void 0 || signature === void 0) {
+      _logError("JWT malformed, contained fewer than 3 sections");
+      return null;
+    }
+    try {
+      const decoded = base64Decode(payload);
+      if (!decoded) {
+        _logError("Failed to decode base64 JWT payload");
+        return null;
+      }
+      return JSON.parse(decoded);
+    } catch (e) {
+      _logError("Caught error parsing JWT payload as JSON", e?.toString());
+      return null;
+    }
+  }
+  function _tokenExpiresIn(token) {
+    const parsedToken = _parseToken(token);
+    _assert(
+      parsedToken,
+      "internal-error"
+      /* AuthErrorCode.INTERNAL_ERROR */
+    );
+    _assert(
+      typeof parsedToken.exp !== "undefined",
+      "internal-error"
+      /* AuthErrorCode.INTERNAL_ERROR */
+    );
+    _assert(
+      typeof parsedToken.iat !== "undefined",
+      "internal-error"
+      /* AuthErrorCode.INTERNAL_ERROR */
+    );
+    return Number(parsedToken.exp) - Number(parsedToken.iat);
+  }
+  async function _logoutIfInvalidated(user, promise, bypassAuthState = false) {
+    if (bypassAuthState) {
+      return promise;
+    }
+    try {
+      return await promise;
+    } catch (e) {
+      if (e instanceof FirebaseError && isUserInvalidated(e)) {
+        if (user.auth.currentUser === user) {
+          await user.auth.signOut();
+        }
+      }
+      throw e;
+    }
+  }
+  function isUserInvalidated({ code }) {
+    return code === `auth/${"user-disabled"}` || code === `auth/${"user-token-expired"}`;
+  }
+  var ProactiveRefresh = class {
+    constructor(user) {
+      this.user = user;
+      this.isRunning = false;
+      this.timerId = null;
+      this.errorBackoff = 3e4;
+    }
+    _start() {
+      if (this.isRunning) {
+        return;
+      }
+      this.isRunning = true;
+      this.schedule();
+    }
+    _stop() {
+      if (!this.isRunning) {
+        return;
+      }
+      this.isRunning = false;
+      if (this.timerId !== null) {
+        clearTimeout(this.timerId);
+      }
+    }
+    getInterval(wasError) {
+      if (wasError) {
+        const interval = this.errorBackoff;
+        this.errorBackoff = Math.min(
+          this.errorBackoff * 2,
+          96e4
+          /* Duration.RETRY_BACKOFF_MAX */
+        );
+        return interval;
+      } else {
+        this.errorBackoff = 3e4;
+        const expTime = this.user.stsTokenManager.expirationTime ?? 0;
+        const interval = expTime - Date.now() - 3e5;
+        return Math.max(0, interval);
+      }
+    }
+    schedule(wasError = false) {
+      if (!this.isRunning) {
+        return;
+      }
+      const interval = this.getInterval(wasError);
+      this.timerId = setTimeout(async () => {
+        await this.iteration();
+      }, interval);
+    }
+    async iteration() {
+      try {
+        await this.user.getIdToken(true);
+      } catch (e) {
+        if (e?.code === `auth/${"network-request-failed"}`) {
+          this.schedule(
+            /* wasError */
+            true
+          );
+        }
+        return;
+      }
+      this.schedule();
+    }
+  };
+  var UserMetadata = class {
+    constructor(createdAt, lastLoginAt) {
+      this.createdAt = createdAt;
+      this.lastLoginAt = lastLoginAt;
+      this._initializeTime();
+    }
+    _initializeTime() {
+      this.lastSignInTime = utcTimestampToDateString(this.lastLoginAt);
+      this.creationTime = utcTimestampToDateString(this.createdAt);
+    }
+    _copy(metadata) {
+      this.createdAt = metadata.createdAt;
+      this.lastLoginAt = metadata.lastLoginAt;
+      this._initializeTime();
+    }
+    toJSON() {
+      return {
+        createdAt: this.createdAt,
+        lastLoginAt: this.lastLoginAt
+      };
+    }
+  };
+  async function _reloadWithoutSaving(user) {
+    const auth = user.auth;
+    const idToken = await user.getIdToken();
+    const response = await _logoutIfInvalidated(user, getAccountInfo(auth, { idToken }));
+    _assert(
+      response?.users.length,
+      auth,
+      "internal-error"
+      /* AuthErrorCode.INTERNAL_ERROR */
+    );
+    const coreAccount = response.users[0];
+    user._notifyReloadListener(coreAccount);
+    const newProviderData = coreAccount.providerUserInfo?.length ? extractProviderData(coreAccount.providerUserInfo) : [];
+    const providerData = mergeProviderData(user.providerData, newProviderData);
+    const oldIsAnonymous = user.isAnonymous;
+    const newIsAnonymous = !(user.email && coreAccount.passwordHash) && !providerData?.length;
+    const isAnonymous = !oldIsAnonymous ? false : newIsAnonymous;
+    const updates = {
+      uid: coreAccount.localId,
+      displayName: coreAccount.displayName || null,
+      photoURL: coreAccount.photoUrl || null,
+      email: coreAccount.email || null,
+      emailVerified: coreAccount.emailVerified || false,
+      phoneNumber: coreAccount.phoneNumber || null,
+      tenantId: coreAccount.tenantId || null,
+      providerData,
+      metadata: new UserMetadata(coreAccount.createdAt, coreAccount.lastLoginAt),
+      isAnonymous
+    };
+    Object.assign(user, updates);
+  }
+  async function reload(user) {
+    const userInternal = getModularInstance(user);
+    await _reloadWithoutSaving(userInternal);
+    await userInternal.auth._persistUserIfCurrent(userInternal);
+    userInternal.auth._notifyListenersIfCurrent(userInternal);
+  }
+  function mergeProviderData(original, newData) {
+    const deduped = original.filter((o) => !newData.some((n) => n.providerId === o.providerId));
+    return [...deduped, ...newData];
+  }
+  function extractProviderData(providers) {
+    return providers.map(({ providerId, ...provider }) => {
+      return {
+        providerId,
+        uid: provider.rawId || "",
+        displayName: provider.displayName || null,
+        email: provider.email || null,
+        phoneNumber: provider.phoneNumber || null,
+        photoURL: provider.photoUrl || null
+      };
+    });
+  }
+  async function requestStsToken(auth, refreshToken) {
+    const response = await _performFetchWithErrorHandling(auth, {}, async () => {
+      const body = querystring({
+        "grant_type": "refresh_token",
+        "refresh_token": refreshToken
+      }).slice(1);
+      const { tokenApiHost, apiKey } = auth.config;
+      const url2 = await _getFinalTarget(auth, tokenApiHost, "/v1/token", `key=${apiKey}`);
+      const headers = await auth._getAdditionalHeaders();
+      headers[
+        "Content-Type"
+        /* HttpHeader.CONTENT_TYPE */
+      ] = "application/x-www-form-urlencoded";
+      const options = {
+        method: "POST",
+        headers,
+        body
+      };
+      if (auth.emulatorConfig && isCloudWorkstation(auth.emulatorConfig.host)) {
+        options.credentials = "include";
+      }
+      return FetchProvider.fetch()(url2, options);
+    });
+    return {
+      accessToken: response.access_token,
+      expiresIn: response.expires_in,
+      refreshToken: response.refresh_token
+    };
+  }
+  async function revokeToken(auth, request2) {
+    return _performApiRequest(auth, "POST", "/v2/accounts:revokeToken", _addTidIfNecessary(auth, request2));
+  }
+  var StsTokenManager = class _StsTokenManager {
+    constructor() {
+      this.refreshToken = null;
+      this.accessToken = null;
+      this.expirationTime = null;
+    }
+    get isExpired() {
+      return !this.expirationTime || Date.now() > this.expirationTime - 3e4;
+    }
+    updateFromServerResponse(response) {
+      _assert(
+        response.idToken,
+        "internal-error"
+        /* AuthErrorCode.INTERNAL_ERROR */
+      );
+      _assert(
+        typeof response.idToken !== "undefined",
+        "internal-error"
+        /* AuthErrorCode.INTERNAL_ERROR */
+      );
+      _assert(
+        typeof response.refreshToken !== "undefined",
+        "internal-error"
+        /* AuthErrorCode.INTERNAL_ERROR */
+      );
+      const expiresIn = "expiresIn" in response && typeof response.expiresIn !== "undefined" ? Number(response.expiresIn) : _tokenExpiresIn(response.idToken);
+      this.updateTokensAndExpiration(response.idToken, response.refreshToken, expiresIn);
+    }
+    updateFromIdToken(idToken) {
+      _assert(
+        idToken.length !== 0,
+        "internal-error"
+        /* AuthErrorCode.INTERNAL_ERROR */
+      );
+      const expiresIn = _tokenExpiresIn(idToken);
+      this.updateTokensAndExpiration(idToken, null, expiresIn);
+    }
+    async getToken(auth, forceRefresh = false) {
+      if (!forceRefresh && this.accessToken && !this.isExpired) {
+        return this.accessToken;
+      }
+      _assert(
+        this.refreshToken,
+        auth,
+        "user-token-expired"
+        /* AuthErrorCode.TOKEN_EXPIRED */
+      );
+      if (this.refreshToken) {
+        await this.refresh(auth, this.refreshToken);
+        return this.accessToken;
+      }
+      return null;
+    }
+    clearRefreshToken() {
+      this.refreshToken = null;
+    }
+    async refresh(auth, oldToken) {
+      const { accessToken, refreshToken, expiresIn } = await requestStsToken(auth, oldToken);
+      this.updateTokensAndExpiration(accessToken, refreshToken, Number(expiresIn));
+    }
+    updateTokensAndExpiration(accessToken, refreshToken, expiresInSec) {
+      this.refreshToken = refreshToken || null;
+      this.accessToken = accessToken || null;
+      this.expirationTime = Date.now() + expiresInSec * 1e3;
+    }
+    static fromJSON(appName, object) {
+      const { refreshToken, accessToken, expirationTime } = object;
+      const manager = new _StsTokenManager();
+      if (refreshToken) {
+        _assert(typeof refreshToken === "string", "internal-error", {
+          appName
+        });
+        manager.refreshToken = refreshToken;
+      }
+      if (accessToken) {
+        _assert(typeof accessToken === "string", "internal-error", {
+          appName
+        });
+        manager.accessToken = accessToken;
+      }
+      if (expirationTime) {
+        _assert(typeof expirationTime === "number", "internal-error", {
+          appName
+        });
+        manager.expirationTime = expirationTime;
+      }
+      return manager;
+    }
+    toJSON() {
+      return {
+        refreshToken: this.refreshToken,
+        accessToken: this.accessToken,
+        expirationTime: this.expirationTime
+      };
+    }
+    _assign(stsTokenManager) {
+      this.accessToken = stsTokenManager.accessToken;
+      this.refreshToken = stsTokenManager.refreshToken;
+      this.expirationTime = stsTokenManager.expirationTime;
+    }
+    _clone() {
+      return Object.assign(new _StsTokenManager(), this.toJSON());
+    }
+    _performRefresh() {
+      return debugFail("not implemented");
+    }
+  };
+  function assertStringOrUndefined(assertion, appName) {
+    _assert(typeof assertion === "string" || typeof assertion === "undefined", "internal-error", { appName });
+  }
+  var UserImpl = class _UserImpl {
+    constructor({ uid, auth, stsTokenManager, ...opt }) {
+      this.providerId = "firebase";
+      this.proactiveRefresh = new ProactiveRefresh(this);
+      this.reloadUserInfo = null;
+      this.reloadListener = null;
+      this.uid = uid;
+      this.auth = auth;
+      this.stsTokenManager = stsTokenManager;
+      this.accessToken = stsTokenManager.accessToken;
+      this.displayName = opt.displayName || null;
+      this.email = opt.email || null;
+      this.emailVerified = opt.emailVerified || false;
+      this.phoneNumber = opt.phoneNumber || null;
+      this.photoURL = opt.photoURL || null;
+      this.isAnonymous = opt.isAnonymous || false;
+      this.tenantId = opt.tenantId || null;
+      this.providerData = opt.providerData ? [...opt.providerData] : [];
+      this.metadata = new UserMetadata(opt.createdAt || void 0, opt.lastLoginAt || void 0);
+    }
+    async getIdToken(forceRefresh) {
+      const accessToken = await _logoutIfInvalidated(this, this.stsTokenManager.getToken(this.auth, forceRefresh));
+      _assert(
+        accessToken,
+        this.auth,
+        "internal-error"
+        /* AuthErrorCode.INTERNAL_ERROR */
+      );
+      if (this.accessToken !== accessToken) {
+        this.accessToken = accessToken;
+        await this.auth._persistUserIfCurrent(this);
+        this.auth._notifyListenersIfCurrent(this);
+      }
+      return accessToken;
+    }
+    getIdTokenResult(forceRefresh) {
+      return getIdTokenResult(this, forceRefresh);
+    }
+    reload() {
+      return reload(this);
+    }
+    _assign(user) {
+      if (this === user) {
+        return;
+      }
+      _assert(
+        this.uid === user.uid,
+        this.auth,
+        "internal-error"
+        /* AuthErrorCode.INTERNAL_ERROR */
+      );
+      this.displayName = user.displayName;
+      this.photoURL = user.photoURL;
+      this.email = user.email;
+      this.emailVerified = user.emailVerified;
+      this.phoneNumber = user.phoneNumber;
+      this.isAnonymous = user.isAnonymous;
+      this.tenantId = user.tenantId;
+      this.providerData = user.providerData.map((userInfo) => ({ ...userInfo }));
+      this.metadata._copy(user.metadata);
+      this.stsTokenManager._assign(user.stsTokenManager);
+    }
+    _clone(auth) {
+      const newUser = new _UserImpl({
+        ...this,
+        auth,
+        stsTokenManager: this.stsTokenManager._clone()
+      });
+      newUser.metadata._copy(this.metadata);
+      return newUser;
+    }
+    _onReload(callback) {
+      _assert(
+        !this.reloadListener,
+        this.auth,
+        "internal-error"
+        /* AuthErrorCode.INTERNAL_ERROR */
+      );
+      this.reloadListener = callback;
+      if (this.reloadUserInfo) {
+        this._notifyReloadListener(this.reloadUserInfo);
+        this.reloadUserInfo = null;
+      }
+    }
+    _notifyReloadListener(userInfo) {
+      if (this.reloadListener) {
+        this.reloadListener(userInfo);
+      } else {
+        this.reloadUserInfo = userInfo;
+      }
+    }
+    _startProactiveRefresh() {
+      this.proactiveRefresh._start();
+    }
+    _stopProactiveRefresh() {
+      this.proactiveRefresh._stop();
+    }
+    async _updateTokensIfNecessary(response, reload2 = false) {
+      let tokensRefreshed = false;
+      if (response.idToken && response.idToken !== this.stsTokenManager.accessToken) {
+        this.stsTokenManager.updateFromServerResponse(response);
+        tokensRefreshed = true;
+      }
+      if (reload2) {
+        await _reloadWithoutSaving(this);
+      }
+      await this.auth._persistUserIfCurrent(this);
+      if (tokensRefreshed) {
+        this.auth._notifyListenersIfCurrent(this);
+      }
+    }
+    async delete() {
+      if (_isFirebaseServerApp(this.auth.app)) {
+        return Promise.reject(_serverAppCurrentUserOperationNotSupportedError(this.auth));
+      }
+      const idToken = await this.getIdToken();
+      await _logoutIfInvalidated(this, deleteAccount(this.auth, { idToken }));
+      this.stsTokenManager.clearRefreshToken();
+      return this.auth.signOut();
+    }
+    toJSON() {
+      return {
+        uid: this.uid,
+        email: this.email || void 0,
+        emailVerified: this.emailVerified,
+        displayName: this.displayName || void 0,
+        isAnonymous: this.isAnonymous,
+        photoURL: this.photoURL || void 0,
+        phoneNumber: this.phoneNumber || void 0,
+        tenantId: this.tenantId || void 0,
+        providerData: this.providerData.map((userInfo) => ({ ...userInfo })),
+        stsTokenManager: this.stsTokenManager.toJSON(),
+        // Redirect event ID must be maintained in case there is a pending
+        // redirect event.
+        _redirectEventId: this._redirectEventId,
+        ...this.metadata.toJSON(),
+        // Required for compatibility with the legacy SDK (go/firebase-auth-sdk-persistence-parsing):
+        apiKey: this.auth.config.apiKey,
+        appName: this.auth.name
+        // Missing authDomain will be tolerated by the legacy SDK.
+        // stsTokenManager.apiKey isn't actually required (despite the legacy SDK persisting it).
+      };
+    }
+    get refreshToken() {
+      return this.stsTokenManager.refreshToken || "";
+    }
+    static _fromJSON(auth, object) {
+      const displayName = object.displayName ?? void 0;
+      const email = object.email ?? void 0;
+      const phoneNumber = object.phoneNumber ?? void 0;
+      const photoURL = object.photoURL ?? void 0;
+      const tenantId = object.tenantId ?? void 0;
+      const _redirectEventId = object._redirectEventId ?? void 0;
+      const createdAt = object.createdAt ?? void 0;
+      const lastLoginAt = object.lastLoginAt ?? void 0;
+      const { uid, emailVerified, isAnonymous, providerData, stsTokenManager: plainObjectTokenManager } = object;
+      _assert(
+        uid && plainObjectTokenManager,
+        auth,
+        "internal-error"
+        /* AuthErrorCode.INTERNAL_ERROR */
+      );
+      const stsTokenManager = StsTokenManager.fromJSON(this.name, plainObjectTokenManager);
+      _assert(
+        typeof uid === "string",
+        auth,
+        "internal-error"
+        /* AuthErrorCode.INTERNAL_ERROR */
+      );
+      assertStringOrUndefined(displayName, auth.name);
+      assertStringOrUndefined(email, auth.name);
+      _assert(
+        typeof emailVerified === "boolean",
+        auth,
+        "internal-error"
+        /* AuthErrorCode.INTERNAL_ERROR */
+      );
+      _assert(
+        typeof isAnonymous === "boolean",
+        auth,
+        "internal-error"
+        /* AuthErrorCode.INTERNAL_ERROR */
+      );
+      assertStringOrUndefined(phoneNumber, auth.name);
+      assertStringOrUndefined(photoURL, auth.name);
+      assertStringOrUndefined(tenantId, auth.name);
+      assertStringOrUndefined(_redirectEventId, auth.name);
+      assertStringOrUndefined(createdAt, auth.name);
+      assertStringOrUndefined(lastLoginAt, auth.name);
+      const user = new _UserImpl({
+        uid,
+        auth,
+        email,
+        emailVerified,
+        displayName,
+        isAnonymous,
+        photoURL,
+        phoneNumber,
+        tenantId,
+        stsTokenManager,
+        createdAt,
+        lastLoginAt
+      });
+      if (providerData && Array.isArray(providerData)) {
+        user.providerData = providerData.map((userInfo) => ({ ...userInfo }));
+      }
+      if (_redirectEventId) {
+        user._redirectEventId = _redirectEventId;
+      }
+      return user;
+    }
+    /**
+     * Initialize a User from an idToken server response
+     * @param auth
+     * @param idTokenResponse
+     */
+    static async _fromIdTokenResponse(auth, idTokenResponse, isAnonymous = false) {
+      const stsTokenManager = new StsTokenManager();
+      stsTokenManager.updateFromServerResponse(idTokenResponse);
+      const user = new _UserImpl({
+        uid: idTokenResponse.localId,
+        auth,
+        stsTokenManager,
+        isAnonymous
+      });
+      await _reloadWithoutSaving(user);
+      return user;
+    }
+    /**
+     * Initialize a User from an idToken server response
+     * @param auth
+     * @param idTokenResponse
+     */
+    static async _fromGetAccountInfoResponse(auth, response, idToken) {
+      const coreAccount = response.users[0];
+      _assert(
+        coreAccount.localId !== void 0,
+        "internal-error"
+        /* AuthErrorCode.INTERNAL_ERROR */
+      );
+      const providerData = coreAccount.providerUserInfo !== void 0 ? extractProviderData(coreAccount.providerUserInfo) : [];
+      const isAnonymous = !(coreAccount.email && coreAccount.passwordHash) && !providerData?.length;
+      const stsTokenManager = new StsTokenManager();
+      stsTokenManager.updateFromIdToken(idToken);
+      const user = new _UserImpl({
+        uid: coreAccount.localId,
+        auth,
+        stsTokenManager,
+        isAnonymous
+      });
+      const updates = {
+        uid: coreAccount.localId,
+        displayName: coreAccount.displayName || null,
+        photoURL: coreAccount.photoUrl || null,
+        email: coreAccount.email || null,
+        emailVerified: coreAccount.emailVerified || false,
+        phoneNumber: coreAccount.phoneNumber || null,
+        tenantId: coreAccount.tenantId || null,
+        providerData,
+        metadata: new UserMetadata(coreAccount.createdAt, coreAccount.lastLoginAt),
+        isAnonymous: !(coreAccount.email && coreAccount.passwordHash) && !providerData?.length
+      };
+      Object.assign(user, updates);
+      return user;
+    }
+  };
+  var instanceCache = /* @__PURE__ */ new Map();
+  function _getInstance(cls) {
+    debugAssert(cls instanceof Function, "Expected a class definition");
+    let instance = instanceCache.get(cls);
+    if (instance) {
+      debugAssert(instance instanceof cls, "Instance stored in cache mismatched with class");
+      return instance;
+    }
+    instance = new cls();
+    instanceCache.set(cls, instance);
+    return instance;
+  }
+  var InMemoryPersistence = class {
+    constructor() {
+      this.type = "NONE";
+      this.storage = {};
+    }
+    async _isAvailable() {
+      return true;
+    }
+    async _set(key, value2) {
+      this.storage[key] = value2;
+    }
+    async _get(key) {
+      const value2 = this.storage[key];
+      return value2 === void 0 ? null : value2;
+    }
+    async _remove(key) {
+      delete this.storage[key];
+    }
+    _addListener(_key, _listener) {
+      return;
+    }
+    _removeListener(_key, _listener) {
+      return;
+    }
+  };
+  InMemoryPersistence.type = "NONE";
+  var inMemoryPersistence = InMemoryPersistence;
+  function _persistenceKeyName(key, apiKey, appName) {
+    return `${"firebase"}:${key}:${apiKey}:${appName}`;
+  }
+  var PersistenceUserManager = class _PersistenceUserManager {
+    constructor(persistence, auth, userKey) {
+      this.persistence = persistence;
+      this.auth = auth;
+      this.userKey = userKey;
+      const { config: config2, name: name4 } = this.auth;
+      this.fullUserKey = _persistenceKeyName(this.userKey, config2.apiKey, name4);
+      this.fullPersistenceKey = _persistenceKeyName("persistence", config2.apiKey, name4);
+      this.boundEventHandler = auth._onStorageEvent.bind(auth);
+      try {
+        this.persistence._addListener(this.fullUserKey, this.boundEventHandler);
+      } catch {
+      }
+    }
+    setCurrentUser(user) {
+      return this.persistence._set(this.fullUserKey, user.toJSON());
+    }
+    async getCurrentUser() {
+      const blob = await this.persistence._get(this.fullUserKey);
+      if (!blob) {
+        return null;
+      }
+      if (typeof blob === "string") {
+        const response = await getAccountInfo(this.auth, { idToken: blob }).catch(() => void 0);
+        if (!response) {
+          return null;
+        }
+        return UserImpl._fromGetAccountInfoResponse(this.auth, response, blob);
+      }
+      return UserImpl._fromJSON(this.auth, blob);
+    }
+    removeCurrentUser() {
+      return this.persistence._remove(this.fullUserKey);
+    }
+    savePersistenceForRedirect() {
+      return this.persistence._set(this.fullPersistenceKey, this.persistence.type);
+    }
+    async setPersistence(newPersistence) {
+      if (this.persistence === newPersistence) {
+        return;
+      }
+      const currentUser = await this.getCurrentUser();
+      await this.removeCurrentUser();
+      this.persistence = newPersistence;
+      if (currentUser) {
+        return this.setCurrentUser(currentUser);
+      }
+    }
+    delete() {
+      try {
+        this.persistence._removeListener(this.fullUserKey, this.boundEventHandler);
+      } catch {
+      }
+    }
+    static async create(auth, persistenceHierarchy, userKey = "authUser") {
+      if (!persistenceHierarchy.length) {
+        return new _PersistenceUserManager(_getInstance(inMemoryPersistence), auth, userKey);
+      }
+      const availablePersistences = (await Promise.all(persistenceHierarchy.map(async (persistence) => {
+        try {
+          if (await persistence._isAvailable()) {
+            return persistence;
+          }
+        } catch {
+          return void 0;
+        }
+        return void 0;
+      }))).filter((persistence) => persistence);
+      let selectedPersistence = availablePersistences[0] || _getInstance(inMemoryPersistence);
+      const key = _persistenceKeyName(userKey, auth.config.apiKey, auth.name);
+      let userToMigrate = null;
+      for (const persistence of persistenceHierarchy) {
+        try {
+          const blob = await persistence._get(key);
+          if (blob) {
+            let user;
+            if (typeof blob === "string") {
+              const response = await getAccountInfo(auth, {
+                idToken: blob
+              }).catch(() => void 0);
+              if (!response) {
+                break;
+              }
+              user = await UserImpl._fromGetAccountInfoResponse(auth, response, blob);
+            } else {
+              user = UserImpl._fromJSON(auth, blob);
+            }
+            if (persistence !== selectedPersistence) {
+              userToMigrate = user;
+            }
+            selectedPersistence = persistence;
+            break;
+          }
+        } catch {
+        }
+      }
+      const migrationHierarchy = availablePersistences.filter((p) => p._shouldAllowMigration);
+      if (!selectedPersistence._shouldAllowMigration || !migrationHierarchy.length) {
+        return new _PersistenceUserManager(selectedPersistence, auth, userKey);
+      }
+      selectedPersistence = migrationHierarchy[0];
+      if (userToMigrate) {
+        await selectedPersistence._set(key, userToMigrate.toJSON());
+      }
+      await Promise.all(persistenceHierarchy.map(async (persistence) => {
+        if (persistence !== selectedPersistence) {
+          try {
+            await persistence._remove(key);
+          } catch {
+          }
+        }
+      }));
+      return new _PersistenceUserManager(selectedPersistence, auth, userKey);
+    }
+  };
+  function _getBrowserName(userAgent) {
+    const ua = userAgent.toLowerCase();
+    if (ua.includes("opera/") || ua.includes("opr/") || ua.includes("opios/")) {
+      return "Opera";
+    } else if (_isIEMobile(ua)) {
+      return "IEMobile";
+    } else if (ua.includes("msie") || ua.includes("trident/")) {
+      return "IE";
+    } else if (ua.includes("edge/")) {
+      return "Edge";
+    } else if (_isFirefox(ua)) {
+      return "Firefox";
+    } else if (ua.includes("silk/")) {
+      return "Silk";
+    } else if (_isBlackBerry(ua)) {
+      return "Blackberry";
+    } else if (_isWebOS(ua)) {
+      return "Webos";
+    } else if (_isSafari(ua)) {
+      return "Safari";
+    } else if ((ua.includes("chrome/") || _isChromeIOS(ua)) && !ua.includes("edge/")) {
+      return "Chrome";
+    } else if (_isAndroid(ua)) {
+      return "Android";
+    } else {
+      const re2 = /([a-zA-Z\d\.]+)\/[a-zA-Z\d\.]*$/;
+      const matches = userAgent.match(re2);
+      if (matches?.length === 2) {
+        return matches[1];
+      }
+    }
+    return "Other";
+  }
+  function _isFirefox(ua = getUA()) {
+    return /firefox\//i.test(ua);
+  }
+  function _isSafari(userAgent = getUA()) {
+    const ua = userAgent.toLowerCase();
+    return ua.includes("safari/") && !ua.includes("chrome/") && !ua.includes("crios/") && !ua.includes("android");
+  }
+  function _isChromeIOS(ua = getUA()) {
+    return /crios\//i.test(ua);
+  }
+  function _isIEMobile(ua = getUA()) {
+    return /iemobile/i.test(ua);
+  }
+  function _isAndroid(ua = getUA()) {
+    return /android/i.test(ua);
+  }
+  function _isBlackBerry(ua = getUA()) {
+    return /blackberry/i.test(ua);
+  }
+  function _isWebOS(ua = getUA()) {
+    return /webos/i.test(ua);
+  }
+  function _isIOS(ua = getUA()) {
+    return /iphone|ipad|ipod/i.test(ua) || /macintosh/i.test(ua) && /mobile/i.test(ua);
+  }
+  function _isIOSStandalone(ua = getUA()) {
+    return _isIOS(ua) && !!window.navigator?.standalone;
+  }
+  function _isIE10() {
+    return isIE() && document.documentMode === 10;
+  }
+  function _isMobileBrowser(ua = getUA()) {
+    return _isIOS(ua) || _isAndroid(ua) || _isWebOS(ua) || _isBlackBerry(ua) || /windows phone/i.test(ua) || _isIEMobile(ua);
+  }
+  function _getClientVersion(clientPlatform, frameworks = []) {
+    let reportedPlatform;
+    switch (clientPlatform) {
+      case "Browser":
+        reportedPlatform = _getBrowserName(getUA());
+        break;
+      case "Worker":
+        reportedPlatform = `${_getBrowserName(getUA())}-${clientPlatform}`;
+        break;
+      default:
+        reportedPlatform = clientPlatform;
+    }
+    const reportedFrameworks = frameworks.length ? frameworks.join(",") : "FirebaseCore-web";
+    return `${reportedPlatform}/${"JsCore"}/${SDK_VERSION}/${reportedFrameworks}`;
+  }
+  var AuthMiddlewareQueue = class {
+    constructor(auth) {
+      this.auth = auth;
+      this.queue = [];
+    }
+    pushCallback(callback, onAbort) {
+      const wrappedCallback = (user) => new Promise((resolve, reject) => {
+        try {
+          const result = callback(user);
+          resolve(result);
+        } catch (e) {
+          reject(e);
+        }
+      });
+      wrappedCallback.onAbort = onAbort;
+      this.queue.push(wrappedCallback);
+      const index = this.queue.length - 1;
+      return () => {
+        this.queue[index] = () => Promise.resolve();
+      };
+    }
+    async runMiddleware(nextUser) {
+      if (this.auth.currentUser === nextUser) {
+        return;
+      }
+      const onAbortStack = [];
+      try {
+        for (const beforeStateCallback of this.queue) {
+          await beforeStateCallback(nextUser);
+          if (beforeStateCallback.onAbort) {
+            onAbortStack.push(beforeStateCallback.onAbort);
+          }
+        }
+      } catch (e) {
+        onAbortStack.reverse();
+        for (const onAbort of onAbortStack) {
+          try {
+            onAbort();
+          } catch (_) {
+          }
+        }
+        throw this.auth._errorFactory.create("login-blocked", {
+          originalMessage: e?.message
+        });
+      }
+    }
+  };
+  async function _getPasswordPolicy(auth, request2 = {}) {
+    return _performApiRequest(auth, "GET", "/v2/passwordPolicy", _addTidIfNecessary(auth, request2));
+  }
+  var MINIMUM_MIN_PASSWORD_LENGTH = 6;
+  var PasswordPolicyImpl = class {
+    constructor(response) {
+      const responseOptions = response.customStrengthOptions;
+      this.customStrengthOptions = {};
+      this.customStrengthOptions.minPasswordLength = responseOptions.minPasswordLength ?? MINIMUM_MIN_PASSWORD_LENGTH;
+      if (responseOptions.maxPasswordLength) {
+        this.customStrengthOptions.maxPasswordLength = responseOptions.maxPasswordLength;
+      }
+      if (responseOptions.containsLowercaseCharacter !== void 0) {
+        this.customStrengthOptions.containsLowercaseLetter = responseOptions.containsLowercaseCharacter;
+      }
+      if (responseOptions.containsUppercaseCharacter !== void 0) {
+        this.customStrengthOptions.containsUppercaseLetter = responseOptions.containsUppercaseCharacter;
+      }
+      if (responseOptions.containsNumericCharacter !== void 0) {
+        this.customStrengthOptions.containsNumericCharacter = responseOptions.containsNumericCharacter;
+      }
+      if (responseOptions.containsNonAlphanumericCharacter !== void 0) {
+        this.customStrengthOptions.containsNonAlphanumericCharacter = responseOptions.containsNonAlphanumericCharacter;
+      }
+      this.enforcementState = response.enforcementState;
+      if (this.enforcementState === "ENFORCEMENT_STATE_UNSPECIFIED") {
+        this.enforcementState = "OFF";
+      }
+      this.allowedNonAlphanumericCharacters = response.allowedNonAlphanumericCharacters?.join("") ?? "";
+      this.forceUpgradeOnSignin = response.forceUpgradeOnSignin ?? false;
+      this.schemaVersion = response.schemaVersion;
+    }
+    validatePassword(password) {
+      const status = {
+        isValid: true,
+        passwordPolicy: this
+      };
+      this.validatePasswordLengthOptions(password, status);
+      this.validatePasswordCharacterOptions(password, status);
+      status.isValid && (status.isValid = status.meetsMinPasswordLength ?? true);
+      status.isValid && (status.isValid = status.meetsMaxPasswordLength ?? true);
+      status.isValid && (status.isValid = status.containsLowercaseLetter ?? true);
+      status.isValid && (status.isValid = status.containsUppercaseLetter ?? true);
+      status.isValid && (status.isValid = status.containsNumericCharacter ?? true);
+      status.isValid && (status.isValid = status.containsNonAlphanumericCharacter ?? true);
+      return status;
+    }
+    /**
+     * Validates that the password meets the length options for the policy.
+     *
+     * @param password Password to validate.
+     * @param status Validation status.
+     */
+    validatePasswordLengthOptions(password, status) {
+      const minPasswordLength = this.customStrengthOptions.minPasswordLength;
+      const maxPasswordLength = this.customStrengthOptions.maxPasswordLength;
+      if (minPasswordLength) {
+        status.meetsMinPasswordLength = password.length >= minPasswordLength;
+      }
+      if (maxPasswordLength) {
+        status.meetsMaxPasswordLength = password.length <= maxPasswordLength;
+      }
+    }
+    /**
+     * Validates that the password meets the character options for the policy.
+     *
+     * @param password Password to validate.
+     * @param status Validation status.
+     */
+    validatePasswordCharacterOptions(password, status) {
+      this.updatePasswordCharacterOptionsStatuses(
+        status,
+        /* containsLowercaseCharacter= */
+        false,
+        /* containsUppercaseCharacter= */
+        false,
+        /* containsNumericCharacter= */
+        false,
+        /* containsNonAlphanumericCharacter= */
+        false
+      );
+      let passwordChar;
+      for (let i = 0; i < password.length; i++) {
+        passwordChar = password.charAt(i);
+        this.updatePasswordCharacterOptionsStatuses(
+          status,
+          /* containsLowercaseCharacter= */
+          passwordChar >= "a" && passwordChar <= "z",
+          /* containsUppercaseCharacter= */
+          passwordChar >= "A" && passwordChar <= "Z",
+          /* containsNumericCharacter= */
+          passwordChar >= "0" && passwordChar <= "9",
+          /* containsNonAlphanumericCharacter= */
+          this.allowedNonAlphanumericCharacters.includes(passwordChar)
+        );
+      }
+    }
+    /**
+     * Updates the running validation status with the statuses for the character options.
+     * Expected to be called each time a character is processed to update each option status
+     * based on the current character.
+     *
+     * @param status Validation status.
+     * @param containsLowercaseCharacter Whether the character is a lowercase letter.
+     * @param containsUppercaseCharacter Whether the character is an uppercase letter.
+     * @param containsNumericCharacter Whether the character is a numeric character.
+     * @param containsNonAlphanumericCharacter Whether the character is a non-alphanumeric character.
+     */
+    updatePasswordCharacterOptionsStatuses(status, containsLowercaseCharacter, containsUppercaseCharacter, containsNumericCharacter, containsNonAlphanumericCharacter) {
+      if (this.customStrengthOptions.containsLowercaseLetter) {
+        status.containsLowercaseLetter || (status.containsLowercaseLetter = containsLowercaseCharacter);
+      }
+      if (this.customStrengthOptions.containsUppercaseLetter) {
+        status.containsUppercaseLetter || (status.containsUppercaseLetter = containsUppercaseCharacter);
+      }
+      if (this.customStrengthOptions.containsNumericCharacter) {
+        status.containsNumericCharacter || (status.containsNumericCharacter = containsNumericCharacter);
+      }
+      if (this.customStrengthOptions.containsNonAlphanumericCharacter) {
+        status.containsNonAlphanumericCharacter || (status.containsNonAlphanumericCharacter = containsNonAlphanumericCharacter);
+      }
+    }
+  };
+  var AuthImpl = class {
+    constructor(app, heartbeatServiceProvider, appCheckServiceProvider, config2) {
+      this.app = app;
+      this.heartbeatServiceProvider = heartbeatServiceProvider;
+      this.appCheckServiceProvider = appCheckServiceProvider;
+      this.config = config2;
+      this.currentUser = null;
+      this.emulatorConfig = null;
+      this.operations = Promise.resolve();
+      this.authStateSubscription = new Subscription(this);
+      this.idTokenSubscription = new Subscription(this);
+      this.beforeStateQueue = new AuthMiddlewareQueue(this);
+      this.redirectUser = null;
+      this.isProactiveRefreshEnabled = false;
+      this.EXPECTED_PASSWORD_POLICY_SCHEMA_VERSION = 1;
+      this._canInitEmulator = true;
+      this._isInitialized = false;
+      this._deleted = false;
+      this._initializationPromise = null;
+      this._popupRedirectResolver = null;
+      this._errorFactory = _DEFAULT_AUTH_ERROR_FACTORY;
+      this._agentRecaptchaConfig = null;
+      this._tenantRecaptchaConfigs = {};
+      this._projectPasswordPolicy = null;
+      this._tenantPasswordPolicies = {};
+      this._resolvePersistenceManagerAvailable = void 0;
+      this.lastNotifiedUid = void 0;
+      this.languageCode = null;
+      this.tenantId = null;
+      this.settings = { appVerificationDisabledForTesting: false };
+      this.frameworks = [];
+      this.name = app.name;
+      this.clientVersion = config2.sdkClientVersion;
+      this._persistenceManagerAvailable = new Promise((resolve) => this._resolvePersistenceManagerAvailable = resolve);
+    }
+    _initializeWithPersistence(persistenceHierarchy, popupRedirectResolver) {
+      if (popupRedirectResolver) {
+        this._popupRedirectResolver = _getInstance(popupRedirectResolver);
+      }
+      this._initializationPromise = this.queue(async () => {
+        if (this._deleted) {
+          return;
+        }
+        try {
+          this.persistenceManager = await PersistenceUserManager.create(this, persistenceHierarchy);
+        } catch (e) {
+          _logWarn(`Failed to initialize persistence: ${e}`);
+          this.persistenceManager = await PersistenceUserManager.create(this, []);
+        } finally {
+          this._resolvePersistenceManagerAvailable?.();
+        }
+        if (this._deleted) {
+          return;
+        }
+        if (this._popupRedirectResolver?._shouldInitProactively) {
+          try {
+            await this._popupRedirectResolver._initialize(this);
+          } catch (e) {
+          }
+        }
+        try {
+          await this.initializeCurrentUser(popupRedirectResolver);
+        } catch (e) {
+          _logWarn(`Failed to initialize current user: ${e}`);
+          await this.directlySetCurrentUser(null).catch(() => {
+          });
+        }
+        this.lastNotifiedUid = this.currentUser?.uid || null;
+        if (this._deleted) {
+          return;
+        }
+        this._isInitialized = true;
+      });
+      return this._initializationPromise;
+    }
+    /**
+     * If the persistence is changed in another window, the user manager will let us know
+     */
+    async _onStorageEvent() {
+      if (this._deleted) {
+        return;
+      }
+      const user = await this.assertedPersistence.getCurrentUser();
+      if (!this.currentUser && !user) {
+        return;
+      }
+      if (this.currentUser && user && this.currentUser.uid === user.uid) {
+        this._currentUser._assign(user);
+        await this.currentUser.getIdToken();
+        return;
+      }
+      await this._updateCurrentUser(
+        user,
+        /* skipBeforeStateCallbacks */
+        true
+      );
+    }
+    async initializeCurrentUserFromIdToken(idToken) {
+      try {
+        const response = await getAccountInfo(this, { idToken });
+        const user = await UserImpl._fromGetAccountInfoResponse(this, response, idToken);
+        await this.directlySetCurrentUser(user);
+      } catch (err) {
+        console.warn("FirebaseServerApp could not login user with provided authIdToken: ", err);
+        await this.directlySetCurrentUser(null);
+      }
+    }
+    async initializeCurrentUser(popupRedirectResolver) {
+      if (_isFirebaseServerApp(this.app)) {
+        const idToken = this.app.settings.authIdToken;
+        if (idToken) {
+          return new Promise((resolve) => {
+            setTimeout(() => this.initializeCurrentUserFromIdToken(idToken).then(resolve, resolve));
+          });
+        } else {
+          return this.directlySetCurrentUser(null);
+        }
+      }
+      const previouslyStoredUser = await this.assertedPersistence.getCurrentUser();
+      let futureCurrentUser = previouslyStoredUser;
+      let needsTocheckMiddleware = false;
+      if (popupRedirectResolver && this.config.authDomain) {
+        await this.getOrInitRedirectPersistenceManager();
+        const redirectUserEventId = this.redirectUser?._redirectEventId;
+        const storedUserEventId = futureCurrentUser?._redirectEventId;
+        const result = await this.tryRedirectSignIn(popupRedirectResolver);
+        if ((!redirectUserEventId || redirectUserEventId === storedUserEventId) && result?.user) {
+          futureCurrentUser = result.user;
+          needsTocheckMiddleware = true;
+        }
+      }
+      if (!futureCurrentUser) {
+        return this.directlySetCurrentUser(null);
+      }
+      if (!futureCurrentUser._redirectEventId) {
+        if (needsTocheckMiddleware) {
+          try {
+            await this.beforeStateQueue.runMiddleware(futureCurrentUser);
+          } catch (e) {
+            futureCurrentUser = previouslyStoredUser;
+            this._popupRedirectResolver._overrideRedirectResult(this, () => Promise.reject(e));
+          }
+        }
+        if (futureCurrentUser) {
+          return this.reloadAndSetCurrentUserOrClear(futureCurrentUser);
+        } else {
+          return this.directlySetCurrentUser(null);
+        }
+      }
+      _assert(
+        this._popupRedirectResolver,
+        this,
+        "argument-error"
+        /* AuthErrorCode.ARGUMENT_ERROR */
+      );
+      await this.getOrInitRedirectPersistenceManager();
+      if (this.redirectUser && this.redirectUser._redirectEventId === futureCurrentUser._redirectEventId) {
+        return this.directlySetCurrentUser(futureCurrentUser);
+      }
+      return this.reloadAndSetCurrentUserOrClear(futureCurrentUser);
+    }
+    async tryRedirectSignIn(redirectResolver) {
+      let result = null;
+      try {
+        result = await this._popupRedirectResolver._completeRedirectFn(this, redirectResolver, true);
+      } catch (e) {
+        await this._setRedirectUser(null);
+      }
+      return result;
+    }
+    async reloadAndSetCurrentUserOrClear(user) {
+      try {
+        await _reloadWithoutSaving(user);
+      } catch (e) {
+        if (e?.code !== `auth/${"network-request-failed"}`) {
+          return this.directlySetCurrentUser(null);
+        }
+      }
+      return this.directlySetCurrentUser(user);
+    }
+    useDeviceLanguage() {
+      this.languageCode = _getUserLanguage();
+    }
+    async _delete() {
+      this._deleted = true;
+    }
+    async updateCurrentUser(userExtern) {
+      if (_isFirebaseServerApp(this.app)) {
+        return Promise.reject(_serverAppCurrentUserOperationNotSupportedError(this));
+      }
+      const user = userExtern ? getModularInstance(userExtern) : null;
+      if (user) {
+        _assert(
+          user.auth.config.apiKey === this.config.apiKey,
+          this,
+          "invalid-user-token"
+          /* AuthErrorCode.INVALID_AUTH */
+        );
+      }
+      return this._updateCurrentUser(user && user._clone(this));
+    }
+    async _updateCurrentUser(user, skipBeforeStateCallbacks = false) {
+      if (this._deleted) {
+        return;
+      }
+      if (user) {
+        _assert(
+          this.tenantId === user.tenantId,
+          this,
+          "tenant-id-mismatch"
+          /* AuthErrorCode.TENANT_ID_MISMATCH */
+        );
+      }
+      if (!skipBeforeStateCallbacks) {
+        await this.beforeStateQueue.runMiddleware(user);
+      }
+      return this.queue(async () => {
+        await this.directlySetCurrentUser(user);
+        this.notifyAuthListeners();
+      });
+    }
+    async signOut() {
+      if (_isFirebaseServerApp(this.app)) {
+        return Promise.reject(_serverAppCurrentUserOperationNotSupportedError(this));
+      }
+      await this.beforeStateQueue.runMiddleware(null);
+      if (this.redirectPersistenceManager || this._popupRedirectResolver) {
+        await this._setRedirectUser(null);
+      }
+      return this._updateCurrentUser(
+        null,
+        /* skipBeforeStateCallbacks */
+        true
+      );
+    }
+    setPersistence(persistence) {
+      if (_isFirebaseServerApp(this.app)) {
+        return Promise.reject(_serverAppCurrentUserOperationNotSupportedError(this));
+      }
+      return this.queue(async () => {
+        await this.assertedPersistence.setPersistence(_getInstance(persistence));
+      });
+    }
+    _getRecaptchaConfig() {
+      if (this.tenantId == null) {
+        return this._agentRecaptchaConfig;
+      } else {
+        return this._tenantRecaptchaConfigs[this.tenantId];
+      }
+    }
+    async validatePassword(password) {
+      if (!this._getPasswordPolicyInternal()) {
+        await this._updatePasswordPolicy();
+      }
+      const passwordPolicy = this._getPasswordPolicyInternal();
+      if (passwordPolicy.schemaVersion !== this.EXPECTED_PASSWORD_POLICY_SCHEMA_VERSION) {
+        return Promise.reject(this._errorFactory.create("unsupported-password-policy-schema-version", {}));
+      }
+      return passwordPolicy.validatePassword(password);
+    }
+    _getPasswordPolicyInternal() {
+      if (this.tenantId === null) {
+        return this._projectPasswordPolicy;
+      } else {
+        return this._tenantPasswordPolicies[this.tenantId];
+      }
+    }
+    async _updatePasswordPolicy() {
+      const response = await _getPasswordPolicy(this);
+      const passwordPolicy = new PasswordPolicyImpl(response);
+      if (this.tenantId === null) {
+        this._projectPasswordPolicy = passwordPolicy;
+      } else {
+        this._tenantPasswordPolicies[this.tenantId] = passwordPolicy;
+      }
+    }
+    _getPersistenceType() {
+      return this.assertedPersistence.persistence.type;
+    }
+    _getPersistence() {
+      return this.assertedPersistence.persistence;
+    }
+    _updateErrorMap(errorMap) {
+      this._errorFactory = new ErrorFactory("auth", "Firebase", errorMap());
+    }
+    onAuthStateChanged(nextOrObserver, error, completed) {
+      return this.registerStateListener(this.authStateSubscription, nextOrObserver, error, completed);
+    }
+    beforeAuthStateChanged(callback, onAbort) {
+      return this.beforeStateQueue.pushCallback(callback, onAbort);
+    }
+    onIdTokenChanged(nextOrObserver, error, completed) {
+      return this.registerStateListener(this.idTokenSubscription, nextOrObserver, error, completed);
+    }
+    authStateReady() {
+      return new Promise((resolve, reject) => {
+        if (this.currentUser) {
+          resolve();
+        } else {
+          const unsubscribe = this.onAuthStateChanged(() => {
+            unsubscribe();
+            resolve();
+          }, reject);
+        }
+      });
+    }
+    /**
+     * Revokes the given access token. Currently only supports Apple OAuth access tokens.
+     */
+    async revokeAccessToken(token) {
+      if (this.currentUser) {
+        const idToken = await this.currentUser.getIdToken();
+        const request2 = {
+          providerId: "apple.com",
+          tokenType: "ACCESS_TOKEN",
+          token,
+          idToken
+        };
+        if (this.tenantId != null) {
+          request2.tenantId = this.tenantId;
+        }
+        await revokeToken(this, request2);
+      }
+    }
+    toJSON() {
+      return {
+        apiKey: this.config.apiKey,
+        authDomain: this.config.authDomain,
+        appName: this.name,
+        currentUser: this._currentUser?.toJSON()
+      };
+    }
+    async _setRedirectUser(user, popupRedirectResolver) {
+      const redirectManager = await this.getOrInitRedirectPersistenceManager(popupRedirectResolver);
+      return user === null ? redirectManager.removeCurrentUser() : redirectManager.setCurrentUser(user);
+    }
+    async getOrInitRedirectPersistenceManager(popupRedirectResolver) {
+      if (!this.redirectPersistenceManager) {
+        const resolver = popupRedirectResolver && _getInstance(popupRedirectResolver) || this._popupRedirectResolver;
+        _assert(
+          resolver,
+          this,
+          "argument-error"
+          /* AuthErrorCode.ARGUMENT_ERROR */
+        );
+        this.redirectPersistenceManager = await PersistenceUserManager.create(
+          this,
+          [_getInstance(resolver._redirectPersistence)],
+          "redirectUser"
+          /* KeyName.REDIRECT_USER */
+        );
+        this.redirectUser = await this.redirectPersistenceManager.getCurrentUser();
+      }
+      return this.redirectPersistenceManager;
+    }
+    async _redirectUserForId(id) {
+      if (this._isInitialized) {
+        await this.queue(async () => {
+        });
+      }
+      if (this._currentUser?._redirectEventId === id) {
+        return this._currentUser;
+      }
+      if (this.redirectUser?._redirectEventId === id) {
+        return this.redirectUser;
+      }
+      return null;
+    }
+    async _persistUserIfCurrent(user) {
+      if (user === this.currentUser) {
+        return this.queue(async () => this.directlySetCurrentUser(user));
+      }
+    }
+    /** Notifies listeners only if the user is current */
+    _notifyListenersIfCurrent(user) {
+      if (user === this.currentUser) {
+        this.notifyAuthListeners();
+      }
+    }
+    _key() {
+      return `${this.config.authDomain}:${this.config.apiKey}:${this.name}`;
+    }
+    _startProactiveRefresh() {
+      this.isProactiveRefreshEnabled = true;
+      if (this.currentUser) {
+        this._currentUser._startProactiveRefresh();
+      }
+    }
+    _stopProactiveRefresh() {
+      this.isProactiveRefreshEnabled = false;
+      if (this.currentUser) {
+        this._currentUser._stopProactiveRefresh();
+      }
+    }
+    /** Returns the current user cast as the internal type */
+    get _currentUser() {
+      return this.currentUser;
+    }
+    notifyAuthListeners() {
+      if (!this._isInitialized) {
+        return;
+      }
+      this.idTokenSubscription.next(this.currentUser);
+      const currentUid = this.currentUser?.uid ?? null;
+      if (this.lastNotifiedUid !== currentUid) {
+        this.lastNotifiedUid = currentUid;
+        this.authStateSubscription.next(this.currentUser);
+      }
+    }
+    registerStateListener(subscription, nextOrObserver, error, completed) {
+      if (this._deleted) {
+        return () => {
+        };
+      }
+      const cb = typeof nextOrObserver === "function" ? nextOrObserver : nextOrObserver.next.bind(nextOrObserver);
+      let isUnsubscribed = false;
+      const promise = this._isInitialized ? Promise.resolve() : this._initializationPromise;
+      _assert(
+        promise,
+        this,
+        "internal-error"
+        /* AuthErrorCode.INTERNAL_ERROR */
+      );
+      promise.then(() => {
+        if (isUnsubscribed) {
+          return;
+        }
+        cb(this.currentUser);
+      }).catch((err) => {
+        if (isUnsubscribed) {
+          return;
+        }
+        if (typeof nextOrObserver !== "function" && nextOrObserver.error) {
+          nextOrObserver.error(err);
+        } else if (error) {
+          error(err);
+        } else {
+          throw err;
+        }
+      });
+      if (typeof nextOrObserver === "function") {
+        const unsubscribe = subscription.addObserver(nextOrObserver, error, completed);
+        return () => {
+          isUnsubscribed = true;
+          unsubscribe();
+        };
+      } else {
+        const unsubscribe = subscription.addObserver(nextOrObserver);
+        return () => {
+          isUnsubscribed = true;
+          unsubscribe();
+        };
+      }
+    }
+    /**
+     * Unprotected (from race conditions) method to set the current user. This
+     * should only be called from within a queued callback. This is necessary
+     * because the queue shouldn't rely on another queued callback.
+     */
+    async directlySetCurrentUser(user) {
+      if (this.currentUser && this.currentUser !== user) {
+        this._currentUser._stopProactiveRefresh();
+      }
+      if (user && this.isProactiveRefreshEnabled) {
+        user._startProactiveRefresh();
+      }
+      this.currentUser = user;
+      if (this.persistenceManager) {
+        try {
+          if (user) {
+            await this.persistenceManager.setCurrentUser(user);
+          } else {
+            await this.persistenceManager.removeCurrentUser();
+          }
+        } catch (e) {
+          const originalMessage = e?.message || String(e);
+          const error = _errorWithCustomMessage(this, "internal-error", `An internal AuthError has occurred: ${originalMessage}`);
+          error.customData = { originalError: e };
+          throw error;
+        }
+      }
+    }
+    queue(action) {
+      this.operations = this.operations.then(action, action);
+      return this.operations;
+    }
+    get assertedPersistence() {
+      _assert(
+        this.persistenceManager,
+        this,
+        "internal-error"
+        /* AuthErrorCode.INTERNAL_ERROR */
+      );
+      return this.persistenceManager;
+    }
+    _logFramework(framework) {
+      if (!framework || this.frameworks.includes(framework)) {
+        return;
+      }
+      this.frameworks.push(framework);
+      this.frameworks.sort();
+      this.clientVersion = _getClientVersion(this.config.clientPlatform, this._getFrameworks());
+    }
+    _getFrameworks() {
+      return this.frameworks;
+    }
+    async _getAdditionalHeaders() {
+      const headers = {
+        [
+          "X-Client-Version"
+          /* HttpHeader.X_CLIENT_VERSION */
+        ]: this.clientVersion
+      };
+      if (this.app.options.appId) {
+        headers[
+          "X-Firebase-gmpid"
+          /* HttpHeader.X_FIREBASE_GMPID */
+        ] = this.app.options.appId;
+      }
+      const heartbeatsHeader = await this.heartbeatServiceProvider.getImmediate({
+        optional: true
+      })?.getHeartbeatsHeader();
+      if (heartbeatsHeader) {
+        headers[
+          "X-Firebase-Client"
+          /* HttpHeader.X_FIREBASE_CLIENT */
+        ] = heartbeatsHeader;
+      }
+      const appCheckToken = await this._getAppCheckToken();
+      if (appCheckToken) {
+        headers[
+          "X-Firebase-AppCheck"
+          /* HttpHeader.X_FIREBASE_APP_CHECK */
+        ] = appCheckToken;
+      }
+      return headers;
+    }
+    async _getAppCheckToken() {
+      if (_isFirebaseServerApp(this.app) && this.app.settings.appCheckToken) {
+        return this.app.settings.appCheckToken;
+      }
+      const appCheckTokenResult = await this.appCheckServiceProvider.getImmediate({ optional: true })?.getToken();
+      if (appCheckTokenResult?.error) {
+        _logWarn(`Error while retrieving App Check token: ${appCheckTokenResult.error}`);
+      }
+      return appCheckTokenResult?.token;
+    }
+  };
+  function _castAuth(auth) {
+    return getModularInstance(auth);
+  }
+  var Subscription = class {
+    constructor(auth) {
+      this.auth = auth;
+      this.observer = null;
+      this.addObserver = createSubscribe((observer) => this.observer = observer);
+    }
+    get next() {
+      _assert(
+        this.observer,
+        this.auth,
+        "internal-error"
+        /* AuthErrorCode.INTERNAL_ERROR */
+      );
+      return this.observer.next.bind(this.observer);
+    }
+  };
+  var externalJSProvider = {
+    async loadJS() {
+      throw new Error("Unable to load external scripts");
+    },
+    recaptchaV2Script: "",
+    recaptchaEnterpriseScript: "",
+    gapiScript: ""
+  };
+  function _setExternalJSProvider(p) {
+    externalJSProvider = p;
+  }
+  function _loadJS(url2) {
+    return externalJSProvider.loadJS(url2);
+  }
+  function _recaptchaEnterpriseScriptUrl() {
+    return externalJSProvider.recaptchaEnterpriseScript;
+  }
+  function _gapiScriptUrl() {
+    return externalJSProvider.gapiScript;
+  }
+  function _generateCallbackName(prefix) {
+    return `__${prefix}${Math.floor(Math.random() * 1e6)}`;
+  }
+  var MockGreCAPTCHATopLevel = class {
+    constructor() {
+      this.enterprise = new MockGreCAPTCHA();
+    }
+    ready(callback) {
+      callback();
+    }
+    execute(_siteKey, _options) {
+      return Promise.resolve("token");
+    }
+    render(_container, _parameters) {
+      return "";
+    }
+  };
+  var MockGreCAPTCHA = class {
+    ready(callback) {
+      callback();
+    }
+    execute(_siteKey, _options) {
+      return Promise.resolve("token");
+    }
+    render(_container, _parameters) {
+      return "";
+    }
+  };
+  var RECAPTCHA_ENTERPRISE_VERIFIER_TYPE = "recaptcha-enterprise";
+  var FAKE_TOKEN = "NO_RECAPTCHA";
+  var RECAPTCHA_ENTERPRISE_ONLOAD_CALLBACK_NAME = "onFirebaseAuthREInstanceReady";
+  var RecaptchaEnterpriseVerifier = class _RecaptchaEnterpriseVerifier {
+    /**
+     *
+     * @param authExtern - The corresponding Firebase {@link Auth} instance.
+     *
+     */
+    constructor(authExtern) {
+      this.type = RECAPTCHA_ENTERPRISE_VERIFIER_TYPE;
+      this.auth = _castAuth(authExtern);
+    }
+    /**
+     * Executes the verification process.
+     *
+     * @returns A Promise for a token that can be used to assert the validity of a request.
+     */
+    async verify(action = "verify", forceRefresh = false) {
+      async function retrieveSiteKey(auth) {
+        if (!forceRefresh) {
+          if (auth.tenantId == null && auth._agentRecaptchaConfig != null) {
+            return auth._agentRecaptchaConfig.siteKey;
+          }
+          if (auth.tenantId != null && auth._tenantRecaptchaConfigs[auth.tenantId] !== void 0) {
+            return auth._tenantRecaptchaConfigs[auth.tenantId].siteKey;
+          }
+        }
+        return new Promise(async (resolve, reject) => {
+          getRecaptchaConfig(auth, {
+            clientType: "CLIENT_TYPE_WEB",
+            version: "RECAPTCHA_ENTERPRISE"
+            /* RecaptchaVersion.ENTERPRISE */
+          }).then((response) => {
+            if (response.recaptchaKey === void 0) {
+              reject(new Error("recaptcha Enterprise site key undefined"));
+            } else {
+              const config2 = new RecaptchaConfig(response);
+              if (auth.tenantId == null) {
+                auth._agentRecaptchaConfig = config2;
+              } else {
+                auth._tenantRecaptchaConfigs[auth.tenantId] = config2;
+              }
+              return resolve(config2.siteKey);
+            }
+          }).catch((error) => {
+            reject(error);
+          });
+        });
+      }
+      function retrieveRecaptchaToken(siteKey, resolve, reject) {
+        const grecaptcha = window.grecaptcha;
+        if (isEnterprise(grecaptcha)) {
+          grecaptcha.enterprise.ready(() => {
+            grecaptcha.enterprise.execute(siteKey, { action }).then((token) => {
+              resolve(token);
+            }).catch(() => {
+              resolve(FAKE_TOKEN);
+            });
+          });
+        } else {
+          reject(Error("No reCAPTCHA enterprise script loaded."));
+        }
+      }
+      if (this.auth.settings.appVerificationDisabledForTesting) {
+        const mockRecaptcha = new MockGreCAPTCHATopLevel();
+        return mockRecaptcha.execute("siteKey", { action: "verify" });
+      }
+      return new Promise((resolve, reject) => {
+        retrieveSiteKey(this.auth).then(async (siteKey) => {
+          if (!forceRefresh && isEnterprise(window.grecaptcha) && // If download has already been initiated, do not trigger another
+          // download, await the promise here.
+          _RecaptchaEnterpriseVerifier.scriptInjectionDeferred) {
+            await _RecaptchaEnterpriseVerifier.scriptInjectionDeferred.promise;
+            retrieveRecaptchaToken(siteKey, resolve, reject);
+          } else {
+            if (typeof window === "undefined") {
+              reject(new Error("RecaptchaVerifier is only supported in browser"));
+              return;
+            }
+            let url2 = _recaptchaEnterpriseScriptUrl();
+            if (url2.length !== 0) {
+              url2 += siteKey + `&onload=${RECAPTCHA_ENTERPRISE_ONLOAD_CALLBACK_NAME}`;
+            }
+            _RecaptchaEnterpriseVerifier.scriptInjectionDeferred = new Deferred();
+            window[RECAPTCHA_ENTERPRISE_ONLOAD_CALLBACK_NAME] = () => {
+              _RecaptchaEnterpriseVerifier.scriptInjectionDeferred?.resolve();
+            };
+            _loadJS(url2).then(() => _RecaptchaEnterpriseVerifier.scriptInjectionDeferred?.promise).then(() => {
+              retrieveRecaptchaToken(siteKey, resolve, reject);
+            }).catch((error) => {
+              reject(error);
+            });
+          }
+        }).catch((error) => {
+          reject(error);
+        });
+      });
+    }
+  };
+  RecaptchaEnterpriseVerifier.scriptInjectionDeferred = null;
+  async function injectRecaptchaFields(auth, request2, action, isCaptchaResp = false, isFakeToken = false) {
+    const verifier = new RecaptchaEnterpriseVerifier(auth);
+    let captchaResponse;
+    if (isFakeToken) {
+      captchaResponse = FAKE_TOKEN;
+    } else {
+      try {
+        captchaResponse = await verifier.verify(action);
+      } catch (error) {
+        captchaResponse = await verifier.verify(action, true);
+      }
+    }
+    const newRequest2 = { ...request2 };
+    if (action === "mfaSmsEnrollment" || action === "mfaSmsSignIn") {
+      if ("phoneEnrollmentInfo" in newRequest2) {
+        const phoneNumber = newRequest2.phoneEnrollmentInfo.phoneNumber;
+        const recaptchaToken = newRequest2.phoneEnrollmentInfo.recaptchaToken;
+        Object.assign(newRequest2, {
+          "phoneEnrollmentInfo": {
+            phoneNumber,
+            recaptchaToken,
+            captchaResponse,
+            "clientType": "CLIENT_TYPE_WEB",
+            "recaptchaVersion": "RECAPTCHA_ENTERPRISE"
+            /* RecaptchaVersion.ENTERPRISE */
+          }
+        });
+      } else if ("phoneSignInInfo" in newRequest2) {
+        const recaptchaToken = newRequest2.phoneSignInInfo.recaptchaToken;
+        Object.assign(newRequest2, {
+          "phoneSignInInfo": {
+            recaptchaToken,
+            captchaResponse,
+            "clientType": "CLIENT_TYPE_WEB",
+            "recaptchaVersion": "RECAPTCHA_ENTERPRISE"
+            /* RecaptchaVersion.ENTERPRISE */
+          }
+        });
+      }
+      return newRequest2;
+    }
+    if (!isCaptchaResp) {
+      Object.assign(newRequest2, { captchaResponse });
+    } else {
+      Object.assign(newRequest2, { "captchaResp": captchaResponse });
+    }
+    Object.assign(newRequest2, {
+      "clientType": "CLIENT_TYPE_WEB"
+      /* RecaptchaClientType.WEB */
+    });
+    Object.assign(newRequest2, {
+      "recaptchaVersion": "RECAPTCHA_ENTERPRISE"
+      /* RecaptchaVersion.ENTERPRISE */
+    });
+    return newRequest2;
+  }
+  async function handleRecaptchaFlow(authInstance, request2, actionName, actionMethod, recaptchaAuthProvider) {
+    if (recaptchaAuthProvider === "EMAIL_PASSWORD_PROVIDER") {
+      if (authInstance._getRecaptchaConfig()?.isProviderEnabled(
+        "EMAIL_PASSWORD_PROVIDER"
+        /* RecaptchaAuthProvider.EMAIL_PASSWORD_PROVIDER */
+      )) {
+        const requestWithRecaptcha = await injectRecaptchaFields(
+          authInstance,
+          request2,
+          actionName,
+          actionName === "getOobCode"
+          /* RecaptchaActionName.GET_OOB_CODE */
+        );
+        return actionMethod(authInstance, requestWithRecaptcha);
+      } else {
+        return actionMethod(authInstance, request2).catch(async (error) => {
+          if (error.code === `auth/${"missing-recaptcha-token"}`) {
+            console.log(`${actionName} is protected by reCAPTCHA Enterprise for this project. Automatically triggering the reCAPTCHA flow and restarting the flow.`);
+            const requestWithRecaptcha = await injectRecaptchaFields(
+              authInstance,
+              request2,
+              actionName,
+              actionName === "getOobCode"
+              /* RecaptchaActionName.GET_OOB_CODE */
+            );
+            return actionMethod(authInstance, requestWithRecaptcha);
+          } else {
+            return Promise.reject(error);
+          }
+        });
+      }
+    } else if (recaptchaAuthProvider === "PHONE_PROVIDER") {
+      if (authInstance._getRecaptchaConfig()?.isProviderEnabled(
+        "PHONE_PROVIDER"
+        /* RecaptchaAuthProvider.PHONE_PROVIDER */
+      )) {
+        const requestWithRecaptcha = await injectRecaptchaFields(authInstance, request2, actionName);
+        return actionMethod(authInstance, requestWithRecaptcha).catch(async (error) => {
+          if (authInstance._getRecaptchaConfig()?.getProviderEnforcementState(
+            "PHONE_PROVIDER"
+            /* RecaptchaAuthProvider.PHONE_PROVIDER */
+          ) === "AUDIT") {
+            if (error.code === `auth/${"missing-recaptcha-token"}` || error.code === `auth/${"invalid-app-credential"}`) {
+              console.log(`Failed to verify with reCAPTCHA Enterprise. Automatically triggering the reCAPTCHA v2 flow to complete the ${actionName} flow.`);
+              const requestWithRecaptchaFields = await injectRecaptchaFields(
+                authInstance,
+                request2,
+                actionName,
+                false,
+                // isCaptchaResp
+                true
+                // isFakeToken
+              );
+              return actionMethod(authInstance, requestWithRecaptchaFields);
+            }
+          }
+          return Promise.reject(error);
+        });
+      } else {
+        const requestWithRecaptchaFields = await injectRecaptchaFields(
+          authInstance,
+          request2,
+          actionName,
+          false,
+          // isCaptchaResp
+          true
+          // isFakeToken
+        );
+        return actionMethod(authInstance, requestWithRecaptchaFields);
+      }
+    } else {
+      return Promise.reject(recaptchaAuthProvider + " provider is not supported.");
+    }
+  }
+  async function _initializeRecaptchaConfig(auth) {
+    const authInternal = _castAuth(auth);
+    const response = await getRecaptchaConfig(authInternal, {
+      clientType: "CLIENT_TYPE_WEB",
+      version: "RECAPTCHA_ENTERPRISE"
+      /* RecaptchaVersion.ENTERPRISE */
+    });
+    const config2 = new RecaptchaConfig(response);
+    if (authInternal.tenantId == null) {
+      authInternal._agentRecaptchaConfig = config2;
+    } else {
+      authInternal._tenantRecaptchaConfigs[authInternal.tenantId] = config2;
+    }
+    if (config2.isAnyProviderEnabled()) {
+      const verifier = new RecaptchaEnterpriseVerifier(authInternal);
+      void verifier.verify();
+    }
+  }
+  function initializeAuth(app, deps) {
+    const provider = _getProvider(app, "auth");
+    if (provider.isInitialized()) {
+      const auth2 = provider.getImmediate();
+      const initialOptions = provider.getOptions();
+      if (deepEqual(initialOptions, deps ?? {})) {
+        return auth2;
+      } else {
+        _fail(
+          auth2,
+          "already-initialized"
+          /* AuthErrorCode.ALREADY_INITIALIZED */
+        );
+      }
+    }
+    const auth = provider.initialize({ options: deps });
+    return auth;
+  }
+  function _initializeAuthInstance(auth, deps) {
+    const persistence = deps?.persistence || [];
+    const hierarchy = (Array.isArray(persistence) ? persistence : [persistence]).map(_getInstance);
+    if (deps?.errorMap) {
+      auth._updateErrorMap(deps.errorMap);
+    }
+    auth._initializeWithPersistence(hierarchy, deps?.popupRedirectResolver);
+  }
+  function connectAuthEmulator(auth, url2, options) {
+    const authInternal = _castAuth(auth);
+    _assert(
+      /^https?:\/\//.test(url2),
+      authInternal,
+      "invalid-emulator-scheme"
+      /* AuthErrorCode.INVALID_EMULATOR_SCHEME */
+    );
+    const disableWarnings = !!options?.disableWarnings;
+    const protocol4 = extractProtocol(url2);
+    const { host, port } = extractHostAndPort(url2);
+    const portStr = port === null ? "" : `:${port}`;
+    const emulator = { url: `${protocol4}//${host}${portStr}/` };
+    const emulatorConfig = Object.freeze({
+      host,
+      port,
+      protocol: protocol4.replace(":", ""),
+      options: Object.freeze({ disableWarnings })
+    });
+    if (!authInternal._canInitEmulator) {
+      _assert(
+        authInternal.config.emulator && authInternal.emulatorConfig,
+        authInternal,
+        "emulator-config-failed"
+        /* AuthErrorCode.EMULATOR_CONFIG_FAILED */
+      );
+      _assert(
+        deepEqual(emulator, authInternal.config.emulator) && deepEqual(emulatorConfig, authInternal.emulatorConfig),
+        authInternal,
+        "emulator-config-failed"
+        /* AuthErrorCode.EMULATOR_CONFIG_FAILED */
+      );
+      return;
+    }
+    authInternal.config.emulator = emulator;
+    authInternal.emulatorConfig = emulatorConfig;
+    authInternal.settings.appVerificationDisabledForTesting = true;
+    if (isCloudWorkstation(host)) {
+      void pingServer(`${protocol4}//${host}${portStr}`);
+    } else if (!disableWarnings) {
+      emitEmulatorWarning();
+    }
+  }
+  function extractProtocol(url2) {
+    const protocolEnd = url2.indexOf(":");
+    return protocolEnd < 0 ? "" : url2.substr(0, protocolEnd + 1);
+  }
+  function extractHostAndPort(url2) {
+    const protocol4 = extractProtocol(url2);
+    const authority = /(\/\/)?([^?#/]+)/.exec(url2.substr(protocol4.length));
+    if (!authority) {
+      return { host: "", port: null };
+    }
+    const hostAndPort = authority[2].split("@").pop() || "";
+    const bracketedIPv6 = /^(\[[^\]]+\])(:|$)/.exec(hostAndPort);
+    if (bracketedIPv6) {
+      const host = bracketedIPv6[1];
+      return { host, port: parsePort(hostAndPort.substr(host.length + 1)) };
+    } else {
+      const [host, port] = hostAndPort.split(":");
+      return { host, port: parsePort(port) };
+    }
+  }
+  function parsePort(portStr) {
+    if (!portStr) {
+      return null;
+    }
+    const port = Number(portStr);
+    if (isNaN(port)) {
+      return null;
+    }
+    return port;
+  }
+  function emitEmulatorWarning() {
+    function attachBanner() {
+      const el = document.createElement("p");
+      const sty = el.style;
+      el.innerText = "Running in emulator mode. Do not use with production credentials.";
+      sty.position = "fixed";
+      sty.width = "100%";
+      sty.backgroundColor = "#ffffff";
+      sty.border = ".1em solid #000000";
+      sty.color = "#b50000";
+      sty.bottom = "0px";
+      sty.left = "0px";
+      sty.margin = "0px";
+      sty.zIndex = "10000";
+      sty.textAlign = "center";
+      el.classList.add("firebase-emulator-warning");
+      document.body.appendChild(el);
+    }
+    if (typeof console !== "undefined" && typeof console.info === "function") {
+      console.info("WARNING: You are using the Auth Emulator, which is intended for local testing only.  Do not use with production credentials.");
+    }
+    if (typeof window !== "undefined" && typeof document !== "undefined") {
+      if (document.readyState === "loading") {
+        window.addEventListener("DOMContentLoaded", attachBanner);
+      } else {
+        attachBanner();
+      }
+    }
+  }
+  var AuthCredential = class {
+    /** @internal */
+    constructor(providerId, signInMethod) {
+      this.providerId = providerId;
+      this.signInMethod = signInMethod;
+    }
+    /**
+     * Returns a JSON-serializable representation of this object.
+     *
+     * @returns a JSON-serializable representation of this object.
+     */
+    toJSON() {
+      return debugFail("not implemented");
+    }
+    /** @internal */
+    _getIdTokenResponse(_auth) {
+      return debugFail("not implemented");
+    }
+    /** @internal */
+    _linkToIdToken(_auth, _idToken) {
+      return debugFail("not implemented");
+    }
+    /** @internal */
+    _getReauthenticationResolver(_auth) {
+      return debugFail("not implemented");
+    }
+  };
+  async function linkEmailPassword(auth, request2) {
+    return _performApiRequest(auth, "POST", "/v1/accounts:signUp", request2);
+  }
+  async function signInWithPassword(auth, request2) {
+    return _performSignInRequest(auth, "POST", "/v1/accounts:signInWithPassword", _addTidIfNecessary(auth, request2));
+  }
+  async function signInWithEmailLink$1(auth, request2) {
+    return _performSignInRequest(auth, "POST", "/v1/accounts:signInWithEmailLink", _addTidIfNecessary(auth, request2));
+  }
+  async function signInWithEmailLinkForLinking(auth, request2) {
+    return _performSignInRequest(auth, "POST", "/v1/accounts:signInWithEmailLink", _addTidIfNecessary(auth, request2));
+  }
+  var EmailAuthCredential = class _EmailAuthCredential extends AuthCredential {
+    /** @internal */
+    constructor(_email, _password, signInMethod, _tenantId = null) {
+      super("password", signInMethod);
+      this._email = _email;
+      this._password = _password;
+      this._tenantId = _tenantId;
+    }
+    /** @internal */
+    static _fromEmailAndPassword(email, password) {
+      return new _EmailAuthCredential(
+        email,
+        password,
+        "password"
+        /* SignInMethod.EMAIL_PASSWORD */
+      );
+    }
+    /** @internal */
+    static _fromEmailAndCode(email, oobCode, tenantId = null) {
+      return new _EmailAuthCredential(email, oobCode, "emailLink", tenantId);
+    }
+    /** {@inheritdoc AuthCredential.toJSON} */
+    toJSON() {
+      return {
+        email: this._email,
+        password: this._password,
+        signInMethod: this.signInMethod,
+        tenantId: this._tenantId
+      };
+    }
+    /**
+     * Static method to deserialize a JSON representation of an object into an {@link  AuthCredential}.
+     *
+     * @param json - Either `object` or the stringified representation of the object. When string is
+     * provided, `JSON.parse` would be called first.
+     *
+     * @returns If the JSON input does not represent an {@link AuthCredential}, null is returned.
+     */
+    static fromJSON(json) {
+      const obj = typeof json === "string" ? JSON.parse(json) : json;
+      if (obj?.email && obj?.password) {
+        if (obj.signInMethod === "password") {
+          return this._fromEmailAndPassword(obj.email, obj.password);
+        } else if (obj.signInMethod === "emailLink") {
+          return this._fromEmailAndCode(obj.email, obj.password, obj.tenantId);
+        }
+      }
+      return null;
+    }
+    /** @internal */
+    async _getIdTokenResponse(auth) {
+      switch (this.signInMethod) {
+        case "password":
+          const request2 = {
+            returnSecureToken: true,
+            email: this._email,
+            password: this._password,
+            clientType: "CLIENT_TYPE_WEB"
+            /* RecaptchaClientType.WEB */
+          };
+          return handleRecaptchaFlow(
+            auth,
+            request2,
+            "signInWithPassword",
+            signInWithPassword,
+            "EMAIL_PASSWORD_PROVIDER"
+            /* RecaptchaAuthProvider.EMAIL_PASSWORD_PROVIDER */
+          );
+        case "emailLink":
+          return signInWithEmailLink$1(auth, {
+            email: this._email,
+            oobCode: this._password
+          });
+        default:
+          _fail(
+            auth,
+            "internal-error"
+            /* AuthErrorCode.INTERNAL_ERROR */
+          );
+      }
+    }
+    /** @internal */
+    async _linkToIdToken(auth, idToken) {
+      switch (this.signInMethod) {
+        case "password":
+          const request2 = {
+            idToken,
+            returnSecureToken: true,
+            email: this._email,
+            password: this._password,
+            clientType: "CLIENT_TYPE_WEB"
+            /* RecaptchaClientType.WEB */
+          };
+          return handleRecaptchaFlow(
+            auth,
+            request2,
+            "signUpPassword",
+            linkEmailPassword,
+            "EMAIL_PASSWORD_PROVIDER"
+            /* RecaptchaAuthProvider.EMAIL_PASSWORD_PROVIDER */
+          );
+        case "emailLink":
+          return signInWithEmailLinkForLinking(auth, {
+            idToken,
+            email: this._email,
+            oobCode: this._password
+          });
+        default:
+          _fail(
+            auth,
+            "internal-error"
+            /* AuthErrorCode.INTERNAL_ERROR */
+          );
+      }
+    }
+    /** @internal */
+    _getReauthenticationResolver(auth) {
+      return this._getIdTokenResponse(auth);
+    }
+  };
+  async function signInWithIdp(auth, request2) {
+    return _performSignInRequest(auth, "POST", "/v1/accounts:signInWithIdp", _addTidIfNecessary(auth, request2));
+  }
+  var IDP_REQUEST_URI$1 = "http://localhost";
+  var OAuthCredential = class _OAuthCredential extends AuthCredential {
+    constructor() {
+      super(...arguments);
+      this.pendingToken = null;
+    }
+    /** @internal */
+    static _fromParams(params) {
+      const cred = new _OAuthCredential(params.providerId, params.signInMethod);
+      if (params.idToken || params.accessToken) {
+        if (params.idToken) {
+          cred.idToken = params.idToken;
+        }
+        if (params.accessToken) {
+          cred.accessToken = params.accessToken;
+        }
+        if (params.nonce && !params.pendingToken) {
+          cred.nonce = params.nonce;
+        }
+        if (params.pendingToken) {
+          cred.pendingToken = params.pendingToken;
+        }
+      } else if (params.oauthToken && params.oauthTokenSecret) {
+        cred.accessToken = params.oauthToken;
+        cred.secret = params.oauthTokenSecret;
+      } else {
+        _fail(
+          "argument-error"
+          /* AuthErrorCode.ARGUMENT_ERROR */
+        );
+      }
+      return cred;
+    }
+    /** {@inheritdoc AuthCredential.toJSON}  */
+    toJSON() {
+      return {
+        idToken: this.idToken,
+        accessToken: this.accessToken,
+        secret: this.secret,
+        nonce: this.nonce,
+        pendingToken: this.pendingToken,
+        providerId: this.providerId,
+        signInMethod: this.signInMethod
+      };
+    }
+    /**
+     * Static method to deserialize a JSON representation of an object into an
+     * {@link  AuthCredential}.
+     *
+     * @param json - Input can be either Object or the stringified representation of the object.
+     * When string is provided, JSON.parse would be called first.
+     *
+     * @returns If the JSON input does not represent an {@link  AuthCredential}, null is returned.
+     */
+    static fromJSON(json) {
+      const obj = typeof json === "string" ? JSON.parse(json) : json;
+      const { providerId, signInMethod, ...rest } = obj;
+      if (!providerId || !signInMethod) {
+        return null;
+      }
+      const cred = new _OAuthCredential(providerId, signInMethod);
+      cred.idToken = rest.idToken || void 0;
+      cred.accessToken = rest.accessToken || void 0;
+      cred.secret = rest.secret;
+      cred.nonce = rest.nonce;
+      cred.pendingToken = rest.pendingToken || null;
+      return cred;
+    }
+    /** @internal */
+    _getIdTokenResponse(auth) {
+      const request2 = this.buildRequest();
+      return signInWithIdp(auth, request2);
+    }
+    /** @internal */
+    _linkToIdToken(auth, idToken) {
+      const request2 = this.buildRequest();
+      request2.idToken = idToken;
+      return signInWithIdp(auth, request2);
+    }
+    /** @internal */
+    _getReauthenticationResolver(auth) {
+      const request2 = this.buildRequest();
+      request2.autoCreate = false;
+      return signInWithIdp(auth, request2);
+    }
+    buildRequest() {
+      const request2 = {
+        requestUri: IDP_REQUEST_URI$1,
+        returnSecureToken: true
+      };
+      if (this.pendingToken) {
+        request2.pendingToken = this.pendingToken;
+      } else {
+        const postBody = {};
+        if (this.idToken) {
+          postBody["id_token"] = this.idToken;
+        }
+        if (this.accessToken) {
+          postBody["access_token"] = this.accessToken;
+        }
+        if (this.secret) {
+          postBody["oauth_token_secret"] = this.secret;
+        }
+        postBody["providerId"] = this.providerId;
+        if (this.nonce && !this.pendingToken) {
+          postBody["nonce"] = this.nonce;
+        }
+        request2.postBody = querystring(postBody);
+      }
+      return request2;
+    }
+  };
+  async function sendPhoneVerificationCode(auth, request2) {
+    return _performApiRequest(auth, "POST", "/v1/accounts:sendVerificationCode", _addTidIfNecessary(auth, request2));
+  }
+  async function signInWithPhoneNumber$1(auth, request2) {
+    return _performSignInRequest(auth, "POST", "/v1/accounts:signInWithPhoneNumber", _addTidIfNecessary(auth, request2));
+  }
+  async function linkWithPhoneNumber$1(auth, request2) {
+    const response = await _performSignInRequest(auth, "POST", "/v1/accounts:signInWithPhoneNumber", _addTidIfNecessary(auth, request2));
+    if (response.temporaryProof) {
+      throw _makeTaggedError(auth, "account-exists-with-different-credential", response);
+    }
+    return response;
+  }
+  var VERIFY_PHONE_NUMBER_FOR_EXISTING_ERROR_MAP_ = {
+    [
+      "USER_NOT_FOUND"
+      /* ServerError.USER_NOT_FOUND */
+    ]: "user-not-found"
+    /* AuthErrorCode.USER_DELETED */
+  };
+  async function verifyPhoneNumberForExisting(auth, request2) {
+    const apiRequest = {
+      ...request2,
+      operation: "REAUTH"
+    };
+    return _performSignInRequest(auth, "POST", "/v1/accounts:signInWithPhoneNumber", _addTidIfNecessary(auth, apiRequest), VERIFY_PHONE_NUMBER_FOR_EXISTING_ERROR_MAP_);
+  }
+  var PhoneAuthCredential = class _PhoneAuthCredential extends AuthCredential {
+    constructor(params) {
+      super(
+        "phone",
+        "phone"
+        /* SignInMethod.PHONE */
+      );
+      this.params = params;
+    }
+    /** @internal */
+    static _fromVerification(verificationId, verificationCode) {
+      return new _PhoneAuthCredential({ verificationId, verificationCode });
+    }
+    /** @internal */
+    static _fromTokenResponse(phoneNumber, temporaryProof) {
+      return new _PhoneAuthCredential({ phoneNumber, temporaryProof });
+    }
+    /** @internal */
+    _getIdTokenResponse(auth) {
+      return signInWithPhoneNumber$1(auth, this._makeVerificationRequest());
+    }
+    /** @internal */
+    _linkToIdToken(auth, idToken) {
+      return linkWithPhoneNumber$1(auth, {
+        idToken,
+        ...this._makeVerificationRequest()
+      });
+    }
+    /** @internal */
+    _getReauthenticationResolver(auth) {
+      return verifyPhoneNumberForExisting(auth, this._makeVerificationRequest());
+    }
+    /** @internal */
+    _makeVerificationRequest() {
+      const { temporaryProof, phoneNumber, verificationId, verificationCode } = this.params;
+      if (temporaryProof && phoneNumber) {
+        return { temporaryProof, phoneNumber };
+      }
+      return {
+        sessionInfo: verificationId,
+        code: verificationCode
+      };
+    }
+    /** {@inheritdoc AuthCredential.toJSON} */
+    toJSON() {
+      const obj = {
+        providerId: this.providerId
+      };
+      if (this.params.phoneNumber) {
+        obj.phoneNumber = this.params.phoneNumber;
+      }
+      if (this.params.temporaryProof) {
+        obj.temporaryProof = this.params.temporaryProof;
+      }
+      if (this.params.verificationCode) {
+        obj.verificationCode = this.params.verificationCode;
+      }
+      if (this.params.verificationId) {
+        obj.verificationId = this.params.verificationId;
+      }
+      return obj;
+    }
+    /** Generates a phone credential based on a plain object or a JSON string. */
+    static fromJSON(json) {
+      if (typeof json === "string") {
+        json = JSON.parse(json);
+      }
+      const { verificationId, verificationCode, phoneNumber, temporaryProof } = json;
+      if (!verificationCode && !verificationId && !phoneNumber && !temporaryProof) {
+        return null;
+      }
+      return new _PhoneAuthCredential({
+        verificationId,
+        verificationCode,
+        phoneNumber,
+        temporaryProof
+      });
+    }
+  };
+  function parseMode(mode) {
+    switch (mode) {
+      case "recoverEmail":
+        return "RECOVER_EMAIL";
+      case "resetPassword":
+        return "PASSWORD_RESET";
+      case "signIn":
+        return "EMAIL_SIGNIN";
+      case "verifyEmail":
+        return "VERIFY_EMAIL";
+      case "verifyAndChangeEmail":
+        return "VERIFY_AND_CHANGE_EMAIL";
+      case "revertSecondFactorAddition":
+        return "REVERT_SECOND_FACTOR_ADDITION";
+      default:
+        return null;
+    }
+  }
+  function parseDeepLink(url2) {
+    const link = querystringDecode(extractQuerystring(url2))["link"];
+    const doubleDeepLink = link ? querystringDecode(extractQuerystring(link))["deep_link_id"] : null;
+    const iOSDeepLink = querystringDecode(extractQuerystring(url2))["deep_link_id"];
+    const iOSDoubleDeepLink = iOSDeepLink ? querystringDecode(extractQuerystring(iOSDeepLink))["link"] : null;
+    return iOSDoubleDeepLink || iOSDeepLink || doubleDeepLink || link || url2;
+  }
+  var ActionCodeURL = class _ActionCodeURL {
+    /**
+     * @param actionLink - The link from which to extract the URL.
+     * @returns The {@link ActionCodeURL} object, or null if the link is invalid.
+     *
+     * @internal
+     */
+    constructor(actionLink) {
+      const searchParams = querystringDecode(extractQuerystring(actionLink));
+      const apiKey = searchParams[
+        "apiKey"
+        /* QueryField.API_KEY */
+      ] ?? null;
+      const code = searchParams[
+        "oobCode"
+        /* QueryField.CODE */
+      ] ?? null;
+      const operation = parseMode(searchParams[
+        "mode"
+        /* QueryField.MODE */
+      ] ?? null);
+      _assert(
+        apiKey && code && operation,
+        "argument-error"
+        /* AuthErrorCode.ARGUMENT_ERROR */
+      );
+      this.apiKey = apiKey;
+      this.operation = operation;
+      this.code = code;
+      this.continueUrl = searchParams[
+        "continueUrl"
+        /* QueryField.CONTINUE_URL */
+      ] ?? null;
+      this.languageCode = searchParams[
+        "lang"
+        /* QueryField.LANGUAGE_CODE */
+      ] ?? null;
+      this.tenantId = searchParams[
+        "tenantId"
+        /* QueryField.TENANT_ID */
+      ] ?? null;
+    }
+    /**
+     * Parses the email action link string and returns an {@link ActionCodeURL} if the link is valid,
+     * otherwise returns null.
+     *
+     * @param link  - The email action link string.
+     * @returns The {@link ActionCodeURL} object, or null if the link is invalid.
+     *
+     * @public
+     */
+    static parseLink(link) {
+      const actionLink = parseDeepLink(link);
+      try {
+        return new _ActionCodeURL(actionLink);
+      } catch {
+        return null;
+      }
+    }
+  };
+  var EmailAuthProvider = class _EmailAuthProvider {
+    constructor() {
+      this.providerId = _EmailAuthProvider.PROVIDER_ID;
+    }
+    /**
+     * Initialize an {@link AuthCredential} using an email and password.
+     *
+     * @example
+     * ```javascript
+     * const authCredential = EmailAuthProvider.credential(email, password);
+     * const userCredential = await signInWithCredential(auth, authCredential);
+     * ```
+     *
+     * @example
+     * ```javascript
+     * const userCredential = await signInWithEmailAndPassword(auth, email, password);
+     * ```
+     *
+     * @param email - Email address.
+     * @param password - User account password.
+     * @returns The auth provider credential.
+     */
+    static credential(email, password) {
+      return EmailAuthCredential._fromEmailAndPassword(email, password);
+    }
+    /**
+     * Initialize an {@link AuthCredential} using an email and an email link after a sign in with
+     * email link operation.
+     *
+     * @example
+     * ```javascript
+     * const authCredential = EmailAuthProvider.credentialWithLink(auth, email, emailLink);
+     * const userCredential = await signInWithCredential(auth, authCredential);
+     * ```
+     *
+     * @example
+     * ```javascript
+     * await sendSignInLinkToEmail(auth, email);
+     * // Obtain emailLink from user.
+     * const userCredential = await signInWithEmailLink(auth, email, emailLink);
+     * ```
+     *
+     * @param auth - The {@link Auth} instance used to verify the link.
+     * @param email - Email address.
+     * @param emailLink - Sign-in email link.
+     * @returns - The auth provider credential.
+     */
+    static credentialWithLink(email, emailLink) {
+      const actionCodeUrl = ActionCodeURL.parseLink(emailLink);
+      _assert(
+        actionCodeUrl,
+        "argument-error"
+        /* AuthErrorCode.ARGUMENT_ERROR */
+      );
+      return EmailAuthCredential._fromEmailAndCode(email, actionCodeUrl.code, actionCodeUrl.tenantId);
+    }
+  };
+  EmailAuthProvider.PROVIDER_ID = "password";
+  EmailAuthProvider.EMAIL_PASSWORD_SIGN_IN_METHOD = "password";
+  EmailAuthProvider.EMAIL_LINK_SIGN_IN_METHOD = "emailLink";
+  var FederatedAuthProvider = class {
+    /**
+     * Constructor for generic OAuth providers.
+     *
+     * @param providerId - Provider for which credentials should be generated.
+     */
+    constructor(providerId) {
+      this.providerId = providerId;
+      this.defaultLanguageCode = null;
+      this.customParameters = {};
+    }
+    /**
+     * Set the language gode.
+     *
+     * @param languageCode - language code
+     */
+    setDefaultLanguage(languageCode) {
+      this.defaultLanguageCode = languageCode;
+    }
+    /**
+     * Sets the OAuth custom parameters to pass in an OAuth request for popup and redirect sign-in
+     * operations.
+     *
+     * @remarks
+     * For a detailed list, check the reserved required OAuth 2.0 parameters such as `client_id`,
+     * `redirect_uri`, `scope`, `response_type`, and `state` are not allowed and will be ignored.
+     *
+     * @param customOAuthParameters - The custom OAuth parameters to pass in the OAuth request.
+     */
+    setCustomParameters(customOAuthParameters) {
+      this.customParameters = customOAuthParameters;
+      return this;
+    }
+    /**
+     * Retrieve the current list of {@link CustomParameters}.
+     */
+    getCustomParameters() {
+      return this.customParameters;
+    }
+  };
+  var BaseOAuthProvider = class extends FederatedAuthProvider {
+    constructor() {
+      super(...arguments);
+      this.scopes = [];
+    }
+    /**
+     * Add an OAuth scope to the credential.
+     *
+     * @param scope - Provider OAuth scope to add.
+     */
+    addScope(scope) {
+      if (!this.scopes.includes(scope)) {
+        this.scopes.push(scope);
+      }
+      return this;
+    }
+    /**
+     * Retrieve the current list of OAuth scopes.
+     */
+    getScopes() {
+      return [...this.scopes];
+    }
+  };
+  var OAuthProvider = class _OAuthProvider extends BaseOAuthProvider {
+    /**
+     * Creates an {@link OAuthCredential} from a JSON string or a plain object.
+     * @param json - A plain object or a JSON string
+     */
+    static credentialFromJSON(json) {
+      const obj = typeof json === "string" ? JSON.parse(json) : json;
+      _assert(
+        "providerId" in obj && "signInMethod" in obj,
+        "argument-error"
+        /* AuthErrorCode.ARGUMENT_ERROR */
+      );
+      return OAuthCredential._fromParams(obj);
+    }
+    /**
+     * Creates a {@link OAuthCredential} from a generic OAuth provider's access token or ID token.
+     *
+     * @remarks
+     * The raw nonce is required when an ID token with a nonce field is provided. The SHA-256 hash of
+     * the raw nonce must match the nonce field in the ID token.
+     *
+     * @example
+     * ```javascript
+     * // `googleUser` from the onsuccess Google Sign In callback.
+     * // Initialize a generate OAuth provider with a `google.com` providerId.
+     * const provider = new OAuthProvider('google.com');
+     * const credential = provider.credential({
+     *   idToken: googleUser.getAuthResponse().id_token,
+     * });
+     * const result = await signInWithCredential(credential);
+     * ```
+     *
+     * @param params - Either the options object containing the ID token, access token and raw nonce
+     * or the ID token string.
+     */
+    credential(params) {
+      return this._credential({ ...params, nonce: params.rawNonce });
+    }
+    /** An internal credential method that accepts more permissive options */
+    _credential(params) {
+      _assert(
+        params.idToken || params.accessToken,
+        "argument-error"
+        /* AuthErrorCode.ARGUMENT_ERROR */
+      );
+      return OAuthCredential._fromParams({
+        ...params,
+        providerId: this.providerId,
+        signInMethod: this.providerId
+      });
+    }
+    /**
+     * Used to extract the underlying {@link OAuthCredential} from a {@link UserCredential}.
+     *
+     * @param userCredential - The user credential.
+     */
+    static credentialFromResult(userCredential) {
+      return _OAuthProvider.oauthCredentialFromTaggedObject(userCredential);
+    }
+    /**
+     * Used to extract the underlying {@link OAuthCredential} from a {@link AuthError} which was
+     * thrown during a sign-in, link, or reauthenticate operation.
+     *
+     * @param userCredential - The user credential.
+     */
+    static credentialFromError(error) {
+      return _OAuthProvider.oauthCredentialFromTaggedObject(error.customData || {});
+    }
+    static oauthCredentialFromTaggedObject({ _tokenResponse: tokenResponse }) {
+      if (!tokenResponse) {
+        return null;
+      }
+      const { oauthIdToken, oauthAccessToken, oauthTokenSecret, pendingToken, nonce, providerId } = tokenResponse;
+      if (!oauthAccessToken && !oauthTokenSecret && !oauthIdToken && !pendingToken) {
+        return null;
+      }
+      if (!providerId) {
+        return null;
+      }
+      try {
+        return new _OAuthProvider(providerId)._credential({
+          idToken: oauthIdToken,
+          accessToken: oauthAccessToken,
+          nonce,
+          pendingToken
+        });
+      } catch (e) {
+        return null;
+      }
+    }
+  };
+  var FacebookAuthProvider = class _FacebookAuthProvider extends BaseOAuthProvider {
+    constructor() {
+      super(
+        "facebook.com"
+        /* ProviderId.FACEBOOK */
+      );
+    }
+    /**
+     * Creates a credential for Facebook.
+     *
+     * @example
+     * ```javascript
+     * // `event` from the Facebook auth.authResponseChange callback.
+     * const credential = FacebookAuthProvider.credential(event.authResponse.accessToken);
+     * const result = await signInWithCredential(credential);
+     * ```
+     *
+     * @param accessToken - Facebook access token.
+     */
+    static credential(accessToken) {
+      return OAuthCredential._fromParams({
+        providerId: _FacebookAuthProvider.PROVIDER_ID,
+        signInMethod: _FacebookAuthProvider.FACEBOOK_SIGN_IN_METHOD,
+        accessToken
+      });
+    }
+    /**
+     * Used to extract the underlying {@link OAuthCredential} from a {@link UserCredential}.
+     *
+     * @param userCredential - The user credential.
+     */
+    static credentialFromResult(userCredential) {
+      return _FacebookAuthProvider.credentialFromTaggedObject(userCredential);
+    }
+    /**
+     * Used to extract the underlying {@link OAuthCredential} from a {@link AuthError} which was
+     * thrown during a sign-in, link, or reauthenticate operation.
+     *
+     * @param userCredential - The user credential.
+     */
+    static credentialFromError(error) {
+      return _FacebookAuthProvider.credentialFromTaggedObject(error.customData || {});
+    }
+    static credentialFromTaggedObject({ _tokenResponse: tokenResponse }) {
+      if (!tokenResponse || !("oauthAccessToken" in tokenResponse)) {
+        return null;
+      }
+      if (!tokenResponse.oauthAccessToken) {
+        return null;
+      }
+      try {
+        return _FacebookAuthProvider.credential(tokenResponse.oauthAccessToken);
+      } catch {
+        return null;
+      }
+    }
+  };
+  FacebookAuthProvider.FACEBOOK_SIGN_IN_METHOD = "facebook.com";
+  FacebookAuthProvider.PROVIDER_ID = "facebook.com";
+  var GoogleAuthProvider = class _GoogleAuthProvider extends BaseOAuthProvider {
+    constructor() {
+      super(
+        "google.com"
+        /* ProviderId.GOOGLE */
+      );
+      this.addScope("profile");
+    }
+    /**
+     * Creates a credential for Google. At least one of ID token and access token is required.
+     *
+     * @example
+     * ```javascript
+     * // \`googleUser\` from the onsuccess Google Sign In callback.
+     * const credential = GoogleAuthProvider.credential(googleUser.getAuthResponse().id_token);
+     * const result = await signInWithCredential(credential);
+     * ```
+     *
+     * @param idToken - Google ID token.
+     * @param accessToken - Google access token.
+     */
+    static credential(idToken, accessToken) {
+      return OAuthCredential._fromParams({
+        providerId: _GoogleAuthProvider.PROVIDER_ID,
+        signInMethod: _GoogleAuthProvider.GOOGLE_SIGN_IN_METHOD,
+        idToken,
+        accessToken
+      });
+    }
+    /**
+     * Used to extract the underlying {@link OAuthCredential} from a {@link UserCredential}.
+     *
+     * @param userCredential - The user credential.
+     */
+    static credentialFromResult(userCredential) {
+      return _GoogleAuthProvider.credentialFromTaggedObject(userCredential);
+    }
+    /**
+     * Used to extract the underlying {@link OAuthCredential} from a {@link AuthError} which was
+     * thrown during a sign-in, link, or reauthenticate operation.
+     *
+     * @param userCredential - The user credential.
+     */
+    static credentialFromError(error) {
+      return _GoogleAuthProvider.credentialFromTaggedObject(error.customData || {});
+    }
+    static credentialFromTaggedObject({ _tokenResponse: tokenResponse }) {
+      if (!tokenResponse) {
+        return null;
+      }
+      const { oauthIdToken, oauthAccessToken } = tokenResponse;
+      if (!oauthIdToken && !oauthAccessToken) {
+        return null;
+      }
+      try {
+        return _GoogleAuthProvider.credential(oauthIdToken, oauthAccessToken);
+      } catch {
+        return null;
+      }
+    }
+  };
+  GoogleAuthProvider.GOOGLE_SIGN_IN_METHOD = "google.com";
+  GoogleAuthProvider.PROVIDER_ID = "google.com";
+  var GithubAuthProvider = class _GithubAuthProvider extends BaseOAuthProvider {
+    constructor() {
+      super(
+        "github.com"
+        /* ProviderId.GITHUB */
+      );
+    }
+    /**
+     * Creates a credential for GitHub.
+     *
+     * @param accessToken - GitHub access token.
+     */
+    static credential(accessToken) {
+      return OAuthCredential._fromParams({
+        providerId: _GithubAuthProvider.PROVIDER_ID,
+        signInMethod: _GithubAuthProvider.GITHUB_SIGN_IN_METHOD,
+        accessToken
+      });
+    }
+    /**
+     * Used to extract the underlying {@link OAuthCredential} from a {@link UserCredential}.
+     *
+     * @param userCredential - The user credential.
+     */
+    static credentialFromResult(userCredential) {
+      return _GithubAuthProvider.credentialFromTaggedObject(userCredential);
+    }
+    /**
+     * Used to extract the underlying {@link OAuthCredential} from a {@link AuthError} which was
+     * thrown during a sign-in, link, or reauthenticate operation.
+     *
+     * @param userCredential - The user credential.
+     */
+    static credentialFromError(error) {
+      return _GithubAuthProvider.credentialFromTaggedObject(error.customData || {});
+    }
+    static credentialFromTaggedObject({ _tokenResponse: tokenResponse }) {
+      if (!tokenResponse || !("oauthAccessToken" in tokenResponse)) {
+        return null;
+      }
+      if (!tokenResponse.oauthAccessToken) {
+        return null;
+      }
+      try {
+        return _GithubAuthProvider.credential(tokenResponse.oauthAccessToken);
+      } catch {
+        return null;
+      }
+    }
+  };
+  GithubAuthProvider.GITHUB_SIGN_IN_METHOD = "github.com";
+  GithubAuthProvider.PROVIDER_ID = "github.com";
+  var TwitterAuthProvider = class _TwitterAuthProvider extends BaseOAuthProvider {
+    constructor() {
+      super(
+        "twitter.com"
+        /* ProviderId.TWITTER */
+      );
+    }
+    /**
+     * Creates a credential for Twitter.
+     *
+     * @param token - Twitter access token.
+     * @param secret - Twitter secret.
+     */
+    static credential(token, secret) {
+      return OAuthCredential._fromParams({
+        providerId: _TwitterAuthProvider.PROVIDER_ID,
+        signInMethod: _TwitterAuthProvider.TWITTER_SIGN_IN_METHOD,
+        oauthToken: token,
+        oauthTokenSecret: secret
+      });
+    }
+    /**
+     * Used to extract the underlying {@link OAuthCredential} from a {@link UserCredential}.
+     *
+     * @param userCredential - The user credential.
+     */
+    static credentialFromResult(userCredential) {
+      return _TwitterAuthProvider.credentialFromTaggedObject(userCredential);
+    }
+    /**
+     * Used to extract the underlying {@link OAuthCredential} from a {@link AuthError} which was
+     * thrown during a sign-in, link, or reauthenticate operation.
+     *
+     * @param userCredential - The user credential.
+     */
+    static credentialFromError(error) {
+      return _TwitterAuthProvider.credentialFromTaggedObject(error.customData || {});
+    }
+    static credentialFromTaggedObject({ _tokenResponse: tokenResponse }) {
+      if (!tokenResponse) {
+        return null;
+      }
+      const { oauthAccessToken, oauthTokenSecret } = tokenResponse;
+      if (!oauthAccessToken || !oauthTokenSecret) {
+        return null;
+      }
+      try {
+        return _TwitterAuthProvider.credential(oauthAccessToken, oauthTokenSecret);
+      } catch {
+        return null;
+      }
+    }
+  };
+  TwitterAuthProvider.TWITTER_SIGN_IN_METHOD = "twitter.com";
+  TwitterAuthProvider.PROVIDER_ID = "twitter.com";
+  var UserCredentialImpl = class _UserCredentialImpl {
+    constructor(params) {
+      this.user = params.user;
+      this.providerId = params.providerId;
+      this._tokenResponse = params._tokenResponse;
+      this.operationType = params.operationType;
+    }
+    static async _fromIdTokenResponse(auth, operationType, idTokenResponse, isAnonymous = false) {
+      const user = await UserImpl._fromIdTokenResponse(auth, idTokenResponse, isAnonymous);
+      const providerId = providerIdForResponse(idTokenResponse);
+      const userCred = new _UserCredentialImpl({
+        user,
+        providerId,
+        _tokenResponse: idTokenResponse,
+        operationType
+      });
+      return userCred;
+    }
+    static async _forOperation(user, operationType, response) {
+      await user._updateTokensIfNecessary(
+        response,
+        /* reload */
+        true
+      );
+      const providerId = providerIdForResponse(response);
+      return new _UserCredentialImpl({
+        user,
+        providerId,
+        _tokenResponse: response,
+        operationType
+      });
+    }
+  };
+  function providerIdForResponse(response) {
+    if (response.providerId) {
+      return response.providerId;
+    }
+    if ("phoneNumber" in response) {
+      return "phone";
+    }
+    return null;
+  }
+  var MultiFactorError = class _MultiFactorError extends FirebaseError {
+    constructor(auth, error, operationType, user) {
+      super(error.code, error.message);
+      this.operationType = operationType;
+      this.user = user;
+      Object.setPrototypeOf(this, _MultiFactorError.prototype);
+      this.customData = {
+        appName: auth.name,
+        tenantId: auth.tenantId ?? void 0,
+        _serverResponse: error.customData._serverResponse,
+        operationType
+      };
+    }
+    static _fromErrorAndOperation(auth, error, operationType, user) {
+      return new _MultiFactorError(auth, error, operationType, user);
+    }
+  };
+  function _processCredentialSavingMfaContextIfNecessary(auth, operationType, credential, user) {
+    const idTokenProvider = operationType === "reauthenticate" ? credential._getReauthenticationResolver(auth) : credential._getIdTokenResponse(auth);
+    return idTokenProvider.catch((error) => {
+      if (error.code === `auth/${"multi-factor-auth-required"}`) {
+        throw MultiFactorError._fromErrorAndOperation(auth, error, operationType, user);
+      }
+      throw error;
+    });
+  }
+  async function _link$1(user, credential, bypassAuthState = false) {
+    const response = await _logoutIfInvalidated(user, credential._linkToIdToken(user.auth, await user.getIdToken()), bypassAuthState);
+    return UserCredentialImpl._forOperation(user, "link", response);
+  }
+  async function _reauthenticate(user, credential, bypassAuthState = false) {
+    const { auth } = user;
+    if (_isFirebaseServerApp(auth.app)) {
+      return Promise.reject(_serverAppCurrentUserOperationNotSupportedError(auth));
+    }
+    const operationType = "reauthenticate";
+    try {
+      const response = await _logoutIfInvalidated(user, _processCredentialSavingMfaContextIfNecessary(auth, operationType, credential, user), bypassAuthState);
+      _assert(
+        response.idToken,
+        auth,
+        "internal-error"
+        /* AuthErrorCode.INTERNAL_ERROR */
+      );
+      const parsed = _parseToken(response.idToken);
+      _assert(
+        parsed,
+        auth,
+        "internal-error"
+        /* AuthErrorCode.INTERNAL_ERROR */
+      );
+      const { sub: localId } = parsed;
+      _assert(
+        user.uid === localId,
+        auth,
+        "user-mismatch"
+        /* AuthErrorCode.USER_MISMATCH */
+      );
+      return UserCredentialImpl._forOperation(user, operationType, response);
+    } catch (e) {
+      if (e?.code === `auth/${"user-not-found"}`) {
+        _fail(
+          auth,
+          "user-mismatch"
+          /* AuthErrorCode.USER_MISMATCH */
+        );
+      }
+      throw e;
+    }
+  }
+  async function _signInWithCredential(auth, credential, bypassAuthState = false) {
+    if (_isFirebaseServerApp(auth.app)) {
+      return Promise.reject(_serverAppCurrentUserOperationNotSupportedError(auth));
+    }
+    const operationType = "signIn";
+    const response = await _processCredentialSavingMfaContextIfNecessary(auth, operationType, credential);
+    const userCredential = await UserCredentialImpl._fromIdTokenResponse(auth, operationType, response);
+    if (!bypassAuthState) {
+      await auth._updateCurrentUser(userCredential.user);
+    }
+    return userCredential;
+  }
+  function setPersistence(auth, persistence) {
+    return getModularInstance(auth).setPersistence(persistence);
+  }
+  function onIdTokenChanged(auth, nextOrObserver, error, completed) {
+    return getModularInstance(auth).onIdTokenChanged(nextOrObserver, error, completed);
+  }
+  function beforeAuthStateChanged(auth, callback, onAbort) {
+    return getModularInstance(auth).beforeAuthStateChanged(callback, onAbort);
+  }
+  function signOut(auth) {
+    return getModularInstance(auth).signOut();
+  }
+  function startEnrollPhoneMfa(auth, request2) {
+    return _performApiRequest(auth, "POST", "/v2/accounts/mfaEnrollment:start", _addTidIfNecessary(auth, request2));
+  }
+  function finalizeEnrollPhoneMfa(auth, request2) {
+    return _performApiRequest(auth, "POST", "/v2/accounts/mfaEnrollment:finalize", _addTidIfNecessary(auth, request2));
+  }
+  function startEnrollTotpMfa(auth, request2) {
+    return _performApiRequest(auth, "POST", "/v2/accounts/mfaEnrollment:start", _addTidIfNecessary(auth, request2));
+  }
+  function finalizeEnrollTotpMfa(auth, request2) {
+    return _performApiRequest(auth, "POST", "/v2/accounts/mfaEnrollment:finalize", _addTidIfNecessary(auth, request2));
+  }
+  var STORAGE_AVAILABLE_KEY = "__sak";
+  var BrowserPersistenceClass = class {
+    constructor(storageRetriever, type) {
+      this.storageRetriever = storageRetriever;
+      this.type = type;
+    }
+    _isAvailable() {
+      try {
+        if (!this.storage) {
+          return Promise.resolve(false);
+        }
+        this.storage.setItem(STORAGE_AVAILABLE_KEY, "1");
+        this.storage.removeItem(STORAGE_AVAILABLE_KEY);
+        return Promise.resolve(true);
+      } catch {
+        return Promise.resolve(false);
+      }
+    }
+    _set(key, value2) {
+      this.storage.setItem(key, JSON.stringify(value2));
+      return Promise.resolve();
+    }
+    _get(key) {
+      const json = this.storage.getItem(key);
+      return Promise.resolve(json ? JSON.parse(json) : null);
+    }
+    _remove(key) {
+      this.storage.removeItem(key);
+      return Promise.resolve();
+    }
+    get storage() {
+      return this.storageRetriever();
+    }
+  };
+  var _POLLING_INTERVAL_MS$1 = 1e3;
+  var IE10_LOCAL_STORAGE_SYNC_DELAY = 10;
+  var BrowserLocalPersistence = class extends BrowserPersistenceClass {
+    constructor() {
+      super(
+        () => window.localStorage,
+        "LOCAL"
+        /* PersistenceType.LOCAL */
+      );
+      this.boundEventHandler = (event, poll) => this.onStorageEvent(event, poll);
+      this.listeners = {};
+      this.localCache = {};
+      this.pollTimer = null;
+      this.fallbackToPolling = _isMobileBrowser();
+      this._shouldAllowMigration = true;
+    }
+    forAllChangedKeys(cb) {
+      for (const key of Object.keys(this.listeners)) {
+        const newValue = this.storage.getItem(key);
+        const oldValue = this.localCache[key];
+        if (newValue !== oldValue) {
+          cb(key, oldValue, newValue);
+        }
+      }
+    }
+    onStorageEvent(event, poll = false) {
+      if (!event.key) {
+        this.forAllChangedKeys((key2, _oldValue, newValue) => {
+          this.notifyListeners(key2, newValue);
+        });
+        return;
+      }
+      const key = event.key;
+      if (poll) {
+        this.detachListener();
+      } else {
+        this.stopPolling();
+      }
+      const triggerListeners = () => {
+        const storedValue2 = this.storage.getItem(key);
+        if (!poll && this.localCache[key] === storedValue2) {
+          return;
+        }
+        this.notifyListeners(key, storedValue2);
+      };
+      const storedValue = this.storage.getItem(key);
+      if (_isIE10() && storedValue !== event.newValue && event.newValue !== event.oldValue) {
+        setTimeout(triggerListeners, IE10_LOCAL_STORAGE_SYNC_DELAY);
+      } else {
+        triggerListeners();
+      }
+    }
+    notifyListeners(key, value2) {
+      this.localCache[key] = value2;
+      const listeners = this.listeners[key];
+      if (listeners) {
+        for (const listener of Array.from(listeners)) {
+          listener(value2 ? JSON.parse(value2) : value2);
+        }
+      }
+    }
+    startPolling() {
+      this.stopPolling();
+      this.pollTimer = setInterval(() => {
+        this.forAllChangedKeys((key, oldValue, newValue) => {
+          this.onStorageEvent(
+            new StorageEvent("storage", {
+              key,
+              oldValue,
+              newValue
+            }),
+            /* poll */
+            true
+          );
+        });
+      }, _POLLING_INTERVAL_MS$1);
+    }
+    stopPolling() {
+      if (this.pollTimer) {
+        clearInterval(this.pollTimer);
+        this.pollTimer = null;
+      }
+    }
+    attachListener() {
+      window.addEventListener("storage", this.boundEventHandler);
+    }
+    detachListener() {
+      window.removeEventListener("storage", this.boundEventHandler);
+    }
+    _addListener(key, listener) {
+      if (Object.keys(this.listeners).length === 0) {
+        if (this.fallbackToPolling) {
+          this.startPolling();
+        } else {
+          this.attachListener();
+        }
+      }
+      if (!this.listeners[key]) {
+        this.listeners[key] = /* @__PURE__ */ new Set();
+        this.localCache[key] = this.storage.getItem(key);
+      }
+      this.listeners[key].add(listener);
+    }
+    _removeListener(key, listener) {
+      if (this.listeners[key]) {
+        this.listeners[key].delete(listener);
+        if (this.listeners[key].size === 0) {
+          delete this.listeners[key];
+        }
+      }
+      if (Object.keys(this.listeners).length === 0) {
+        this.detachListener();
+        this.stopPolling();
+      }
+    }
+    // Update local cache on base operations:
+    async _set(key, value2) {
+      await super._set(key, value2);
+      this.localCache[key] = JSON.stringify(value2);
+    }
+    async _get(key) {
+      const value2 = await super._get(key);
+      this.localCache[key] = JSON.stringify(value2);
+      return value2;
+    }
+    async _remove(key) {
+      await super._remove(key);
+      delete this.localCache[key];
+    }
+  };
+  BrowserLocalPersistence.type = "LOCAL";
+  var browserLocalPersistence = BrowserLocalPersistence;
+  var POLLING_INTERVAL_MS = 1e3;
+  function getDocumentCookie(name4) {
+    const escapedName = name4.replace(/[\\^$.*+?()[\]{}|]/g, "\\$&");
+    const matcher = RegExp(`${escapedName}=([^;]+)`);
+    return document.cookie.match(matcher)?.[1] ?? null;
+  }
+  function getCookieName(key) {
+    const isDevMode = window.location.protocol === "http:";
+    return `${isDevMode ? "__dev_" : "__HOST-"}FIREBASE_${key.split(":")[3]}`;
+  }
+  var CookiePersistence = class {
+    constructor() {
+      this.type = "COOKIE";
+      this.listenerUnsubscribes = /* @__PURE__ */ new Map();
+    }
+    // used to get the URL to the backend to proxy to
+    _getFinalTarget(originalUrl) {
+      if (typeof window === void 0) {
+        return originalUrl;
+      }
+      const url2 = new URL(`${window.location.origin}/__cookies__`);
+      url2.searchParams.set("finalTarget", originalUrl);
+      return url2;
+    }
+    // To be a usable persistence method in a chain browserCookiePersistence ensures that
+    // prerequisites have been met, namely that we're in a secureContext, navigator and document are
+    // available and cookies are enabled. Not all UAs support these method, so fallback accordingly.
+    async _isAvailable() {
+      if (typeof isSecureContext === "boolean" && !isSecureContext) {
+        return false;
+      }
+      if (typeof navigator === "undefined" || typeof document === "undefined") {
+        return false;
+      }
+      return navigator.cookieEnabled ?? true;
+    }
+    // Set should be a noop as we expect middleware to handle this
+    async _set(_key, _value) {
+      return;
+    }
+    // Attempt to get the cookie from cookieStore, fallback to document.cookie
+    async _get(key) {
+      if (!this._isAvailable()) {
+        return null;
+      }
+      const name4 = getCookieName(key);
+      if (window.cookieStore) {
+        const cookie = await window.cookieStore.get(name4);
+        return cookie?.value;
+      }
+      return getDocumentCookie(name4);
+    }
+    // Log out by overriding the idToken with a sentinel value of ""
+    async _remove(key) {
+      if (!this._isAvailable()) {
+        return;
+      }
+      const existingValue = await this._get(key);
+      if (!existingValue) {
+        return;
+      }
+      const name4 = getCookieName(key);
+      document.cookie = `${name4}=;Max-Age=34560000;Partitioned;Secure;SameSite=Strict;Path=/;Priority=High`;
+      await fetch(`/__cookies__`, { method: "DELETE" }).catch(() => void 0);
+    }
+    // Listen for cookie changes, both cookieStore and fallback to polling document.cookie
+    _addListener(key, listener) {
+      if (!this._isAvailable()) {
+        return;
+      }
+      const name4 = getCookieName(key);
+      if (window.cookieStore) {
+        const cb = ((event) => {
+          const changedCookie = event.changed.find((change) => change.name === name4);
+          if (changedCookie) {
+            listener(changedCookie.value);
+          }
+          const deletedCookie = event.deleted.find((change) => change.name === name4);
+          if (deletedCookie) {
+            listener(null);
+          }
+        });
+        const unsubscribe2 = () => window.cookieStore.removeEventListener("change", cb);
+        this.listenerUnsubscribes.set(listener, unsubscribe2);
+        return window.cookieStore.addEventListener("change", cb);
+      }
+      let lastValue = getDocumentCookie(name4);
+      const interval = setInterval(() => {
+        const currentValue = getDocumentCookie(name4);
+        if (currentValue !== lastValue) {
+          listener(currentValue);
+          lastValue = currentValue;
+        }
+      }, POLLING_INTERVAL_MS);
+      const unsubscribe = () => clearInterval(interval);
+      this.listenerUnsubscribes.set(listener, unsubscribe);
+    }
+    _removeListener(_key, listener) {
+      const unsubscribe = this.listenerUnsubscribes.get(listener);
+      if (!unsubscribe) {
+        return;
+      }
+      unsubscribe();
+      this.listenerUnsubscribes.delete(listener);
+    }
+  };
+  CookiePersistence.type = "COOKIE";
+  var BrowserSessionPersistence = class extends BrowserPersistenceClass {
+    constructor() {
+      super(
+        () => window.sessionStorage,
+        "SESSION"
+        /* PersistenceType.SESSION */
+      );
+    }
+    _addListener(_key, _listener) {
+      return;
+    }
+    _removeListener(_key, _listener) {
+      return;
+    }
+  };
+  BrowserSessionPersistence.type = "SESSION";
+  var browserSessionPersistence = BrowserSessionPersistence;
+  function _allSettled(promises) {
+    return Promise.all(promises.map(async (promise) => {
+      try {
+        const value2 = await promise;
+        return {
+          fulfilled: true,
+          value: value2
+        };
+      } catch (reason) {
+        return {
+          fulfilled: false,
+          reason
+        };
+      }
+    }));
+  }
+  var Receiver = class _Receiver {
+    constructor(eventTarget) {
+      this.eventTarget = eventTarget;
+      this.handlersMap = {};
+      this.boundEventHandler = this.handleEvent.bind(this);
+    }
+    /**
+     * Obtain an instance of a Receiver for a given event target, if none exists it will be created.
+     *
+     * @param eventTarget - An event target (such as window or self) through which the underlying
+     * messages will be received.
+     */
+    static _getInstance(eventTarget) {
+      const existingInstance = this.receivers.find((receiver) => receiver.isListeningto(eventTarget));
+      if (existingInstance) {
+        return existingInstance;
+      }
+      const newInstance = new _Receiver(eventTarget);
+      this.receivers.push(newInstance);
+      return newInstance;
+    }
+    isListeningto(eventTarget) {
+      return this.eventTarget === eventTarget;
+    }
+    /**
+     * Fans out a MessageEvent to the appropriate listeners.
+     *
+     * @remarks
+     * Sends an {@link Status.ACK} upon receipt and a {@link Status.DONE} once all handlers have
+     * finished processing.
+     *
+     * @param event - The MessageEvent.
+     *
+     */
+    async handleEvent(event) {
+      const messageEvent = event;
+      const { eventId, eventType, data: data2 } = messageEvent.data;
+      const handlers = this.handlersMap[eventType];
+      if (!handlers?.size) {
+        return;
+      }
+      messageEvent.ports[0].postMessage({
+        status: "ack",
+        eventId,
+        eventType
+      });
+      const promises = Array.from(handlers).map(async (handler) => handler(messageEvent.origin, data2));
+      const response = await _allSettled(promises);
+      messageEvent.ports[0].postMessage({
+        status: "done",
+        eventId,
+        eventType,
+        response
+      });
+    }
+    /**
+     * Subscribe an event handler for a particular event.
+     *
+     * @param eventType - Event name to subscribe to.
+     * @param eventHandler - The event handler which should receive the events.
+     *
+     */
+    _subscribe(eventType, eventHandler) {
+      if (Object.keys(this.handlersMap).length === 0) {
+        this.eventTarget.addEventListener("message", this.boundEventHandler);
+      }
+      if (!this.handlersMap[eventType]) {
+        this.handlersMap[eventType] = /* @__PURE__ */ new Set();
+      }
+      this.handlersMap[eventType].add(eventHandler);
+    }
+    /**
+     * Unsubscribe an event handler from a particular event.
+     *
+     * @param eventType - Event name to unsubscribe from.
+     * @param eventHandler - Optional event handler, if none provided, unsubscribe all handlers on this event.
+     *
+     */
+    _unsubscribe(eventType, eventHandler) {
+      if (this.handlersMap[eventType] && eventHandler) {
+        this.handlersMap[eventType].delete(eventHandler);
+      }
+      if (!eventHandler || this.handlersMap[eventType].size === 0) {
+        delete this.handlersMap[eventType];
+      }
+      if (Object.keys(this.handlersMap).length === 0) {
+        this.eventTarget.removeEventListener("message", this.boundEventHandler);
+      }
+    }
+  };
+  Receiver.receivers = [];
+  function _generateEventId(prefix = "", digits = 10) {
+    let random = "";
+    for (let i = 0; i < digits; i++) {
+      random += Math.floor(Math.random() * 10);
+    }
+    return prefix + random;
+  }
+  var Sender = class {
+    constructor(target) {
+      this.target = target;
+      this.handlers = /* @__PURE__ */ new Set();
+    }
+    /**
+     * Unsubscribe the handler and remove it from our tracking Set.
+     *
+     * @param handler - The handler to unsubscribe.
+     */
+    removeMessageHandler(handler) {
+      if (handler.messageChannel) {
+        handler.messageChannel.port1.removeEventListener("message", handler.onMessage);
+        handler.messageChannel.port1.close();
+      }
+      this.handlers.delete(handler);
+    }
+    /**
+     * Send a message to the Receiver located at {@link target}.
+     *
+     * @remarks
+     * We'll first wait a bit for an ACK , if we get one we will wait significantly longer until the
+     * receiver has had a chance to fully process the event.
+     *
+     * @param eventType - Type of event to send.
+     * @param data - The payload of the event.
+     * @param timeout - Timeout for waiting on an ACK from the receiver.
+     *
+     * @returns An array of settled promises from all the handlers that were listening on the receiver.
+     */
+    async _send(eventType, data2, timeout = 50) {
+      const messageChannel = typeof MessageChannel !== "undefined" ? new MessageChannel() : null;
+      if (!messageChannel) {
+        throw new Error(
+          "connection_unavailable"
+          /* _MessageError.CONNECTION_UNAVAILABLE */
+        );
+      }
+      let completionTimer;
+      let handler;
+      return new Promise((resolve, reject) => {
+        const eventId = _generateEventId("", 20);
+        messageChannel.port1.start();
+        const ackTimer = setTimeout(() => {
+          reject(new Error(
+            "unsupported_event"
+            /* _MessageError.UNSUPPORTED_EVENT */
+          ));
+        }, timeout);
+        handler = {
+          messageChannel,
+          onMessage(event) {
+            const messageEvent = event;
+            if (messageEvent.data.eventId !== eventId) {
+              return;
+            }
+            switch (messageEvent.data.status) {
+              case "ack":
+                clearTimeout(ackTimer);
+                completionTimer = setTimeout(
+                  () => {
+                    reject(new Error(
+                      "timeout"
+                      /* _MessageError.TIMEOUT */
+                    ));
+                  },
+                  3e3
+                  /* _TimeoutDuration.COMPLETION */
+                );
+                break;
+              case "done":
+                clearTimeout(completionTimer);
+                resolve(messageEvent.data.response);
+                break;
+              default:
+                clearTimeout(ackTimer);
+                clearTimeout(completionTimer);
+                reject(new Error(
+                  "invalid_response"
+                  /* _MessageError.INVALID_RESPONSE */
+                ));
+                break;
+            }
+          }
+        };
+        this.handlers.add(handler);
+        messageChannel.port1.addEventListener("message", handler.onMessage);
+        this.target.postMessage({
+          eventType,
+          eventId,
+          data: data2
+        }, [messageChannel.port2]);
+      }).finally(() => {
+        if (handler) {
+          this.removeMessageHandler(handler);
+        }
+      });
+    }
+  };
+  function _window() {
+    return window;
+  }
+  function _setWindowLocation(url2) {
+    _window().location.href = url2;
+  }
+  function _isWorker() {
+    return typeof _window()["WorkerGlobalScope"] !== "undefined" && typeof _window()["importScripts"] === "function";
+  }
+  async function _getActiveServiceWorker() {
+    if (!navigator?.serviceWorker) {
+      return null;
+    }
+    try {
+      const registration = await navigator.serviceWorker.ready;
+      return registration.active;
+    } catch {
+      return null;
+    }
+  }
+  function _getServiceWorkerController() {
+    return navigator?.serviceWorker?.controller || null;
+  }
+  function _getWorkerGlobalScope() {
+    return _isWorker() ? self : null;
+  }
+  var DB_NAME2 = "firebaseLocalStorageDb";
+  var DB_VERSION2 = 1;
+  var DB_OBJECTSTORE_NAME = "firebaseLocalStorage";
+  var DB_DATA_KEYPATH = "fbase_key";
+  var DBPromise = class {
+    constructor(request2) {
+      this.request = request2;
+    }
+    toPromise() {
+      return new Promise((resolve, reject) => {
+        this.request.addEventListener("success", () => {
+          resolve(this.request.result);
+        });
+        this.request.addEventListener("error", () => {
+          reject(this.request.error);
+        });
+      });
+    }
+  };
+  function getObjectStore(db, isReadWrite) {
+    return db.transaction([DB_OBJECTSTORE_NAME], isReadWrite ? "readwrite" : "readonly").objectStore(DB_OBJECTSTORE_NAME);
+  }
+  function _deleteDatabase() {
+    const request2 = indexedDB.deleteDatabase(DB_NAME2);
+    return new DBPromise(request2).toPromise();
+  }
+  function _openDatabase() {
+    const request2 = indexedDB.open(DB_NAME2, DB_VERSION2);
+    return new Promise((resolve, reject) => {
+      request2.addEventListener("error", () => {
+        reject(request2.error);
+      });
+      request2.addEventListener("upgradeneeded", () => {
+        const db = request2.result;
+        try {
+          db.createObjectStore(DB_OBJECTSTORE_NAME, { keyPath: DB_DATA_KEYPATH });
+        } catch (e) {
+          reject(e);
+        }
+      });
+      request2.addEventListener("success", async () => {
+        const db = request2.result;
+        if (!db.objectStoreNames.contains(DB_OBJECTSTORE_NAME)) {
+          db.close();
+          await _deleteDatabase();
+          resolve(await _openDatabase());
+        } else {
+          resolve(db);
+        }
+      });
+    });
+  }
+  async function _putObject(db, key, value2) {
+    const request2 = getObjectStore(db, true).put({
+      [DB_DATA_KEYPATH]: key,
+      value: value2
+    });
+    return new DBPromise(request2).toPromise();
+  }
+  async function getObject(db, key) {
+    const request2 = getObjectStore(db, false).get(key);
+    const data2 = await new DBPromise(request2).toPromise();
+    return data2 === void 0 ? null : data2.value;
+  }
+  function _deleteObject(db, key) {
+    const request2 = getObjectStore(db, true).delete(key);
+    return new DBPromise(request2).toPromise();
+  }
+  var _POLLING_INTERVAL_MS = 800;
+  var _TRANSACTION_RETRY_COUNT = 3;
+  var IndexedDBLocalPersistence = class {
+    registerLifecycleListeners() {
+      if (typeof window !== "undefined" && typeof window.addEventListener === "function") {
+        window.addEventListener("pagehide", this.onPageHide);
+        window.addEventListener("pageshow", this.onPageShow);
+      }
+    }
+    unregisterLifecycleListeners() {
+      if (typeof window !== "undefined" && typeof window.removeEventListener === "function") {
+        window.removeEventListener("pagehide", this.onPageHide);
+        window.removeEventListener("pageshow", this.onPageShow);
+      }
+    }
+    constructor() {
+      this.type = "LOCAL";
+      this.dbPromise = null;
+      this._shouldAllowMigration = true;
+      this.listeners = {};
+      this.localCache = {};
+      this.pollTimer = null;
+      this.isClosing = false;
+      this.pendingWrites = 0;
+      this.receiver = null;
+      this.sender = null;
+      this.serviceWorkerReceiverAvailable = false;
+      this.activeServiceWorker = null;
+      this.onPageHide = () => {
+        this.isClosing = true;
+        this.stopPolling();
+        if (this.dbPromise) {
+          this.dbPromise.then((db) => db.close()).catch(() => {
+          });
+          this.dbPromise = null;
+        }
+      };
+      this.onPageShow = () => {
+        if (this.isClosing) {
+          this.isClosing = false;
+          if (Object.keys(this.listeners).length > 0) {
+            this.startPolling();
+          }
+        }
+      };
+      this._workerInitializationPromise = this.initializeServiceWorkerMessaging().then(() => {
+      }, () => {
+      });
+    }
+    async _openDb() {
+      if (this.dbPromise) {
+        return this.dbPromise;
+      }
+      this.dbPromise = _openDatabase();
+      this.dbPromise.catch(() => {
+        this.dbPromise = null;
+      });
+      return this.dbPromise;
+    }
+    async _withRetries(op) {
+      let numAttempts = 0;
+      while (true) {
+        try {
+          const db = await this._openDb();
+          return await op(db);
+        } catch (e) {
+          if (numAttempts++ > _TRANSACTION_RETRY_COUNT) {
+            throw e;
+          }
+          if (this.dbPromise) {
+            const dbPromise2 = this.dbPromise;
+            this.dbPromise = null;
+            try {
+              const db = await dbPromise2;
+              db.close();
+            } catch {
+            }
+          }
+        }
+      }
+    }
+    /**
+     * IndexedDB events do not propagate from the main window to the worker context.  We rely on a
+     * postMessage interface to send these events to the worker ourselves.
+     */
+    async initializeServiceWorkerMessaging() {
+      return _isWorker() ? this.initializeReceiver() : this.initializeSender();
+    }
+    /**
+     * As the worker we should listen to events from the main window.
+     */
+    async initializeReceiver() {
+      this.receiver = Receiver._getInstance(_getWorkerGlobalScope());
+      this.receiver._subscribe("keyChanged", async (_origin, data2) => {
+        const keys = await this._poll();
+        return {
+          keyProcessed: keys.includes(data2.key)
+        };
+      });
+      this.receiver._subscribe("ping", async (_origin, _data) => {
+        return [
+          "keyChanged"
+          /* _EventType.KEY_CHANGED */
+        ];
+      });
+    }
+    /**
+     * As the main window, we should let the worker know when keys change (set and remove).
+     *
+     * @remarks
+     * {@link https://developer.mozilla.org/en-US/docs/Web/API/ServiceWorkerContainer/ready | ServiceWorkerContainer.ready}
+     * may not resolve.
+     */
+    async initializeSender() {
+      this.activeServiceWorker = await _getActiveServiceWorker();
+      if (!this.activeServiceWorker) {
+        return;
+      }
+      this.sender = new Sender(this.activeServiceWorker);
+      const results = await this.sender._send(
+        "ping",
+        {},
+        800
+        /* _TimeoutDuration.LONG_ACK */
+      );
+      if (!results) {
+        return;
+      }
+      if (results[0]?.fulfilled && results[0]?.value.includes(
+        "keyChanged"
+        /* _EventType.KEY_CHANGED */
+      )) {
+        this.serviceWorkerReceiverAvailable = true;
+      }
+    }
+    /**
+     * Let the worker know about a changed key, the exact key doesn't technically matter since the
+     * worker will just trigger a full sync anyway.
+     *
+     * @remarks
+     * For now, we only support one service worker per page.
+     *
+     * @param key - Storage key which changed.
+     */
+    async notifyServiceWorker(key) {
+      if (!this.sender || !this.activeServiceWorker || _getServiceWorkerController() !== this.activeServiceWorker) {
+        return;
+      }
+      try {
+        await this.sender._send(
+          "keyChanged",
+          { key },
+          // Use long timeout if receiver has previously responded to a ping from us.
+          this.serviceWorkerReceiverAvailable ? 800 : 50
+          /* _TimeoutDuration.ACK */
+        );
+      } catch {
+      }
+    }
+    async _isAvailable() {
+      try {
+        if (!indexedDB) {
+          return false;
+        }
+        await this._withRetries(async (db) => {
+          await _putObject(db, STORAGE_AVAILABLE_KEY, "1");
+          await _deleteObject(db, STORAGE_AVAILABLE_KEY);
+        });
+        return true;
+      } catch {
+      }
+      return false;
+    }
+    async _withPendingWrite(write) {
+      this.pendingWrites++;
+      try {
+        await write();
+      } finally {
+        this.pendingWrites--;
+      }
+    }
+    async _set(key, value2) {
+      return this._withPendingWrite(async () => {
+        await this._withRetries((db) => _putObject(db, key, value2));
+        this.localCache[key] = value2;
+        return this.notifyServiceWorker(key);
+      });
+    }
+    async _get(key) {
+      const obj = await this._withRetries((db) => getObject(db, key));
+      this.localCache[key] = obj;
+      return obj;
+    }
+    async _remove(key) {
+      return this._withPendingWrite(async () => {
+        await this._withRetries((db) => _deleteObject(db, key));
+        delete this.localCache[key];
+        return this.notifyServiceWorker(key);
+      });
+    }
+    async _poll() {
+      if (this.isClosing) {
+        return [];
+      }
+      try {
+        const result = await this._withRetries((db) => {
+          const getAllRequest = getObjectStore(db, false).getAll();
+          return new DBPromise(getAllRequest).toPromise();
+        });
+        if (this.isClosing) {
+          return [];
+        }
+        if (!result) {
+          return [];
+        }
+        if (this.pendingWrites !== 0) {
+          return [];
+        }
+        const keys = [];
+        const keysInResult = /* @__PURE__ */ new Set();
+        if (result.length !== 0) {
+          for (const { fbase_key: key, value: value2 } of result) {
+            keysInResult.add(key);
+            if (JSON.stringify(this.localCache[key]) !== JSON.stringify(value2)) {
+              this.notifyListeners(key, value2);
+              keys.push(key);
+            }
+          }
+        }
+        for (const localKey of Object.keys(this.localCache)) {
+          if (this.localCache[localKey] && !keysInResult.has(localKey)) {
+            this.notifyListeners(localKey, null);
+            keys.push(localKey);
+          }
+        }
+        return keys;
+      } catch (e) {
+        if (!this.isClosing) {
+          _logWarn(`Firebase Auth cross-tab polling failed with error: ${e}`);
+        }
+        return [];
+      }
+    }
+    notifyListeners(key, newValue) {
+      this.localCache[key] = newValue;
+      const listeners = this.listeners[key];
+      if (listeners) {
+        for (const listener of Array.from(listeners)) {
+          listener(newValue);
+        }
+      }
+    }
+    startPolling() {
+      this.stopPolling();
+      this.pollTimer = setInterval(async () => this._poll(), _POLLING_INTERVAL_MS);
+    }
+    stopPolling() {
+      if (this.pollTimer) {
+        clearInterval(this.pollTimer);
+        this.pollTimer = null;
+      }
+    }
+    _addListener(key, listener) {
+      if (Object.keys(this.listeners).length === 0) {
+        this.startPolling();
+        this.registerLifecycleListeners();
+      }
+      if (!this.listeners[key]) {
+        this.listeners[key] = /* @__PURE__ */ new Set();
+        void this._get(key);
+      }
+      this.listeners[key].add(listener);
+    }
+    _removeListener(key, listener) {
+      if (this.listeners[key]) {
+        this.listeners[key].delete(listener);
+        if (this.listeners[key].size === 0) {
+          delete this.listeners[key];
+        }
+      }
+      if (Object.keys(this.listeners).length === 0) {
+        this.stopPolling();
+        this.unregisterLifecycleListeners();
+      }
+    }
+  };
+  IndexedDBLocalPersistence.type = "LOCAL";
+  var indexedDBLocalPersistence = IndexedDBLocalPersistence;
+  function startSignInPhoneMfa(auth, request2) {
+    return _performApiRequest(auth, "POST", "/v2/accounts/mfaSignIn:start", _addTidIfNecessary(auth, request2));
+  }
+  function finalizeSignInPhoneMfa(auth, request2) {
+    return _performApiRequest(auth, "POST", "/v2/accounts/mfaSignIn:finalize", _addTidIfNecessary(auth, request2));
+  }
+  function finalizeSignInTotpMfa(auth, request2) {
+    return _performApiRequest(auth, "POST", "/v2/accounts/mfaSignIn:finalize", _addTidIfNecessary(auth, request2));
+  }
+  var _JSLOAD_CALLBACK = _generateCallbackName("rcb");
+  var NETWORK_TIMEOUT_DELAY = new Delay(3e4, 6e4);
+  var RECAPTCHA_VERIFIER_TYPE = "recaptcha";
+  async function _verifyPhoneNumber(auth, options, verifier) {
+    if (!auth._getRecaptchaConfig()) {
+      try {
+        await _initializeRecaptchaConfig(auth);
+      } catch (error) {
+        console.log("Failed to initialize reCAPTCHA Enterprise config. Triggering the reCAPTCHA v2 verification.");
+      }
+    }
+    try {
+      let phoneInfoOptions;
+      if (typeof options === "string") {
+        phoneInfoOptions = {
+          phoneNumber: options
+        };
+      } else {
+        phoneInfoOptions = options;
+      }
+      if ("session" in phoneInfoOptions) {
+        const session = phoneInfoOptions.session;
+        if ("phoneNumber" in phoneInfoOptions) {
+          _assert(
+            session.type === "enroll",
+            auth,
+            "internal-error"
+            /* AuthErrorCode.INTERNAL_ERROR */
+          );
+          const startPhoneMfaEnrollmentRequest = {
+            idToken: session.credential,
+            phoneEnrollmentInfo: {
+              phoneNumber: phoneInfoOptions.phoneNumber,
+              clientType: "CLIENT_TYPE_WEB"
+              /* RecaptchaClientType.WEB */
+            }
+          };
+          const startEnrollPhoneMfaActionCallback = async (authInstance, request2) => {
+            if (request2.phoneEnrollmentInfo.captchaResponse === FAKE_TOKEN) {
+              _assert(
+                verifier?.type === RECAPTCHA_VERIFIER_TYPE,
+                authInstance,
+                "argument-error"
+                /* AuthErrorCode.ARGUMENT_ERROR */
+              );
+              const requestWithRecaptchaV2 = await injectRecaptchaV2Token(authInstance, request2, verifier);
+              return startEnrollPhoneMfa(authInstance, requestWithRecaptchaV2);
+            }
+            return startEnrollPhoneMfa(authInstance, request2);
+          };
+          const startPhoneMfaEnrollmentResponse = handleRecaptchaFlow(
+            auth,
+            startPhoneMfaEnrollmentRequest,
+            "mfaSmsEnrollment",
+            startEnrollPhoneMfaActionCallback,
+            "PHONE_PROVIDER"
+            /* RecaptchaAuthProvider.PHONE_PROVIDER */
+          );
+          const response = await startPhoneMfaEnrollmentResponse.catch((error) => {
+            return Promise.reject(error);
+          });
+          return response.phoneSessionInfo.sessionInfo;
+        } else {
+          _assert(
+            session.type === "signin",
+            auth,
+            "internal-error"
+            /* AuthErrorCode.INTERNAL_ERROR */
+          );
+          const mfaEnrollmentId = phoneInfoOptions.multiFactorHint?.uid || phoneInfoOptions.multiFactorUid;
+          _assert(
+            mfaEnrollmentId,
+            auth,
+            "missing-multi-factor-info"
+            /* AuthErrorCode.MISSING_MFA_INFO */
+          );
+          const startPhoneMfaSignInRequest = {
+            mfaPendingCredential: session.credential,
+            mfaEnrollmentId,
+            phoneSignInInfo: {
+              clientType: "CLIENT_TYPE_WEB"
+              /* RecaptchaClientType.WEB */
+            }
+          };
+          const startSignInPhoneMfaActionCallback = async (authInstance, request2) => {
+            if (request2.phoneSignInInfo.captchaResponse === FAKE_TOKEN) {
+              _assert(
+                verifier?.type === RECAPTCHA_VERIFIER_TYPE,
+                authInstance,
+                "argument-error"
+                /* AuthErrorCode.ARGUMENT_ERROR */
+              );
+              const requestWithRecaptchaV2 = await injectRecaptchaV2Token(authInstance, request2, verifier);
+              return startSignInPhoneMfa(authInstance, requestWithRecaptchaV2);
+            }
+            return startSignInPhoneMfa(authInstance, request2);
+          };
+          const startPhoneMfaSignInResponse = handleRecaptchaFlow(
+            auth,
+            startPhoneMfaSignInRequest,
+            "mfaSmsSignIn",
+            startSignInPhoneMfaActionCallback,
+            "PHONE_PROVIDER"
+            /* RecaptchaAuthProvider.PHONE_PROVIDER */
+          );
+          const response = await startPhoneMfaSignInResponse.catch((error) => {
+            return Promise.reject(error);
+          });
+          return response.phoneResponseInfo.sessionInfo;
+        }
+      } else {
+        const sendPhoneVerificationCodeRequest = {
+          phoneNumber: phoneInfoOptions.phoneNumber,
+          clientType: "CLIENT_TYPE_WEB"
+          /* RecaptchaClientType.WEB */
+        };
+        const sendPhoneVerificationCodeActionCallback = async (authInstance, request2) => {
+          if (request2.captchaResponse === FAKE_TOKEN) {
+            _assert(
+              verifier?.type === RECAPTCHA_VERIFIER_TYPE,
+              authInstance,
+              "argument-error"
+              /* AuthErrorCode.ARGUMENT_ERROR */
+            );
+            const requestWithRecaptchaV2 = await injectRecaptchaV2Token(authInstance, request2, verifier);
+            return sendPhoneVerificationCode(authInstance, requestWithRecaptchaV2);
+          }
+          return sendPhoneVerificationCode(authInstance, request2);
+        };
+        const sendPhoneVerificationCodeResponse = handleRecaptchaFlow(
+          auth,
+          sendPhoneVerificationCodeRequest,
+          "sendVerificationCode",
+          sendPhoneVerificationCodeActionCallback,
+          "PHONE_PROVIDER"
+          /* RecaptchaAuthProvider.PHONE_PROVIDER */
+        );
+        const response = await sendPhoneVerificationCodeResponse.catch((error) => {
+          return Promise.reject(error);
+        });
+        return response.sessionInfo;
+      }
+    } finally {
+      verifier?._reset();
+    }
+  }
+  async function injectRecaptchaV2Token(auth, request2, recaptchaV2Verifier) {
+    _assert(
+      recaptchaV2Verifier.type === RECAPTCHA_VERIFIER_TYPE,
+      auth,
+      "argument-error"
+      /* AuthErrorCode.ARGUMENT_ERROR */
+    );
+    const recaptchaV2Token = await recaptchaV2Verifier.verify();
+    _assert(
+      typeof recaptchaV2Token === "string",
+      auth,
+      "argument-error"
+      /* AuthErrorCode.ARGUMENT_ERROR */
+    );
+    const newRequest2 = { ...request2 };
+    if ("phoneEnrollmentInfo" in newRequest2) {
+      const phoneNumber = newRequest2.phoneEnrollmentInfo.phoneNumber;
+      const captchaResponse = newRequest2.phoneEnrollmentInfo.captchaResponse;
+      const clientType = newRequest2.phoneEnrollmentInfo.clientType;
+      const recaptchaVersion = newRequest2.phoneEnrollmentInfo.recaptchaVersion;
+      Object.assign(newRequest2, {
+        "phoneEnrollmentInfo": {
+          phoneNumber,
+          recaptchaToken: recaptchaV2Token,
+          captchaResponse,
+          clientType,
+          recaptchaVersion
+        }
+      });
+      return newRequest2;
+    } else if ("phoneSignInInfo" in newRequest2) {
+      const captchaResponse = newRequest2.phoneSignInInfo.captchaResponse;
+      const clientType = newRequest2.phoneSignInInfo.clientType;
+      const recaptchaVersion = newRequest2.phoneSignInInfo.recaptchaVersion;
+      Object.assign(newRequest2, {
+        "phoneSignInInfo": {
+          recaptchaToken: recaptchaV2Token,
+          captchaResponse,
+          clientType,
+          recaptchaVersion
+        }
+      });
+      return newRequest2;
+    } else {
+      Object.assign(newRequest2, { "recaptchaToken": recaptchaV2Token });
+      return newRequest2;
+    }
+  }
+  var PhoneAuthProvider = class _PhoneAuthProvider {
+    /**
+     * @param auth - The Firebase {@link Auth} instance in which sign-ins should occur.
+     *
+     */
+    constructor(auth) {
+      this.providerId = _PhoneAuthProvider.PROVIDER_ID;
+      this.auth = _castAuth(auth);
+    }
+    /**
+     *
+     * Starts a phone number authentication flow by sending a verification code to the given phone
+     * number.
+     *
+     * @example
+     * ```javascript
+     * const provider = new PhoneAuthProvider(auth);
+     * const verificationId = await provider.verifyPhoneNumber(phoneNumber, applicationVerifier);
+     * // Obtain verificationCode from the user.
+     * const authCredential = PhoneAuthProvider.credential(verificationId, verificationCode);
+     * const userCredential = await signInWithCredential(auth, authCredential);
+     * ```
+     *
+     * @example
+     * An alternative flow is provided using the `signInWithPhoneNumber` method.
+     * ```javascript
+     * const confirmationResult = signInWithPhoneNumber(auth, phoneNumber, applicationVerifier);
+     * // Obtain verificationCode from the user.
+     * const userCredential = confirmationResult.confirm(verificationCode);
+     * ```
+     *
+     * @param phoneInfoOptions - The user's {@link PhoneInfoOptions}. The phone number should be in
+     * E.164 format (e.g. +16505550101).
+     * @param applicationVerifier - An {@link ApplicationVerifier}, which prevents
+     * requests from unauthorized clients. This SDK includes an implementation
+     * based on reCAPTCHA v2, {@link RecaptchaVerifier}. If you've enabled
+     * reCAPTCHA Enterprise bot protection in Enforce mode, this parameter is
+     * optional; in all other configurations, the parameter is required.
+     *
+     * @returns A Promise for a verification ID that can be passed to
+     * {@link PhoneAuthProvider.credential} to identify this flow.
+     */
+    verifyPhoneNumber(phoneOptions, applicationVerifier) {
+      return _verifyPhoneNumber(this.auth, phoneOptions, getModularInstance(applicationVerifier));
+    }
+    /**
+     * Creates a phone auth credential, given the verification ID from
+     * {@link PhoneAuthProvider.verifyPhoneNumber} and the code that was sent to the user's
+     * mobile device.
+     *
+     * @example
+     * ```javascript
+     * const provider = new PhoneAuthProvider(auth);
+     * const verificationId = provider.verifyPhoneNumber(phoneNumber, applicationVerifier);
+     * // Obtain verificationCode from the user.
+     * const authCredential = PhoneAuthProvider.credential(verificationId, verificationCode);
+     * const userCredential = signInWithCredential(auth, authCredential);
+     * ```
+     *
+     * @example
+     * An alternative flow is provided using the `signInWithPhoneNumber` method.
+     * ```javascript
+     * const confirmationResult = await signInWithPhoneNumber(auth, phoneNumber, applicationVerifier);
+     * // Obtain verificationCode from the user.
+     * const userCredential = await confirmationResult.confirm(verificationCode);
+     * ```
+     *
+     * @param verificationId - The verification ID returned from {@link PhoneAuthProvider.verifyPhoneNumber}.
+     * @param verificationCode - The verification code sent to the user's mobile device.
+     *
+     * @returns The auth provider credential.
+     */
+    static credential(verificationId, verificationCode) {
+      return PhoneAuthCredential._fromVerification(verificationId, verificationCode);
+    }
+    /**
+     * Generates an {@link AuthCredential} from a {@link UserCredential}.
+     * @param userCredential - The user credential.
+     */
+    static credentialFromResult(userCredential) {
+      const credential = userCredential;
+      return _PhoneAuthProvider.credentialFromTaggedObject(credential);
+    }
+    /**
+     * Returns an {@link AuthCredential} when passed an error.
+     *
+     * @remarks
+     *
+     * This method works for errors like
+     * `auth/account-exists-with-different-credentials`. This is useful for
+     * recovering when attempting to set a user's phone number but the number
+     * in question is already tied to another account. For example, the following
+     * code tries to update the current user's phone number, and if that
+     * fails, links the user with the account associated with that number:
+     *
+     * ```js
+     * const provider = new PhoneAuthProvider(auth);
+     * const verificationId = await provider.verifyPhoneNumber(number, verifier);
+     * try {
+     *   const code = ''; // Prompt the user for the verification code
+     *   await updatePhoneNumber(
+     *       auth.currentUser,
+     *       PhoneAuthProvider.credential(verificationId, code));
+     * } catch (e) {
+     *   if ((e as FirebaseError)?.code === 'auth/account-exists-with-different-credential') {
+     *     const cred = PhoneAuthProvider.credentialFromError(e);
+     *     await linkWithCredential(auth.currentUser, cred);
+     *   }
+     * }
+     *
+     * // At this point, auth.currentUser.phoneNumber === number.
+     * ```
+     *
+     * @param error - The error to generate a credential from.
+     */
+    static credentialFromError(error) {
+      return _PhoneAuthProvider.credentialFromTaggedObject(error.customData || {});
+    }
+    static credentialFromTaggedObject({ _tokenResponse: tokenResponse }) {
+      if (!tokenResponse) {
+        return null;
+      }
+      const { phoneNumber, temporaryProof } = tokenResponse;
+      if (phoneNumber && temporaryProof) {
+        return PhoneAuthCredential._fromTokenResponse(phoneNumber, temporaryProof);
+      }
+      return null;
+    }
+  };
+  PhoneAuthProvider.PROVIDER_ID = "phone";
+  PhoneAuthProvider.PHONE_SIGN_IN_METHOD = "phone";
+  function _withDefaultResolver(auth, resolverOverride) {
+    if (resolverOverride) {
+      return _getInstance(resolverOverride);
+    }
+    _assert(
+      auth._popupRedirectResolver,
+      auth,
+      "argument-error"
+      /* AuthErrorCode.ARGUMENT_ERROR */
+    );
+    return auth._popupRedirectResolver;
+  }
+  var IdpCredential = class extends AuthCredential {
+    constructor(params) {
+      super(
+        "custom",
+        "custom"
+        /* ProviderId.CUSTOM */
+      );
+      this.params = params;
+    }
+    _getIdTokenResponse(auth) {
+      return signInWithIdp(auth, this._buildIdpRequest());
+    }
+    _linkToIdToken(auth, idToken) {
+      return signInWithIdp(auth, this._buildIdpRequest(idToken));
+    }
+    _getReauthenticationResolver(auth) {
+      return signInWithIdp(auth, this._buildIdpRequest());
+    }
+    _buildIdpRequest(idToken) {
+      const request2 = {
+        requestUri: this.params.requestUri,
+        sessionId: this.params.sessionId,
+        postBody: this.params.postBody,
+        tenantId: this.params.tenantId,
+        pendingToken: this.params.pendingToken,
+        returnSecureToken: true,
+        returnIdpCredential: true
+      };
+      if (idToken) {
+        request2.idToken = idToken;
+      }
+      return request2;
+    }
+  };
+  function _signIn(params) {
+    return _signInWithCredential(params.auth, new IdpCredential(params), params.bypassAuthState);
+  }
+  function _reauth(params) {
+    const { auth, user } = params;
+    _assert(
+      user,
+      auth,
+      "internal-error"
+      /* AuthErrorCode.INTERNAL_ERROR */
+    );
+    return _reauthenticate(user, new IdpCredential(params), params.bypassAuthState);
+  }
+  async function _link(params) {
+    const { auth, user } = params;
+    _assert(
+      user,
+      auth,
+      "internal-error"
+      /* AuthErrorCode.INTERNAL_ERROR */
+    );
+    return _link$1(user, new IdpCredential(params), params.bypassAuthState);
+  }
+  var AbstractPopupRedirectOperation = class {
+    constructor(auth, filter, resolver, user, bypassAuthState = false) {
+      this.auth = auth;
+      this.resolver = resolver;
+      this.user = user;
+      this.bypassAuthState = bypassAuthState;
+      this.pendingPromise = null;
+      this.eventManager = null;
+      this.filter = Array.isArray(filter) ? filter : [filter];
+    }
+    execute() {
+      return new Promise(async (resolve, reject) => {
+        this.pendingPromise = { resolve, reject };
+        try {
+          this.eventManager = await this.resolver._initialize(this.auth);
+          await this.onExecution();
+          this.eventManager.registerConsumer(this);
+        } catch (e) {
+          this.reject(e);
+        }
+      });
+    }
+    async onAuthEvent(event) {
+      const { urlResponse, sessionId, postBody, tenantId, error, type } = event;
+      if (error) {
+        this.reject(error);
+        return;
+      }
+      const params = {
+        auth: this.auth,
+        requestUri: urlResponse,
+        sessionId,
+        tenantId: tenantId || void 0,
+        postBody: postBody || void 0,
+        user: this.user,
+        bypassAuthState: this.bypassAuthState
+      };
+      try {
+        this.resolve(await this.getIdpTask(type)(params));
+      } catch (e) {
+        this.reject(e);
+      }
+    }
+    onError(error) {
+      this.reject(error);
+    }
+    getIdpTask(type) {
+      switch (type) {
+        case "signInViaPopup":
+        case "signInViaRedirect":
+          return _signIn;
+        case "linkViaPopup":
+        case "linkViaRedirect":
+          return _link;
+        case "reauthViaPopup":
+        case "reauthViaRedirect":
+          return _reauth;
+        default:
+          _fail(
+            this.auth,
+            "internal-error"
+            /* AuthErrorCode.INTERNAL_ERROR */
+          );
+      }
+    }
+    resolve(cred) {
+      debugAssert(this.pendingPromise, "Pending promise was never set");
+      this.pendingPromise.resolve(cred);
+      this.unregisterAndCleanUp();
+    }
+    reject(error) {
+      debugAssert(this.pendingPromise, "Pending promise was never set");
+      this.pendingPromise.reject(error);
+      this.unregisterAndCleanUp();
+    }
+    unregisterAndCleanUp() {
+      if (this.eventManager) {
+        this.eventManager.unregisterConsumer(this);
+      }
+      this.pendingPromise = null;
+      this.cleanUp();
+    }
+  };
+  var _POLL_WINDOW_CLOSE_TIMEOUT = new Delay(2e3, 1e4);
+  async function signInWithPopup(auth, provider, resolver) {
+    if (_isFirebaseServerApp(auth.app)) {
+      return Promise.reject(_createError(
+        auth,
+        "operation-not-supported-in-this-environment"
+        /* AuthErrorCode.OPERATION_NOT_SUPPORTED */
+      ));
+    }
+    const authInternal = _castAuth(auth);
+    _assertInstanceOf(auth, provider, FederatedAuthProvider);
+    const resolverInternal = _withDefaultResolver(authInternal, resolver);
+    const action = new PopupOperation(authInternal, "signInViaPopup", provider, resolverInternal);
+    return action.executeNotNull();
+  }
+  var PopupOperation = class _PopupOperation extends AbstractPopupRedirectOperation {
+    constructor(auth, filter, provider, resolver, user) {
+      super(auth, filter, resolver, user);
+      this.provider = provider;
+      this.authWindow = null;
+      this.pollId = null;
+      if (_PopupOperation.currentPopupAction) {
+        _PopupOperation.currentPopupAction.cancel();
+      }
+      _PopupOperation.currentPopupAction = this;
+    }
+    async executeNotNull() {
+      const result = await this.execute();
+      _assert(
+        result,
+        this.auth,
+        "internal-error"
+        /* AuthErrorCode.INTERNAL_ERROR */
+      );
+      return result;
+    }
+    async onExecution() {
+      debugAssert(this.filter.length === 1, "Popup operations only handle one event");
+      const eventId = _generateEventId();
+      this.authWindow = await this.resolver._openPopup(
+        this.auth,
+        this.provider,
+        this.filter[0],
+        // There's always one, see constructor
+        eventId
+      );
+      this.authWindow.associatedEvent = eventId;
+      this.resolver._originValidation(this.auth).catch((e) => {
+        this.reject(e);
+      });
+      this.resolver._isIframeWebStorageSupported(this.auth, (isSupported) => {
+        if (!isSupported) {
+          this.reject(_createError(
+            this.auth,
+            "web-storage-unsupported"
+            /* AuthErrorCode.WEB_STORAGE_UNSUPPORTED */
+          ));
+        }
+      });
+      this.pollUserCancellation();
+    }
+    get eventId() {
+      return this.authWindow?.associatedEvent || null;
+    }
+    cancel() {
+      this.reject(_createError(
+        this.auth,
+        "cancelled-popup-request"
+        /* AuthErrorCode.EXPIRED_POPUP_REQUEST */
+      ));
+    }
+    cleanUp() {
+      if (this.authWindow) {
+        this.authWindow.close();
+      }
+      if (this.pollId) {
+        window.clearTimeout(this.pollId);
+      }
+      this.authWindow = null;
+      this.pollId = null;
+      _PopupOperation.currentPopupAction = null;
+    }
+    pollUserCancellation() {
+      const poll = () => {
+        if (this.authWindow?.window?.closed) {
+          this.pollId = window.setTimeout(
+            () => {
+              this.pollId = null;
+              this.reject(_createError(
+                this.auth,
+                "popup-closed-by-user"
+                /* AuthErrorCode.POPUP_CLOSED_BY_USER */
+              ));
+            },
+            8e3
+            /* _Timeout.AUTH_EVENT */
+          );
+          return;
+        }
+        this.pollId = window.setTimeout(poll, _POLL_WINDOW_CLOSE_TIMEOUT.get());
+      };
+      poll();
+    }
+  };
+  PopupOperation.currentPopupAction = null;
+  var PENDING_REDIRECT_KEY = "pendingRedirect";
+  var redirectOutcomeMap = /* @__PURE__ */ new Map();
+  var RedirectAction = class extends AbstractPopupRedirectOperation {
+    constructor(auth, resolver, bypassAuthState = false) {
+      super(auth, [
+        "signInViaRedirect",
+        "linkViaRedirect",
+        "reauthViaRedirect",
+        "unknown"
+        /* AuthEventType.UNKNOWN */
+      ], resolver, void 0, bypassAuthState);
+      this.eventId = null;
+    }
+    /**
+     * Override the execute function; if we already have a redirect result, then
+     * just return it.
+     */
+    async execute() {
+      let readyOutcome = redirectOutcomeMap.get(this.auth._key());
+      if (!readyOutcome) {
+        try {
+          const hasPendingRedirect = await _getAndClearPendingRedirectStatus(this.resolver, this.auth);
+          const result = hasPendingRedirect ? await super.execute() : null;
+          readyOutcome = () => Promise.resolve(result);
+        } catch (e) {
+          readyOutcome = () => Promise.reject(e);
+        }
+        redirectOutcomeMap.set(this.auth._key(), readyOutcome);
+      }
+      if (!this.bypassAuthState) {
+        redirectOutcomeMap.set(this.auth._key(), () => Promise.resolve(null));
+      }
+      return readyOutcome();
+    }
+    async onAuthEvent(event) {
+      if (event.type === "signInViaRedirect") {
+        return super.onAuthEvent(event);
+      } else if (event.type === "unknown") {
+        this.resolve(null);
+        return;
+      }
+      if (event.eventId) {
+        const user = await this.auth._redirectUserForId(event.eventId);
+        if (user) {
+          this.user = user;
+          return super.onAuthEvent(event);
+        } else {
+          this.resolve(null);
+        }
+      }
+    }
+    async onExecution() {
+    }
+    cleanUp() {
+    }
+  };
+  async function _getAndClearPendingRedirectStatus(resolver, auth) {
+    const key = pendingRedirectKey(auth);
+    const persistence = resolverPersistence(resolver);
+    if (!await persistence._isAvailable()) {
+      return false;
+    }
+    const hasPendingRedirect = await persistence._get(key) === "true";
+    await persistence._remove(key);
+    return hasPendingRedirect;
+  }
+  function _overrideRedirectResult(auth, result) {
+    redirectOutcomeMap.set(auth._key(), result);
+  }
+  function resolverPersistence(resolver) {
+    return _getInstance(resolver._redirectPersistence);
+  }
+  function pendingRedirectKey(auth) {
+    return _persistenceKeyName(PENDING_REDIRECT_KEY, auth.config.apiKey, auth.name);
+  }
+  async function _getRedirectResult(auth, resolverExtern, bypassAuthState = false) {
+    if (_isFirebaseServerApp(auth.app)) {
+      return Promise.reject(_serverAppCurrentUserOperationNotSupportedError(auth));
+    }
+    const authInternal = _castAuth(auth);
+    const resolver = _withDefaultResolver(authInternal, resolverExtern);
+    const action = new RedirectAction(authInternal, resolver, bypassAuthState);
+    const result = await action.execute();
+    if (result && !bypassAuthState) {
+      delete result.user._redirectEventId;
+      await authInternal._persistUserIfCurrent(result.user);
+      await authInternal._setRedirectUser(null, resolverExtern);
+    }
+    return result;
+  }
+  var EVENT_DUPLICATION_CACHE_DURATION_MS = 10 * 60 * 1e3;
+  var AuthEventManager = class {
+    constructor(auth) {
+      this.auth = auth;
+      this.cachedEventUids = /* @__PURE__ */ new Set();
+      this.consumers = /* @__PURE__ */ new Set();
+      this.queuedRedirectEvent = null;
+      this.hasHandledPotentialRedirect = false;
+      this.lastProcessedEventTime = Date.now();
+    }
+    registerConsumer(authEventConsumer) {
+      this.consumers.add(authEventConsumer);
+      if (this.queuedRedirectEvent && this.isEventForConsumer(this.queuedRedirectEvent, authEventConsumer)) {
+        this.sendToConsumer(this.queuedRedirectEvent, authEventConsumer);
+        this.saveEventToCache(this.queuedRedirectEvent);
+        this.queuedRedirectEvent = null;
+      }
+    }
+    unregisterConsumer(authEventConsumer) {
+      this.consumers.delete(authEventConsumer);
+    }
+    onEvent(event) {
+      if (this.hasEventBeenHandled(event)) {
+        return false;
+      }
+      let handled = false;
+      this.consumers.forEach((consumer) => {
+        if (this.isEventForConsumer(event, consumer)) {
+          handled = true;
+          this.sendToConsumer(event, consumer);
+          this.saveEventToCache(event);
+        }
+      });
+      if (this.hasHandledPotentialRedirect || !isRedirectEvent(event)) {
+        return handled;
+      }
+      this.hasHandledPotentialRedirect = true;
+      if (!handled) {
+        this.queuedRedirectEvent = event;
+        handled = true;
+      }
+      return handled;
+    }
+    sendToConsumer(event, consumer) {
+      if (event.error && !isNullRedirectEvent(event)) {
+        const code = event.error.code?.split("auth/")[1] || "internal-error";
+        consumer.onError(_createError(this.auth, code));
+      } else {
+        consumer.onAuthEvent(event);
+      }
+    }
+    isEventForConsumer(event, consumer) {
+      const eventIdMatches = consumer.eventId === null || !!event.eventId && event.eventId === consumer.eventId;
+      return consumer.filter.includes(event.type) && eventIdMatches;
+    }
+    hasEventBeenHandled(event) {
+      if (Date.now() - this.lastProcessedEventTime >= EVENT_DUPLICATION_CACHE_DURATION_MS) {
+        this.cachedEventUids.clear();
+      }
+      return this.cachedEventUids.has(eventUid(event));
+    }
+    saveEventToCache(event) {
+      this.cachedEventUids.add(eventUid(event));
+      this.lastProcessedEventTime = Date.now();
+    }
+  };
+  function eventUid(e) {
+    return [e.type, e.eventId, e.sessionId, e.tenantId].filter((v) => v).join("-");
+  }
+  function isNullRedirectEvent({ type, error }) {
+    return type === "unknown" && error?.code === `auth/${"no-auth-event"}`;
+  }
+  function isRedirectEvent(event) {
+    switch (event.type) {
+      case "signInViaRedirect":
+      case "linkViaRedirect":
+      case "reauthViaRedirect":
+        return true;
+      case "unknown":
+        return isNullRedirectEvent(event);
+      default:
+        return false;
+    }
+  }
+  async function _getProjectConfig(auth, request2 = {}) {
+    return _performApiRequest(auth, "GET", "/v1/projects", request2);
+  }
+  var IP_ADDRESS_REGEX = /^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$/;
+  var HTTP_REGEX = /^https?/;
+  async function _validateOrigin(auth) {
+    if (auth.config.emulator) {
+      return;
+    }
+    const { authorizedDomains } = await _getProjectConfig(auth);
+    for (const domain of authorizedDomains) {
+      try {
+        if (matchDomain(domain)) {
+          return;
+        }
+      } catch {
+      }
+    }
+    _fail(
+      auth,
+      "unauthorized-domain"
+      /* AuthErrorCode.INVALID_ORIGIN */
+    );
+  }
+  function matchDomain(expected) {
+    const currentUrl = _getCurrentUrl();
+    const { protocol: protocol4, hostname } = new URL(currentUrl);
+    if (expected.startsWith("chrome-extension://")) {
+      const ceUrl = new URL(expected);
+      if (ceUrl.hostname === "" && hostname === "") {
+        return protocol4 === "chrome-extension:" && expected.replace("chrome-extension://", "") === currentUrl.replace("chrome-extension://", "");
+      }
+      return protocol4 === "chrome-extension:" && ceUrl.hostname === hostname;
+    }
+    if (!HTTP_REGEX.test(protocol4)) {
+      return false;
+    }
+    if (IP_ADDRESS_REGEX.test(expected)) {
+      return hostname === expected;
+    }
+    const escapedDomainPattern = expected.replace(/\./g, "\\.");
+    const re2 = new RegExp("^(.+\\." + escapedDomainPattern + "|" + escapedDomainPattern + ")$", "i");
+    return re2.test(hostname);
+  }
+  var NETWORK_TIMEOUT = new Delay(3e4, 6e4);
+  function resetUnloadedGapiModules() {
+    const beacon = _window().___jsl;
+    if (beacon?.H) {
+      for (const hint of Object.keys(beacon.H)) {
+        beacon.H[hint].r = beacon.H[hint].r || [];
+        beacon.H[hint].L = beacon.H[hint].L || [];
+        beacon.H[hint].r = [...beacon.H[hint].L];
+        if (beacon.CP) {
+          for (let i = 0; i < beacon.CP.length; i++) {
+            beacon.CP[i] = null;
+          }
+        }
+      }
+    }
+  }
+  function loadGapi(auth) {
+    return new Promise((resolve, reject) => {
+      function loadGapiIframe() {
+        resetUnloadedGapiModules();
+        gapi.load("gapi.iframes", {
+          callback: () => {
+            resolve(gapi.iframes.getContext());
+          },
+          ontimeout: () => {
+            resetUnloadedGapiModules();
+            reject(_createError(
+              auth,
+              "network-request-failed"
+              /* AuthErrorCode.NETWORK_REQUEST_FAILED */
+            ));
+          },
+          timeout: NETWORK_TIMEOUT.get()
+        });
+      }
+      if (_window().gapi?.iframes?.Iframe) {
+        resolve(gapi.iframes.getContext());
+      } else if (!!_window().gapi?.load) {
+        loadGapiIframe();
+      } else {
+        const cbName = _generateCallbackName("iframefcb");
+        _window()[cbName] = () => {
+          if (!!gapi.load) {
+            loadGapiIframe();
+          } else {
+            reject(_createError(
+              auth,
+              "network-request-failed"
+              /* AuthErrorCode.NETWORK_REQUEST_FAILED */
+            ));
+          }
+        };
+        return _loadJS(`${_gapiScriptUrl()}?onload=${cbName}`).catch((e) => reject(e));
+      }
+    }).catch((error) => {
+      cachedGApiLoader = null;
+      throw error;
+    });
+  }
+  var cachedGApiLoader = null;
+  function _loadGapi(auth) {
+    cachedGApiLoader = cachedGApiLoader || loadGapi(auth);
+    return cachedGApiLoader;
+  }
+  var PING_TIMEOUT = new Delay(5e3, 15e3);
+  var IFRAME_PATH = "__/auth/iframe";
+  var EMULATED_IFRAME_PATH = "emulator/auth/iframe";
+  var IFRAME_ATTRIBUTES = {
+    style: {
+      position: "absolute",
+      top: "-100px",
+      width: "1px",
+      height: "1px"
+    },
+    "aria-hidden": "true",
+    tabindex: "-1"
+  };
+  var EID_FROM_APIHOST = /* @__PURE__ */ new Map([
+    ["identitytoolkit.googleapis.com", "p"],
+    // production
+    ["staging-identitytoolkit.sandbox.googleapis.com", "s"],
+    // staging
+    ["test-identitytoolkit.sandbox.googleapis.com", "t"]
+    // test
+  ]);
+  function getIframeUrl(auth) {
+    const config2 = auth.config;
+    _assert(
+      config2.authDomain,
+      auth,
+      "auth-domain-config-required"
+      /* AuthErrorCode.MISSING_AUTH_DOMAIN */
+    );
+    const url2 = config2.emulator ? _emulatorUrl(config2, EMULATED_IFRAME_PATH) : `https://${auth.config.authDomain}/${IFRAME_PATH}`;
+    const params = {
+      apiKey: config2.apiKey,
+      appName: auth.name,
+      v: SDK_VERSION
+    };
+    const eid = EID_FROM_APIHOST.get(auth.config.apiHost);
+    if (eid) {
+      params.eid = eid;
+    }
+    const frameworks = auth._getFrameworks();
+    if (frameworks.length) {
+      params.fw = frameworks.join(",");
+    }
+    return `${url2}?${querystring(params).slice(1)}`;
+  }
+  async function _openIframe(auth) {
+    const context = await _loadGapi(auth);
+    const gapi2 = _window().gapi;
+    _assert(
+      gapi2,
+      auth,
+      "internal-error"
+      /* AuthErrorCode.INTERNAL_ERROR */
+    );
+    return context.open({
+      where: document.body,
+      url: getIframeUrl(auth),
+      messageHandlersFilter: gapi2.iframes.CROSS_ORIGIN_IFRAMES_FILTER,
+      attributes: IFRAME_ATTRIBUTES,
+      dontclear: true
+    }, (iframe) => new Promise(async (resolve, reject) => {
+      await iframe.restyle({
+        // Prevent iframe from closing on mouse out.
+        setHideOnLeave: false
+      });
+      const networkError = _createError(
+        auth,
+        "network-request-failed"
+        /* AuthErrorCode.NETWORK_REQUEST_FAILED */
+      );
+      const networkErrorTimer = _window().setTimeout(() => {
+        reject(networkError);
+      }, PING_TIMEOUT.get());
+      function clearTimerAndResolve() {
+        _window().clearTimeout(networkErrorTimer);
+        resolve(iframe);
+      }
+      iframe.ping(clearTimerAndResolve).then(clearTimerAndResolve, () => {
+        reject(networkError);
+      });
+    }));
+  }
+  var BASE_POPUP_OPTIONS = {
+    location: "yes",
+    resizable: "yes",
+    statusbar: "yes",
+    toolbar: "no"
+  };
+  var DEFAULT_WIDTH = 500;
+  var DEFAULT_HEIGHT = 600;
+  var TARGET_BLANK = "_blank";
+  var FIREFOX_EMPTY_URL = "http://localhost";
+  var AuthPopup = class {
+    constructor(window2) {
+      this.window = window2;
+      this.associatedEvent = null;
+    }
+    close() {
+      if (this.window) {
+        try {
+          this.window.close();
+        } catch (e) {
+        }
+      }
+    }
+  };
+  function _open(auth, url2, name4, width = DEFAULT_WIDTH, height = DEFAULT_HEIGHT) {
+    const top = Math.max((window.screen.availHeight - height) / 2, 0).toString();
+    const left = Math.max((window.screen.availWidth - width) / 2, 0).toString();
+    let target = "";
+    const options = {
+      ...BASE_POPUP_OPTIONS,
+      width: width.toString(),
+      height: height.toString(),
+      top,
+      left
+    };
+    const ua = getUA().toLowerCase();
+    if (name4) {
+      target = _isChromeIOS(ua) ? TARGET_BLANK : name4;
+    }
+    if (_isFirefox(ua)) {
+      url2 = url2 || FIREFOX_EMPTY_URL;
+      options.scrollbars = "yes";
+    }
+    const optionsString = Object.entries(options).reduce((accum, [key, value2]) => `${accum}${key}=${value2},`, "");
+    if (_isIOSStandalone(ua) && target !== "_self") {
+      openAsNewWindowIOS(url2 || "", target);
+      return new AuthPopup(null);
+    }
+    const newWin = window.open(url2 || "", target, optionsString);
+    _assert(
+      newWin,
+      auth,
+      "popup-blocked"
+      /* AuthErrorCode.POPUP_BLOCKED */
+    );
+    try {
+      newWin.focus();
+    } catch (e) {
+    }
+    return new AuthPopup(newWin);
+  }
+  function openAsNewWindowIOS(url2, target) {
+    const el = document.createElement("a");
+    el.href = url2;
+    el.target = target;
+    const click = document.createEvent("MouseEvent");
+    click.initMouseEvent("click", true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 1, null);
+    el.dispatchEvent(click);
+  }
+  var WIDGET_PATH = "__/auth/handler";
+  var EMULATOR_WIDGET_PATH = "emulator/auth/handler";
+  var FIREBASE_APP_CHECK_FRAGMENT_ID = encodeURIComponent("fac");
+  async function _getRedirectUrl(auth, provider, authType, redirectUrl, eventId, additionalParams) {
+    _assert(
+      auth.config.authDomain,
+      auth,
+      "auth-domain-config-required"
+      /* AuthErrorCode.MISSING_AUTH_DOMAIN */
+    );
+    _assert(
+      auth.config.apiKey,
+      auth,
+      "invalid-api-key"
+      /* AuthErrorCode.INVALID_API_KEY */
+    );
+    const params = {
+      apiKey: auth.config.apiKey,
+      appName: auth.name,
+      authType,
+      redirectUrl,
+      v: SDK_VERSION,
+      eventId
+    };
+    if (provider instanceof FederatedAuthProvider) {
+      provider.setDefaultLanguage(auth.languageCode);
+      params.providerId = provider.providerId || "";
+      if (!isEmpty(provider.getCustomParameters())) {
+        params.customParameters = JSON.stringify(provider.getCustomParameters());
+      }
+      for (const [key, value2] of Object.entries(additionalParams || {})) {
+        params[key] = value2;
+      }
+    }
+    if (provider instanceof BaseOAuthProvider) {
+      const scopes = provider.getScopes().filter((scope) => scope !== "");
+      if (scopes.length > 0) {
+        params.scopes = scopes.join(",");
+      }
+    }
+    if (auth.tenantId) {
+      params.tid = auth.tenantId;
+    }
+    const paramsDict = params;
+    for (const key of Object.keys(paramsDict)) {
+      if (paramsDict[key] === void 0) {
+        delete paramsDict[key];
+      }
+    }
+    const appCheckToken = await auth._getAppCheckToken();
+    const appCheckTokenFragment = appCheckToken ? `#${FIREBASE_APP_CHECK_FRAGMENT_ID}=${encodeURIComponent(appCheckToken)}` : "";
+    return `${getHandlerBase(auth)}?${querystring(paramsDict).slice(1)}${appCheckTokenFragment}`;
+  }
+  function getHandlerBase({ config: config2 }) {
+    if (!config2.emulator) {
+      return `https://${config2.authDomain}/${WIDGET_PATH}`;
+    }
+    return _emulatorUrl(config2, EMULATOR_WIDGET_PATH);
+  }
+  var WEB_STORAGE_SUPPORT_KEY = "webStorageSupport";
+  var BrowserPopupRedirectResolver = class {
+    constructor() {
+      this.eventManagers = {};
+      this.iframes = {};
+      this.originValidationPromises = {};
+      this._redirectPersistence = browserSessionPersistence;
+      this._completeRedirectFn = _getRedirectResult;
+      this._overrideRedirectResult = _overrideRedirectResult;
+    }
+    // Wrapping in async even though we don't await anywhere in order
+    // to make sure errors are raised as promise rejections
+    async _openPopup(auth, provider, authType, eventId) {
+      debugAssert(this.eventManagers[auth._key()]?.manager, "_initialize() not called before _openPopup()");
+      const url2 = await _getRedirectUrl(auth, provider, authType, _getCurrentUrl(), eventId);
+      return _open(auth, url2, _generateEventId());
+    }
+    async _openRedirect(auth, provider, authType, eventId) {
+      await this._originValidation(auth);
+      const url2 = await _getRedirectUrl(auth, provider, authType, _getCurrentUrl(), eventId);
+      _setWindowLocation(url2);
+      return new Promise(() => {
+      });
+    }
+    _initialize(auth) {
+      const key = auth._key();
+      if (this.eventManagers[key]) {
+        const { manager, promise: promise2 } = this.eventManagers[key];
+        if (manager) {
+          return Promise.resolve(manager);
+        } else {
+          debugAssert(promise2, "If manager is not set, promise should be");
+          return promise2;
+        }
+      }
+      const promise = this.initAndGetManager(auth);
+      this.eventManagers[key] = { promise };
+      promise.catch(() => {
+        delete this.eventManagers[key];
+      });
+      return promise;
+    }
+    async initAndGetManager(auth) {
+      const iframe = await _openIframe(auth);
+      const manager = new AuthEventManager(auth);
+      iframe.register("authEvent", (iframeEvent) => {
+        _assert(
+          iframeEvent?.authEvent,
+          auth,
+          "invalid-auth-event"
+          /* AuthErrorCode.INVALID_AUTH_EVENT */
+        );
+        const handled = manager.onEvent(iframeEvent.authEvent);
+        return {
+          status: handled ? "ACK" : "ERROR"
+          /* GapiOutcome.ERROR */
+        };
+      }, gapi.iframes.CROSS_ORIGIN_IFRAMES_FILTER);
+      this.eventManagers[auth._key()] = { manager };
+      this.iframes[auth._key()] = iframe;
+      return manager;
+    }
+    _isIframeWebStorageSupported(auth, cb) {
+      const iframe = this.iframes[auth._key()];
+      iframe.send(WEB_STORAGE_SUPPORT_KEY, { type: WEB_STORAGE_SUPPORT_KEY }, (result) => {
+        const isSupported = result?.[0]?.[WEB_STORAGE_SUPPORT_KEY];
+        if (isSupported !== void 0) {
+          cb(!!isSupported);
+        }
+        _fail(
+          auth,
+          "internal-error"
+          /* AuthErrorCode.INTERNAL_ERROR */
+        );
+      }, gapi.iframes.CROSS_ORIGIN_IFRAMES_FILTER);
+    }
+    _originValidation(auth) {
+      const key = auth._key();
+      if (!this.originValidationPromises[key]) {
+        this.originValidationPromises[key] = _validateOrigin(auth);
+      }
+      return this.originValidationPromises[key];
+    }
+    get _shouldInitProactively() {
+      return _isMobileBrowser() || _isSafari() || _isIOS();
+    }
+  };
+  var browserPopupRedirectResolver = BrowserPopupRedirectResolver;
+  var MultiFactorAssertionImpl = class {
+    constructor(factorId) {
+      this.factorId = factorId;
+    }
+    _process(auth, session, displayName) {
+      switch (session.type) {
+        case "enroll":
+          return this._finalizeEnroll(auth, session.credential, displayName);
+        case "signin":
+          return this._finalizeSignIn(auth, session.credential);
+        default:
+          return debugFail("unexpected MultiFactorSessionType");
+      }
+    }
+  };
+  var PhoneMultiFactorAssertionImpl = class _PhoneMultiFactorAssertionImpl extends MultiFactorAssertionImpl {
+    constructor(credential) {
+      super(
+        "phone"
+        /* FactorId.PHONE */
+      );
+      this.credential = credential;
+    }
+    /** @internal */
+    static _fromCredential(credential) {
+      return new _PhoneMultiFactorAssertionImpl(credential);
+    }
+    /** @internal */
+    _finalizeEnroll(auth, idToken, displayName) {
+      return finalizeEnrollPhoneMfa(auth, {
+        idToken,
+        displayName,
+        phoneVerificationInfo: this.credential._makeVerificationRequest()
+      });
+    }
+    /** @internal */
+    _finalizeSignIn(auth, mfaPendingCredential) {
+      return finalizeSignInPhoneMfa(auth, {
+        mfaPendingCredential,
+        phoneVerificationInfo: this.credential._makeVerificationRequest()
+      });
+    }
+  };
+  var PhoneMultiFactorGenerator = class {
+    constructor() {
+    }
+    /**
+     * Provides a {@link PhoneMultiFactorAssertion} to confirm ownership of the phone second factor.
+     *
+     * @remarks
+     * This method does not work in a Node.js environment.
+     *
+     * @param phoneAuthCredential - A credential provided by {@link PhoneAuthProvider.credential}.
+     * @returns A {@link PhoneMultiFactorAssertion} which can be used with
+     * {@link MultiFactorResolver.resolveSignIn}
+     */
+    static assertion(credential) {
+      return PhoneMultiFactorAssertionImpl._fromCredential(credential);
+    }
+  };
+  PhoneMultiFactorGenerator.FACTOR_ID = "phone";
+  var TotpMultiFactorGenerator = class {
+    /**
+     * Provides a {@link TotpMultiFactorAssertion} to confirm ownership of
+     * the TOTP (time-based one-time password) second factor.
+     * This assertion is used to complete enrollment in TOTP second factor.
+     *
+     * @param secret A {@link TotpSecret} containing the shared secret key and other TOTP parameters.
+     * @param oneTimePassword One-time password from TOTP App.
+     * @returns A {@link TotpMultiFactorAssertion} which can be used with
+     * {@link MultiFactorUser.enroll}.
+     */
+    static assertionForEnrollment(secret, oneTimePassword) {
+      return TotpMultiFactorAssertionImpl._fromSecret(secret, oneTimePassword);
+    }
+    /**
+     * Provides a {@link TotpMultiFactorAssertion} to confirm ownership of the TOTP second factor.
+     * This assertion is used to complete signIn with TOTP as the second factor.
+     *
+     * @param enrollmentId identifies the enrolled TOTP second factor.
+     * @param oneTimePassword One-time password from TOTP App.
+     * @returns A {@link TotpMultiFactorAssertion} which can be used with
+     * {@link MultiFactorResolver.resolveSignIn}.
+     */
+    static assertionForSignIn(enrollmentId, oneTimePassword) {
+      return TotpMultiFactorAssertionImpl._fromEnrollmentId(enrollmentId, oneTimePassword);
+    }
+    /**
+     * Returns a promise to {@link TotpSecret} which contains the TOTP shared secret key and other parameters.
+     * Creates a TOTP secret as part of enrolling a TOTP second factor.
+     * Used for generating a QR code URL or inputting into a TOTP app.
+     * This method uses the auth instance corresponding to the user in the multiFactorSession.
+     *
+     * @param session The {@link MultiFactorSession} that the user is part of.
+     * @returns A promise to {@link TotpSecret}.
+     */
+    static async generateSecret(session) {
+      const mfaSession = session;
+      _assert(
+        typeof mfaSession.user?.auth !== "undefined",
+        "internal-error"
+        /* AuthErrorCode.INTERNAL_ERROR */
+      );
+      const response = await startEnrollTotpMfa(mfaSession.user.auth, {
+        idToken: mfaSession.credential,
+        totpEnrollmentInfo: {}
+      });
+      return TotpSecret._fromStartTotpMfaEnrollmentResponse(response, mfaSession.user.auth);
+    }
+  };
+  TotpMultiFactorGenerator.FACTOR_ID = "totp";
+  var TotpMultiFactorAssertionImpl = class _TotpMultiFactorAssertionImpl extends MultiFactorAssertionImpl {
+    constructor(otp, enrollmentId, secret) {
+      super(
+        "totp"
+        /* FactorId.TOTP */
+      );
+      this.otp = otp;
+      this.enrollmentId = enrollmentId;
+      this.secret = secret;
+    }
+    /** @internal */
+    static _fromSecret(secret, otp) {
+      return new _TotpMultiFactorAssertionImpl(otp, void 0, secret);
+    }
+    /** @internal */
+    static _fromEnrollmentId(enrollmentId, otp) {
+      return new _TotpMultiFactorAssertionImpl(otp, enrollmentId);
+    }
+    /** @internal */
+    async _finalizeEnroll(auth, idToken, displayName) {
+      _assert(
+        typeof this.secret !== "undefined",
+        auth,
+        "argument-error"
+        /* AuthErrorCode.ARGUMENT_ERROR */
+      );
+      return finalizeEnrollTotpMfa(auth, {
+        idToken,
+        displayName,
+        totpVerificationInfo: this.secret._makeTotpVerificationInfo(this.otp)
+      });
+    }
+    /** @internal */
+    async _finalizeSignIn(auth, mfaPendingCredential) {
+      _assert(
+        this.enrollmentId !== void 0 && this.otp !== void 0,
+        auth,
+        "argument-error"
+        /* AuthErrorCode.ARGUMENT_ERROR */
+      );
+      const totpVerificationInfo = { verificationCode: this.otp };
+      return finalizeSignInTotpMfa(auth, {
+        mfaPendingCredential,
+        mfaEnrollmentId: this.enrollmentId,
+        totpVerificationInfo
+      });
+    }
+  };
+  var TotpSecret = class _TotpSecret {
+    // The public members are declared outside the constructor so the docs can be generated.
+    constructor(secretKey, hashingAlgorithm, codeLength, codeIntervalSeconds, enrollmentCompletionDeadline, sessionInfo, auth) {
+      this.sessionInfo = sessionInfo;
+      this.auth = auth;
+      this.secretKey = secretKey;
+      this.hashingAlgorithm = hashingAlgorithm;
+      this.codeLength = codeLength;
+      this.codeIntervalSeconds = codeIntervalSeconds;
+      this.enrollmentCompletionDeadline = enrollmentCompletionDeadline;
+    }
+    /** @internal */
+    static _fromStartTotpMfaEnrollmentResponse(response, auth) {
+      return new _TotpSecret(response.totpSessionInfo.sharedSecretKey, response.totpSessionInfo.hashingAlgorithm, response.totpSessionInfo.verificationCodeLength, response.totpSessionInfo.periodSec, new Date(response.totpSessionInfo.finalizeEnrollmentTime).toUTCString(), response.totpSessionInfo.sessionInfo, auth);
+    }
+    /** @internal */
+    _makeTotpVerificationInfo(otp) {
+      return { sessionInfo: this.sessionInfo, verificationCode: otp };
+    }
+    /**
+     * Returns a QR code URL as described in
+     * https://github.com/google/google-authenticator/wiki/Key-Uri-Format
+     * This can be displayed to the user as a QR code to be scanned into a TOTP app like Google Authenticator.
+     * If the optional parameters are unspecified, an accountName of <userEmail> and issuer of <firebaseAppName> are used.
+     *
+     * @param accountName the name of the account/app along with a user identifier.
+     * @param issuer issuer of the TOTP (likely the app name).
+     * @returns A QR code URL string.
+     */
+    generateQrCodeUrl(accountName, issuer) {
+      let useDefaults = false;
+      if (_isEmptyString(accountName) || _isEmptyString(issuer)) {
+        useDefaults = true;
+      }
+      if (useDefaults) {
+        if (_isEmptyString(accountName)) {
+          accountName = this.auth.currentUser?.email || "unknownuser";
+        }
+        if (_isEmptyString(issuer)) {
+          issuer = this.auth.name;
+        }
+      }
+      return `otpauth://totp/${issuer}:${accountName}?secret=${this.secretKey}&issuer=${issuer}&algorithm=${this.hashingAlgorithm}&digits=${this.codeLength}`;
+    }
+  };
+  function _isEmptyString(input) {
+    return typeof input === "undefined" || input?.length === 0;
+  }
+  var name3 = "@firebase/auth";
+  var version3 = "1.13.6";
+  var AuthInterop = class {
+    constructor(auth) {
+      this.auth = auth;
+      this.internalListeners = /* @__PURE__ */ new Map();
+    }
+    getUid() {
+      this.assertAuthConfigured();
+      return this.auth.currentUser?.uid || null;
+    }
+    async getToken(forceRefresh) {
+      this.assertAuthConfigured();
+      await this.auth._initializationPromise;
+      if (!this.auth.currentUser) {
+        return null;
+      }
+      const accessToken = await this.auth.currentUser.getIdToken(forceRefresh);
+      return { accessToken };
+    }
+    addAuthTokenListener(listener) {
+      this.assertAuthConfigured();
+      if (this.internalListeners.has(listener)) {
+        return;
+      }
+      const unsubscribe = this.auth.onIdTokenChanged((user) => {
+        listener(user?.stsTokenManager.accessToken || null);
+      });
+      this.internalListeners.set(listener, unsubscribe);
+      this.updateProactiveRefresh();
+    }
+    removeAuthTokenListener(listener) {
+      this.assertAuthConfigured();
+      const unsubscribe = this.internalListeners.get(listener);
+      if (!unsubscribe) {
+        return;
+      }
+      this.internalListeners.delete(listener);
+      unsubscribe();
+      this.updateProactiveRefresh();
+    }
+    assertAuthConfigured() {
+      _assert(
+        this.auth._initializationPromise,
+        "dependent-sdk-initialized-before-auth"
+        /* AuthErrorCode.DEPENDENT_SDK_INIT_BEFORE_AUTH */
+      );
+    }
+    updateProactiveRefresh() {
+      if (this.internalListeners.size > 0) {
+        this.auth._startProactiveRefresh();
+      } else {
+        this.auth._stopProactiveRefresh();
+      }
+    }
+  };
+  function getVersionForPlatform(clientPlatform) {
+    switch (clientPlatform) {
+      case "Node":
+        return "node";
+      case "ReactNative":
+        return "rn";
+      case "Worker":
+        return "webworker";
+      case "Cordova":
+        return "cordova";
+      case "WebExtension":
+        return "web-extension";
+      default:
+        return void 0;
+    }
+  }
+  function registerAuth(clientPlatform) {
+    _registerComponent(new Component4(
+      "auth",
+      (container, { options: deps }) => {
+        const app = container.getProvider("app").getImmediate();
+        const heartbeatServiceProvider = container.getProvider("heartbeat");
+        const appCheckServiceProvider = container.getProvider("app-check-internal");
+        const { apiKey, authDomain } = app.options;
+        _assert(apiKey && !apiKey.includes(":"), "invalid-api-key", { appName: app.name });
+        const config2 = {
+          apiKey,
+          authDomain,
+          clientPlatform,
+          apiHost: "identitytoolkit.googleapis.com",
+          tokenApiHost: "securetoken.googleapis.com",
+          apiScheme: "https",
+          sdkClientVersion: _getClientVersion(clientPlatform)
+        };
+        const authInstance = new AuthImpl(app, heartbeatServiceProvider, appCheckServiceProvider, config2);
+        _initializeAuthInstance(authInstance, deps);
+        return authInstance;
+      },
+      "PUBLIC"
+      /* ComponentType.PUBLIC */
+    ).setInstantiationMode(
+      "EXPLICIT"
+      /* InstantiationMode.EXPLICIT */
+    ).setInstanceCreatedCallback((container, _instanceIdentifier, _instance) => {
+      const authInternalProvider = container.getProvider(
+        "auth-internal"
+        /* _ComponentName.AUTH_INTERNAL */
+      );
+      authInternalProvider.initialize();
+    }));
+    _registerComponent(new Component4(
+      "auth-internal",
+      (container) => {
+        const auth = _castAuth(container.getProvider(
+          "auth"
+          /* _ComponentName.AUTH */
+        ).getImmediate());
+        return ((auth2) => new AuthInterop(auth2))(auth);
+      },
+      "PRIVATE"
+      /* ComponentType.PRIVATE */
+    ).setInstantiationMode(
+      "EXPLICIT"
+      /* InstantiationMode.EXPLICIT */
+    ));
+    registerVersion(name3, version3, getVersionForPlatform(clientPlatform));
+    registerVersion(name3, version3, "esm2020");
+  }
+  var DEFAULT_ID_TOKEN_MAX_AGE = 5 * 60;
+  var authIdTokenMaxAge = getExperimentalSetting("authIdTokenMaxAge") || DEFAULT_ID_TOKEN_MAX_AGE;
+  var lastPostedIdToken = null;
+  var mintCookieFactory = (url2) => async (user) => {
+    const idTokenResult = user && await user.getIdTokenResult();
+    const idTokenAge = idTokenResult && ((/* @__PURE__ */ new Date()).getTime() - Date.parse(idTokenResult.issuedAtTime)) / 1e3;
+    if (idTokenAge && idTokenAge > authIdTokenMaxAge) {
+      return;
+    }
+    const idToken = idTokenResult?.token;
+    if (lastPostedIdToken === idToken) {
+      return;
+    }
+    lastPostedIdToken = idToken;
+    await fetch(url2, {
+      method: idToken ? "POST" : "DELETE",
+      headers: idToken ? {
+        "Authorization": `Bearer ${idToken}`
+      } : {}
+    });
+  };
+  function getAuth(app = getApp()) {
+    const provider = _getProvider(app, "auth");
+    if (provider.isInitialized()) {
+      return provider.getImmediate();
+    }
+    const auth = initializeAuth(app, {
+      popupRedirectResolver: browserPopupRedirectResolver,
+      persistence: [
+        indexedDBLocalPersistence,
+        browserLocalPersistence,
+        browserSessionPersistence
+      ]
+    });
+    const authTokenSyncPath = getExperimentalSetting("authTokenSyncURL");
+    if (authTokenSyncPath && typeof isSecureContext === "boolean" && isSecureContext) {
+      const authTokenSyncUrl = new URL(authTokenSyncPath, location.origin);
+      if (location.origin === authTokenSyncUrl.origin) {
+        const mintCookie = mintCookieFactory(authTokenSyncUrl.toString());
+        beforeAuthStateChanged(auth, mintCookie, () => mintCookie(auth.currentUser));
+        onIdTokenChanged(auth, (user) => mintCookie(user));
+      }
+    }
+    const authEmulatorHost = getDefaultEmulatorHost("auth");
+    if (authEmulatorHost) {
+      connectAuthEmulator(auth, `http://${authEmulatorHost}`);
+    }
+    return auth;
+  }
+  function getScriptParentElement() {
+    return document.getElementsByTagName("head")?.[0] ?? document;
+  }
+  _setExternalJSProvider({
+    loadJS(url2) {
+      return new Promise((resolve, reject) => {
+        const el = document.createElement("script");
+        el.setAttribute("src", url2);
+        el.onload = resolve;
+        el.onerror = (e) => {
+          const error = _createError(
+            "internal-error"
+            /* AuthErrorCode.INTERNAL_ERROR */
+          );
+          error.customData = e;
+          reject(error);
+        };
+        el.type = "text/javascript";
+        el.charset = "UTF-8";
+        getScriptParentElement().appendChild(el);
+      });
+    },
+    gapiScript: "https://apis.google.com/js/api.js",
+    recaptchaV2Script: "https://www.google.com/recaptcha/api.js",
+    recaptchaEnterpriseScript: "https://www.google.com/recaptcha/enterprise.js?render="
+  });
+  registerAuth(
+    "Browser"
+    /* ClientPlatform.BROWSER */
+  );
+
+  // src/utils/firebaseAuth.js
+  async function prepareAuth() {
+    const settings = await request("/auth/providers", { authorized: false });
+    if (!settings.config || !Object.values(settings.providers || {}).some(Boolean)) return { providers: settings.providers || {}, auth: null };
+    const app = getApps().find((app2) => app2.name === "routebite-auth") || initializeApp(settings.config, "routebite-auth");
+    const auth = getAuth(app);
+    auth.languageCode = "vi";
+    await setPersistence(auth, inMemoryPersistence);
+    return { providers: settings.providers, auth };
+  }
+  function providerPopup(auth, name4) {
+    const provider = name4 === "google" ? new GoogleAuthProvider() : new OAuthProvider("apple.com");
+    if (name4 === "google") provider.setCustomParameters({ prompt: "select_account" });
+    else {
+      provider.addScope("email");
+      provider.addScope("name");
+      provider.setCustomParameters({ locale: "vi_VN" });
+    }
+    return signInWithPopup(auth, provider);
+  }
+  async function clearFirebaseSession(auth) {
+    if (auth) await signOut(auth).catch(() => {
+    });
+  }
+  function authError(error) {
+    const messages = {
+      "auth/popup-closed-by-user": "B\u1EA1n \u0111\xE3 \u0111\xF3ng c\u1EEDa s\u1ED5 \u0111\u0103ng nh\u1EADp. C\xF3 th\u1EC3 th\u1EED l\u1EA1i b\u1EA5t c\u1EE9 l\xFAc n\xE0o.",
+      "auth/cancelled-popup-request": "Y\xEAu c\u1EA7u \u0111\u0103ng nh\u1EADp \u0111\xE3 b\u1ECB h\u1EE7y. Vui l\xF2ng th\u1EED l\u1EA1i.",
+      "auth/popup-blocked": "Tr\xECnh duy\u1EC7t \u0111ang ch\u1EB7n c\u1EEDa s\u1ED5 \u0111\u0103ng nh\u1EADp. H\xE3y cho ph\xE9p c\u1EEDa s\u1ED5 b\u1EADt l\xEAn r\u1ED3i th\u1EED l\u1EA1i.",
+      "auth/account-exists-with-different-credential": "Email n\xE0y d\xF9ng ph\u01B0\u01A1ng th\u1EE9c \u0111\u0103ng nh\u1EADp kh\xE1c. Vui l\xF2ng \u0111\u0103ng nh\u1EADp b\u1EB1ng ph\u01B0\u01A1ng th\u1EE9c ban \u0111\u1EA7u.",
+      "auth/invalid-verification-code": "M\xE3 OTP kh\xF4ng \u0111\xFAng. Vui l\xF2ng ki\u1EC3m tra l\u1EA1i tin nh\u1EAFn.",
+      "auth/code-expired": "M\xE3 OTP \u0111\xE3 h\u1EBFt h\u1EA1n. Vui l\xF2ng g\u1EEDi m\xE3 m\u1EDBi.",
+      "auth/session-expired": "Phi\xEAn x\xE1c minh \u0111\xE3 h\u1EBFt h\u1EA1n. Vui l\xF2ng g\u1EEDi m\xE3 m\u1EDBi.",
+      "auth/too-many-requests": "B\u1EA1n \u0111\xE3 th\u1EED qu\xE1 nhi\u1EC1u l\u1EA7n. Vui l\xF2ng \u0111\u1EE3i tr\u01B0\u1EDBc khi th\u1EED l\u1EA1i.",
+      "auth/quota-exceeded": "D\u1ECBch v\u1EE5 SMS \u0111\xE3 h\u1EBFt h\u1EA1n m\u1EE9c. Vui l\xF2ng d\xF9ng ph\u01B0\u01A1ng th\u1EE9c \u0111\u0103ng nh\u1EADp kh\xE1c.",
+      "auth/captcha-check-failed": "X\xE1c minh reCAPTCHA ch\u01B0a th\xE0nh c\xF4ng. Vui l\xF2ng th\u1EED l\u1EA1i.",
+      "auth/invalid-phone-number": "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i kh\xF4ng h\u1EE3p l\u1EC7.",
+      "auth/unauthorized-domain": "T\xEAn mi\u1EC1n n\xE0y ch\u01B0a \u0111\u01B0\u1EE3c c\u1EA5u h\xECnh \u0111\u1EC3 \u0111\u0103ng nh\u1EADp. Vui l\xF2ng li\xEAn h\u1EC7 qu\u1EA3n tr\u1ECB vi\xEAn.",
+      "auth/operation-not-allowed": "Ph\u01B0\u01A1ng th\u1EE9c \u0111\u0103ng nh\u1EADp ch\u01B0a \u0111\u01B0\u1EE3c b\u1EADt t\u1EA1i nh\xE0 cung c\u1EA5p.",
+      "auth/network-request-failed": "Kh\xF4ng k\u1EBFt n\u1ED1i \u0111\u01B0\u1EE3c d\u1ECBch v\u1EE5 \u0111\u0103ng nh\u1EADp. Ki\u1EC3m tra m\u1EA1ng v\xE0 th\u1EED l\u1EA1i."
+    };
+    return messages[error.code] || (error.code?.startsWith("auth/") ? "Kh\xF4ng th\u1EC3 \u0111\u0103ng nh\u1EADp l\xFAc n\xE0y. Vui l\xF2ng th\u1EED l\u1EA1i ho\u1EB7c d\xF9ng email v\xE0 m\u1EADt kh\u1EA9u." : error.message) || "\u0110\u0103ng nh\u1EADp th\u1EA5t b\u1EA1i.";
+  }
+
+  // src/components/ProviderLogin.jsx
+  var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
+  function ProviderLogin({ onToken, disabled = false, linking = false, onBusyChange }) {
+    const [settings, setSettings] = (0, import_react9.useState)(null), [loading2, setLoading] = (0, import_react9.useState)(true);
+    const [busy, setBusy] = (0, import_react9.useState)(false), [error, setError] = (0, import_react9.useState)("");
+    const lock = (0, import_react9.useRef)(false), mounted = (0, import_react9.useRef)(true);
+    (0, import_react9.useEffect)(() => {
+      mounted.current = true;
+      prepareAuth().then((value2) => {
+        if (mounted.current) setSettings(value2);
+      }).catch(() => {
+        if (mounted.current) setError("Ch\u01B0a t\u1EA3i \u0111\u01B0\u1EE3c \u0111\u0103ng nh\u1EADp Google. Vui l\xF2ng t\u1EA3i l\u1EA1i trang.");
+      }).finally(() => {
+        if (mounted.current) setLoading(false);
+      });
+      return () => {
+        mounted.current = false;
+      };
+    }, []);
+    async function google() {
+      if (lock.current || busy || disabled || !settings?.providers.google) return;
+      lock.current = true;
+      setBusy(true);
+      setError("");
+      onBusyChange?.(true);
+      try {
+        const result = await providerPopup(settings.auth, "google");
+        if (mounted.current) await onToken(await result.user.getIdToken(true));
+      } catch (err) {
+        if (mounted.current) setError(authError(err));
+      } finally {
+        await clearFirebaseSession(settings.auth);
+        lock.current = false;
+        if (mounted.current) {
+          setBusy(false);
+          onBusyChange?.(false);
+        }
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("section", { className: "rb-provider-login", "aria-label": linking ? "Li\xEAn k\u1EBFt Google" : "\u0110\u0103ng nh\u1EADp Google", children: [
+      !linking && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "rb-auth-divider", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { children: "ho\u1EB7c ti\u1EBFp t\u1EE5c v\u1EDBi" }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "rb-provider-buttons", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("button", { type: "button", disabled: loading2 || busy || disabled || !settings?.providers.google, onClick: google, children: linking ? "Li\xEAn k\u1EBFt Google" : "Google" }) }),
+      loading2 ? /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i \u0111\u0103ng nh\u1EADp Google\u2026" }) : !settings?.providers.google && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("p", { className: "rb-auth-note", children: "Google s\u1EBD kh\u1EA3 d\u1EE5ng khi qu\u1EA3n tr\u1ECB vi\xEAn ho\xE0n t\u1EA5t c\u1EA5u h\xECnh." }),
+      busy && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("p", { role: "status", children: "\u0110ang x\xE1c minh Google\u2026" }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("p", { className: "auth-alert", role: "alert", children: error })
+    ] });
+  }
+
+  // src/layouts/AuthLayout.jsx
+  var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
+  function AuthLayout({ children }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("main", { className: "auth-layout", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("section", { className: "auth-brand-panel", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)(Link, { className: "auth-brand-logo", to: "/", children: "RouteBite" }),
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("p", { className: "auth-eyebrow", children: "H\xC0NH TR\xCCNH \u1EA8M TH\u1EF0C" }),
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("h1", { children: [
+          "\u1EA8m th\u1EF1c tr\xEAn",
+          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("br", {}),
+          "m\u1ECDi n\u1EBBo \u0111\u01B0\u1EDDng."
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("p", { children: "Kh\xE1m ph\xE1 qu\xE1n ti\u1EC7n \u0111\u01B0\u1EDDng, \u0111\u1EB7t m\xF3n tr\u01B0\u1EDBc v\xE0 gh\xE9 l\u1EA5y \u0111\xFAng l\xFAc b\u1EA1n \u0111\u1EBFn n\u01A1i." }),
+        /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "auth-brand-stats", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { children: "\u{1F4CD} T\xECm qu\xE1n d\u1ECDc tuy\u1EBFn" }),
+          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("span", { children: "\u26A1 \u0110\u1EB7t tr\u01B0\u1EDBc, gh\xE9 l\u1EA5y" })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("section", { className: "auth-form-panel", children: /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("div", { className: "auth-form-wrap", children }) })
+    ] });
+  }
+
+  // src/LoginPage.jsx
+  var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
   function LoginPage() {
     const navigate = useNavigate();
     const { setSession } = useAuth();
     const location2 = useLocation();
-    const [email, setEmail] = (0, import_react7.useState)("");
-    const [password, setPassword] = (0, import_react7.useState)("");
-    const [showPassword, setShowPassword] = (0, import_react7.useState)(false);
-    const [error, setError] = (0, import_react7.useState)("");
-    const [busy, setBusy] = (0, import_react7.useState)(false);
+    const [providerBusy, setProviderBusy] = (0, import_react10.useState)(false);
+    const [challenge, setChallenge] = (0, import_react10.useState)(null);
+    const [email, setEmail] = (0, import_react10.useState)("");
+    const [password, setPassword] = (0, import_react10.useState)("");
+    const [showPassword, setShowPassword] = (0, import_react10.useState)(false);
+    const [error, setError] = (0, import_react10.useState)("");
+    const [busy, setBusy] = (0, import_react10.useState)(false);
+    async function finishLogin(data2) {
+      setSession(data2);
+      if (data2.user.role === "merchant") {
+        const restaurants = await request("/restaurants/mine");
+        navigate(restaurants.length ? "/merchant/dashboard" : "/merchant/onboarding");
+      } else if (data2.user.role === "admin") navigate("/admin/overview");
+      else {
+        const application = await request("/merchant-applications/me").catch(() => null);
+        navigate(location2.state?.from === "/partner/register" || application ? "/partner/register" : location2.state?.from === "/my-favorites" ? "/my-favorites" : "/");
+      }
+    }
+    async function firebaseLogin(idToken) {
+      const data2 = await request("/auth/firebase", { method: "POST", body: { idToken }, authorized: false });
+      await finishLogin(data2);
+    }
     async function submit(event) {
       event.preventDefault();
+      if (busy || providerBusy) return;
       setBusy(true);
       setError("");
       try {
         const data2 = await request("/auth/login", { method: "POST", body: { email, password }, authorized: false });
-        setSession(data2);
-        if (data2.user.role === "merchant") {
-          const restaurants = await request("/restaurants/mine");
-          navigate(restaurants.length ? "/merchant/dashboard" : "/merchant/onboarding");
-        } else if (data2.user.role === "admin") navigate("/admin/overview");
-        else {
-          const application = await request("/merchant-applications/me").catch(() => null);
-          navigate(location2.state?.from === "/partner/register" || application ? "/partner/register" : location2.state?.from === "/my-favorites" ? "/my-favorites" : "/");
-        }
+        if (!data2.requiresOtp || !data2.loginTicket) throw new Error("Invalid login challenge");
+        setChallenge(data2);
+        setPassword("");
       } catch (err) {
         setError(err.message || "\u0110\u0103ng nh\u1EADp th\u1EA5t b\u1EA1i, vui l\xF2ng th\u1EED l\u1EA1i.");
       } finally {
         setBusy(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)(AuthLayout, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "auth-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("p", { children: "CH\xC0O M\u1EEANG TR\u1EDE L\u1EA0I" }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("h2", { children: "\u0110\u0103ng nh\u1EADp" }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("span", { children: "\u0110\u0103ng nh\u1EADp \u0111\u1EC3 ti\u1EBFp t\u1EE5c h\xE0nh tr\xECnh c\u1EE7a b\u1EA1n." })
+    return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(AuthLayout, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "auth-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("p", { children: "CH\xC0O M\u1EEANG TR\u1EDE L\u1EA0I" }),
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("h2", { children: "\u0110\u0103ng nh\u1EADp" }),
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { children: "\u0110\u0103ng nh\u1EADp \u0111\u1EC3 ti\u1EBFp t\u1EE5c h\xE0nh tr\xECnh c\u1EE7a b\u1EA1n." })
       ] }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("div", { className: "auth-alert", role: "alert", children: error }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("form", { className: "auth-form", onSubmit: submit, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("label", { children: [
-          "Email",
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { type: "email", value: email, onChange: (e) => setEmail(e.target.value), placeholder: "you@example.com", required: true, autoComplete: "email" })
+      error && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "auth-alert", role: "alert", children: error }),
+      challenge ? /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(EmailOtpLogin, { challenge, email: email.trim(), onSession: finishLogin, onBack: () => {
+        setChallenge(null);
+        setError("");
+      } }) : /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(import_jsx_runtime12.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("form", { className: "auth-form", onSubmit: submit, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("label", { children: [
+            "Email",
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("input", { type: "email", value: email, onChange: (e) => setEmail(e.target.value), placeholder: "you@example.com", required: true, autoComplete: "email" })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("label", { children: [
+            "M\u1EADt kh\u1EA9u",
+            /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "password-field", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("input", { type: showPassword ? "text" : "password", value: password, onChange: (e) => setPassword(e.target.value), placeholder: "Nh\u1EADp m\u1EADt kh\u1EA9u", required: true, autoComplete: "current-password" }),
+              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("button", { type: "button", onClick: () => setShowPassword((value2) => !value2), children: showPassword ? "\u1EA8n" : "Hi\u1EC7n" })
+            ] })
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("button", { className: "auth-submit", disabled: busy || providerBusy, children: busy ? "\u0110ang \u0111\u0103ng nh\u1EADp\u2026" : "\u0110\u0103ng nh\u1EADp" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("label", { children: [
-          "M\u1EADt kh\u1EA9u",
-          /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("div", { className: "password-field", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("input", { type: showPassword ? "text" : "password", value: password, onChange: (e) => setPassword(e.target.value), placeholder: "Nh\u1EADp m\u1EADt kh\u1EA9u", required: true, autoComplete: "current-password" }),
-            /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { type: "button", onClick: () => setShowPassword((value2) => !value2), children: showPassword ? "\u1EA8n" : "Hi\u1EC7n" })
-          ] })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("button", { className: "auth-submit", disabled: busy, children: busy ? "\u0110ang \u0111\u0103ng nh\u1EADp\u2026" : "\u0110\u0103ng nh\u1EADp" })
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(ProviderLogin, { onToken: firebaseLogin, disabled: busy, onBusyChange: setProviderBusy })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("p", { className: "auth-switch", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("p", { className: "auth-switch", children: [
         "Ch\u01B0a c\xF3 t\xE0i kho\u1EA3n? ",
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Link, { to: "/register", children: "\u0110\u0103ng k\xFD ngay" })
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Link, { to: "/register", children: "\u0110\u0103ng k\xFD ngay" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime8.jsxs)("p", { className: "auth-switch rb-partner-entry", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("p", { className: "auth-switch rb-partner-entry", children: [
         "B\u1EA1n mu\u1ED1n b\xE1n h\xE0ng tr\xEAn RouteBite?",
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)("br", {}),
-        /* @__PURE__ */ (0, import_jsx_runtime8.jsx)(Link, { to: "/partner/register", children: "\u0110\u0103ng k\xFD \u0111\u1ED1i t\xE1c Merchant" })
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("br", {}),
+        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(Link, { to: "/partner/register", children: "\u0110\u0103ng k\xFD \u0111\u1ED1i t\xE1c Merchant" })
       ] })
     ] });
   }
 
   // src/RegisterPage.jsx
-  var import_react8 = __toESM(require_react(), 1);
-  var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
+  var import_react11 = __toESM(require_react(), 1);
+  var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
   function RegisterPage() {
     const navigate = useNavigate();
     const { setSession } = useAuth();
-    const [form, setForm] = (0, import_react8.useState)({ fullName: "", email: "", phone: "", password: "", confirmPassword: "" });
-    const [fieldErrors, setFieldErrors] = (0, import_react8.useState)({});
-    const [error, setError] = (0, import_react8.useState)("");
-    const [busy, setBusy] = (0, import_react8.useState)(false);
+    const [challenge, setChallenge] = (0, import_react11.useState)(null);
+    const [form, setForm] = (0, import_react11.useState)({ fullName: "", email: "", phone: "", password: "", confirmPassword: "" });
+    const [fieldErrors, setFieldErrors] = (0, import_react11.useState)({});
+    const [error, setError] = (0, import_react11.useState)("");
+    const [busy, setBusy] = (0, import_react11.useState)(false);
     const change = (field) => (event) => setForm((current) => ({ ...current, [field]: event.target.value }));
     async function submit(event) {
       event.preventDefault();
+      if (busy) return;
       setError("");
       setFieldErrors({});
       if (form.password.length < 6) return setFieldErrors({ password: "M\u1EADt kh\u1EA9u ph\u1EA3i c\xF3 \xEDt nh\u1EA5t 6 k\xFD t\u1EF1." });
@@ -25301,100 +33884,209 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       setBusy(true);
       try {
         const data2 = await request("/auth/register", { method: "POST", authorized: false, body: { fullName: form.fullName, email: form.email, phone: form.phone || void 0, password: form.password } });
-        setSession(data2);
-        navigate("/");
+        if (!data2.requiresOtp || !data2.registrationTicket) throw new Error("Kh\xF4ng nh\u1EADn \u0111\u01B0\u1EE3c phi\xEAn x\xE1c minh \u0111\u0103ng k\xFD.");
+        setChallenge(data2);
+        setForm((current) => ({ ...current, email: current.email.trim().toLowerCase(), password: "", confirmPassword: "" }));
       } catch (err) {
-        if (/email/i.test(err.message || "")) setFieldErrors({ email: "Email n\xE0y \u0111\xE3 \u0111\u01B0\u1EE3c s\u1EED d\u1EE5ng." });
+        if (err.status === 409) setFieldErrors({ email: "Email n\xE0y \u0111\xE3 \u0111\u01B0\u1EE3c s\u1EED d\u1EE5ng." });
         else setError(err.message || "\u0110\u0103ng k\xFD th\u1EA5t b\u1EA1i, vui l\xF2ng th\u1EED l\u1EA1i.");
       } finally {
         setBusy(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)(AuthLayout, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("div", { className: "auth-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("p", { children: "B\u1EAET \u0110\u1EA6U C\xD9NG ROUTEBITE" }),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("h2", { children: "T\u1EA1o t\xE0i kho\u1EA3n" }),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("span", { children: "T\xE0i kho\u1EA3n \u0111\u0103ng k\xFD m\u1EDBi m\u1EB7c \u0111\u1ECBnh l\xE0 th\u1EF1c kh\xE1ch." })
+    return /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)(AuthLayout, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("div", { className: "auth-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("p", { children: "B\u1EAET \u0110\u1EA6U C\xD9NG ROUTEBITE" }),
+        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("h2", { children: "T\u1EA1o t\xE0i kho\u1EA3n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { children: "T\xE0i kho\u1EA3n \u0111\u0103ng k\xFD m\u1EDBi m\u1EB7c \u0111\u1ECBnh l\xE0 th\u1EF1c kh\xE1ch." })
       ] }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("div", { className: "auth-alert", role: "alert", children: error }),
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("form", { className: "auth-form", onSubmit: submit, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { children: [
+      error && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("div", { className: "auth-alert", role: "alert", children: error }),
+      challenge ? /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(EmailOtpLogin, { registration: true, challenge, email: form.email, onSession: (data2) => {
+        setSession(data2);
+        navigate("/");
+      }, onBack: () => {
+        setChallenge(null);
+        setError("");
+      } }) : /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("form", { className: "auth-form", onSubmit: submit, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("label", { children: [
           "H\u1ECD v\xE0 t\xEAn",
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { value: form.fullName, onChange: change("fullName"), placeholder: "Nguy\u1EC5n V\u0103n A", required: true, autoComplete: "name" })
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("input", { value: form.fullName, onChange: change("fullName"), placeholder: "Nguy\u1EC5n V\u0103n A", required: true, autoComplete: "name" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("label", { children: [
           "Email",
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { className: fieldErrors.email ? "has-error" : "", type: "email", value: form.email, onChange: change("email"), placeholder: "you@example.com", required: true, autoComplete: "email" }),
-          fieldErrors.email && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("small", { children: fieldErrors.email })
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("input", { className: fieldErrors.email ? "has-error" : "", type: "email", value: form.email, onChange: change("email"), placeholder: "you@example.com", required: true, autoComplete: "email" }),
+          fieldErrors.email && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("small", { children: fieldErrors.email })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("label", { children: [
           "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i ",
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("em", { children: "(c\u1EA7n khi \u0111\u1EB7t m\xF3n)" }),
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { type: "tel", value: form.phone, onChange: change("phone"), placeholder: "0900 000 000", autoComplete: "tel" })
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("em", { children: "(c\u1EA7n khi \u0111\u1EB7t m\xF3n)" }),
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("input", { type: "tel", value: form.phone, onChange: change("phone"), placeholder: "0900 000 000", autoComplete: "tel" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("label", { children: [
           "M\u1EADt kh\u1EA9u",
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { className: fieldErrors.password ? "has-error" : "", type: "password", value: form.password, onChange: change("password"), placeholder: "\xCDt nh\u1EA5t 6 k\xFD t\u1EF1", required: true, autoComplete: "new-password" }),
-          fieldErrors.password && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("small", { children: fieldErrors.password })
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("input", { className: fieldErrors.password ? "has-error" : "", type: "password", value: form.password, onChange: change("password"), placeholder: "\xCDt nh\u1EA5t 6 k\xFD t\u1EF1", required: true, autoComplete: "new-password" }),
+          fieldErrors.password && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("small", { children: fieldErrors.password })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("label", { children: [
           "X\xE1c nh\u1EADn m\u1EADt kh\u1EA9u",
-          /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("input", { className: fieldErrors.confirmPassword ? "has-error" : "", type: "password", value: form.confirmPassword, onChange: change("confirmPassword"), placeholder: "Nh\u1EADp l\u1EA1i m\u1EADt kh\u1EA9u", required: true, autoComplete: "new-password" }),
-          fieldErrors.confirmPassword && /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("small", { children: fieldErrors.confirmPassword })
+          /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("input", { className: fieldErrors.confirmPassword ? "has-error" : "", type: "password", value: form.confirmPassword, onChange: change("confirmPassword"), placeholder: "Nh\u1EADp l\u1EA1i m\u1EADt kh\u1EA9u", required: true, autoComplete: "new-password" }),
+          fieldErrors.confirmPassword && /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("small", { children: fieldErrors.confirmPassword })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)("button", { className: "auth-submit", disabled: busy, children: busy ? "\u0110ang \u0111\u0103ng k\xFD\u2026" : "\u0110\u0103ng k\xFD" })
+        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("button", { className: "auth-submit", disabled: busy, children: busy ? "\u0110ang \u0111\u0103ng k\xFD\u2026" : "\u0110\u0103ng k\xFD" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime9.jsxs)("p", { className: "auth-switch", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime13.jsxs)("p", { className: "auth-switch", children: [
         "\u0110\xE3 c\xF3 t\xE0i kho\u1EA3n? ",
-        /* @__PURE__ */ (0, import_jsx_runtime9.jsx)(Link, { to: "/login", children: "\u0110\u0103ng nh\u1EADp" })
+        /* @__PURE__ */ (0, import_jsx_runtime13.jsx)(Link, { to: "/login", children: "\u0110\u0103ng nh\u1EADp" })
       ] })
     ] });
   }
 
+  // src/components/LinkedLogin.jsx
+  var import_react12 = __toESM(require_react(), 1);
+  var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
+  function LinkedLogin() {
+    const [status, setStatus] = (0, import_react12.useState)(null), [password, setPassword] = (0, import_react12.useState)(""), [message, setMessage] = (0, import_react12.useState)("");
+    (0, import_react12.useEffect)(() => {
+      let active = true;
+      request("/auth/firebase/status").then((value2) => {
+        if (active) setStatus(value2);
+      }).catch(() => {
+        if (active) setMessage("Ch\u01B0a t\u1EA3i \u0111\u01B0\u1EE3c tr\u1EA1ng th\xE1i li\xEAn k\u1EBFt. Vui l\xF2ng t\u1EA3i l\u1EA1i trang.");
+      });
+      return () => {
+        active = false;
+      };
+    }, []);
+    async function link(idToken) {
+      const result = await request("/auth/firebase/link", { method: "POST", body: { idToken, password } });
+      setStatus({ ...status, linked: true });
+      setPassword("");
+      setMessage(result.message);
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("section", { className: "rb-linked-login", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("h2", { children: "Ph\u01B0\u01A1ng th\u1EE9c \u0111\u0103ng nh\u1EADp" }),
+      message && /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { role: "status", children: message }),
+      !status ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { children: "\u0110ang t\u1EA3i\u2026" }) : status.linked ? /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { children: "\u0110\xE3 li\xEAn k\u1EBFt danh t\xEDnh \u0111\u0103ng nh\u1EADp. \u0110\u0103ng nh\u1EADp b\u1EB1ng Google kh\xF4ng y\xEAu c\u1EA7u th\xEAm OTP email; \u0111\u0103ng nh\u1EADp b\u1EB1ng m\u1EADt kh\u1EA9u c\u1EA7n x\xE1c minh OTP." }) : status.hasPassword ? /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)(import_jsx_runtime14.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { children: "Gi\u1EEF nguy\xEAn \u0111\u01A1n h\xE0ng v\xE0 quy\u1EC1n t\xE0i kho\u1EA3n khi \u0111\u0103ng nh\u1EADp b\u1EB1ng ph\u01B0\u01A1ng th\u1EE9c m\u1EDBi." }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsxs)("label", { children: [
+          "M\u1EADt kh\u1EA9u hi\u1EC7n t\u1EA1i \u0111\u1EC3 li\xEAn k\u1EBFt",
+          /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("input", { type: "password", autoComplete: "current-password", value: password, onChange: (event) => setPassword(event.target.value) })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(ProviderLogin, { onToken: link, disabled: !password, linking: true })
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime14.jsx)("p", { children: "T\xE0i kho\u1EA3n n\xE0y kh\xF4ng c\xF3 m\u1EADt kh\u1EA9u ri\xEAng. H\xE3y d\xF9ng ph\u01B0\u01A1ng th\u1EE9c Google \u0111\xE3 li\xEAn k\u1EBFt. N\u1EBFu tr\u01B0\u1EDBc \u0111\xE2y ch\u1EC9 d\xF9ng OTP email, h\xE3y li\xEAn h\u1EC7 qu\u1EA3n tr\u1ECB vi\xEAn \u0111\u1EC3 h\u1ED7 tr\u1EE3 thi\u1EBFt l\u1EADp m\u1EADt kh\u1EA9u." })
+    ] });
+  }
+
   // src/ProfilePage.jsx
-  var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
+  var import_react13 = __toESM(require_react(), 1);
+  var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
   var ROLE_LABELS = { customer: "Kh\xE1ch h\xE0ng", merchant: "Ch\u1EE7 qu\xE1n", admin: "Qu\u1EA3n tr\u1ECB vi\xEAn" };
   function ProfilePage() {
     const { currentUser } = useAuth();
-    if (!currentUser) return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(Navigate, { to: "/login", replace: true });
-    return /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("main", { className: "profile-page", children: /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("section", { className: "profile-card", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("p", { children: "TH\xD4NG TIN T\xC0I KHO\u1EA2N" }),
-      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("h1", { children: "H\u1ED3 s\u01A1 c\u1EE7a b\u1EA1n" }),
-      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("div", { className: "profile-avatar", children: currentUser.fullName.split(" ").filter(Boolean).slice(-2).map((word) => word[0]).join("").toUpperCase() }),
-      /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { className: "profile-rows", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(InfoRow, { label: "H\u1ECD v\xE0 t\xEAn", value: currentUser.fullName }),
-        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(InfoRow, { label: "Email", value: currentUser.email }),
-        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(InfoRow, { label: "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i", value: currentUser.phone || "Ch\u01B0a c\u1EADp nh\u1EADt" }),
-        /* @__PURE__ */ (0, import_jsx_runtime10.jsx)(InfoRow, { label: "Vai tr\xF2", value: ROLE_LABELS[currentUser.role] || currentUser.role })
+    return currentUser ? /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(EditableProfile, {}, currentUser.id) : /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(Navigate, { to: "/login", replace: true });
+  }
+  function EditableProfile() {
+    const { currentUser, setCurrentUser } = useAuth();
+    const [name4, setName] = (0, import_react13.useState)(currentUser.fullName || "");
+    const [phone, setPhone] = (0, import_react13.useState)(currentUser.phone || "");
+    const [loading2, setLoading] = (0, import_react13.useState)(true), [saving, setSaving] = (0, import_react13.useState)(false);
+    const [error, setError] = (0, import_react13.useState)(""), [success, setSuccess] = (0, import_react13.useState)("");
+    (0, import_react13.useEffect)(() => {
+      let active = true;
+      request("/auth/profile").then((user) => {
+        if (active) {
+          setCurrentUser(user);
+          setName(user.fullName);
+          setPhone(user.phone || "");
+        }
+      }).catch((e) => {
+        if (active) setError(e.message);
+      }).finally(() => {
+        if (active) setLoading(false);
+      });
+      return () => {
+        active = false;
+      };
+    }, []);
+    async function save(event) {
+      event.preventDefault();
+      if (saving) return;
+      const fullName = name4.trim(), normalizedPhone = phone.replace(/[\s.-]/g, "");
+      setError("");
+      setSuccess("");
+      if (!fullName || !/^(?:0|\+84)[35789]\d{8}$/.test(normalizedPhone)) {
+        setError("Vui l\xF2ng nh\u1EADp h\u1ECD t\xEAn v\xE0 s\u1ED1 \u0111i\u1EC7n tho\u1EA1i di \u0111\u1ED9ng Vi\u1EC7t Nam h\u1EE3p l\u1EC7.");
+        return;
+      }
+      setSaving(true);
+      try {
+        const user = await request("/auth/profile", { method: "PATCH", body: { fullName, phone: normalizedPhone } });
+        setCurrentUser(user);
+        setName(user.fullName);
+        setPhone(user.phone);
+        setSuccess("\u0110\xE3 l\u01B0u h\u1ED3 s\u01A1. Th\xF4ng tin m\u1EDBi s\u1EBD \u0111\u01B0\u1EE3c d\xF9ng cho c\xE1c \u0111\u01A1n h\xE0ng ti\u1EBFp theo.");
+      } catch (e) {
+        setError(e.message || "Ch\u01B0a l\u01B0u \u0111\u01B0\u1EE3c h\u1ED3 s\u01A1. Vui l\xF2ng th\u1EED l\u1EA1i.");
+      } finally {
+        setSaving(false);
+      }
+    }
+    return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("main", { className: "profile-page", children: /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("section", { className: "profile-card", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { children: "TH\xD4NG TIN T\xC0I KHO\u1EA2N" }),
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("h1", { children: "H\u1ED3 s\u01A1 c\u1EE7a b\u1EA1n" }),
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { className: "profile-rows", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(InfoRow, { label: "Email", value: currentUser.email?.endsWith("@identity.routebite.invalid") ? "Ch\u01B0a cung c\u1EA5p email" : currentUser.email }),
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(InfoRow, { label: "Vai tr\xF2", value: ROLE_LABELS[currentUser.role] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("small", { children: "Ch\u1EE9c n\u0103ng ch\u1EC9nh s\u1EEDa th\xF4ng tin v\xE0 \u0111\u1ED5i m\u1EADt kh\u1EA9u s\u1EBD \u0111\u01B0\u1EE3c b\u1ED5 sung trong b\u1EA3n c\u1EADp nh\u1EADt ti\u1EBFp theo." })
+      loading2 && /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i h\u1ED3 s\u01A1\u2026" }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { role: "alert", children: error }),
+      success && /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { role: "status", children: success }),
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("form", { onSubmit: save, style: { display: "grid", gap: 16, marginTop: 24 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("label", { style: { display: "grid", gap: 8 }, children: [
+          "H\u1ECD v\xE0 t\xEAn",
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("input", { autoComplete: "name", value: name4, maxLength: 120, required: true, disabled: loading2 || saving, onChange: (e) => {
+            setName(e.target.value);
+            setSuccess("");
+          } })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("label", { style: { display: "grid", gap: 8 }, children: [
+          "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i",
+          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("input", { type: "tel", autoComplete: "tel", value: phone, maxLength: 20, required: true, disabled: loading2 || saving, placeholder: "V\xED d\u1EE5: 0901234567", onChange: (e) => {
+            setPhone(e.target.value);
+            setSuccess("");
+          } })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("small", { children: "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i d\xF9ng \u0111\u1EC3 qu\xE1n li\xEAn h\u1EC7 khi b\u1EA1n \u0111\u1EB7t m\xF3n." }),
+        /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("button", { className: "btn primary", type: "submit", disabled: loading2 || saving, children: saving ? "\u0110ang l\u01B0u\u2026" : "L\u01B0u thay \u0111\u1ED5i" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsx)(LinkedLogin, {})
     ] }) });
   }
   function InfoRow({ label, value: value2 }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime10.jsxs)("div", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("span", { children: label }),
-      /* @__PURE__ */ (0, import_jsx_runtime10.jsx)("strong", { children: value2 })
+    return /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)("div", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { children: label }),
+      /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("strong", { children: value2 })
     ] });
   }
 
   // src/components/AvatarDropdown.jsx
-  var import_react10 = __toESM(require_react(), 1);
+  var import_react15 = __toESM(require_react(), 1);
 
   // src/components/ChangePasswordModal.tsx
-  var import_react9 = __toESM(require_react(), 1);
-  var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
+  var import_react14 = __toESM(require_react(), 1);
+  var import_jsx_runtime16 = __toESM(require_jsx_runtime(), 1);
   function ChangePasswordModal({ onClose }) {
-    const dialog = (0, import_react9.useRef)(null);
-    const [oldPassword, setOldPassword] = (0, import_react9.useState)("");
-    const [newPassword, setNewPassword] = (0, import_react9.useState)("");
-    const [confirmPassword, setConfirmPassword] = (0, import_react9.useState)("");
-    const [error, setError] = (0, import_react9.useState)("");
-    const [success, setSuccess] = (0, import_react9.useState)(false);
-    const [loading, setLoading] = (0, import_react9.useState)(false);
-    (0, import_react9.useEffect)(() => {
+    const dialog = (0, import_react14.useRef)(null);
+    const [oldPassword, setOldPassword] = (0, import_react14.useState)("");
+    const [newPassword, setNewPassword] = (0, import_react14.useState)("");
+    const [confirmPassword, setConfirmPassword] = (0, import_react14.useState)("");
+    const [error, setError] = (0, import_react14.useState)("");
+    const [success, setSuccess] = (0, import_react14.useState)(false);
+    const [loading2, setLoading] = (0, import_react14.useState)(false);
+    (0, import_react14.useEffect)(() => {
       dialog.current?.showModal();
     }, []);
-    (0, import_react9.useEffect)(() => {
+    (0, import_react14.useEffect)(() => {
       if (!success) return;
       const timer = setTimeout(onClose, 1500);
       return () => clearTimeout(timer);
@@ -25416,44 +34108,44 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setLoading(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("dialog", { ref: dialog, className: "rb-password-dialog", "aria-labelledby": "password-title", onCancel: (event) => {
+    return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("dialog", { ref: dialog, className: "rb-password-dialog", "aria-labelledby": "password-title", onCancel: (event) => {
       event.preventDefault();
-      if (!loading) onClose();
+      if (!loading2) onClose();
     }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("h2", { id: "password-title", children: "\u0110\u1ED5i m\u1EADt kh\u1EA9u" }),
-      success ? /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("p", { role: "status", className: "rb-pickup-due", children: "\u0110\u1ED5i m\u1EADt kh\u1EA9u th\xE0nh c\xF4ng!" }) : /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("form", { className: "auth-form", onSubmit: submit, children: [
-        error && /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
-        /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("label", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("h2", { id: "password-title", children: "\u0110\u1ED5i m\u1EADt kh\u1EA9u" }),
+      success ? /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { role: "status", className: "rb-pickup-due", children: "\u0110\u1ED5i m\u1EADt kh\u1EA9u th\xE0nh c\xF4ng!" }) : /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("form", { className: "auth-form", onSubmit: submit, children: [
+        error && /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+        /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("label", { children: [
           "M\u1EADt kh\u1EA9u hi\u1EC7n t\u1EA1i",
-          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("input", { type: "password", autoComplete: "current-password", required: true, disabled: loading, value: oldPassword, onChange: (event) => setOldPassword(event.target.value) })
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("input", { type: "password", autoComplete: "current-password", required: true, disabled: loading2, value: oldPassword, onChange: (event) => setOldPassword(event.target.value) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("label", { children: [
           "M\u1EADt kh\u1EA9u m\u1EDBi",
-          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("input", { type: "password", autoComplete: "new-password", required: true, disabled: loading, value: newPassword, onChange: (event) => setNewPassword(event.target.value) })
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("input", { type: "password", autoComplete: "new-password", required: true, disabled: loading2, value: newPassword, onChange: (event) => setNewPassword(event.target.value) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("label", { children: [
           "X\xE1c nh\u1EADn m\u1EADt kh\u1EA9u m\u1EDBi",
-          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("input", { type: "password", autoComplete: "new-password", required: true, disabled: loading, value: confirmPassword, onChange: (event) => setConfirmPassword(event.target.value) })
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("input", { type: "password", autoComplete: "new-password", required: true, disabled: loading2, value: confirmPassword, onChange: (event) => setConfirmPassword(event.target.value) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime11.jsxs)("div", { className: "rb-dialog-actions", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("button", { type: "button", className: "btn secondary", disabled: loading, onClick: onClose, children: "H\u1EE7y" }),
-          /* @__PURE__ */ (0, import_jsx_runtime11.jsx)("button", { type: "submit", className: "btn primary", disabled: loading, children: loading ? "\u0110ang l\u01B0u\u2026" : "X\xE1c nh\u1EADn" })
+        /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("div", { className: "rb-dialog-actions", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("button", { type: "button", className: "btn secondary", disabled: loading2, onClick: onClose, children: "H\u1EE7y" }),
+          /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("button", { type: "submit", className: "btn primary", disabled: loading2, children: loading2 ? "\u0110ang l\u01B0u\u2026" : "X\xE1c nh\u1EADn" })
         ] })
       ] })
     ] });
   }
 
   // src/components/AvatarDropdown.jsx
-  var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
   var ROLE_LABELS2 = { customer: "Kh\xE1ch h\xE0ng", merchant: "Ch\u1EE7 qu\xE1n", admin: "Qu\u1EA3n tr\u1ECB vi\xEAn" };
   function AvatarDropdown() {
     const { currentUser, logout } = useAuth();
     const navigate = useNavigate();
-    const [open, setOpen] = (0, import_react10.useState)(false);
-    const [showPassword, setShowPassword] = (0, import_react10.useState)(false);
-    const ref = (0, import_react10.useRef)(null);
-    const closePassword = (0, import_react10.useCallback)(() => setShowPassword(false), []);
-    (0, import_react10.useEffect)(() => {
+    const [open, setOpen] = (0, import_react15.useState)(false);
+    const [showPassword, setShowPassword] = (0, import_react15.useState)(false);
+    const ref = (0, import_react15.useRef)(null);
+    const closePassword = (0, import_react15.useCallback)(() => setShowPassword(false), []);
+    (0, import_react15.useEffect)(() => {
       const close = (event) => {
         if (!ref.current?.contains(event.target)) setOpen(false);
       };
@@ -25467,55 +34159,55 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         document.removeEventListener("keydown", escape);
       };
     }, []);
-    if (!currentUser) return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("button", { className: "header-login", type: "button", onClick: () => navigate("/login"), children: "\u0110\u0103ng nh\u1EADp" });
+    if (!currentUser) return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("button", { className: "header-login", type: "button", onClick: () => navigate("/login"), children: "\u0110\u0103ng nh\u1EADp" });
     const initials = (currentUser.fullName || "").split(" ").filter(Boolean).slice(-2).map((word) => word[0]).join("").toUpperCase() || "RB";
     const go = (path) => {
       setOpen(false);
       navigate(path);
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(import_jsx_runtime12.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "avatar-dropdown", ref, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("button", { className: "profile-trigger", type: "button", "aria-label": "M\u1EDF menu t\xE0i kho\u1EA3n", "aria-haspopup": "menu", "aria-expanded": open, onClick: () => setOpen(!open), children: initials }),
-        open && /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "avatar-menu", role: "menu", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("header", { className: "rb-account-summary", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { className: "rb-account-initials", "aria-hidden": "true", children: initials }),
-            /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("strong", { children: currentUser.fullName }),
-              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { className: "rb-account-role", children: ROLE_LABELS2[currentUser.role] || currentUser.role })
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(import_jsx_runtime17.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "avatar-dropdown", ref, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("button", { className: "profile-trigger", type: "button", "aria-label": "M\u1EDF menu t\xE0i kho\u1EA3n", "aria-haspopup": "menu", "aria-expanded": open, onClick: () => setOpen(!open), children: initials }),
+        open && /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "avatar-menu", role: "menu", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("header", { className: "rb-account-summary", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("span", { className: "rb-account-initials", "aria-hidden": "true", children: initials }),
+            /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("strong", { children: currentUser.fullName }),
+              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("span", { className: "rb-account-role", children: ROLE_LABELS2[currentUser.role] || currentUser.role })
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)("div", { className: "avatar-menu-items", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "Th\xF4ng tin t\xE0i kho\u1EA3n", onClick: () => go(currentUser.role === "merchant" ? "/merchant/profile" : "/profile") }),
-            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "\u0110\u1ED5i m\u1EADt kh\u1EA9u", onClick: () => {
+          /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "avatar-menu-items", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(MenuItem, { label: "Th\xF4ng tin t\xE0i kho\u1EA3n", onClick: () => go(currentUser.role === "merchant" ? "/merchant/profile" : "/profile") }),
+            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(MenuItem, { label: "\u0110\u1ED5i m\u1EADt kh\u1EA9u", onClick: () => {
               setOpen(false);
               setShowPassword(true);
             } }),
-            /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "Qu\xE1n \u0111\xE3 l\u01B0u", onClick: () => go("/my-favorites") }),
-            currentUser.role === "customer" && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "\u0110i\u1EC3m c\u1EE7a t\xF4i", onClick: () => go("/my-points") }),
-            currentUser.role === "merchant" ? /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(import_jsx_runtime12.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "Qu\u1EA3n l\xFD qu\xE1n", onClick: () => go("/merchant/dashboard") }),
-              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "\u0110\u01A1n h\xE0ng c\u1EE7a qu\xE1n", onClick: () => go("/merchant/orders") })
-            ] }) : currentUser.role === "admin" ? /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "Qu\u1EA3n tr\u1ECB h\u1EC7 th\u1ED1ng", onClick: () => go("/admin/overview") }) : /* @__PURE__ */ (0, import_jsx_runtime12.jsxs)(import_jsx_runtime12.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "\u0110\u01A1n c\u1EE7a t\xF4i", onClick: () => go("/my-orders") }),
-              /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "Gi\u1ECF h\xE0ng c\u1EE7a t\xF4i", onClick: () => go("/my-carts") })
+            /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(MenuItem, { label: "Qu\xE1n \u0111\xE3 l\u01B0u", onClick: () => go("/my-favorites") }),
+            currentUser.role === "customer" && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(MenuItem, { label: "\u0110i\u1EC3m c\u1EE7a t\xF4i", onClick: () => go("/my-points") }),
+            currentUser.role === "merchant" ? /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(import_jsx_runtime17.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(MenuItem, { label: "Qu\u1EA3n l\xFD qu\xE1n", onClick: () => go("/merchant/dashboard") }),
+              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(MenuItem, { label: "\u0110\u01A1n h\xE0ng c\u1EE7a qu\xE1n", onClick: () => go("/merchant/orders") })
+            ] }) : currentUser.role === "admin" ? /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(MenuItem, { label: "Qu\u1EA3n tr\u1ECB h\u1EC7 th\u1ED1ng", onClick: () => go("/admin/overview") }) : /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(import_jsx_runtime17.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(MenuItem, { label: "\u0110\u01A1n c\u1EE7a t\xF4i", onClick: () => go("/my-orders") }),
+              /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(MenuItem, { label: "Gi\u1ECF h\xE0ng c\u1EE7a t\xF4i", onClick: () => go("/my-carts") })
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("div", { className: "avatar-menu-logout", children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(MenuItem, { label: "\u0110\u0103ng xu\u1EA5t", danger: true, onClick: () => {
+          /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "avatar-menu-logout", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(MenuItem, { label: "\u0110\u0103ng xu\u1EA5t", danger: true, onClick: () => {
             setOpen(false);
             logout();
             navigate("/login");
           } }) })
         ] })
       ] }),
-      showPassword && /* @__PURE__ */ (0, import_jsx_runtime12.jsx)(ChangePasswordModal, { onClose: closePassword })
+      showPassword && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(ChangePasswordModal, { onClose: closePassword })
     ] });
   }
   function MenuItem({ label, onClick, danger }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("button", { type: "button", role: "menuitem", className: danger ? "danger" : "", onClick, children: /* @__PURE__ */ (0, import_jsx_runtime12.jsx)("span", { children: label }) });
+    return /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("button", { type: "button", role: "menuitem", className: danger ? "danger" : "", onClick, children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("span", { children: label }) });
   }
 
   // src/components/OrderStatusBadge.tsx
-  var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
   var STATUS_CONFIG = {
     PENDING: { label: "Ch\u1EDD x\xE1c nh\u1EADn", bg: "#FEF3C7", color: "#92400E" },
     CONFIRMED: { label: "\u0110\xE3 x\xE1c nh\u1EADn", bg: "var(--color-primary-soft)", color: "var(--color-accent-dark)" },
@@ -25530,14 +34222,14 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       bg: "#E5E7EB",
       color: "#374151"
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime13.jsx)("span", { className: "rb-order-status", style: { backgroundColor: config2.bg, color: config2.color }, children: config2.label });
+    return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { className: "rb-order-status", style: { backgroundColor: config2.bg, color: config2.color }, children: config2.label });
   }
 
   // src/components/PlacedOrderConfirmation.tsx
-  var import_react13 = __toESM(require_react(), 1);
+  var import_react18 = __toESM(require_react(), 1);
 
   // src/contexts/SocketContext.jsx
-  var import_react11 = __toESM(require_react(), 1);
+  var import_react16 = __toESM(require_react(), 1);
 
   // node_modules/engine.io-parser/build/esm/commons.js
   var PACKET_TYPES = /* @__PURE__ */ Object.create(null);
@@ -25614,20 +34306,20 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   for (let i = 0; i < chars.length; i++) {
     lookup[chars.charCodeAt(i)] = i;
   }
-  var decode = (base64) => {
-    let bufferLength = base64.length * 0.75, len = base64.length, i, p = 0, encoded1, encoded2, encoded3, encoded4;
-    if (base64[base64.length - 1] === "=") {
+  var decode = (base642) => {
+    let bufferLength = base642.length * 0.75, len = base642.length, i, p = 0, encoded1, encoded2, encoded3, encoded4;
+    if (base642[base642.length - 1] === "=") {
       bufferLength--;
-      if (base64[base64.length - 2] === "=") {
+      if (base642[base642.length - 2] === "=") {
         bufferLength--;
       }
     }
     const arraybuffer = new ArrayBuffer(bufferLength), bytes = new Uint8Array(arraybuffer);
     for (i = 0; i < len; i += 4) {
-      encoded1 = lookup[base64.charCodeAt(i)];
-      encoded2 = lookup[base64.charCodeAt(i + 1)];
-      encoded3 = lookup[base64.charCodeAt(i + 2)];
-      encoded4 = lookup[base64.charCodeAt(i + 3)];
+      encoded1 = lookup[base642.charCodeAt(i)];
+      encoded2 = lookup[base642.charCodeAt(i + 1)];
+      encoded3 = lookup[base642.charCodeAt(i + 2)];
+      encoded4 = lookup[base642.charCodeAt(i + 3)];
       bytes[p++] = encoded1 << 2 | encoded2 >> 4;
       bytes[p++] = (encoded2 & 15) << 4 | encoded3 >> 2;
       bytes[p++] = (encoded3 & 3) << 6 | encoded4 & 63;
@@ -26507,7 +35199,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
 
   // node_modules/engine.io-client/build/esm/transports/websocket.js
-  var isReactNative = typeof navigator !== "undefined" && typeof navigator.product === "string" && navigator.product.toLowerCase() === "reactnative";
+  var isReactNative2 = typeof navigator !== "undefined" && typeof navigator.product === "string" && navigator.product.toLowerCase() === "reactnative";
   var BaseWS = class extends Transport {
     get name() {
       return "websocket";
@@ -26515,7 +35207,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     doOpen() {
       const uri = this.uri();
       const protocols = this.opts.protocols;
-      const opts = isReactNative ? {} : pick(this.opts, "agent", "perMessageDeflate", "pfx", "key", "passphrase", "cert", "ca", "ciphers", "rejectUnauthorized", "localAddress", "protocolVersion", "origin", "maxPayload", "family", "checkServerIdentity");
+      const opts = isReactNative2 ? {} : pick(this.opts, "agent", "perMessageDeflate", "pfx", "key", "passphrase", "cert", "ca", "ciphers", "rejectUnauthorized", "localAddress", "protocolVersion", "origin", "maxPayload", "family", "checkServerIdentity");
       if (this.opts.extraHeaders) {
         opts.headers = this.opts.extraHeaders;
       }
@@ -26593,7 +35285,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   var WebSocketCtor = globalThisShim.WebSocket || globalThisShim.MozWebSocket;
   var WS = class extends BaseWS {
     createSocket(uri, protocols, opts) {
-      return !isReactNative ? protocols ? new WebSocketCtor(uri, protocols) : new WebSocketCtor(uri) : new WebSocketCtor(uri, protocols, opts);
+      return !isReactNative2 ? protocols ? new WebSocketCtor(uri, protocols) : new WebSocketCtor(uri) : new WebSocketCtor(uri, protocols, opts);
     }
     doWrite(_packet, data2) {
       this.ws.send(data2);
@@ -26832,10 +35524,10 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
      * @return {Transport}
      * @private
      */
-    createTransport(name) {
+    createTransport(name4) {
       const query = Object.assign({}, this.opts.query);
       query.EIO = protocol;
-      query.transport = name;
+      query.transport = name4;
       if (this.id)
         query.sid = this.id;
       const opts = Object.assign({}, this.opts, {
@@ -26844,8 +35536,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         hostname: this.hostname,
         secure: this.secure,
         port: this.port
-      }, this.opts.transportOptions[name]);
-      return new this._transportsByName[name](opts);
+      }, this.opts.transportOptions[name4]);
+      return new this._transportsByName[name4](opts);
     }
     /**
      * Initializes transport to use and starts probe.
@@ -27184,8 +35876,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
      * @param {String} name - transport name
      * @private
      */
-    _probe(name) {
-      let transport = this.createTransport(name);
+    _probe(name4) {
+      let transport = this.createTransport(name4);
       let failed = false;
       SocketWithoutUpgrade.priorWebsocketSuccess = false;
       const onTransportOpen = () => {
@@ -27258,7 +35950,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       transport.once("close", onTransportClose);
       this.once("close", onclose);
       this.once("upgrading", onupgrade);
-      if (this._upgrades.indexOf("webtransport") !== -1 && name !== "webtransport") {
+      if (this._upgrades.indexOf("webtransport") !== -1 && name4 !== "webtransport") {
         this.setTimeoutFn(() => {
           if (!failed) {
             transport.open();
@@ -27658,11 +36350,11 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     static isPayloadValid(type, payload) {
       switch (type) {
         case PacketType.CONNECT:
-          return isObject(payload);
+          return isObject2(payload);
         case PacketType.DISCONNECT:
           return payload === void 0;
         case PacketType.CONNECT_ERROR:
-          return typeof payload === "string" || isObject(payload);
+          return typeof payload === "string" || isObject2(payload);
         case PacketType.EVENT:
         case PacketType.BINARY_EVENT:
           return Array.isArray(payload) && (typeof payload[0] === "number" || typeof payload[0] === "string" && RESERVED_EVENTS.indexOf(payload[0]) === -1);
@@ -27721,13 +36413,13 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   function isAckIdValid(id) {
     return id === void 0 || isInteger(id);
   }
-  function isObject(value2) {
+  function isObject2(value2) {
     return Object.prototype.toString.call(value2) === "[object Object]";
   }
   function isDataValid(type, payload) {
     switch (type) {
       case PacketType.CONNECT:
-        return payload === void 0 || isObject(payload);
+        return payload === void 0 || isObject2(payload);
       case PacketType.DISCONNECT:
         return payload === void 0;
       case PacketType.EVENT:
@@ -27735,7 +36427,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       case PacketType.ACK:
         return Array.isArray(payload);
       case PacketType.CONNECT_ERROR:
-        return typeof payload === "string" || isObject(payload);
+        return typeof payload === "string" || isObject2(payload);
       default:
         return false;
     }
@@ -28942,14 +37634,14 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   });
 
   // src/contexts/SocketContext.jsx
-  var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
-  var SocketContext = (0, import_react11.createContext)({});
+  var import_jsx_runtime19 = __toESM(require_jsx_runtime(), 1);
+  var SocketContext = (0, import_react16.createContext)({});
   function SocketProvider({ children }) {
     const { currentUser } = useAuth();
-    const [revision, setRevision] = (0, import_react11.useState)(0);
-    const [connections, setConnections] = (0, import_react11.useState)({});
+    const [revision, setRevision] = (0, import_react16.useState)(0);
+    const [connections, setConnections] = (0, import_react16.useState)({});
     const token = currentUser ? localStorage.getItem(TOKEN_KEY) : null;
-    (0, import_react11.useEffect)(() => {
+    (0, import_react16.useEffect)(() => {
       const changed = () => setRevision((value2) => value2 + 1);
       window.addEventListener("routebite:session-changed", changed);
       window.addEventListener("storage", changed);
@@ -28958,7 +37650,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         window.removeEventListener("storage", changed);
       };
     }, []);
-    (0, import_react11.useEffect)(() => {
+    (0, import_react16.useEffect)(() => {
       if (!token) {
         setConnections({});
         return;
@@ -28977,14 +37669,14 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         chat.disconnect();
       };
     }, [token, revision, currentUser?.role]);
-    return /* @__PURE__ */ (0, import_jsx_runtime14.jsx)(SocketContext.Provider, { value: connections.token === token ? connections : {}, children });
+    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(SocketContext.Provider, { value: connections.token === token ? connections : {}, children });
   }
   function useSockets() {
-    return (0, import_react11.useContext)(SocketContext);
+    return (0, import_react16.useContext)(SocketContext);
   }
 
   // src/components/OrderStatusStepper.tsx
-  var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime20 = __toESM(require_jsx_runtime(), 1);
   var ORDER_STEPS = [
     { status: "PENDING", label: "Ch\u1EDD x\xE1c nh\u1EADn" },
     { status: "CONFIRMED", label: "\u0110\xE3 x\xE1c nh\u1EADn" },
@@ -28995,16 +37687,16 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   function OrderStatusStepper({ currentStatus }) {
     const status = String(currentStatus || "").toUpperCase();
     const currentIndex = ORDER_STEPS.findIndex((step) => step.status === status);
-    if (status === "CANCELLED") return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("div", { className: "rb-order-cancelled", "aria-live": "polite", children: "\u0110\u01A1n h\xE0ng \u0111\xE3 b\u1ECB h\u1EE7y" });
-    if (currentIndex < 0) return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("p", { className: "rb-stepper-unknown", "aria-live": "polite", children: "Ch\u01B0a x\xE1c \u0111\u1ECBnh tr\u1EA1ng th\xE1i \u0111\u01A1n h\xE0ng." });
-    return /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("ol", { className: "rb-order-stepper", "aria-label": "Ti\u1EBFn \u0111\u1ED9 \u0111\u01A1n h\xE0ng", "aria-live": "polite", children: ORDER_STEPS.map((step, index) => /* @__PURE__ */ (0, import_jsx_runtime15.jsxs)(
+    if (status === "CANCELLED") return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("div", { className: "rb-order-cancelled", "aria-live": "polite", children: "\u0110\u01A1n h\xE0ng \u0111\xE3 b\u1ECB h\u1EE7y" });
+    if (currentIndex < 0) return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("p", { className: "rb-stepper-unknown", "aria-live": "polite", children: "Ch\u01B0a x\xE1c \u0111\u1ECBnh tr\u1EA1ng th\xE1i \u0111\u01A1n h\xE0ng." });
+    return /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("ol", { className: "rb-order-stepper", "aria-label": "Ti\u1EBFn \u0111\u1ED9 \u0111\u01A1n h\xE0ng", "aria-live": "polite", children: ORDER_STEPS.map((step, index) => /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)(
       "li",
       {
         className: index === currentIndex ? "current" : index < currentIndex ? "done" : "upcoming",
         "aria-current": index === currentIndex ? "step" : void 0,
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: "rb-step-dot", "aria-hidden": "true", children: index < currentIndex ? "\u2713" : index + 1 }),
-          /* @__PURE__ */ (0, import_jsx_runtime15.jsx)("span", { className: "rb-step-label", children: step.label })
+          /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("span", { className: "rb-step-dot", "aria-hidden": "true", children: index < currentIndex ? "\u2713" : index + 1 }),
+          /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("span", { className: "rb-step-label", children: step.label })
         ]
       },
       step.status
@@ -29012,11 +37704,11 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
 
   // src/components/PickupCountdown.tsx
-  var import_react12 = __toESM(require_react(), 1);
-  var import_jsx_runtime16 = __toESM(require_jsx_runtime(), 1);
+  var import_react17 = __toESM(require_react(), 1);
+  var import_jsx_runtime21 = __toESM(require_jsx_runtime(), 1);
   function PickupCountdown({ estimatedPickupAt, pickupType }) {
-    const [now, setNow] = (0, import_react12.useState)(() => Date.now());
-    (0, import_react12.useEffect)(() => {
+    const [now, setNow] = (0, import_react17.useState)(() => Date.now());
+    (0, import_react17.useEffect)(() => {
       setNow(Date.now());
       const interval = setInterval(() => setNow(Date.now()), 3e4);
       return () => clearInterval(interval);
@@ -29025,29 +37717,29 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     if (!Number.isFinite(target)) return null;
     if (pickupType === "scheduled") {
       const time = new Date(target).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
-      return /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("span", { children: [
+      return /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("span", { children: [
         "H\u1EB9n l\u1EA5y l\xFAc ",
         time
       ] });
     }
     const remainingMinutes = Math.max(0, Math.ceil((target - now) / 6e4));
-    return remainingMinutes > 0 ? /* @__PURE__ */ (0, import_jsx_runtime16.jsxs)("span", { children: [
+    return remainingMinutes > 0 ? /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("span", { children: [
       "L\u1EA5y sau kho\u1EA3ng ",
       remainingMinutes,
       " ph\xFAt"
-    ] }) : /* @__PURE__ */ (0, import_jsx_runtime16.jsx)("span", { className: "rb-pickup-due", children: "C\xF3 th\u1EC3 \u0111\xE3 s\u1EB5n s\xE0ng, gh\xE9 l\u1EA5y nh\xE9!" });
+    ] }) : /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("span", { className: "rb-pickup-due", children: "C\xF3 th\u1EC3 \u0111\xE3 s\u1EB5n s\xE0ng, gh\xE9 l\u1EA5y nh\xE9!" });
   }
 
   // src/components/PlacedOrderConfirmation.tsx
-  var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime22 = __toESM(require_jsx_runtime(), 1);
   function PlacedOrderConfirmation({ initialOrder }) {
     const { orders: socket } = useSockets();
-    const [order, setOrder] = (0, import_react13.useState)(initialOrder);
-    const [error, setError] = (0, import_react13.useState)("");
-    const [unavailable, setUnavailable] = (0, import_react13.useState)(false);
-    const [connected, setConnected] = (0, import_react13.useState)(false);
-    const [revision, setRevision] = (0, import_react13.useState)(0);
-    (0, import_react13.useEffect)(() => {
+    const [order, setOrder] = (0, import_react18.useState)(initialOrder);
+    const [error, setError] = (0, import_react18.useState)("");
+    const [unavailable, setUnavailable] = (0, import_react18.useState)(false);
+    const [connected, setConnected] = (0, import_react18.useState)(false);
+    const [revision, setRevision] = (0, import_react18.useState)(0);
+    (0, import_react18.useEffect)(() => {
       let alive = true, requestSequence = 0;
       const merge = (next2) => {
         if (!alive) return;
@@ -29113,52 +37805,52 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       };
     }, [initialOrder.id, socket, revision]);
     const paymentText = order.status === "CANCELLED" ? "" : order.paymentStatus === "REFUNDED" ? "\u0110\u01A1n h\xE0ng \u0111\xE3 \u0111\u01B0\u1EE3c ho\xE0n ti\u1EC1n." : order.totalAmount === 0 && order.paymentStatus === "PAID" ? "Voucher \u0111\xE3 thanh to\xE1n to\xE0n b\u1ED9 gi\xE1 tr\u1ECB \u0111\u01A1n." : order.paymentMethod === "cash" ? order.paymentStatus === "PAID" ? "\u0110\xE3 thanh to\xE1n ti\u1EC1n m\u1EB7t." : "Thanh to\xE1n ti\u1EC1n m\u1EB7t khi gh\xE9 l\u1EA5y." : order.paymentStatus === "PAID" ? "\u0110\xE3 thanh to\xE1n qua VNPAY." : "Ch\u01B0a ho\xE0n t\u1EA5t thanh to\xE1n VNPAY. B\u1EA1n c\xF3 th\u1EC3 ti\u1EBFp t\u1EE5c \u1EDF trang chi ti\u1EBFt \u0111\u01A1n.";
-    return /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("section", { className: "item-card rb-placed-order", "aria-label": "\u0110\u01A1n v\u1EEBa \u0111\u1EB7t", children: [
-      !unavailable && /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)(import_jsx_runtime17.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("p", { className: "rb-placed-order-heading", role: "status", children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)("section", { className: "item-card rb-placed-order", "aria-label": "\u0110\u01A1n v\u1EEBa \u0111\u1EB7t", children: [
+      !unavailable && /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)(import_jsx_runtime22.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)("p", { className: "rb-placed-order-heading", role: "status", children: [
           "\u0110\u01A1n ",
-          /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("strong", { children: order.orderCode }),
+          /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("strong", { children: order.orderCode }),
           " \u0111\xE3 \u0111\u1EB7t. ",
           paymentText
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(OrderStatusStepper, { currentStatus: order.status }),
-        ["CONFIRMED", "PREPARING", "READY"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("div", { className: "rb-placed-order-eta", children: /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("small", { className: "rb-order-sync", children: connected ? "\u0110ang c\u1EADp nh\u1EADt tr\u1EF1c ti\u1EBFp" : "T\u1EF1 ki\u1EC3m tra tr\u1EA1ng th\xE1i m\u1ED7i 15 gi\xE2y" })
+        /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(OrderStatusStepper, { currentStatus: order.status }),
+        ["CONFIRMED", "PREPARING", "READY"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("div", { className: "rb-placed-order-eta", children: /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("small", { className: "rb-order-sync", children: connected ? "\u0110ang c\u1EADp nh\u1EADt tr\u1EF1c ti\u1EBFp" : "T\u1EF1 ki\u1EC3m tra tr\u1EA1ng th\xE1i m\u1ED7i 15 gi\xE2y" })
       ] }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("p", { className: "rb-order-sync-error", role: "alert", children: [
+      error && /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)("p", { className: "rb-order-sync-error", role: "alert", children: [
         error,
         " ",
-        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)("button", { type: "button", className: "btn secondary", onClick: () => setRevision((n) => n + 1), children: "Th\u1EED l\u1EA1i" })
+        /* @__PURE__ */ (0, import_jsx_runtime22.jsx)("button", { type: "button", className: "btn secondary", onClick: () => setRevision((n) => n + 1), children: "Th\u1EED l\u1EA1i" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime17.jsxs)("div", { className: "rb-placed-order-links", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Link, { to: "/kham-pha", children: "Kh\xE1m ph\xE1 qu\xE1n" }),
-        /* @__PURE__ */ (0, import_jsx_runtime17.jsx)(Link, { to: "/orders/" + initialOrder.id, children: "Xem chi ti\u1EBFt \u0111\u01A1n" })
+      /* @__PURE__ */ (0, import_jsx_runtime22.jsxs)("div", { className: "rb-placed-order-links", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(Link, { to: "/kham-pha", children: "Kh\xE1m ph\xE1 qu\xE1n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(Link, { to: "/orders/" + initialOrder.id, children: "Xem chi ti\u1EBFt \u0111\u01A1n" })
       ] })
     ] });
   }
 
   // src/components/QuantityStepper.tsx
-  var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
-  function QuantityStepper({ quantity, onIncrease, onDecrease, name = "m\xF3n", disabled = false }) {
+  var import_jsx_runtime23 = __toESM(require_jsx_runtime(), 1);
+  function QuantityStepper({ quantity, onIncrease, onDecrease, name: name4 = "m\xF3n", disabled = false }) {
     if (quantity <= 0) {
-      return /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("button", { type: "button", className: "rb-quantity-add", "aria-label": `Th\xEAm ${name}`, onClick: onIncrease, disabled, children: "+" });
+      return /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("button", { type: "button", className: "rb-quantity-add", "aria-label": `Th\xEAm ${name4}`, onClick: onIncrease, disabled, children: "+" });
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime18.jsxs)("div", { className: "rb-quantity-stepper", role: "group", "aria-label": `S\u1ED1 l\u01B0\u1EE3ng ${name}`, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("button", { type: "button", "aria-label": `Gi\u1EA3m ${name}`, onClick: onDecrease, disabled, children: "\u2212" }),
-      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("span", { "aria-live": "polite", "aria-atomic": "true", children: quantity }),
-      /* @__PURE__ */ (0, import_jsx_runtime18.jsx)("button", { type: "button", className: "rb-quantity-increase", "aria-label": `T\u0103ng ${name}`, onClick: onIncrease, disabled: disabled || quantity >= 100, children: "+" })
+    return /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "rb-quantity-stepper", role: "group", "aria-label": `S\u1ED1 l\u01B0\u1EE3ng ${name4}`, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("button", { type: "button", "aria-label": `Gi\u1EA3m ${name4}`, onClick: onDecrease, disabled, children: "\u2212" }),
+      /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("span", { "aria-live": "polite", "aria-atomic": "true", children: quantity }),
+      /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("button", { type: "button", className: "rb-quantity-increase", "aria-label": `T\u0103ng ${name4}`, onClick: onIncrease, disabled: disabled || quantity >= 100, children: "+" })
     ] });
   }
 
   // src/components/FoodThumbnail.tsx
-  var import_jsx_runtime19 = __toESM(require_jsx_runtime(), 1);
-  function FoodThumbnail({ src, name, className = "" }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime19.jsx)(
+  var import_jsx_runtime24 = __toESM(require_jsx_runtime(), 1);
+  function FoodThumbnail({ src, name: name4, className = "" }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(
       "img",
       {
         className: `rb-food-thumbnail ${className}`,
         src: src || "/placeholder-food.svg",
-        alt: name,
+        alt: name4,
         loading: "lazy",
         onError: (event) => {
           const image = event.currentTarget;
@@ -29169,7 +37861,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
 
   // src/components/RouteSummaryCard.tsx
-  var import_jsx_runtime20 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime25 = __toESM(require_jsx_runtime(), 1);
   function RouteSummaryCard({ restaurantName, restaurantAddress, destination, origin }) {
     const [params] = useSearchParams();
     const start = readRouteOrigin(params) || origin;
@@ -29181,34 +37873,34 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       destination: target,
       travelmode: "driving"
     }) : void 0;
-    return /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("section", { className: "rb-route-summary", "aria-label": "L\u1ED9 tr\xECnh c\u1EE7a b\u1EA1n", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("h2", { children: "L\u1ED8 TR\xCCNH C\u1EE6A B\u1EA0N" }),
-      /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("ol", { className: "rb-route-timeline", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("li", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("span", { className: "rb-route-label", children: "\u0110i\u1EC3m \u0111i" }),
-          /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("p", { children: start.address || "\u0110i\u1EC3m xu\u1EA5t ph\xE1t" })
+    return /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("section", { className: "rb-route-summary", "aria-label": "L\u1ED9 tr\xECnh c\u1EE7a b\u1EA1n", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("h2", { children: "L\u1ED8 TR\xCCNH C\u1EE6A B\u1EA0N" }),
+      /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("ol", { className: "rb-route-timeline", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("li", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("span", { className: "rb-route-label", children: "\u0110i\u1EC3m \u0111i" }),
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("p", { children: start.address || "\u0110i\u1EC3m xu\u1EA5t ph\xE1t" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime20.jsxs)("li", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("span", { className: "rb-route-label", children: "Gh\xE9 l\u1EA5y t\u1EA1i" }),
-          /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("strong", { children: restaurantName }),
-          /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("p", { children: restaurantAddress || destination?.address || "\u0110ang c\u1EADp nh\u1EADt \u0111\u1ECBa ch\u1EC9 qu\xE1n" })
+        /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("li", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("span", { className: "rb-route-label", children: "Gh\xE9 l\u1EA5y t\u1EA1i" }),
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("strong", { children: restaurantName }),
+          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("p", { children: restaurantAddress || destination?.address || "\u0110ang c\u1EADp nh\u1EADt \u0111\u1ECBa ch\u1EC9 qu\xE1n" })
         ] })
       ] }),
-      url2 && /* @__PURE__ */ (0, import_jsx_runtime20.jsx)("a", { className: "rb-route-directions", href: url2, target: "_blank", rel: "noopener noreferrer", children: "\u{1F9ED} Ch\u1EC9 \u0111\u01B0\u1EDDng tr\xEAn Google Maps" })
+      url2 && /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("a", { className: "rb-route-directions", href: url2, target: "_blank", rel: "noopener noreferrer", children: "\u{1F9ED} Ch\u1EC9 \u0111\u01B0\u1EDDng tr\xEAn Google Maps" })
     ] });
   }
 
   // src/components/PaymentMethodSelector.tsx
-  var import_react14 = __toESM(require_react(), 1);
-  var import_jsx_runtime21 = __toESM(require_jsx_runtime(), 1);
+  var import_react19 = __toESM(require_react(), 1);
+  var import_jsx_runtime26 = __toESM(require_jsx_runtime(), 1);
   function usePaymentMethod() {
-    return (0, import_react14.useState)("cash");
+    return (0, import_react19.useState)("cash");
   }
   function PaymentMethodSelector({ value: value2, onChange, disabled = false }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("fieldset", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime21.jsx)("legend", { children: "Ph\u01B0\u01A1ng th\u1EE9c thanh to\xE1n" }),
-      /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("label", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("fieldset", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("legend", { children: "Ph\u01B0\u01A1ng th\u1EE9c thanh to\xE1n" }),
+      /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
           "input",
           {
             name: "payment-method",
@@ -29221,8 +37913,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         ),
         " Ti\u1EC1n m\u1EB7t khi gh\xE9 l\u1EA5y"
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime21.jsxs)("label", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime21.jsx)(
+      /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(
           "input",
           {
             name: "payment-method",
@@ -29247,7 +37939,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
 
   // src/contexts/CartContext.jsx
-  var import_react15 = __toESM(require_react(), 1);
+  var import_react20 = __toESM(require_react(), 1);
 
   // src/utils/cartStorage.ts
   var SAVED_CARTS_KEY = "routebite_saved_carts_v1";
@@ -29304,21 +37996,21 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
 
   // src/contexts/CartContext.jsx
-  var import_jsx_runtime22 = __toESM(require_jsx_runtime(), 1);
-  var CartContext = (0, import_react15.createContext)(null);
+  var import_jsx_runtime27 = __toESM(require_jsx_runtime(), 1);
+  var CartContext = (0, import_react20.createContext)(null);
   function CartProvider({ children }) {
-    const [carts, setCarts] = (0, import_react15.useState)(getSavedCarts);
-    (0, import_react15.useEffect)(() => {
+    const [carts, setCarts] = (0, import_react20.useState)(getSavedCarts);
+    (0, import_react20.useEffect)(() => {
       saveCarts(carts);
     }, [carts]);
-    (0, import_react15.useEffect)(() => {
+    (0, import_react20.useEffect)(() => {
       const sync = (event) => {
         if (event.key === SAVED_CARTS_KEY) setCarts(getSavedCarts());
       };
       window.addEventListener("storage", sync);
       return () => window.removeEventListener("storage", sync);
     }, []);
-    const value2 = (0, import_react15.useMemo)(() => ({
+    const value2 = (0, import_react20.useMemo)(() => ({
       carts,
       cart: carts.flatMap((cart) => cart.items),
       add: (item) => setCarts((old) => addCartItem(old, item)),
@@ -29336,37 +38028,37 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         });
       }
     }), [carts]);
-    return /* @__PURE__ */ (0, import_jsx_runtime22.jsx)(CartContext.Provider, { value: value2, children });
+    return /* @__PURE__ */ (0, import_jsx_runtime27.jsx)(CartContext.Provider, { value: value2, children });
   }
   function useCart() {
-    return (0, import_react15.useContext)(CartContext);
+    return (0, import_react20.useContext)(CartContext);
   }
 
   // src/pages/MyCartsPage.tsx
-  var import_react16 = __toESM(require_react(), 1);
-  var import_jsx_runtime23 = __toESM(require_jsx_runtime(), 1);
+  var import_react21 = __toESM(require_react(), 1);
+  var import_jsx_runtime28 = __toESM(require_jsx_runtime(), 1);
   function MyCartsPage() {
     const { carts, clear } = useCart();
-    const [manageMode, setManageMode] = (0, import_react16.useState)(false);
-    return /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("main", { className: "app-page rb-commerce-page rb-orders-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "rb-page-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { className: "page-intro", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("p", { className: "rb-eyebrow", children: "GI\u1ECE H\xC0NG" }),
-          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("h1", { children: "Gi\u1ECF h\xE0ng c\u1EE7a t\xF4i" }),
-          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("p", { children: "L\u01B0u t\u1ED1i \u0111a 10 gi\u1ECF h\xE0ng g\u1EA7n nh\u1EA5t theo qu\xE1n." })
+    const [manageMode, setManageMode] = (0, import_react21.useState)(false);
+    return /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("main", { className: "app-page rb-commerce-page rb-orders-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("div", { className: "rb-page-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("div", { className: "page-intro", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("p", { className: "rb-eyebrow", children: "GI\u1ECE H\xC0NG" }),
+          /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("h1", { children: "Gi\u1ECF h\xE0ng c\u1EE7a t\xF4i" }),
+          /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("p", { children: "L\u01B0u t\u1ED1i \u0111a 10 gi\u1ECF h\xE0ng g\u1EA7n nh\u1EA5t theo qu\xE1n." })
         ] }),
-        !!carts.length && /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("button", { className: "btn secondary", type: "button", onClick: () => setManageMode(!manageMode), children: manageMode ? "Xong" : "Qu\u1EA3n l\xFD" })
+        !!carts.length && /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("button", { className: "btn secondary", type: "button", onClick: () => setManageMode(!manageMode), children: manageMode ? "Xong" : "Qu\u1EA3n l\xFD" })
       ] }),
-      !carts.length && /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("section", { className: "item-card rb-empty", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("p", { children: "B\u1EA1n ch\u01B0a c\xF3 gi\u1ECF h\xE0ng n\xE0o, kh\xE1m ph\xE1 qu\xE1n \u0103n \u0111\u1EC3 b\u1EAFt \u0111\u1EA7u." }),
-        /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(Link, { to: "/", children: "Kh\xE1m ph\xE1 ngay" })
+      !carts.length && /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("section", { className: "item-card rb-empty", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("p", { children: "B\u1EA1n ch\u01B0a c\xF3 gi\u1ECF h\xE0ng n\xE0o, kh\xE1m ph\xE1 qu\xE1n \u0103n \u0111\u1EC3 b\u1EAFt \u0111\u1EA7u." }),
+        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(Link, { to: "/", children: "Kh\xE1m ph\xE1 ngay" })
       ] }),
       carts.map((cart) => {
-        const content = /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(import_jsx_runtime23.Fragment, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)(FoodThumbnail, { src: cart.restaurantImage, name: cart.restaurantName }),
-          /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("h2", { children: cart.restaurantName }),
-            /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("p", { children: [
+        const content = /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)(import_jsx_runtime28.Fragment, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(FoodThumbnail, { src: cart.restaurantImage, name: cart.restaurantName }),
+          /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("h2", { children: cart.restaurantName }),
+            /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("p", { children: [
               cart.items.reduce((sum, item) => sum + item.quantity, 0),
               " m\xF3n \xB7 ",
               cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0).toLocaleString("vi-VN"),
@@ -29374,48 +38066,48 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
             ] })
           ] })
         ] });
-        return manageMode ? /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)("article", { className: "item-card rb-saved-cart", children: [
+        return manageMode ? /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("article", { className: "item-card rb-saved-cart", children: [
           content,
-          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("button", { type: "button", className: "rb-danger-button", "aria-label": "X\xF3a gi\u1ECF " + cart.restaurantName, onClick: () => clear(cart.restaurantId), children: "X\xF3a" })
-        ] }, cart.restaurantId) : /* @__PURE__ */ (0, import_jsx_runtime23.jsxs)(Link, { className: "item-card rb-saved-cart", to: "/restaurants/" + cart.restaurantId + "/cart", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("button", { type: "button", className: "rb-danger-button", "aria-label": "X\xF3a gi\u1ECF " + cart.restaurantName, onClick: () => clear(cart.restaurantId), children: "X\xF3a" })
+        ] }, cart.restaurantId) : /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)(Link, { className: "item-card rb-saved-cart", to: "/restaurants/" + cart.restaurantId + "/cart", children: [
           content,
-          /* @__PURE__ */ (0, import_jsx_runtime23.jsx)("span", { "aria-hidden": "true", children: "\u2192" })
+          /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("span", { "aria-hidden": "true", children: "\u2192" })
         ] }, cart.restaurantId);
       })
     ] });
   }
 
   // src/pages/OrderDetailPage.jsx
-  var import_react19 = __toESM(require_react(), 1);
+  var import_react24 = __toESM(require_react(), 1);
 
   // src/components/ChatDrawer.tsx
-  var import_react18 = __toESM(require_react(), 1);
+  var import_react23 = __toESM(require_react(), 1);
 
   // src/contexts/ChatInboxContext.tsx
-  var import_react17 = __toESM(require_react(), 1);
-  var import_jsx_runtime24 = __toESM(require_jsx_runtime(), 1);
+  var import_react22 = __toESM(require_react(), 1);
+  var import_jsx_runtime29 = __toESM(require_jsx_runtime(), 1);
   var empty2 = { conversations: [], loading: false, error: "" };
-  var ChatInboxContext = (0, import_react17.createContext)({ ...empty2, totalUnread: 0, refresh: async () => {
+  var ChatInboxContext = (0, import_react22.createContext)({ ...empty2, totalUnread: 0, refresh: async () => {
   } });
   function ChatInboxProvider({ children }) {
     const { currentUser } = useAuth();
     const { chat: socket } = useSockets();
     const enabled = ["customer", "merchant"].includes(currentUser?.role), userId = enabled ? currentUser.id : null;
-    const [state, setState] = (0, import_react17.useState)({ ...empty2, userId });
-    const refreshRef = (0, import_react17.useRef)(async () => {
+    const [state, setState] = (0, import_react22.useState)({ ...empty2, userId });
+    const refreshRef = (0, import_react22.useRef)(async () => {
     });
-    (0, import_react17.useEffect)(() => {
+    (0, import_react22.useEffect)(() => {
       let active = true, sequence = 0;
       setState({ ...empty2, userId, loading: !!userId });
       const refresh2 = async () => {
         if (!userId) return;
-        const version = ++sequence;
+        const version4 = ++sequence;
         try {
           const rows = await request("/messages/conversations");
           if (!Array.isArray(rows)) throw new Error();
-          if (active && version === sequence) setState({ userId, conversations: rows, loading: false, error: "" });
+          if (active && version4 === sequence) setState({ userId, conversations: rows, loading: false, error: "" });
         } catch (error) {
-          if (active && version === sequence) setState((old) => ({ ...old, conversations: [401, 403].includes(error.status) ? [] : old.conversations, loading: false, error: "Kh\xF4ng t\u1EA3i \u0111\u01B0\u1EE3c h\u1ED9p th\u01B0. Vui l\xF2ng th\u1EED l\u1EA1i." }));
+          if (active && version4 === sequence) setState((old) => ({ ...old, conversations: [401, 403].includes(error.status) ? [] : old.conversations, loading: false, error: "Kh\xF4ng t\u1EA3i \u0111\u01B0\u1EE3c h\u1ED9p th\u01B0. Vui l\xF2ng th\u1EED l\u1EA1i." }));
         }
       };
       refreshRef.current = refresh2;
@@ -29444,18 +38136,18 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         socket?.off("messages.read", refresh2);
       };
     }, [userId, socket]);
-    const refresh = (0, import_react17.useCallback)(async () => {
+    const refresh = (0, import_react22.useCallback)(async () => {
       await refreshRef.current();
     }, []);
     const current = state.userId === userId ? state : empty2;
-    return /* @__PURE__ */ (0, import_jsx_runtime24.jsx)(ChatInboxContext.Provider, { value: { ...current, totalUnread: current.conversations.reduce((sum, row) => sum + Math.max(0, Number(row.unreadCount) || 0), 0), refresh }, children });
+    return /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(ChatInboxContext.Provider, { value: { ...current, totalUnread: current.conversations.reduce((sum, row) => sum + Math.max(0, Number(row.unreadCount) || 0), 0), refresh }, children });
   }
   function useChatInbox() {
-    return (0, import_react17.useContext)(ChatInboxContext);
+    return (0, import_react22.useContext)(ChatInboxContext);
   }
 
   // src/components/ChatDrawer.tsx
-  var import_jsx_runtime25 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime30 = __toESM(require_jsx_runtime(), 1);
   var mergeMessages = (old, incoming, orderId) => {
     const map = new Map(old.map((message) => [message.id, message]));
     for (const message of incoming) if (message.orderId === orderId && message.id && typeof message.content === "string") map.set(message.id, message);
@@ -29465,24 +38157,24 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     const { currentUser } = useAuth();
     const { chat: socket } = useSockets();
     const { refresh: refreshInbox } = useChatInbox();
-    const [messages, setMessages] = (0, import_react18.useState)([]);
-    const [input, setInput] = (0, import_react18.useState)("");
-    const [loading, setLoading] = (0, import_react18.useState)(true);
-    const [allowed, setAllowed] = (0, import_react18.useState)(false);
-    const [error, setError] = (0, import_react18.useState)("");
-    const [sending, setSending] = (0, import_react18.useState)(false);
-    const [connected, setConnected] = (0, import_react18.useState)(false);
-    const [revision, setRevision] = (0, import_react18.useState)(0);
-    const [viewRevision, setViewRevision] = (0, import_react18.useState)(0);
-    const [readError, setReadError] = (0, import_react18.useState)("");
-    const busy = (0, import_react18.useRef)(false), alive = (0, import_react18.useRef)(true), followBottom = (0, import_react18.useRef)(true);
-    const drawer = (0, import_react18.useRef)(null), list = (0, import_react18.useRef)(null), field = (0, import_react18.useRef)(null);
-    const close = (0, import_react18.useRef)(onClose);
+    const [messages, setMessages] = (0, import_react23.useState)([]);
+    const [input, setInput] = (0, import_react23.useState)("");
+    const [loading2, setLoading] = (0, import_react23.useState)(true);
+    const [allowed, setAllowed] = (0, import_react23.useState)(false);
+    const [error, setError] = (0, import_react23.useState)("");
+    const [sending, setSending] = (0, import_react23.useState)(false);
+    const [connected, setConnected] = (0, import_react23.useState)(false);
+    const [revision, setRevision] = (0, import_react23.useState)(0);
+    const [viewRevision, setViewRevision] = (0, import_react23.useState)(0);
+    const [readError, setReadError] = (0, import_react23.useState)("");
+    const busy = (0, import_react23.useRef)(false), alive = (0, import_react23.useRef)(true), followBottom = (0, import_react23.useRef)(true);
+    const drawer = (0, import_react23.useRef)(null), list = (0, import_react23.useRef)(null), field = (0, import_react23.useRef)(null);
+    const close = (0, import_react23.useRef)(onClose);
     close.current = onClose;
-    (0, import_react18.useEffect)(() => {
+    (0, import_react23.useEffect)(() => {
       if (allowed) field.current?.focus();
     }, [allowed]);
-    (0, import_react18.useEffect)(() => {
+    (0, import_react23.useEffect)(() => {
       alive.current = true;
       field.current?.focus();
       window.dispatchEvent(new CustomEvent("routebite:order-chat-open", { detail: true }));
@@ -29496,20 +38188,20 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         window.dispatchEvent(new CustomEvent("routebite:order-chat-open", { detail: false }));
       };
     }, []);
-    (0, import_react18.useEffect)(() => {
+    (0, import_react23.useEffect)(() => {
       let active = true, sequence = 0;
       const load = async () => {
-        const version = ++sequence;
+        const version4 = ++sequence;
         try {
           const rows = await request(`/orders/${orderId}/messages`);
           if (!Array.isArray(rows)) throw new Error();
-          if (active && version === sequence) {
+          if (active && version4 === sequence) {
             setMessages((old) => mergeMessages(old, rows, orderId));
             setAllowed(true);
             setError("");
           }
         } catch (cause) {
-          if (active && version === sequence) {
+          if (active && version4 === sequence) {
             if ([401, 403, 404].includes(cause.status)) {
               setAllowed(false);
               setMessages([]);
@@ -29517,7 +38209,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
             setError([401, 403].includes(cause.status) ? "B\u1EA1n kh\xF4ng c\xF3 quy\u1EC1n m\u1EDF chat ho\u1EB7c phi\xEAn \u0111\u0103ng nh\u1EADp \u0111\xE3 h\u1EBFt h\u1EA1n." : "Kh\xF4ng th\u1EC3 t\u1EA3i tin nh\u1EAFn. Vui l\xF2ng th\u1EED l\u1EA1i.");
           }
         } finally {
-          if (active && version === sequence) setLoading(false);
+          if (active && version4 === sequence) setLoading(false);
         }
       };
       void load();
@@ -29552,10 +38244,10 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         if (socket?.connected) socket.emit("leave", { orderId });
       };
     }, [orderId, socket, revision]);
-    (0, import_react18.useEffect)(() => {
+    (0, import_react23.useEffect)(() => {
       if (followBottom.current && list.current) list.current.scrollTop = list.current.scrollHeight;
     }, [messages.length]);
-    (0, import_react18.useEffect)(() => {
+    (0, import_react23.useEffect)(() => {
       const visible = () => {
         if (document.visibilityState === "visible") setViewRevision((n) => n + 1);
       };
@@ -29566,7 +38258,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         window.removeEventListener("focus", visible);
       };
     }, []);
-    (0, import_react18.useEffect)(() => {
+    (0, import_react23.useEffect)(() => {
       if (!allowed || document.visibilityState !== "visible" || !followBottom.current) return;
       const ids = messages.filter((m) => m.isRead === false && m.senderId !== currentUser?.id).map((m) => m.id);
       if (!ids.length) return;
@@ -29622,24 +38314,24 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         }
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("section", { ref: drawer, className: "rb-chat-drawer", role: "dialog", "aria-modal": "false", "aria-labelledby": "chat-title", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("header", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("h2", { id: "chat-title", children: "Nh\u1EAFn tin v\u1EC1 \u0111\u01A1n h\xE0ng" }),
-          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("small", { children: orderCode || orderId })
+    return /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("section", { ref: drawer, className: "rb-chat-drawer", role: "dialog", "aria-modal": "false", "aria-labelledby": "chat-title", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("header", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("h2", { id: "chat-title", children: "Nh\u1EAFn tin v\u1EC1 \u0111\u01A1n h\xE0ng" }),
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("small", { children: orderCode || orderId })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("button", { type: "button", "aria-label": "\u0110\xF3ng tr\xF2 chuy\u1EC7n", disabled: sending, onClick: onClose, children: "\xD7" })
+        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { type: "button", "aria-label": "\u0110\xF3ng tr\xF2 chuy\u1EC7n", disabled: sending, onClick: onClose, children: "\xD7" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("p", { className: "rb-chat-connection", children: connected ? "\u0110\xE3 k\u1EBFt n\u1ED1i realtime" : "\u0110ang k\u1EBFt n\u1ED1i realtime \xB7 t\u1EF1 t\u1EA3i l\u1EA1i m\u1ED7i 15 gi\xE2y" }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "rb-chat-error", role: "alert", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { className: "rb-chat-connection", children: connected ? "\u0110\xE3 k\u1EBFt n\u1ED1i realtime" : "\u0110ang k\u1EBFt n\u1ED1i realtime \xB7 t\u1EF1 t\u1EA3i l\u1EA1i m\u1ED7i 15 gi\xE2y" }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { className: "rb-chat-error", role: "alert", children: [
         error,
-        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("button", { type: "button", onClick: () => setRevision((value2) => value2 + 1), children: "Th\u1EED l\u1EA1i" })
+        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { type: "button", onClick: () => setRevision((value2) => value2 + 1), children: "Th\u1EED l\u1EA1i" })
       ] }),
-      readError && /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "rb-chat-error", children: [
+      readError && /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { className: "rb-chat-error", children: [
         readError,
-        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("button", { type: "button", onClick: () => setViewRevision((n) => n + 1), children: "Th\u1EED l\u1EA1i" })
+        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { type: "button", onClick: () => setViewRevision((n) => n + 1), children: "Th\u1EED l\u1EA1i" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("div", { className: "rb-chat-messages", ref: list, role: "log", "aria-label": "Tin nh\u1EAFn c\u1EE7a \u0111\u01A1n", "aria-live": "polite", onScroll: () => {
+      /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { className: "rb-chat-messages", ref: list, role: "log", "aria-label": "Tin nh\u1EAFn c\u1EE7a \u0111\u01A1n", "aria-live": "polite", onScroll: () => {
         const node = list.current;
         if (node) {
           const bottom = node.scrollHeight - node.scrollTop - node.clientHeight < 60;
@@ -29647,35 +38339,35 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           followBottom.current = bottom;
         }
       }, children: [
-        loading ? /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("p", { children: "\u0110ang t\u1EA3i tin nh\u1EAFn\u2026" }) : !messages.length && !error ? /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("p", { children: "Ch\u01B0a c\xF3 tin nh\u1EAFn. H\xE3y trao \u0111\u1ED5i v\u1EC1 \u0111\u01A1n h\xE0ng t\u1EA1i \u0111\xE2y." }) : null,
-        messages.map((message) => /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("article", { className: `rb-chat-message${message.senderId === currentUser?.id ? " mine" : ""}`, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("small", { children: message.senderId === currentUser?.id ? "B\u1EA1n" : message.senderRole === "merchant" ? "Qu\xE1n" : "Kh\xE1ch h\xE0ng" }),
-          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("p", { children: message.content }),
-          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("time", { dateTime: message.createdAt, children: new Date(message.createdAt).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" }) })
+        loading2 ? /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { children: "\u0110ang t\u1EA3i tin nh\u1EAFn\u2026" }) : !messages.length && !error ? /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { children: "Ch\u01B0a c\xF3 tin nh\u1EAFn. H\xE3y trao \u0111\u1ED5i v\u1EC1 \u0111\u01A1n h\xE0ng t\u1EA1i \u0111\xE2y." }) : null,
+        messages.map((message) => /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("article", { className: `rb-chat-message${message.senderId === currentUser?.id ? " mine" : ""}`, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("small", { children: message.senderId === currentUser?.id ? "B\u1EA1n" : message.senderRole === "merchant" ? "Qu\xE1n" : "Kh\xE1ch h\xE0ng" }),
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { children: message.content }),
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("time", { dateTime: message.createdAt, children: new Date(message.createdAt).toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" }) })
         ] }, message.id))
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("form", { onSubmit: send, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime25.jsxs)("label", { className: "rb-chat-input", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("span", { children: "Tin nh\u1EAFn" }),
-          /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("input", { ref: field, placeholder: "Nh\u1EADp tin nh\u1EAFn...", maxLength: 2e3, disabled: sending || !allowed, value: input, onChange: (event) => setInput(event.target.value) })
+      /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("form", { onSubmit: send, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("label", { className: "rb-chat-input", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("span", { children: "Tin nh\u1EAFn" }),
+          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("input", { ref: field, placeholder: "Nh\u1EADp tin nh\u1EAFn...", maxLength: 2e3, disabled: sending || !allowed, value: input, onChange: (event) => setInput(event.target.value) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime25.jsx)("button", { className: "btn primary", type: "submit", disabled: sending || !allowed || !input.trim(), children: sending ? "\u0110ang g\u1EEDi\u2026" : "G\u1EEDi" })
+        /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { className: "btn primary", type: "submit", disabled: sending || !allowed || !input.trim(), children: sending ? "\u0110ang g\u1EEDi\u2026" : "G\u1EEDi" })
       ] })
     ] });
   }
 
   // src/pages/OrderDetailPage.jsx
-  var import_jsx_runtime26 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime31 = __toESM(require_jsx_runtime(), 1);
   function OrderDetailPage() {
     const { id } = useParams();
     const [params, setParams] = useSearchParams();
     const { currentUser } = useAuth();
     const { orders: socket } = useSockets();
-    const [order, setOrder] = (0, import_react19.useState)(null);
-    const [error, setError] = (0, import_react19.useState)("");
-    const [paying, setPaying] = (0, import_react19.useState)(false);
-    const [chatOpen, setChatOpen] = (0, import_react19.useState)(false);
-    (0, import_react19.useEffect)(() => {
+    const [order, setOrder] = (0, import_react24.useState)(null);
+    const [error, setError] = (0, import_react24.useState)("");
+    const [paying, setPaying] = (0, import_react24.useState)(false);
+    const [chatOpen, setChatOpen] = (0, import_react24.useState)(false);
+    (0, import_react24.useEffect)(() => {
       setChatOpen(params.get("chat") === "1");
     }, [id, params]);
     const closeChat = () => {
@@ -29687,7 +38379,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       }
     };
     const token = localStorage.getItem(TOKEN_KEY);
-    (0, import_react19.useEffect)(() => {
+    (0, import_react24.useEffect)(() => {
       if (!token) return;
       let active = true;
       setOrder(null);
@@ -29733,208 +38425,178 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       }
     }
     const paymentLabels = { UNPAID: "Ch\u01B0a thanh to\xE1n", PENDING: "\u0110ang ch\u1EDD thanh to\xE1n", PAID: "\u0110\xE3 thanh to\xE1n", FAILED: "Thanh to\xE1n th\u1EA5t b\u1EA1i", CANCELLED: "\u0110\xE3 h\u1EE7y thanh to\xE1n", EXPIRED: "H\u1EBFt h\u1EA1n thanh to\xE1n", REFUNDED: "\u0110\xE3 ho\xE0n ti\u1EC1n" };
-    return /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("main", { className: "app-page rb-commerce-page rb-orders-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(Link, { className: "back-link", to: currentUser?.role === "merchant" ? "/merchant/orders" : "/my-orders", children: currentUser?.role === "merchant" ? "\u2190 \u0110\u01A1n h\xE0ng c\u1EE7a qu\xE1n" : "\u2190 \u0110\u01A1n c\u1EE7a t\xF4i" }),
-      /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("h1", { children: "Chi ti\u1EBFt \u0111\u01A1n h\xE0ng" }),
-      !token ? /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("p", { children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("main", { className: "app-page rb-commerce-page rb-orders-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Link, { className: "back-link", to: currentUser?.role === "merchant" ? "/merchant/orders" : "/my-orders", children: currentUser?.role === "merchant" ? "\u2190 \u0110\u01A1n h\xE0ng c\u1EE7a qu\xE1n" : "\u2190 \u0110\u01A1n c\u1EE7a t\xF4i" }),
+      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("h1", { children: "Chi ti\u1EBFt \u0111\u01A1n h\xE0ng" }),
+      !token ? /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("p", { children: [
         "Vui l\xF2ng ",
-        /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(Link, { to: "/login", children: "\u0111\u0103ng nh\u1EADp" }),
+        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(Link, { to: "/login", children: "\u0111\u0103ng nh\u1EADp" }),
         " \u0111\u1EC3 xem \u0111\u01A1n h\xE0ng."
-      ] }) : /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(import_jsx_runtime26.Fragment, { children: [
-        error && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
-        !order && !error && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("p", { children: "\u0110ang t\u1EA3i \u0111\u01A1n h\xE0ng\u2026" }),
-        order && /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(import_jsx_runtime26.Fragment, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("section", { className: "item-card", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(OrderStatusBadge, { status: order.status }),
-            /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("h2", { children: order.restaurant?.name }),
-            /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("p", { children: order.orderCode }),
-            /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("p", { children: order.restaurant?.address }),
-            /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(OrderStatusStepper, { currentStatus: order.status }),
-            !["COMPLETED", "CANCELLED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }),
-            /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("p", { children: [
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(import_jsx_runtime31.Fragment, { children: [
+        error && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+        !order && !error && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { children: "\u0110ang t\u1EA3i \u0111\u01A1n h\xE0ng\u2026" }),
+        order && /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(import_jsx_runtime31.Fragment, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("section", { className: "item-card", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(OrderStatusBadge, { status: order.status }),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("h2", { children: order.restaurant?.name }),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { children: order.orderCode }),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { children: order.restaurant?.address }),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(OrderStatusStepper, { currentStatus: order.status }),
+            !["COMPLETED", "CANCELLED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }),
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("p", { children: [
               paymentLabels[order.paymentStatus] || "\u0110ang c\u1EADp nh\u1EADt thanh to\xE1n",
               " \xB7 ",
               order.paymentMethod === "cash" ? "Ti\u1EC1n m\u1EB7t" : "VNPAY"
             ] }),
-            order.status === "CANCELLED" && order.paymentStatus === "PAID" && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("p", { children: "\u0110\u01A1n \u0111\xE3 h\u1EE7y. Vui l\xF2ng li\xEAn h\u1EC7 qu\xE1n \u0111\u1EC3 \u0111\u01B0\u1EE3c h\u1ED7 tr\u1EE3 ho\xE0n ti\u1EC1n." })
+            order.status === "CANCELLED" && order.paymentStatus === "PAID" && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { children: "\u0110\u01A1n \u0111\xE3 h\u1EE7y. Vui l\xF2ng li\xEAn h\u1EC7 qu\xE1n \u0111\u1EC3 \u0111\u01B0\u1EE3c h\u1ED7 tr\u1EE3 ho\xE0n ti\u1EC1n." })
           ] }),
-          ["customer", "merchant"].includes(currentUser?.role) && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("button", { className: "btn secondary", type: "button", onClick: () => setChatOpen(true), children: currentUser.role === "merchant" ? "Nh\u1EAFn tin v\u1EDBi kh\xE1ch" : "Nh\u1EAFn tin v\u1EDBi qu\xE1n" }),
-          chatOpen && ["customer", "merchant"].includes(currentUser?.role) && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(ChatDrawer, { orderId: order.id, orderCode: order.orderCode, onClose: closeChat }, order.id),
-          /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("section", { className: "item-card", children: [
-            order.items?.map((item) => /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "rb-product-row rb-cart-row", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime26.jsx)(FoodThumbnail, { src: item.imageUrl, name: item.itemName }),
-              /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("h3", { children: item.itemName }),
-                /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("p", { children: [
+          ["customer", "merchant"].includes(currentUser?.role) && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("button", { className: "btn secondary rb-order-chat-action", type: "button", onClick: () => setChatOpen(true), children: currentUser.role === "merchant" ? "Nh\u1EAFn tin v\u1EDBi kh\xE1ch" : "Nh\u1EAFn tin v\u1EDBi qu\xE1n" }),
+          chatOpen && ["customer", "merchant"].includes(currentUser?.role) && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(ChatDrawer, { orderId: order.id, orderCode: order.orderCode, onClose: closeChat }, order.id),
+          /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("section", { className: "item-card", children: [
+            order.items?.map((item) => /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "rb-product-row rb-cart-row", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(FoodThumbnail, { src: item.imageUrl, name: item.itemName }),
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("h3", { children: item.itemName }),
+                /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("p", { children: [
                   item.quantity,
                   " \xD7 ",
                   money2(item.unitPrice)
                 ] })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("strong", { children: money2(item.lineTotal) })
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("strong", { children: money2(item.lineTotal) })
             ] }, item.id || item.menuItemId)),
-            order.discountAmount > 0 && /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)(import_jsx_runtime26.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "rb-discount-row", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("span", { children: "T\u1EA1m t\xEDnh" }),
-                /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("span", { children: money2(order.subtotal) })
+            order.discountAmount > 0 && /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(import_jsx_runtime31.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "rb-discount-row", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { children: "T\u1EA1m t\xEDnh" }),
+                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { children: money2(order.subtotal) })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "rb-discount-row saving", children: [
-                /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("span", { children: "Gi\u1EA3m voucher" }),
-                /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("strong", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "rb-discount-row saving", children: [
+                /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { children: "Gi\u1EA3m voucher" }),
+                /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("strong", { children: [
                   "\u2212",
                   money2(order.discountAmount)
                 ] })
               ] })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime26.jsxs)("div", { className: "rb-order-footer", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("span", { children: "T\u1ED5ng c\u1ED9ng" }),
-              /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("strong", { children: money2(order.totalAmount) })
+            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "rb-order-footer", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { children: "T\u1ED5ng c\u1ED9ng" }),
+              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("strong", { children: money2(order.totalAmount) })
             ] })
           ] }),
-          currentUser?.role !== "merchant" && order.paymentMethod === "vnpay" && !["PAID", "REFUNDED"].includes(order.paymentStatus) && !["CANCELLED", "COMPLETED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime26.jsx)("button", { type: "button", className: "btn primary", disabled: paying, onClick: pay, children: paying ? "\u0110ang m\u1EDF VNPAY\u2026" : "Ti\u1EBFp t\u1EE5c thanh to\xE1n VNPAY" })
+          currentUser?.role !== "merchant" && order.paymentMethod === "vnpay" && !["PAID", "REFUNDED"].includes(order.paymentStatus) && !["CANCELLED", "COMPLETED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("button", { type: "button", className: "btn primary", disabled: paying, onClick: pay, children: paying ? "\u0110ang m\u1EDF VNPAY\u2026" : "Ti\u1EBFp t\u1EE5c thanh to\xE1n VNPAY" })
         ] })
       ] })
     ] });
   }
 
+  // src/pages/VnpayReturnPage.jsx
+  var import_react25 = __toESM(require_react(), 1);
+  var import_jsx_runtime32 = __toESM(require_jsx_runtime(), 1);
+  function VnpayReturnPage() {
+    const { search } = useLocation();
+    const [result, setResult] = (0, import_react25.useState)(null);
+    const [error, setError] = (0, import_react25.useState)("");
+    const [waiting, setWaiting] = (0, import_react25.useState)(true);
+    (0, import_react25.useEffect)(() => {
+      let stopped = false;
+      let timer;
+      let count = 0;
+      setResult(null);
+      setError("");
+      setWaiting(true);
+      async function check() {
+        try {
+          const data2 = await request(`/payments/vnpay-return${search}`, { authorized: false });
+          if (stopped) return;
+          setResult(data2);
+          if (data2.status === "PENDING" && ++count < 20) timer = setTimeout(check, 3e3);
+          else setWaiting(false);
+        } catch (e) {
+          if (!stopped) {
+            setError(e.message);
+            setWaiting(false);
+          }
+        }
+      }
+      check();
+      return () => {
+        stopped = true;
+        clearTimeout(timer);
+      };
+    }, [search]);
+    const paid = result?.status === "PAID";
+    const pending = result?.status === "PENDING";
+    return /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("main", { className: "container", style: { maxWidth: 640, margin: "48px auto", padding: 24 }, children: /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("section", { className: "card", style: { padding: 28 }, "aria-live": "polite", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("p", { children: "THANH TO\xC1N VNPAY" }),
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("h1", { children: error ? "Ch\u01B0a x\xE1c minh \u0111\u01B0\u1EE3c thanh to\xE1n" : paid ? "Thanh to\xE1n th\xE0nh c\xF4ng" : waiting ? "\u0110ang x\xE1c nh\u1EADn thanh to\xE1n\u2026" : pending ? "\u0110ang ch\u1EDD VNPAY x\xE1c nh\u1EADn" : result?.status === "REFUNDED" ? "Giao d\u1ECBch \u0111\xE3 ho\xE0n ti\u1EC1n" : "Thanh to\xE1n ch\u01B0a ho\xE0n t\u1EA5t" }),
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("p", { children: error || (paid ? "H\u1EC7 th\u1ED1ng \u0111\xE3 ghi nh\u1EADn kho\u1EA3n thanh to\xE1n c\u1EE7a b\u1EA1n." : pending ? "N\u1EBFu ng\xE2n h\xE0ng \u0111\xE3 tr\u1EEB ti\u1EC1n, vui l\xF2ng ch\u1EDD v\xE0 ki\u1EC3m tra \u0111\u01A1n h\xE0ng tr\u01B0\u1EDBc khi thanh to\xE1n l\u1EA1i." : waiting ? "Vui l\xF2ng ch\u1EDD trong gi\xE2y l\xE1t." : "B\u1EA1n c\xF3 th\u1EC3 xem tr\u1EA1ng th\xE1i v\xE0 th\u1EED l\u1EA1i t\u1EEB trang \u0111\u01A1n h\xE0ng.") }),
+      result?.orderId && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Link, { className: "btn", to: `/orders/${result.orderId}`, children: "Xem \u0111\u01A1n h\xE0ng" }),
+      " ",
+      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)(Link, { to: "/my-orders", children: "Danh s\xE1ch \u0111\u01A1n h\xE0ng" })
+    ] }) });
+  }
+
   // src/pages/ExplorePage.tsx
-  var import_react21 = __toESM(require_react(), 1);
+  var import_react27 = __toESM(require_react(), 1);
 
   // src/components/ExploreMap.jsx
-  var import_react20 = __toESM(require_react(), 1);
-  var import_jsx_runtime27 = __toESM(require_jsx_runtime(), 1);
-  var DEFAULT_CENTER = [10.7769, 106.7009];
+  var import_react26 = __toESM(require_react(), 1);
+  var import_jsx_runtime33 = __toESM(require_jsx_runtime(), 1);
   function ExploreMap({ restaurants, userPosition, locating, locationError, onLocate }) {
-    const container = (0, import_react20.useRef)(null);
-    const map = (0, import_react20.useRef)(null);
-    const layers = (0, import_react20.useRef)(null);
     const navigate = useNavigate();
-    const [ready, setReady] = (0, import_react20.useState)(false);
-    const [mapError, setMapError] = (0, import_react20.useState)("");
-    const [retry, setRetry] = (0, import_react20.useState)(0);
-    (0, import_react20.useEffect)(() => {
-      const L = window.L;
-      if (!L) {
-        setMapError("Kh\xF4ng t\u1EA3i \u0111\u01B0\u1EE3c b\u1EA3n \u0111\u1ED3. B\u1EA1n v\u1EABn c\xF3 th\u1EC3 ch\u1ECDn qu\xE1n trong danh s\xE1ch b\xEAn d\u01B0\u1EDBi.");
-        return;
-      }
-      setMapError("");
-      const instance = L.map(container.current, { scrollWheelZoom: false }).setView(DEFAULT_CENTER, 12);
-      map.current = instance;
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-      }).on("tileerror", () => setMapError("N\u1EC1n b\u1EA3n \u0111\u1ED3 \u0111ang gi\xE1n \u0111o\u1EA1n. Danh s\xE1ch qu\xE1n v\u1EABn d\xF9ng \u0111\u01B0\u1EE3c.")).addTo(instance);
-      layers.current = L.layerGroup().addTo(instance);
-      const observer = new ResizeObserver(() => instance.invalidateSize());
-      observer.observe(container.current);
-      setReady(true);
-      return () => {
-        observer.disconnect();
-        instance.remove();
-        map.current = null;
-        layers.current = null;
-        setReady(false);
-      };
-    }, [retry]);
-    (0, import_react20.useEffect)(() => {
-      if (!ready || !layers.current) return;
-      const L = window.L;
-      layers.current.clearLayers();
-      const bounds = [];
-      restaurants.forEach((restaurant) => {
-        const point = restaurantPoint(restaurant);
-        if (!point) return;
-        const coords = [point.lat, point.lng];
-        bounds.push(coords);
-        const content = document.createElement("div");
-        const title = document.createElement("strong");
-        title.textContent = restaurant.name;
-        const address = document.createElement("p");
-        address.textContent = restaurant.address || "";
-        const button = document.createElement("button");
-        button.type = "button";
-        button.textContent = "Xem qu\xE1n";
-        button.className = "btn secondary";
-        button.onclick = () => navigate(`/restaurant/${restaurant.id}`);
-        content.append(title, address, button);
-        L.marker(coords, { title: restaurant.name, alt: restaurant.name, icon: L.divIcon({
-          className: "rb-shop-marker",
-          html: '<span aria-hidden="true">\u25CF</span>',
-          iconSize: [30, 30],
-          iconAnchor: [15, 15]
-        }) }).bindPopup(content).addTo(layers.current);
-      });
-      if (userPosition) {
-        const coords = [userPosition.lat, userPosition.lng];
-        bounds.push(coords);
-        L.circleMarker(coords, { radius: 9, color: "#fff", weight: 3, fillColor: "#2563eb", fillOpacity: 1 }).bindTooltip("V\u1ECB tr\xED c\u1EE7a b\u1EA1n").addTo(layers.current);
-      }
-      if (bounds.length) map.current.fitBounds(bounds, { padding: [35, 35], maxZoom: 15 });
-      else map.current.setView(DEFAULT_CENTER, 12);
-    }, [ready, restaurants, userPosition, navigate]);
-    const mapped = restaurants.filter((restaurant) => restaurantPoint(restaurant)).length;
-    return /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("section", { className: "rb-explore-map-section", "aria-label": "B\u1EA3n \u0111\u1ED3 qu\xE1n \u0103n", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("div", { className: "rb-map-toolbar", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("p", { children: [
-          mapped,
-          " qu\xE1n c\xF3 v\u1ECB tr\xED tr\xEAn b\u1EA3n \u0111\u1ED3 (trang hi\u1EC7n t\u1EA1i)"
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("button", { className: "btn secondary", type: "button", disabled: locating, onClick: () => {
-          if (userPosition && map.current) map.current.flyTo([userPosition.lat, userPosition.lng], 15);
-          else onLocate();
-        }, children: locating ? "\u0110ang l\u1EA5y v\u1ECB tr\xED\u2026" : "V\u1EC1 v\u1ECB tr\xED c\u1EE7a t\xF4i" })
+    const [focus, setFocus] = (0, import_react26.useState)(null);
+    (0, import_react26.useEffect)(() => {
+      if (userPosition) setFocus({ ...userPosition });
+    }, [userPosition]);
+    const points = restaurants.map((shop) => ({ ...restaurantPoint(shop), id: shop.id, name: shop.name })).filter((p) => Number.isFinite(p.lat));
+    if (userPosition) points.push({ ...userPosition, name: "V\u1ECB tr\xED c\u1EE7a b\u1EA1n" });
+    return /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("section", { className: "rb-explore-map-section", "aria-label": "B\u1EA3n \u0111\u1ED3 qu\xE1n \u0103n", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsxs)("div", { className: "rb-map-toolbar", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("p", { children: "C\xE1c qu\xE1n tr\xEAn trang hi\u1EC7n t\u1EA1i" }),
+        /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("button", { className: "btn secondary", type: "button", disabled: locating, onClick: () => userPosition ? setFocus({ ...userPosition }) : onLocate(), children: locating ? "\u0110ang l\u1EA5y v\u1ECB tr\xED\u2026" : "V\u1EC1 v\u1ECB tr\xED c\u1EE7a t\xF4i" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("div", { ref: container, className: "rb-explore-map", "aria-label": "B\u1EA3n \u0111\u1ED3 OpenStreetMap" }),
-      mapError && /* @__PURE__ */ (0, import_jsx_runtime27.jsxs)("p", { role: "status", children: [
-        mapError,
-        " ",
-        /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("button", { type: "button", onClick: () => {
-          if (!window.L) window.location.reload();
-          else setRetry((value2) => value2 + 1);
-        }, children: "T\u1EA3i l\u1EA1i b\u1EA3n \u0111\u1ED3" })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime27.jsx)("p", { className: "rb-map-note", children: locationError || (userPosition ? "Kho\u1EA3ng c\xE1ch tr\xEAn th\u1EBB qu\xE1n l\xE0 \u0111\u01B0\u1EDDng th\u1EB3ng t\u1EEB v\u1ECB tr\xED c\u1EE7a b\u1EA1n, kh\xF4ng ph\u1EA3i qu\xE3ng \u0111\u01B0\u1EDDng l\xE1i xe." : "Cho ph\xE9p truy c\u1EADp v\u1ECB tr\xED \u0111\u1EC3 xem kho\u1EA3ng c\xE1ch t\u1EEB b\u1EA1n t\u1EDBi qu\xE1n.") })
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(GoogleMap, { points, focusPoint: focus, onOpen: (id) => navigate(`/restaurant/${id}`) }),
+      /* @__PURE__ */ (0, import_jsx_runtime33.jsx)("p", { className: "rb-map-note", children: locationError || "Kho\u1EA3ng c\xE1ch \u201CC\xE1ch b\u1EA1n\u201D l\xE0 \u0111\u01B0\u1EDDng th\u1EB3ng. D\xF9ng t\xECm theo l\u1ED9 tr\xECnh \u0111\u1EC3 t\xEDnh qu\xE3ng \u0111\u01B0\u1EDDng ch\u1EA1y xe \u0111i th\xEAm." })
     ] });
   }
 
   // src/pages/ExplorePage.tsx
-  var import_jsx_runtime28 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime34 = __toESM(require_jsx_runtime(), 1);
   var PAGE_SIZE = 12;
   function ExplorePage() {
     const navigate = useNavigate();
-    const [restaurants, setRestaurants] = (0, import_react21.useState)([]);
-    const [loading, setLoading] = (0, import_react21.useState)(true);
-    const [error, setError] = (0, import_react21.useState)("");
-    const [page, setPage] = (0, import_react21.useState)(1);
-    const [total, setTotal] = (0, import_react21.useState)(0);
-    const [retry, setRetry] = (0, import_react21.useState)(0);
-    const [input, setInput] = (0, import_react21.useState)("");
-    const [search, setSearch] = (0, import_react21.useState)("");
-    const [userPosition, setUserPosition] = (0, import_react21.useState)(null);
+    const [restaurants, setRestaurants] = (0, import_react27.useState)([]);
+    const [loading2, setLoading] = (0, import_react27.useState)(true);
+    const [error, setError] = (0, import_react27.useState)("");
+    const [page, setPage] = (0, import_react27.useState)(1);
+    const [total, setTotal] = (0, import_react27.useState)(0);
+    const [retry, setRetry] = (0, import_react27.useState)(0);
+    const [input, setInput] = (0, import_react27.useState)("");
+    const [search, setSearch] = (0, import_react27.useState)("");
+    const [userPosition, setUserPosition] = (0, import_react27.useState)(null);
     const { getCurrentLocation, loading: locating, error: locationError } = useCurrentLocation();
-    const mounted = (0, import_react21.useRef)(true);
-    const locate = (0, import_react21.useCallback)(() => {
+    const mounted = (0, import_react27.useRef)(true);
+    const locate = (0, import_react27.useCallback)(() => {
       getCurrentLocation({ resolveAddress: false }).then((point) => {
         if (mounted.current) setUserPosition(point);
       }).catch(() => {
       });
     }, [getCurrentLocation]);
-    (0, import_react21.useEffect)(() => {
+    (0, import_react27.useEffect)(() => {
       mounted.current = true;
       locate();
       return () => {
         mounted.current = false;
       };
     }, [locate]);
-    (0, import_react21.useEffect)(() => {
+    (0, import_react27.useEffect)(() => {
       const timer = window.setTimeout(() => {
         setSearch(input.trim());
         setPage(1);
       }, 400);
       return () => window.clearTimeout(timer);
     }, [input]);
-    (0, import_react21.useEffect)(() => {
+    (0, import_react27.useEffect)(() => {
       let active = true;
       setLoading(true);
       setError("");
@@ -29955,41 +38617,41 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         active = false;
       };
     }, [page, retry, search]);
-    return /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("main", { className: "route-home rb-explore-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("div", { className: "rb-explore-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("p", { children: "ROUTEBITE" }),
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("h1", { children: "Kh\xE1m ph\xE1 qu\xE1n" }),
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("span", { children: "Kh\xE1m ph\xE1 c\xE1c qu\xE1n \u0111ang ho\u1EA1t \u0111\u1ED9ng v\xE0 ch\u1ECDn m\xF3n b\u1EA1n th\xEDch." })
+    return /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("main", { className: "route-home rb-explore-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "rb-explore-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("p", { children: "ROUTEBITE" }),
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("h1", { children: "Kh\xE1m ph\xE1 qu\xE1n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("span", { children: "Kh\xE1m ph\xE1 c\xE1c qu\xE1n \u0111ang ho\u1EA1t \u0111\u1ED9ng v\xE0 ch\u1ECDn m\xF3n b\u1EA1n th\xEDch." })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("form", { className: "rb-explore-search", role: "search", onSubmit: (event) => {
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("form", { className: "rb-explore-search", role: "search", onSubmit: (event) => {
         event.preventDefault();
         setSearch(input.trim());
         setPage(1);
       }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("label", { htmlFor: "explore-search", children: "T\xECm qu\xE1n ho\u1EB7c m\xF3n \u0103n" }),
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("input", { id: "explore-search", type: "search", placeholder: "T\xECm qu\xE1n, m\xF3n \u0103n...", value: input, maxLength: 120, onChange: (event) => setInput(event.target.value) }),
-          input && /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("button", { type: "button", "aria-label": "X\xF3a t\xECm ki\u1EBFm", onClick: () => {
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("label", { htmlFor: "explore-search", children: "T\xECm qu\xE1n ho\u1EB7c m\xF3n \u0103n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("input", { id: "explore-search", type: "search", placeholder: "T\xECm qu\xE1n, m\xF3n \u0103n...", value: input, maxLength: 120, onChange: (event) => setInput(event.target.value) }),
+          input && /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("button", { type: "button", "aria-label": "X\xF3a t\xECm ki\u1EBFm", onClick: () => {
             setInput("");
             setSearch("");
             setPage(1);
           }, children: "X\xF3a" })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(ExploreMap, { restaurants: loading || error ? [] : restaurants, userPosition, locating, locationError, onLocate: locate }),
-      loading ? /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("section", { "aria-label": "\u0110ang t\u1EA3i danh s\xE1ch qu\xE1n", "aria-busy": "true", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i danh s\xE1ch qu\xE1n\u2026" }),
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("div", { className: "restaurant-result-grid", "aria-hidden": "true", children: Array.from({ length: 6 }, (_, index) => /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("div", { className: "restaurant-skeleton" }, index)) })
-      ] }) : error ? /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("section", { className: "route-empty", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("p", { role: "alert", children: error }),
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("button", { className: "btn secondary", type: "button", onClick: () => setRetry((value2) => value2 + 1), children: "Th\u1EED l\u1EA1i" })
-      ] }) : restaurants.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("section", { className: "route-empty", role: "status", children: search ? `Kh\xF4ng t\xECm th\u1EA5y qu\xE1n ho\u1EB7c m\xF3n \u0103n ph\xF9 h\u1EE3p v\u1EDBi \u201C${search}\u201D.` : "Ch\u01B0a c\xF3 qu\xE1n n\xE0o trong h\u1EC7 th\u1ED1ng." }) : /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)(import_jsx_runtime28.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("p", { className: "rb-explore-count", role: "status", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(ExploreMap, { restaurants: loading2 || error ? [] : restaurants, userPosition, locating, locationError, onLocate: locate }),
+      loading2 ? /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("section", { "aria-label": "\u0110ang t\u1EA3i danh s\xE1ch qu\xE1n", "aria-busy": "true", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i danh s\xE1ch qu\xE1n\u2026" }),
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("div", { className: "restaurant-result-grid", "aria-hidden": "true", children: Array.from({ length: 6 }, (_, index) => /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("div", { className: "restaurant-skeleton" }, index)) })
+      ] }) : error ? /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("section", { className: "route-empty", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("p", { role: "alert", children: error }),
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("button", { className: "btn secondary", type: "button", onClick: () => setRetry((value2) => value2 + 1), children: "Th\u1EED l\u1EA1i" })
+      ] }) : restaurants.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("section", { className: "route-empty", role: "status", children: search ? `Kh\xF4ng t\xECm th\u1EA5y qu\xE1n ho\u1EB7c m\xF3n \u0103n ph\xF9 h\u1EE3p v\u1EDBi \u201C${search}\u201D.` : "Ch\u01B0a c\xF3 qu\xE1n n\xE0o trong h\u1EC7 th\u1ED1ng." }) : /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)(import_jsx_runtime34.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("p", { className: "rb-explore-count", role: "status", children: [
           total,
           " qu\xE1n ",
           search ? `ph\xF9 h\u1EE3p v\u1EDBi \u201C${search}\u201D` : "\u0111ang ho\u1EA1t \u0111\u1ED9ng"
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("section", { className: "restaurant-result-grid", "aria-label": "Danh s\xE1ch qu\xE1n", children: restaurants.map((restaurant) => /* @__PURE__ */ (0, import_jsx_runtime28.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("section", { className: "restaurant-result-grid", "aria-label": "Danh s\xE1ch qu\xE1n", children: restaurants.map((restaurant) => /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(
           RestaurantCard,
           {
             restaurant,
@@ -29999,55 +38661,55 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           restaurant.id
         )) })
       ] }),
-      !loading && !error && total > PAGE_SIZE && /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("nav", { className: "rb-explore-pagination", "aria-label": "Ph\xE2n trang qu\xE1n", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("button", { className: "btn secondary", type: "button", disabled: page === 1, onClick: () => setPage((value2) => value2 - 1), children: "Trang tr\u01B0\u1EDBc" }),
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsxs)("span", { children: [
+      !loading2 && !error && total > PAGE_SIZE && /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("nav", { className: "rb-explore-pagination", "aria-label": "Ph\xE2n trang qu\xE1n", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("button", { className: "btn secondary", type: "button", disabled: page === 1, onClick: () => setPage((value2) => value2 - 1), children: "Trang tr\u01B0\u1EDBc" }),
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("span", { children: [
           "Trang ",
           page,
           " / ",
           Math.ceil(total / PAGE_SIZE)
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime28.jsx)("button", { className: "btn secondary", type: "button", disabled: page * PAGE_SIZE >= total, onClick: () => setPage((value2) => value2 + 1), children: "Trang sau" })
+        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("button", { className: "btn secondary", type: "button", disabled: page * PAGE_SIZE >= total, onClick: () => setPage((value2) => value2 + 1), children: "Trang sau" })
       ] })
     ] });
   }
 
   // src/pages/MyFavoritesPage.tsx
-  var import_jsx_runtime29 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime35 = __toESM(require_jsx_runtime(), 1);
   function MyFavoritesPage() {
-    const { favorites, loading, ready } = useFavorites();
+    const { favorites, loading: loading2, ready } = useFavorites();
     const navigate = useNavigate();
-    return /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("main", { className: "route-home rb-favorites-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("div", { className: "rb-explore-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { children: "ROUTEBITE" }),
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("h1", { children: "Qu\xE1n \u0111\xE3 l\u01B0u" }),
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("span", { children: "Nh\u1EEFng qu\xE1n b\u1EA1n y\xEAu th\xEDch, \u0111\u01B0\u1EE3c l\u01B0u theo t\xE0i kho\u1EA3n." })
+    return /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("main", { className: "route-home rb-favorites-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("div", { className: "rb-explore-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { children: "ROUTEBITE" }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("h1", { children: "Qu\xE1n \u0111\xE3 l\u01B0u" }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("span", { children: "Nh\u1EEFng qu\xE1n b\u1EA1n y\xEAu th\xEDch, \u0111\u01B0\u1EE3c l\u01B0u theo t\xE0i kho\u1EA3n." })
       ] }),
-      loading ? /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i qu\xE1n \u0111\xE3 l\u01B0u\u2026" }) : !ready ? /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { children: "H\xE3y th\u1EED t\u1EA3i l\u1EA1i danh s\xE1ch qu\xE1n \u0111\xE3 l\u01B0u." }) : favorites.length ? /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)(import_jsx_runtime29.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("p", { role: "status", children: [
+      loading2 ? /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i qu\xE1n \u0111\xE3 l\u01B0u\u2026" }) : !ready ? /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { children: "H\xE3y th\u1EED t\u1EA3i l\u1EA1i danh s\xE1ch qu\xE1n \u0111\xE3 l\u01B0u." }) : favorites.length ? /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)(import_jsx_runtime35.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("p", { role: "status", children: [
           favorites.length,
           " qu\xE1n \u0111\xE3 l\u01B0u"
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("section", { className: "restaurant-result-grid", "aria-label": "Qu\xE1n \u0111\xE3 l\u01B0u", children: favorites.map((restaurant) => /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(RestaurantCard, { restaurant, onOpen: () => navigate(`/restaurant/${restaurant.id}`) }, restaurant.id)) })
-      ] }) : /* @__PURE__ */ (0, import_jsx_runtime29.jsxs)("section", { className: "route-empty", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)("p", { children: "B\u1EA1n ch\u01B0a l\u01B0u qu\xE1n n\xE0o." }),
-        /* @__PURE__ */ (0, import_jsx_runtime29.jsx)(Link, { className: "btn secondary", to: "/kham-pha", children: "Kh\xE1m ph\xE1 qu\xE1n" })
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("section", { className: "restaurant-result-grid", "aria-label": "Qu\xE1n \u0111\xE3 l\u01B0u", children: favorites.map((restaurant) => /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(RestaurantCard, { restaurant, onOpen: () => navigate(`/restaurant/${restaurant.id}`) }, restaurant.id)) })
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime35.jsxs)("section", { className: "route-empty", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)("p", { children: "B\u1EA1n ch\u01B0a l\u01B0u qu\xE1n n\xE0o." }),
+        /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(Link, { className: "btn secondary", to: "/kham-pha", children: "Kh\xE1m ph\xE1 qu\xE1n" })
       ] })
     ] });
   }
 
   // src/components/ReviewModal.tsx
-  var import_react22 = __toESM(require_react(), 1);
-  var import_jsx_runtime30 = __toESM(require_jsx_runtime(), 1);
+  var import_react28 = __toESM(require_react(), 1);
+  var import_jsx_runtime36 = __toESM(require_jsx_runtime(), 1);
   function ReviewModal({ orderId, restaurantName, onClose, onSuccess, onAlreadyReviewed }) {
-    const dialog = (0, import_react22.useRef)(null);
-    const sending = (0, import_react22.useRef)(false);
-    const [rating, setRating] = (0, import_react22.useState)(0);
-    const [comment, setComment] = (0, import_react22.useState)("");
-    const [submitting, setSubmitting] = (0, import_react22.useState)(false);
-    const [alreadyReviewed, setAlreadyReviewed] = (0, import_react22.useState)(false);
-    const [error, setError] = (0, import_react22.useState)("");
-    (0, import_react22.useEffect)(() => {
+    const dialog = (0, import_react28.useRef)(null);
+    const sending = (0, import_react28.useRef)(false);
+    const [rating, setRating] = (0, import_react28.useState)(0);
+    const [comment, setComment] = (0, import_react28.useState)("");
+    const [submitting, setSubmitting] = (0, import_react28.useState)(false);
+    const [alreadyReviewed, setAlreadyReviewed] = (0, import_react28.useState)(false);
+    const [error, setError] = (0, import_react28.useState)("");
+    (0, import_react28.useEffect)(() => {
       const element = dialog.current;
       element?.showModal();
       return () => {
@@ -30082,7 +38744,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setSubmitting(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(
       "dialog",
       {
         ref: dialog,
@@ -30094,17 +38756,17 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           if (!sending.current) onClose();
         },
         children: [
-          /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("h2", { id: "review-title", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("h2", { id: "review-title", children: [
             "\u0110\xE1nh gi\xE1 \u201C",
             restaurantName,
             "\u201D"
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { id: "review-description", children: "Tr\u1EA3i nghi\u1EC7m c\u1EE7a b\u1EA1n gi\xFAp qu\xE1n v\xE0 th\u1EF1c kh\xE1ch kh\xE1c t\u1ED1t h\u01A1n." }),
-          /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("form", { onSubmit: submit, "aria-busy": submitting, children: [
-            error && /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
-            /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("fieldset", { className: "rb-review-rating", disabled: submitting || alreadyReviewed, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("legend", { children: "Ch\u1ECDn s\u1ED1 sao (b\u1EAFt bu\u1ED9c)" }),
-              /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("div", { children: [1, 2, 3, 4, 5].map((star) => /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { id: "review-description", children: "Tr\u1EA3i nghi\u1EC7m c\u1EE7a b\u1EA1n gi\xFAp qu\xE1n v\xE0 th\u1EF1c kh\xE1ch kh\xE1c t\u1ED1t h\u01A1n." }),
+          /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("form", { onSubmit: submit, "aria-busy": submitting, children: [
+            error && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("fieldset", { className: "rb-review-rating", disabled: submitting || alreadyReviewed, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("legend", { children: "Ch\u1ECDn s\u1ED1 sao (b\u1EAFt bu\u1ED9c)" }),
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { children: [1, 2, 3, 4, 5].map((star) => /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
                 "button",
                 {
                   type: "button",
@@ -30119,11 +38781,11 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
                 },
                 star
               )) }),
-              /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("span", { role: "status", children: rating ? `${rating}/5 sao` : "Ch\u01B0a ch\u1ECDn sao" })
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { role: "status", children: rating ? `${rating}/5 sao` : "Ch\u01B0a ch\u1ECDn sao" })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("label", { className: "rb-review-comment", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("label", { className: "rb-review-comment", children: [
               "Nh\u1EADn x\xE9t (kh\xF4ng b\u1EAFt bu\u1ED9c)",
-              /* @__PURE__ */ (0, import_jsx_runtime30.jsx)(
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)(
                 "textarea",
                 {
                   rows: 4,
@@ -30135,13 +38797,13 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
                 }
               )
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("small", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("small", { children: [
               comment.length,
               "/1000 k\xFD t\u1EF1"
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime30.jsxs)("div", { className: "rb-dialog-actions", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { type: "button", className: "btn secondary", disabled: submitting, onClick: onClose, children: alreadyReviewed ? "\u0110\xF3ng" : "\u0110\u1EC3 sau" }),
-              /* @__PURE__ */ (0, import_jsx_runtime30.jsx)("button", { type: "submit", className: "btn primary", disabled: submitting || alreadyReviewed, children: submitting ? "\u0110ang g\u1EEDi\u2026" : "G\u1EEDi \u0111\xE1nh gi\xE1" })
+            /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "rb-dialog-actions", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("button", { type: "button", className: "btn secondary", disabled: submitting, onClick: onClose, children: alreadyReviewed ? "\u0110\xF3ng" : "\u0110\u1EC3 sau" }),
+              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("button", { type: "submit", className: "btn primary", disabled: submitting || alreadyReviewed, children: submitting ? "\u0110ang g\u1EEDi\u2026" : "G\u1EEDi \u0111\xE1nh gi\xE1" })
             ] })
           ] })
         ]
@@ -30150,12 +38812,12 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
 
   // src/components/ReviewsSection.tsx
-  var import_react23 = __toESM(require_react(), 1);
-  var import_jsx_runtime31 = __toESM(require_jsx_runtime(), 1);
+  var import_react29 = __toESM(require_react(), 1);
+  var import_jsx_runtime37 = __toESM(require_jsx_runtime(), 1);
   function ReviewsSection({ embeddedReviews = [], merchant = false }) {
-    const titleId = (0, import_react23.useId)();
-    const [starFilter, setStarFilter] = (0, import_react23.useState)(0);
-    const data2 = (0, import_react23.useMemo)(() => {
+    const titleId = (0, import_react29.useId)();
+    const [starFilter, setStarFilter] = (0, import_react29.useState)(0);
+    const data2 = (0, import_react29.useMemo)(() => {
       const reviews = embeddedReviews.filter((review) => Number.isInteger(Number(review.rating)) && Number(review.rating) >= 1 && Number(review.rating) <= 5).slice().sort((a, b) => (Date.parse(b.createdAt) || 0) - (Date.parse(a.createdAt) || 0) || b.id.localeCompare(a.id));
       const distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
       reviews.forEach((review) => {
@@ -30165,36 +38827,36 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     }, [embeddedReviews]);
     const total = data2.reviews.length;
     const filteredReviews = starFilter ? data2.reviews.filter((review) => Number(review.rating) === starFilter) : data2.reviews;
-    return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("section", { className: "item-card rb-restaurant-reviews", "aria-labelledby": titleId, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("h2", { id: titleId, children: "\u0110\xE1nh gi\xE1 t\u1EEB kh\xE1ch h\xE0ng" }),
-      !total ? /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("p", { className: "rb-reviews-empty", children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("section", { className: "item-card rb-restaurant-reviews", "aria-labelledby": titleId, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("h2", { id: titleId, children: "\u0110\xE1nh gi\xE1 t\u1EEB kh\xE1ch h\xE0ng" }),
+      !total ? /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("p", { className: "rb-reviews-empty", children: [
         "Ch\u01B0a c\xF3 \u0111\xE1nh gi\xE1 n\xE0o cho qu\xE1n n\xE0y. ",
         merchant ? "\u0110\xE1nh gi\xE1 c\u1EE7a kh\xE1ch s\u1EBD xu\u1EA5t hi\u1EC7n sau khi \u0111\u01A1n ho\xE0n th\xE0nh." : "B\u1EA1n c\xF3 th\u1EC3 \u0111\xE1nh gi\xE1 sau khi ho\xE0n th\xE0nh \u0111\u01A1n h\xE0ng."
-      ] }) : /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)(import_jsx_runtime31.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "rb-reviews-summary", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "rb-review-average", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("strong", { children: [
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(import_jsx_runtime37.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "rb-reviews-summary", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "rb-review-average", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("strong", { children: [
               data2.average.toFixed(1),
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("small", { children: "/5" })
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("small", { children: "/5" })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("span", { className: "rb-average-stars", role: "img", "aria-label": `${data2.average.toFixed(1)} tr\xEAn 5 sao`, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { "aria-hidden": "true", children: "\u2605\u2605\u2605\u2605\u2605" }),
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { "aria-hidden": "true", style: { width: `${data2.average / 5 * 100}%` }, children: "\u2605\u2605\u2605\u2605\u2605" })
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("span", { className: "rb-average-stars", role: "img", "aria-label": `${data2.average.toFixed(1)} tr\xEAn 5 sao`, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { "aria-hidden": "true", children: "\u2605\u2605\u2605\u2605\u2605" }),
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { "aria-hidden": "true", style: { width: `${data2.average / 5 * 100}%` }, children: "\u2605\u2605\u2605\u2605\u2605" })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("p", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("p", { children: [
               total,
               " \u0111\xE1nh gi\xE1"
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "rb-review-distribution", "aria-label": "Ph\xE2n b\u1ED1 s\u1ED1 sao", children: [5, 4, 3, 2, 1].map((star) => {
+          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { className: "rb-review-distribution", "aria-label": "Ph\xE2n b\u1ED1 s\u1ED1 sao", children: [5, 4, 3, 2, 1].map((star) => {
             const count = data2.distribution[star];
             const percent = count / total * 100;
-            return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("div", { className: "rb-distribution-row", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("span", { children: [
+            return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "rb-distribution-row", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("span", { children: [
                 star,
                 " sao"
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)(
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)(
                 "div",
                 {
                   className: "rb-distribution-track",
@@ -30204,34 +38866,34 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
                   "aria-valuemax": 100,
                   "aria-valuenow": Number(percent.toFixed(1)),
                   "aria-valuetext": `${count} \u0111\xE1nh gi\xE1 (${percent.toFixed(1)}%)`,
-                  children: /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { style: { width: `${percent}%` } })
+                  children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { style: { width: `${percent}%` } })
                 }
               ),
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { children: count })
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { children: count })
             ] }, star);
           }) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "rb-review-filters", role: "group", "aria-label": "L\u1ECDc \u0111\xE1nh gi\xE1 theo s\u1ED1 sao", children: [0, 5, 4, 3, 2, 1].map((star) => /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("button", { type: "button", "aria-pressed": starFilter === star, onClick: () => setStarFilter(star), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { className: "rb-review-filters", role: "group", "aria-label": "L\u1ECDc \u0111\xE1nh gi\xE1 theo s\u1ED1 sao", children: [0, 5, 4, 3, 2, 1].map((star) => /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("button", { type: "button", "aria-pressed": starFilter === star, onClick: () => setStarFilter(star), children: [
           star ? `${star} sao` : "T\u1EA5t c\u1EA3",
           " (",
           star ? data2.distribution[star] : total,
           ")"
         ] }, star)) }),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { className: "rb-review-filter-status", role: "status", children: filteredReviews.length ? `Hi\u1EC3n th\u1ECB ${filteredReviews.length} \u0111\xE1nh gi\xE1${starFilter ? ` ${starFilter} sao` : ""}.` : `Ch\u01B0a c\xF3 \u0111\xE1nh gi\xE1 ${starFilter} sao.` }),
-        /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("div", { className: "rb-reviews-list", children: filteredReviews.map((review) => {
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("p", { className: "rb-review-filter-status", role: "status", children: filteredReviews.length ? `Hi\u1EC3n th\u1ECB ${filteredReviews.length} \u0111\xE1nh gi\xE1${starFilter ? ` ${starFilter} sao` : ""}.` : `Ch\u01B0a c\xF3 \u0111\xE1nh gi\xE1 ${starFilter} sao.` }),
+        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("div", { className: "rb-reviews-list", children: filteredReviews.map((review) => {
           const date = new Date(review.createdAt);
           const rating = Number(review.rating);
-          return /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("article", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("header", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("strong", { children: review.customer?.fullName?.trim() || "Kh\xE1ch h\xE0ng" }),
-              Number.isNaN(date.getTime()) ? /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("span", { children: "Ch\u01B0a r\xF5 ng\xE0y" }) : /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("time", { dateTime: review.createdAt, children: date.toLocaleDateString("vi-VN") })
+          return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("article", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("header", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("strong", { children: review.customer?.fullName?.trim() || "Kh\xE1ch h\xE0ng" }),
+              Number.isNaN(date.getTime()) ? /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { children: "Ch\u01B0a r\xF5 ng\xE0y" }) : /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("time", { dateTime: review.createdAt, children: date.toLocaleDateString("vi-VN") })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsxs)("p", { className: "rb-review-stars", "aria-label": `${rating} tr\xEAn 5 sao`, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("p", { className: "rb-review-stars", "aria-label": `${rating} tr\xEAn 5 sao`, children: [
               "\u2605".repeat(rating),
               "\u2606".repeat(5 - rating)
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("small", { children: "Kh\xE1ch \u0111\xE3 ho\xE0n th\xE0nh \u0111\u01A1n" }),
-            review.comment?.trim() && /* @__PURE__ */ (0, import_jsx_runtime31.jsx)("p", { className: "rb-review-text", children: review.comment })
+            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("small", { children: "Kh\xE1ch \u0111\xE3 ho\xE0n th\xE0nh \u0111\u01A1n" }),
+            review.comment?.trim() && /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("p", { className: "rb-review-text", children: review.comment })
           ] }, review.id);
         }) })
       ] })
@@ -30239,13 +38901,13 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
 
   // src/components/ShareRestaurantButton.tsx
-  var import_react24 = __toESM(require_react(), 1);
-  var import_jsx_runtime32 = __toESM(require_jsx_runtime(), 1);
+  var import_react30 = __toESM(require_react(), 1);
+  var import_jsx_runtime38 = __toESM(require_jsx_runtime(), 1);
   function ShareRestaurantButton({ restaurantId, restaurantName }) {
-    const [busy, setBusy] = (0, import_react24.useState)(false);
-    const [message, setMessage] = (0, import_react24.useState)("");
-    const [manualCopy, setManualCopy] = (0, import_react24.useState)(false);
-    const pending = (0, import_react24.useRef)(false);
+    const [busy, setBusy] = (0, import_react30.useState)(false);
+    const [message, setMessage] = (0, import_react30.useState)("");
+    const [manualCopy, setManualCopy] = (0, import_react30.useState)(false);
+    const pending = (0, import_react30.useRef)(false);
     const url2 = new URL(`/restaurant/${encodeURIComponent(restaurantId)}`, window.location.origin).href;
     async function share() {
       if (pending.current) return;
@@ -30274,29 +38936,29 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setBusy(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime32.jsxs)("div", { className: "rb-share-restaurant", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("button", { type: "button", className: "btn secondary", onClick: share, disabled: busy, children: busy ? "\u0110ang chia s\u1EBB\u2026" : "Chia s\u1EBB" }),
-      message && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("p", { role: "status", children: message }),
-      manualCopy && /* @__PURE__ */ (0, import_jsx_runtime32.jsx)("input", { "aria-label": "Li\xEAn k\u1EBFt chia s\u1EBB qu\xE1n", readOnly: true, value: url2, onFocus: (event) => event.currentTarget.select() })
+    return /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "rb-share-restaurant", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { type: "button", className: "btn secondary", onClick: share, disabled: busy, children: busy ? "\u0110ang chia s\u1EBB\u2026" : "Chia s\u1EBB" }),
+      message && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { role: "status", children: message }),
+      manualCopy && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("input", { "aria-label": "Li\xEAn k\u1EBFt chia s\u1EBB qu\xE1n", readOnly: true, value: url2, onFocus: (event) => event.currentTarget.select() })
     ] });
   }
 
   // src/pages/merchant/MerchantReviewsPage.tsx
-  var import_react26 = __toESM(require_react(), 1);
+  var import_react32 = __toESM(require_react(), 1);
 
   // src/contexts/MerchantContext.tsx
-  var import_react25 = __toESM(require_react(), 1);
-  var import_jsx_runtime33 = __toESM(require_jsx_runtime(), 1);
-  var MerchantContext = (0, import_react25.createContext)(null);
+  var import_react31 = __toESM(require_react(), 1);
+  var import_jsx_runtime39 = __toESM(require_jsx_runtime(), 1);
+  var MerchantContext = (0, import_react31.createContext)(null);
   function MerchantProvider({ children }) {
-    const [restaurants, setRestaurants] = (0, import_react25.useState)([]);
-    const [selectedId, setSelectedId] = (0, import_react25.useState)("");
-    const [loading, setLoading] = (0, import_react25.useState)(true);
-    const [error, setError] = (0, import_react25.useState)("");
-    const [revision, setRevision] = (0, import_react25.useState)(0);
-    const [dirty, setDirty] = (0, import_react25.useState)(false);
-    const [saving, setSaving] = (0, import_react25.useState)(false);
-    (0, import_react25.useEffect)(() => {
+    const [restaurants, setRestaurants] = (0, import_react31.useState)([]);
+    const [selectedId, setSelectedId] = (0, import_react31.useState)("");
+    const [loading2, setLoading] = (0, import_react31.useState)(true);
+    const [error, setError] = (0, import_react31.useState)("");
+    const [revision, setRevision] = (0, import_react31.useState)(0);
+    const [dirty, setDirty] = (0, import_react31.useState)(false);
+    const [saving, setSaving] = (0, import_react31.useState)(false);
+    (0, import_react31.useEffect)(() => {
       let active = true;
       setLoading(true);
       setError("");
@@ -30314,16 +38976,16 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         active = false;
       };
     }, [revision]);
-    const updateRestaurant = (0, import_react25.useCallback)((restaurant) => {
+    const updateRestaurant = (0, import_react31.useCallback)((restaurant) => {
       setRestaurants((old) => old.some((r) => r.id === restaurant.id) ? old.map((r) => r.id === restaurant.id ? restaurant : r) : [...old, restaurant]);
       setSelectedId(restaurant.id);
     }, []);
-    return /* @__PURE__ */ (0, import_jsx_runtime33.jsx)(MerchantContext.Provider, { value: {
+    return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(MerchantContext.Provider, { value: {
       restaurants,
       restaurant: restaurants.find((r) => r.id === selectedId),
       selectedId,
       setSelectedId,
-      loading,
+      loading: loading2,
       error,
       refresh: () => setRevision((v) => v + 1),
       updateRestaurant,
@@ -30334,22 +38996,22 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     }, children });
   }
   function useMerchant() {
-    return (0, import_react25.useContext)(MerchantContext);
+    return (0, import_react31.useContext)(MerchantContext);
   }
 
   // src/pages/merchant/MerchantReviewsPage.tsx
-  var import_jsx_runtime34 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime40 = __toESM(require_jsx_runtime(), 1);
   function MerchantReviewsPage() {
     const { restaurant } = useMerchant();
-    if (!restaurant) return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("p", { children: "Vui l\xF2ng ch\u1ECDn qu\xE1n \u0111ang qu\u1EA3n l\xFD." });
-    return /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(RestaurantReviews, { restaurant }, restaurant.id);
+    if (!restaurant) return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: "Vui l\xF2ng ch\u1ECDn qu\xE1n \u0111ang qu\u1EA3n l\xFD." });
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(RestaurantReviews, { restaurant }, restaurant.id);
   }
   function RestaurantReviews({ restaurant }) {
-    const [reviews, setReviews] = (0, import_react26.useState)([]);
-    const [loading, setLoading] = (0, import_react26.useState)(true);
-    const [error, setError] = (0, import_react26.useState)("");
-    const [revision, setRevision] = (0, import_react26.useState)(0);
-    (0, import_react26.useEffect)(() => {
+    const [reviews, setReviews] = (0, import_react32.useState)([]);
+    const [loading2, setLoading] = (0, import_react32.useState)(true);
+    const [error, setError] = (0, import_react32.useState)("");
+    const [revision, setRevision] = (0, import_react32.useState)(0);
+    (0, import_react32.useEffect)(() => {
       let active = true;
       setLoading(true);
       setError("");
@@ -30365,45 +39027,45 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         active = false;
       };
     }, [restaurant.id, revision]);
-    return /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("section", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "rb-merchant-page-head", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("p", { className: "rb-eyebrow", children: "PH\u1EA2N H\u1ED2I T\u1EEA KH\xC1CH H\xC0NG" }),
-          /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("h1", { children: "\u0110\xE1nh gi\xE1 qu\xE1n" }),
-          /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("p", { children: restaurant.name })
+    return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("section", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-merchant-page-head", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { className: "rb-eyebrow", children: "PH\u1EA2N H\u1ED2I T\u1EEA KH\xC1CH H\xC0NG" }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("h1", { children: "\u0110\xE1nh gi\xE1 qu\xE1n" }),
+          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: restaurant.name })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("button", { className: "btn secondary", type: "button", disabled: loading, onClick: () => setRevision((value2) => value2 + 1), children: "L\xE0m m\u1EDBi" })
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("button", { className: "btn secondary", type: "button", disabled: loading2, onClick: () => setRevision((value2) => value2 + 1), children: "L\xE0m m\u1EDBi" })
       ] }),
-      loading ? /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i \u0111\xE1nh gi\xE1\u2026" }) : error ? /* @__PURE__ */ (0, import_jsx_runtime34.jsxs)("div", { className: "item-card", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("p", { role: "alert", children: error }),
-        /* @__PURE__ */ (0, import_jsx_runtime34.jsx)("button", { type: "button", className: "btn secondary", onClick: () => setRevision((value2) => value2 + 1), children: "Th\u1EED l\u1EA1i" })
-      ] }) : /* @__PURE__ */ (0, import_jsx_runtime34.jsx)(ReviewsSection, { embeddedReviews: reviews, merchant: true })
+      loading2 ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i \u0111\xE1nh gi\xE1\u2026" }) : error ? /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "item-card", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { role: "alert", children: error }),
+        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("button", { type: "button", className: "btn secondary", onClick: () => setRevision((value2) => value2 + 1), children: "Th\u1EED l\u1EA1i" })
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(ReviewsSection, { embeddedReviews: reviews, merchant: true })
     ] });
   }
 
   // src/contexts/NotificationsContext.jsx
-  var import_react27 = __toESM(require_react(), 1);
-  var import_jsx_runtime35 = __toESM(require_jsx_runtime(), 1);
-  var NotificationsContext = (0, import_react27.createContext)(null);
+  var import_react33 = __toESM(require_react(), 1);
+  var import_jsx_runtime41 = __toESM(require_jsx_runtime(), 1);
+  var NotificationsContext = (0, import_react33.createContext)(null);
   var empty3 = { notifications: [], unreadCount: 0, loading: false, error: "" };
   function NotificationsProvider({ children }) {
     const { currentUser } = useAuth();
     const { notifications: socket } = useSockets();
     const token = currentUser ? localStorage.getItem(TOKEN_KEY) : null;
-    const [state, setState] = (0, import_react27.useState)(empty3);
-    const generation = (0, import_react27.useRef)(0);
-    const sequence = (0, import_react27.useRef)(0);
-    const refreshRef = (0, import_react27.useRef)(() => Promise.resolve());
-    (0, import_react27.useEffect)(() => {
+    const [state, setState] = (0, import_react33.useState)(empty3);
+    const generation = (0, import_react33.useRef)(0);
+    const sequence = (0, import_react33.useRef)(0);
+    const refreshRef = (0, import_react33.useRef)(() => Promise.resolve());
+    (0, import_react33.useEffect)(() => {
       const session = ++generation.current;
       const isCurrent = () => generation.current === session;
       setState({ ...empty3, token, loading: !!token });
       const refresh2 = async () => {
         if (!token) return;
-        const version = ++sequence.current;
+        const version4 = ++sequence.current;
         try {
           const result = await request("/notifications");
-          if (isCurrent() && version === sequence.current) setState({
+          if (isCurrent() && version4 === sequence.current) setState({
             token,
             notifications: result.notifications || [],
             unreadCount: Math.max(0, Number(result.unreadCount) || 0),
@@ -30411,7 +39073,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
             error: ""
           });
         } catch {
-          if (isCurrent() && version === sequence.current) setState((old) => ({ ...old, loading: false, error: "Kh\xF4ng th\u1EC3 t\u1EA3i th\xF4ng b\xE1o. Vui l\xF2ng th\u1EED l\u1EA1i." }));
+          if (isCurrent() && version4 === sequence.current) setState((old) => ({ ...old, loading: false, error: "Kh\xF4ng th\u1EC3 t\u1EA3i th\xF4ng b\xE1o. Vui l\xF2ng th\u1EED l\u1EA1i." }));
         }
       };
       refreshRef.current = refresh2;
@@ -30442,7 +39104,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         document.removeEventListener("visibilitychange", visible);
       };
     }, [token, socket]);
-    const refresh = (0, import_react27.useCallback)(() => refreshRef.current(), []);
+    const refresh = (0, import_react33.useCallback)(() => refreshRef.current(), []);
     async function markRead(notification) {
       if (!notification.isRead) await request(`/notifications/${notification.id}/read`, { method: "PATCH" });
       await refresh();
@@ -30451,30 +39113,30 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       await request("/notifications/read-all", { method: "PATCH" });
       await refresh();
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime35.jsx)(NotificationsContext.Provider, { value: { ...state.token === token ? state : empty3, refresh, markRead, markAll }, children });
+    return /* @__PURE__ */ (0, import_jsx_runtime41.jsx)(NotificationsContext.Provider, { value: { ...state.token === token ? state : empty3, refresh, markRead, markAll }, children });
   }
   function useNotifications() {
-    return (0, import_react27.useContext)(NotificationsContext);
+    return (0, import_react33.useContext)(NotificationsContext);
   }
 
   // src/components/NotificationBell.tsx
-  var import_react28 = __toESM(require_react(), 1);
-  var import_jsx_runtime36 = __toESM(require_jsx_runtime(), 1);
+  var import_react34 = __toESM(require_react(), 1);
+  var import_jsx_runtime42 = __toESM(require_jsx_runtime(), 1);
   function NotificationBell() {
     const { currentUser } = useAuth();
-    const { notifications, unreadCount, loading, error, refresh, markRead, markAll } = useNotifications();
+    const { notifications, unreadCount, loading: loading2, error, refresh, markRead, markAll } = useNotifications();
     const navigate = useNavigate();
     const location2 = useLocation();
-    const [open, setOpen] = (0, import_react28.useState)(false);
-    const [busy, setBusy] = (0, import_react28.useState)(false);
-    const [actionError, setActionError] = (0, import_react28.useState)("");
-    const container = (0, import_react28.useRef)(null);
-    const trigger = (0, import_react28.useRef)(null);
-    (0, import_react28.useEffect)(() => {
+    const [open, setOpen] = (0, import_react34.useState)(false);
+    const [busy, setBusy] = (0, import_react34.useState)(false);
+    const [actionError, setActionError] = (0, import_react34.useState)("");
+    const container = (0, import_react34.useRef)(null);
+    const trigger = (0, import_react34.useRef)(null);
+    (0, import_react34.useEffect)(() => {
       setOpen(false);
       setActionError("");
     }, [location2.pathname, currentUser]);
-    (0, import_react28.useEffect)(() => {
+    (0, import_react34.useEffect)(() => {
       if (!open) return;
       const outside = (event) => {
         if (!container.current?.contains(event.target)) setOpen(false);
@@ -30509,8 +39171,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setBusy(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "rb-notification-bell", ref: container, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("div", { className: "rb-notification-bell", ref: container, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
         "button",
         {
           ref: trigger,
@@ -30524,22 +39186,22 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
             if (!open) void refresh();
           },
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("svg", { "aria-hidden": "true", width: "22", height: "22", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", children: /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("path", { d: "M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" }) }),
-            unreadCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { className: "rb-notification-count", "aria-hidden": "true", children: unreadCount > 9 ? "9+" : unreadCount })
+            /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("svg", { "aria-hidden": "true", width: "22", height: "22", viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: "1.8", children: /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("path", { d: "M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" }) }),
+            unreadCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("span", { className: "rb-notification-count", "aria-hidden": "true", children: unreadCount > 9 ? "9+" : unreadCount })
           ]
         }
       ),
-      open && /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("section", { className: "rb-notification-panel", id: "notification-panel", "aria-label": "Danh s\xE1ch th\xF4ng b\xE1o", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("header", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("h2", { children: "Th\xF4ng b\xE1o" }),
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("button", { type: "button", disabled: busy || !unreadCount, onClick: () => read(), children: "\u0110\u1ECDc t\u1EA5t c\u1EA3" })
+      open && /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("section", { className: "rb-notification-panel", id: "notification-panel", "aria-label": "Danh s\xE1ch th\xF4ng b\xE1o", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("header", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("h2", { children: "Th\xF4ng b\xE1o" }),
+          /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("button", { type: "button", disabled: busy || !unreadCount, onClick: () => read(), children: "\u0110\u1ECDc t\u1EA5t c\u1EA3" })
         ] }),
-        (error || actionError) && /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("div", { className: "rb-notification-feedback", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { role: "alert", children: actionError || error }),
-          error && /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("button", { type: "button", onClick: refresh, children: "Th\u1EED l\u1EA1i" })
+        (error || actionError) && /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("div", { className: "rb-notification-feedback", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("p", { role: "alert", children: actionError || error }),
+          error && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("button", { type: "button", onClick: refresh, children: "Th\u1EED l\u1EA1i" })
         ] }),
-        loading ? /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { className: "rb-notification-feedback", role: "status", children: "\u0110ang t\u1EA3i th\xF4ng b\xE1o\u2026" }) : !notifications.length && !error ? /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("p", { className: "rb-notification-feedback", children: "Ch\u01B0a c\xF3 th\xF4ng b\xE1o n\xE0o" }) : null,
-        /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("div", { className: "rb-notification-list", children: notifications.map((notification) => /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)(
+        loading2 ? /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("p", { className: "rb-notification-feedback", role: "status", children: "\u0110ang t\u1EA3i th\xF4ng b\xE1o\u2026" }) : !notifications.length && !error ? /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("p", { className: "rb-notification-feedback", children: "Ch\u01B0a c\xF3 th\xF4ng b\xE1o n\xE0o" }) : null,
+        /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("div", { className: "rb-notification-list", children: notifications.map((notification) => /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)(
           "button",
           {
             type: "button",
@@ -30547,9 +39209,9 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
             className: `rb-notification-item${notification.isRead ? "" : " unread"}`,
             onClick: () => read(notification),
             children: [
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("strong", { children: notification.title }),
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsx)("span", { children: notification.body }),
-              /* @__PURE__ */ (0, import_jsx_runtime36.jsxs)("small", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("strong", { children: notification.title }),
+              /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("span", { children: notification.body }),
+              /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("small", { children: [
                 !notification.isRead && "Ch\u01B0a \u0111\u1ECDc \xB7 ",
                 new Date(notification.createdAt).toLocaleString("vi-VN")
               ] })
@@ -30562,18 +39224,18 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
 
   // src/components/ChatBell.tsx
-  var import_react29 = __toESM(require_react(), 1);
-  var import_jsx_runtime37 = __toESM(require_jsx_runtime(), 1);
+  var import_react35 = __toESM(require_react(), 1);
+  var import_jsx_runtime43 = __toESM(require_jsx_runtime(), 1);
   function ChatBell() {
     const { currentUser } = useAuth();
-    const { conversations, totalUnread, loading, error, refresh } = useChatInbox();
-    const [open, setOpen] = (0, import_react29.useState)(false);
-    const container = (0, import_react29.useRef)(null), trigger = (0, import_react29.useRef)(null);
+    const { conversations, totalUnread, loading: loading2, error, refresh } = useChatInbox();
+    const [open, setOpen] = (0, import_react35.useState)(false);
+    const container = (0, import_react35.useRef)(null), trigger = (0, import_react35.useRef)(null);
     const navigate = useNavigate(), location2 = useLocation();
-    (0, import_react29.useEffect)(() => {
+    (0, import_react35.useEffect)(() => {
       setOpen(false);
     }, [location2.pathname, location2.search, currentUser?.id]);
-    (0, import_react29.useEffect)(() => {
+    (0, import_react35.useEffect)(() => {
       if (!open) return;
       const outside = (event) => {
         if (!container.current?.contains(event.target)) setOpen(false);
@@ -30592,8 +39254,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       };
     }, [open]);
     if (!["customer", "merchant"].includes(currentUser?.role)) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "rb-chat-bell", ref: container, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)(
+    return /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "rb-chat-bell", ref: container, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)(
         "button",
         {
           ref: trigger,
@@ -30607,55 +39269,61 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
             if (!open) void refresh();
           },
           children: [
-            /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("svg", { width: "22", height: "22", viewBox: "0 0 24 24", "aria-hidden": "true", fill: "none", stroke: "currentColor", strokeWidth: "1.8", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("path", { d: "M21 11a8 8 0 0 1-8 8H5l-3 3V11a9 9 0 0 1 19 0Z" }),
-              /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("path", { d: "M7 10h10M7 14h6" })
+            /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("svg", { width: "22", height: "22", viewBox: "0 0 24 24", "aria-hidden": "true", fill: "none", stroke: "currentColor", strokeWidth: "1.8", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("path", { d: "M21 11a8 8 0 0 1-8 8H5l-3 3V11a9 9 0 0 1 19 0Z" }),
+              /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("path", { d: "M7 10h10M7 14h6" })
             ] }),
-            totalUnread > 0 && /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("span", { className: "rb-chat-unread", "aria-hidden": "true", children: totalUnread > 9 ? "9+" : totalUnread })
+            totalUnread > 0 && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("span", { className: "rb-chat-unread", "aria-hidden": "true", children: totalUnread > 9 ? "9+" : totalUnread })
           ]
         }
       ),
-      open && /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("section", { id: "chat-inbox-panel", className: "rb-chat-inbox", "aria-label": "H\u1ED9p th\u01B0 tin nh\u1EAFn", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("header", { children: /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("h2", { children: "Tin nh\u1EAFn" }) }),
-        loading && /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i cu\u1ED9c tr\xF2 chuy\u1EC7n\u2026" }),
-        error && /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("div", { className: "rb-inbox-error", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("p", { role: "alert", children: error }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("button", { type: "button", onClick: refresh, children: "Th\u1EED l\u1EA1i" })
+      open && /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("section", { id: "chat-inbox-panel", className: "rb-chat-inbox", "aria-label": "H\u1ED9p th\u01B0 tin nh\u1EAFn", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("header", { children: /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("h2", { children: "Tin nh\u1EAFn" }) }),
+        loading2 && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i cu\u1ED9c tr\xF2 chuy\u1EC7n\u2026" }),
+        error && /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "rb-inbox-error", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("p", { role: "alert", children: error }),
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("button", { type: "button", onClick: refresh, children: "Th\u1EED l\u1EA1i" })
         ] }),
-        !loading && !error && !conversations.length && /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("p", { children: "Ch\u01B0a c\xF3 tin nh\u1EAFn n\xE0o." }),
-        conversations.map((row) => /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("button", { className: `rb-conversation${row.unreadCount ? " unread" : ""}`, type: "button", onClick: () => {
+        !loading2 && !error && !conversations.length && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("p", { children: "Ch\u01B0a c\xF3 tin nh\u1EAFn n\xE0o." }),
+        conversations.map((row) => /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("button", { className: `rb-conversation${row.unreadCount ? " unread" : ""}`, type: "button", onClick: () => {
           setOpen(false);
           navigate(`${currentUser.role === "merchant" ? "/merchant" : ""}/orders/${encodeURIComponent(row.orderId)}?chat=1`);
         }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("span", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("strong", { children: currentUser.role === "merchant" ? row.customerName : row.restaurantName }),
-            row.unreadCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("b", { children: row.unreadCount })
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("span", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("strong", { children: currentUser.role === "merchant" ? row.customerName : row.restaurantName }),
+            row.unreadCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("b", { children: row.unreadCount })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("small", { children: row.orderCode }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsxs)("span", { className: "rb-conversation-preview", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("small", { children: row.orderCode }),
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("span", { className: "rb-conversation-preview", children: [
             row.lastMessage.senderId === currentUser.id ? "B\u1EA1n: " : "",
             row.lastMessage.content
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime37.jsx)("time", { dateTime: row.lastMessage.createdAt, children: new Date(row.lastMessage.createdAt).toLocaleString("vi-VN") })
+          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("time", { dateTime: row.lastMessage.createdAt, children: new Date(row.lastMessage.createdAt).toLocaleString("vi-VN") })
         ] }, row.orderId))
       ] })
     ] });
   }
 
   // src/components/AiSupportWidget.tsx
-  var import_react30 = __toESM(require_react(), 1);
-  var import_jsx_runtime38 = __toESM(require_jsx_runtime(), 1);
+  var import_react36 = __toESM(require_react(), 1);
+  var import_jsx_runtime44 = __toESM(require_jsx_runtime(), 1);
+  var QUESTIONS = ["L\xE0m sao h\u1EE7y \u0111\u01A1n?", "VNPAY b\u1ECB l\u1ED7i ph\u1EA3i l\xE0m g\xEC?", "Qu\xE1n ch\u01B0a x\xE1c nh\u1EADn th\xEC sao?", "C\xE1ch t\xEDch xu v\xE0 d\xF9ng voucher?", "L\xE0m sao t\xECm qu\xE1n tr\xEAn \u0111\u01B0\u1EDDng \u0111i?", "L\xE0m sao nh\u1EAFn tin v\u1EDBi qu\xE1n?"];
+  function relatedQuestions(message) {
+    if (/VNPAY|thanh toán|voucher|xu/i.test(message)) return [QUESTIONS[1], QUESTIONS[3], QUESTIONS[5]].filter((q) => q !== message);
+    if (/hủy|xác nhận/i.test(message)) return [QUESTIONS[0], QUESTIONS[2], QUESTIONS[5]].filter((q) => q !== message);
+    return QUESTIONS.filter((q) => q !== message).slice(0, 3);
+  }
   function AiSupportWidget() {
     const { currentUser } = useAuth();
     const { pathname } = useLocation();
     if (currentUser?.role !== "customer" || pathname.startsWith("/merchant") || pathname.startsWith("/admin")) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(SupportWidget, {}, currentUser.id);
+    return /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(SupportWidget, {}, currentUser.id);
   }
   function SupportWidget() {
-    const [open, setOpen] = (0, import_react30.useState)(false), [orderChatOpen, setOrderChatOpen] = (0, import_react30.useState)(false);
-    const [messages, setMessages] = (0, import_react30.useState)([]), [input, setInput] = (0, import_react30.useState)(""), [pending, setPending] = (0, import_react30.useState)(""), [error, setError] = (0, import_react30.useState)("");
-    const busy = (0, import_react30.useRef)(false), alive = (0, import_react30.useRef)(true), field = (0, import_react30.useRef)(null), list = (0, import_react30.useRef)(null), panel = (0, import_react30.useRef)(null), trigger = (0, import_react30.useRef)(null);
-    (0, import_react30.useEffect)(() => {
+    const [open, setOpen] = (0, import_react36.useState)(false), [orderChatOpen, setOrderChatOpen] = (0, import_react36.useState)(false);
+    const [messages, setMessages] = (0, import_react36.useState)([]), [input, setInput] = (0, import_react36.useState)(""), [pending, setPending] = (0, import_react36.useState)(""), [error, setError] = (0, import_react36.useState)("");
+    const busy = (0, import_react36.useRef)(false), alive = (0, import_react36.useRef)(true), field = (0, import_react36.useRef)(null), list = (0, import_react36.useRef)(null), panel = (0, import_react36.useRef)(null), trigger = (0, import_react36.useRef)(null);
+    (0, import_react36.useEffect)(() => {
       alive.current = true;
       const orderChat = (event) => {
         const value2 = Boolean(event.detail);
@@ -30669,7 +39337,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         window.removeEventListener("routebite:order-chat-open", orderChat);
       };
     }, []);
-    (0, import_react30.useEffect)(() => {
+    (0, import_react36.useEffect)(() => {
       if (!open) return;
       field.current?.focus();
       const escape = (event) => {
@@ -30681,23 +39349,24 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       document.addEventListener("keydown", escape);
       return () => document.removeEventListener("keydown", escape);
     }, [open]);
-    (0, import_react30.useEffect)(() => {
+    (0, import_react36.useEffect)(() => {
       if (list.current) list.current.scrollTop = list.current.scrollHeight;
     }, [messages.length, pending, open]);
-    async function send(event) {
-      event.preventDefault();
-      const message = input.trim();
+    async function send(event, suggestion) {
+      event?.preventDefault();
+      const message = (suggestion ?? input).trim();
       if (!message || busy.current) return;
       busy.current = true;
+      setInput(message);
       setPending(message);
       setError("");
-      const history = messages.slice(-10);
+      const history = messages.slice(-10).map(({ role, content }) => ({ role, content }));
       while (history.reduce((sum, turn) => sum + turn.content.length, message.length) > 14e3 && history.length) history.splice(0, 2);
       try {
         const result = await request("/support/ai-chat", { method: "POST", body: { message, history } });
         if (typeof result.reply !== "string" || !result.reply.trim()) throw new Error("Tr\u1EE3 l\xFD ch\u01B0a tr\u1EA3 l\u1EDDi. Vui l\xF2ng th\u1EED l\u1EA1i.");
         if (alive.current) {
-          setMessages((rows) => [...rows, { role: "user", content: message }, { role: "assistant", content: result.reply }]);
+          setMessages((rows) => [...rows, { role: "user", content: message }, { role: "assistant", content: result.reply, source: result.source }]);
           setInput("");
         }
       } catch (e) {
@@ -30711,86 +39380,107 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       }
     }
     if (orderChatOpen) return null;
-    return /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { ref: trigger, className: "rb-ai-trigger", type: "button", "aria-label": "H\u1ED7 tr\u1EE3 AI", "aria-expanded": open, "aria-controls": "ai-support-panel", onClick: () => setOpen(!open), children: "AI" }),
-      open && /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("section", { ref: panel, id: "ai-support-panel", className: "rb-ai-panel", role: "dialog", "aria-modal": "false", "aria-labelledby": "ai-support-title", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("header", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("h2", { id: "ai-support-title", children: "Tr\u1EE3 l\xFD RouteBite" }),
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("small", { children: "AI h\u01B0\u1EDBng d\u1EABn \xB7 Kh\xF4ng ph\u1EA3i nh\xE2n vi\xEAn c\u1EE7a qu\xE1n" })
+    return /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(import_jsx_runtime44.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { ref: trigger, className: "rb-ai-trigger", type: "button", "aria-label": "H\u1ED7 tr\u1EE3 AI", "aria-expanded": open, "aria-controls": "ai-support-panel", onClick: () => setOpen(!open), children: "AI" }),
+      open && /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("section", { ref: panel, id: "ai-support-panel", className: "rb-ai-panel", role: "dialog", "aria-modal": "false", "aria-labelledby": "ai-support-title", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("header", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("h2", { id: "ai-support-title", children: "Tr\u1EE3 l\xFD RouteBite" }),
+            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("small", { children: "AI h\u01B0\u1EDBng d\u1EABn \xB7 Kh\xF4ng ph\u1EA3i nh\xE2n vi\xEAn c\u1EE7a qu\xE1n" })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { type: "button", "aria-label": "\u0110\xF3ng h\u1ED7 tr\u1EE3 AI", onClick: () => {
+          /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { type: "button", "aria-label": "\u0110\xF3ng h\u1ED7 tr\u1EE3 AI", onClick: () => {
             setOpen(false);
             trigger.current?.focus();
           }, children: "\xD7" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { className: "rb-ai-disclaimer", children: "C\xE2u h\u1ECFi \u0111\u01B0\u1EE3c g\u1EEDi t\u1EDBi Anthropic \u0111\u1EC3 tr\u1EA3 l\u1EDDi. Kh\xF4ng nh\u1EADp m\u1EADt kh\u1EA9u, OTP, CCCD ho\u1EB7c th\xF4ng tin ng\xE2n h\xE0ng. AI c\xF3 th\u1EC3 sai v\xE0 kh\xF4ng thao t\xE1c \u0111\u01A1n h\xE0ng thay b\u1EA1n." }),
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "rb-ai-messages", ref: list, role: "log", "aria-label": "H\u1ED9i tho\u1EA1i h\u1ED7 tr\u1EE3 AI", "aria-live": "polite", children: [
-          !messages.length && !pending && /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { children: "Xin ch\xE0o! B\u1EA1n c\u1EA7n h\u1ED7 tr\u1EE3 g\xEC v\u1EC1 RouteBite?" }),
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("div", { className: "rb-ai-suggestions", children: ["L\xE0m sao h\u1EE7y \u0111\u01A1n?", "VNPAY b\u1ECB l\u1ED7i ph\u1EA3i l\xE0m g\xEC?", "Qu\xE1n ch\u01B0a x\xE1c nh\u1EADn th\xEC sao?"].map((text) => /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { type: "button", onClick: () => {
-              setInput(text);
-              field.current?.focus();
-            }, children: text }, text)) })
+        /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { className: "rb-ai-disclaimer", children: "Ch\u1ECDn c\xE2u h\u1ECFi b\xEAn d\u01B0\u1EDBi \u0111\u1EC3 \u0111\u01B0\u1EE3c h\u01B0\u1EDBng d\u1EABn. Khi AI ch\u01B0a s\u1EB5n s\xE0ng, h\u1EC7 th\u1ED1ng d\xF9ng c\xE2u tr\u1EA3 l\u1EDDi c\xF3 s\u1EB5n; khi AI \u0111\u01B0\u1EE3c c\u1EA5u h\xECnh, c\xE2u h\u1ECFi \u0111\u01B0\u1EE3c g\u1EEDi t\u1EDBi Anthropic. Kh\xF4ng g\u1EEDi m\u1EADt kh\u1EA9u ho\u1EB7c OTP. Tr\u1EE3 l\xFD kh\xF4ng thao t\xE1c \u0111\u01A1n h\xE0ng thay b\u1EA1n." }),
+        /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { className: "rb-ai-messages", ref: list, role: "log", "aria-label": "H\u1ED9i tho\u1EA1i h\u1ED7 tr\u1EE3 AI", "aria-live": "polite", children: [
+          !messages.length && !pending && /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { children: "Xin ch\xE0o! B\u1EA1n c\u1EA7n h\u1ED7 tr\u1EE3 g\xEC v\u1EC1 RouteBite?" }),
+            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { children: "B\u1EA5m m\u1ED9t c\xE2u h\u1ECFi \u0111\u1EC3 xem c\xE2u tr\u1EA3 l\u1EDDi, kh\xF4ng c\u1EA7n nh\u1EADp l\u1EA1i." }),
+            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { className: "rb-ai-suggestions", "aria-label": "C\xE2u h\u1ECFi th\u01B0\u1EDDng g\u1EB7p", children: QUESTIONS.map((text) => /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { type: "button", onClick: () => void send(void 0, text), children: text }, text)) })
           ] }),
-          messages.map((turn, i) => /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("article", { className: `rb-ai-message ${turn.role}`, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("small", { children: turn.role === "user" ? "B\u1EA1n" : "Tr\u1EE3 l\xFD AI" }),
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { children: turn.content })
+          messages.map((turn, i) => /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("article", { className: `rb-ai-message ${turn.role}`, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("small", { children: turn.role === "user" ? "B\u1EA1n" : turn.source === "faq" ? "H\u01B0\u1EDBng d\u1EABn c\xF3 s\u1EB5n \xB7 AI ch\u01B0a \u0111\u01B0\u1EE3c c\u1EA5u h\xECnh" : "Tr\u1EE3 l\xFD AI" }),
+            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { children: turn.content })
           ] }, i)),
-          pending && /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)(import_jsx_runtime38.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("article", { className: "rb-ai-message user", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("small", { children: "B\u1EA1n" }),
-              /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { children: pending })
+          pending && /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)(import_jsx_runtime44.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("article", { className: "rb-ai-message user", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("small", { children: "B\u1EA1n" }),
+              /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { children: pending })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { role: "status", children: "\u0110ang tr\u1EA3 l\u1EDDi\u2026" })
+            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { role: "status", children: "\u0110ang tr\u1EA3 l\u1EDDi\u2026" })
+          ] }),
+          !!messages.length && !pending && /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { children: "B\u1EA1n mu\u1ED1n t\xECm hi\u1EC3u th\xEAm?" }),
+            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("div", { className: "rb-ai-suggestions", "aria-label": "C\xE2u h\u1ECFi li\xEAn quan", children: relatedQuestions(messages[messages.length - 2]?.content || "").map((text) => /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { type: "button", onClick: () => void send(void 0, text), children: text }, text)) })
           ] })
         ] }),
-        error && /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("p", { className: "rb-ai-error", role: "alert", children: error }),
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("div", { className: "rb-ai-actions", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)(Link, { to: "/my-orders", onClick: () => setOpen(false), children: "M\u1EDF \u0111\u01A1n \u0111\u1EC3 nh\u1EAFn tin v\u1EDBi qu\xE1n" }),
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { type: "button", disabled: !!pending, onClick: () => {
+        error && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { className: "rb-ai-error", role: "alert", children: error }),
+        /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { className: "rb-ai-actions", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(Link, { to: "/my-orders", onClick: () => setOpen(false), children: "M\u1EDF \u0111\u01A1n \u0111\u1EC3 nh\u1EAFn tin v\u1EDBi qu\xE1n" }),
+          /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { type: "button", disabled: !!pending, onClick: () => {
             setMessages([]);
             setError("");
           }, children: "H\u1ED9i tho\u1EA1i m\u1EDBi" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("form", { onSubmit: send, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsxs)("label", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("span", { children: "C\xE2u h\u1ECFi" }),
-            /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("input", { ref: field, value: input, maxLength: 1e3, disabled: !!pending, onChange: (e) => setInput(e.target.value), placeholder: "Nh\u1EADp c\xE2u h\u1ECFi..." })
+        /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("form", { onSubmit: send, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("span", { children: "C\xE2u h\u1ECFi" }),
+            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("input", { ref: field, value: input, maxLength: 1e3, disabled: !!pending, onChange: (e) => setInput(e.target.value), placeholder: "Nh\u1EADp c\xE2u h\u1ECFi..." })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime38.jsx)("button", { type: "submit", disabled: !!pending || !input.trim(), children: pending ? "\u0110ang g\u1EEDi\u2026" : "G\u1EEDi" })
+          /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { type: "submit", disabled: !!pending || !input.trim(), children: pending ? "\u0110ang g\u1EEDi\u2026" : "G\u1EEDi" })
         ] })
       ] })
     ] });
   }
 
   // src/components/ProtectedRoute.tsx
-  var import_jsx_runtime39 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime45 = __toESM(require_jsx_runtime(), 1);
   function ProtectedRoute({ allowedRoles, children }) {
     const { currentUser } = useAuth();
     const location2 = useLocation();
-    if (!currentUser || !localStorage.getItem(TOKEN_KEY)) return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Navigate, { to: "/login", state: { from: location2.pathname }, replace: true });
-    if (!allowedRoles.includes(currentUser.role)) return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(Navigate, { replace: true, to: currentUser.role === "merchant" ? "/merchant/dashboard" : currentUser.role === "admin" ? "/admin/overview" : "/" });
-    return /* @__PURE__ */ (0, import_jsx_runtime39.jsx)(import_jsx_runtime39.Fragment, { children });
+    if (!currentUser || !localStorage.getItem(TOKEN_KEY)) return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(Navigate, { to: "/login", state: { from: location2.pathname }, replace: true });
+    if (!allowedRoles.includes(currentUser.role)) return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(Navigate, { replace: true, to: currentUser.role === "merchant" ? "/merchant/dashboard" : currentUser.role === "admin" ? "/admin/overview" : "/" });
+    return /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(import_jsx_runtime45.Fragment, { children });
+  }
+
+  // src/components/MaterialIcon.tsx
+  var import_jsx_runtime46 = __toESM(require_jsx_runtime(), 1);
+  var paths = {
+    home: "M3 10 12 3l9 7M5 9v12h5v-7h4v7h5V9",
+    explore: "M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20M16 8l-3 5-5 3 3-5 5-3",
+    orders: "M6 3h12v18l-3-2-3 2-3-2-3 2V3M9 7h6M9 11h6M9 15h3",
+    cart: "M3 3h2l3 12h10l3-9H6M9 19h.01M18 19h.01",
+    dashboard: "M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z",
+    menu: "M5 3v7m3-7v7M3 3v5a3 3 0 0 0 6 0V3M6 11v10M18 3v18m0-18c-4 2-4 9 0 9",
+    reviews: "m12 3 3 6 6 1-4.5 4.5 1 6.5-5.5-3-5.5 3 1-6.5L3 10l6-1 3-6",
+    users: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M9 3a4 4 0 1 0 0 8 4 4 0 0 0 0-8M17 4a4 4 0 0 1 0 7M22 21v-2a4 4 0 0 0-3-4",
+    voucher: "M3 5h18v5a2 2 0 0 0 0 4v5H3v-5a2 2 0 0 0 0-4V5M9 8h.01M15 16h.01M9 16l6-8",
+    shop: "M3 10 5 3h14l2 7M3 10a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0M5 13v8h14v-8M9 21v-6h6v6",
+    documents: "M5 3h10l4 4v14H5V3M15 3v5h4M8 12h8M8 16h5"
+  };
+  function MaterialIcon({ name: name4 }) {
+    return /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("svg", { className: "md-icon", viewBox: "0 0 24 24", "aria-hidden": "true", focusable: "false", children: /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("path", { d: paths[name4] }) });
   }
 
   // src/layouts/MerchantLayout.tsx
-  var import_jsx_runtime40 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime47 = __toESM(require_jsx_runtime(), 1);
   var navItems = [{ path: "/merchant/dashboard", label: "T\u1ED5ng quan" }, { path: "/merchant/menu", label: "Qu\u1EA3n l\xFD Menu" }, { path: "/merchant/orders", label: "\u0110\u01A1n h\xE0ng" }, { path: "/merchant/reviews", label: "\u0110\xE1nh gi\xE1" }];
   function MerchantLayout() {
     const { currentUser, logout } = useAuth();
-    const { restaurants, restaurant, selectedId, setSelectedId, loading, error, refresh, dirty, saving } = useMerchant();
+    const { restaurants, restaurant, selectedId, setSelectedId, loading: loading2, error, refresh, dirty, saving } = useMerchant();
     const navigate = useNavigate();
     const location2 = useLocation();
     const canLeave = () => !saving && (!dirty || window.confirm("C\xF3 thay \u0111\u1ED5i menu ch\u01B0a l\u01B0u. B\u1EA1n mu\u1ED1n r\u1EDDi trang v\xE0 b\u1ECF c\xE1c thay \u0111\u1ED5i n\xE0y?"));
     const onboarding = location2.pathname === "/merchant/onboarding";
-    return /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-merchant-shell", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("aside", { className: "rb-merchant-sidebar", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-merchant-brand", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("strong", { children: "RouteBite" }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("span", { children: "Kh\xF4ng gian Merchant" })
+    return /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "rb-merchant-shell", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("aside", { className: "rb-merchant-sidebar", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "rb-merchant-brand", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("strong", { children: "RouteBite" }),
+          /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("span", { children: "Kh\xF4ng gian Merchant" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("nav", { "aria-label": "\u0110i\u1EC1u h\u01B0\u1EDBng merchant", children: navItems.map((item) => /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("nav", { "aria-label": "\u0110i\u1EC1u h\u01B0\u1EDBng merchant", children: navItems.map((item) => /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)(
           NavLink,
           {
             to: item.path,
@@ -30798,13 +39488,16 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
             onClick: (event) => {
               if (location2.pathname !== item.path && !canLeave()) event.preventDefault();
             },
-            children: item.label
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(MaterialIcon, { name: item.path.endsWith("dashboard") ? "dashboard" : item.path.endsWith("menu") ? "menu" : item.path.endsWith("reviews") ? "reviews" : "orders" }),
+              /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("span", { children: item.label })
+            ]
           },
           item.path
         )) }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("footer", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("strong", { children: currentUser.fullName }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("button", { type: "button", onClick: () => {
+        /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("footer", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("strong", { children: currentUser.fullName }),
+          /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("button", { type: "button", onClick: () => {
             if (canLeave()) {
               logout();
               navigate("/login");
@@ -30812,46 +39505,46 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           }, children: "\u0110\u0103ng xu\u1EA5t" })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "rb-merchant-main", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("header", { className: "rb-merchant-toolbar", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("div", { children: restaurants.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("label", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "rb-merchant-main", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("header", { className: "rb-merchant-toolbar", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("div", { children: restaurants.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("label", { children: [
             "Qu\xE1n \u0111ang qu\u1EA3n l\xFD",
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("select", { "aria-label": "Qu\xE1n \u0111ang qu\u1EA3n l\xFD", value: selectedId, disabled: saving, onChange: (event) => {
+            /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("select", { "aria-label": "Qu\xE1n \u0111ang qu\u1EA3n l\xFD", value: selectedId, disabled: saving, onChange: (event) => {
               if (canLeave()) setSelectedId(event.target.value);
-            }, children: restaurants.map((r) => /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("option", { value: r.id, children: r.name }, r.id)) })
+            }, children: restaurants.map((r) => /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("option", { value: r.id, children: r.name }, r.id)) })
           ] }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("div", { className: "account-menu", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(NotificationBell, {}),
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(ChatBell, {}),
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(AvatarDropdown, {})
+          /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "account-menu", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(NotificationBell, {}),
+            /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(ChatBell, {}),
+            /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(AvatarDropdown, {})
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("main", { className: "rb-merchant-content", children: [
-          (restaurant?.suspendedAt != null || restaurant?.suspendedReason != null) && /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("section", { className: "item-card", role: "note", "aria-label": "Qu\xE1n b\u1ECB \u0111\xECnh ch\u1EC9", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("strong", { children: "Qu\xE1n \u0111ang b\u1ECB Admin \u0111\xECnh ch\u1EC9" }),
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: restaurant.suspendedReason || "Vui l\xF2ng li\xEAn h\u1EC7 Admin \u0111\u1EC3 bi\u1EBFt chi ti\u1EBFt." }),
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { children: "Qu\xE1n kh\xF4ng hi\u1EC3n th\u1ECB c\xF4ng khai v\xE0 kh\xF4ng nh\u1EADn \u0111\u01A1n m\u1EDBi. Ch\u1EC9 Admin c\xF3 th\u1EC3 k\xEDch ho\u1EA1t l\u1EA1i; l\u01B0u menu ho\u1EB7c \u1EA3nh kh\xF4ng g\u1EE1 \u0111\xECnh ch\u1EC9." })
+        /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("main", { className: "rb-merchant-content", children: [
+          (restaurant?.suspendedAt != null || restaurant?.suspendedReason != null) && /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("section", { className: "item-card", role: "note", "aria-label": "Qu\xE1n b\u1ECB \u0111\xECnh ch\u1EC9", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("strong", { children: "Qu\xE1n \u0111ang b\u1ECB Admin \u0111\xECnh ch\u1EC9" }),
+            /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("p", { children: restaurant.suspendedReason || "Vui l\xF2ng li\xEAn h\u1EC7 Admin \u0111\u1EC3 bi\u1EBFt chi ti\u1EBFt." }),
+            /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("p", { children: "Qu\xE1n kh\xF4ng hi\u1EC3n th\u1ECB c\xF4ng khai v\xE0 kh\xF4ng nh\u1EADn \u0111\u01A1n m\u1EDBi. Ch\u1EC9 Admin c\xF3 th\u1EC3 k\xEDch ho\u1EA1t l\u1EA1i; l\u01B0u menu ho\u1EB7c \u1EA3nh kh\xF4ng g\u1EE1 \u0111\xECnh ch\u1EC9." })
           ] }),
-          loading ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i qu\xE1n c\u1EE7a b\u1EA1n\u2026" }) : error ? /* @__PURE__ */ (0, import_jsx_runtime40.jsxs)("section", { className: "item-card", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("p", { role: "alert", children: error }),
-            /* @__PURE__ */ (0, import_jsx_runtime40.jsx)("button", { className: "btn secondary", onClick: refresh, children: "Th\u1EED l\u1EA1i" })
-          ] }) : !restaurants.length && !onboarding ? /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Navigate, { to: "/merchant/onboarding", replace: true }) : /* @__PURE__ */ (0, import_jsx_runtime40.jsx)(Outlet, {})
+          loading2 ? /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i qu\xE1n c\u1EE7a b\u1EA1n\u2026" }) : error ? /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("section", { className: "item-card", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("p", { role: "alert", children: error }),
+            /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("button", { className: "btn secondary", onClick: refresh, children: "Th\u1EED l\u1EA1i" })
+          ] }) : !restaurants.length && !onboarding ? /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Navigate, { to: "/merchant/onboarding", replace: true }) : /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Outlet, {})
         ] })
       ] })
     ] });
   }
 
   // src/pages/merchant/useMerchantOrders.ts
-  var import_react31 = __toESM(require_react(), 1);
+  var import_react37 = __toESM(require_react(), 1);
   function useMerchantOrders(restaurantId) {
     const { currentUser } = useAuth();
     const { orders: socket } = useSockets();
-    const [orders, setOrders] = (0, import_react31.useState)([]);
-    const [loading, setLoading] = (0, import_react31.useState)(true);
-    const [error, setError] = (0, import_react31.useState)("");
-    const refreshRef = (0, import_react31.useRef)(async () => {
+    const [orders, setOrders] = (0, import_react37.useState)([]);
+    const [loading2, setLoading] = (0, import_react37.useState)(true);
+    const [error, setError] = (0, import_react37.useState)("");
+    const refreshRef = (0, import_react37.useRef)(async () => {
     });
-    (0, import_react31.useEffect)(() => {
+    (0, import_react37.useEffect)(() => {
       let active = true;
       let sequence = 0;
       setOrders([]);
@@ -30859,17 +39552,17 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       setError("");
       const refresh = async () => {
         if (!restaurantId) return;
-        const version = ++sequence;
+        const version4 = ++sequence;
         try {
           const data2 = await request(`/orders?restaurantId=${encodeURIComponent(restaurantId)}`);
-          if (active && version === sequence) {
+          if (active && version4 === sequence) {
             setOrders(Array.isArray(data2) ? data2 : data2.data || []);
             setError("");
           }
         } catch (e) {
-          if (active && version === sequence) setError(e.message);
+          if (active && version4 === sequence) setError(e.message);
         } finally {
-          if (active && version === sequence) setLoading(false);
+          if (active && version4 === sequence) setLoading(false);
         }
       };
       refreshRef.current = refresh;
@@ -30893,31 +39586,31 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         socket?.off("payment.status.updated", refresh);
       };
     }, [restaurantId, socket, currentUser.id]);
-    return { orders, loading, error, refresh: () => refreshRef.current() };
+    return { orders, loading: loading2, error, refresh: () => refreshRef.current() };
   }
 
   // src/pages/merchant/RestaurantImageEditor.tsx
-  var import_react33 = __toESM(require_react(), 1);
+  var import_react39 = __toESM(require_react(), 1);
 
   // src/components/ImageUploader.tsx
-  var import_react32 = __toESM(require_react(), 1);
-  var import_jsx_runtime41 = __toESM(require_jsx_runtime(), 1);
+  var import_react38 = __toESM(require_react(), 1);
+  var import_jsx_runtime48 = __toESM(require_jsx_runtime(), 1);
   var validUrl = (value2) => /^(https?:\/\/[^\s]+|\/(?!\/)[^\s]*)?$/.test(value2);
   function ImageUploader({ value: value2, onChange, label = "\u1EA2nh", disabled = false, onBusyChange }) {
-    const id = (0, import_react32.useId)();
-    const [uploading, setUploading] = (0, import_react32.useState)(false);
-    const [preview, setPreview] = (0, import_react32.useState)("");
-    const [error, setError] = (0, import_react32.useState)("");
-    const abort = (0, import_react32.useRef)(null);
-    const localUrl = (0, import_react32.useRef)("");
-    const mounted = (0, import_react32.useRef)(true);
-    const busyCallback = (0, import_react32.useRef)(onBusyChange);
+    const id = (0, import_react38.useId)();
+    const [uploading, setUploading] = (0, import_react38.useState)(false);
+    const [preview, setPreview] = (0, import_react38.useState)("");
+    const [error, setError] = (0, import_react38.useState)("");
+    const abort = (0, import_react38.useRef)(null);
+    const localUrl = (0, import_react38.useRef)("");
+    const mounted = (0, import_react38.useRef)(true);
+    const busyCallback = (0, import_react38.useRef)(onBusyChange);
     busyCallback.current = onBusyChange;
     const config2 = window.ROUTEBITE_CONFIG || {};
     const cloud = String(config2.cloudinaryCloudName || "").trim();
     const preset = String(config2.cloudinaryUploadPreset || "").trim();
     const configured = /^[a-zA-Z0-9_-]+$/.test(cloud) && !!preset;
-    (0, import_react32.useEffect)(() => () => {
+    (0, import_react38.useEffect)(() => () => {
       mounted.current = false;
       abort.current?.abort();
       if (localUrl.current) URL.revokeObjectURL(localUrl.current);
@@ -30966,30 +39659,30 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       }
     }
     const image = preview || (value2 && validUrl(value2) ? value2 : "");
-    return /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("div", { className: "rb-image-uploader", role: "group", "aria-label": label, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("span", { className: "rb-image-label", children: label }),
-      /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("div", { className: "rb-image-controls", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("img", { src: image || "/placeholder-food.svg", alt: `Xem tr\u01B0\u1EDBc ${label.toLowerCase()}`, onError: (event) => {
+    return /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { className: "rb-image-uploader", role: "group", "aria-label": label, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("span", { className: "rb-image-label", children: label }),
+      /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { className: "rb-image-controls", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("img", { src: image || "/placeholder-food.svg", alt: `Xem tr\u01B0\u1EDBc ${label.toLowerCase()}`, onError: (event) => {
           if (event.currentTarget.getAttribute("src") !== "/placeholder-food.svg") event.currentTarget.src = "/placeholder-food.svg";
         } }),
-        /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("label", { htmlFor: id, className: "rb-image-file-label", children: uploading ? "\u0110ang t\u1EA3i l\xEAn\u2026" : "Ch\u1ECDn \u1EA3nh" }),
-          /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("input", { id, type: "file", accept: "image/jpeg,image/png,image/webp", "aria-label": `Ch\u1ECDn ${label.toLowerCase()}`, disabled: disabled || uploading || !configured, onChange: upload }),
-          value2 && /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("button", { className: "rb-danger-button", type: "button", disabled: disabled || uploading, onClick: () => {
+        /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("label", { htmlFor: id, className: "rb-image-file-label", children: uploading ? "\u0110ang t\u1EA3i l\xEAn\u2026" : "Ch\u1ECDn \u1EA3nh" }),
+          /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("input", { id, type: "file", accept: "image/jpeg,image/png,image/webp", "aria-label": `Ch\u1ECDn ${label.toLowerCase()}`, disabled: disabled || uploading || !configured, onChange: upload }),
+          value2 && /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("button", { className: "rb-danger-button", type: "button", disabled: disabled || uploading, onClick: () => {
             onChange("");
             setError("");
           }, children: "B\u1ECF \u1EA3nh" })
         ] })
       ] }),
-      !configured && /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("small", { children: "Ch\u01B0a c\u1EA5u h\xECnh Cloudinary \u2014 c\xF3 th\u1EC3 nh\u1EADp URL \u1EA3nh." }),
-      /* @__PURE__ */ (0, import_jsx_runtime41.jsxs)("label", { children: [
+      !configured && /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("small", { children: "Ch\u01B0a c\u1EA5u h\xECnh Cloudinary \u2014 c\xF3 th\u1EC3 nh\u1EADp URL \u1EA3nh." }),
+      /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("label", { children: [
         "URL \u1EA3nh",
-        /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("input", { "aria-label": `URL ${label.toLowerCase()}`, value: value2 || "", placeholder: "https://\u2026", disabled: disabled || uploading, onChange: (event) => {
+        /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("input", { "aria-label": `URL ${label.toLowerCase()}`, value: value2 || "", placeholder: "https://\u2026", disabled: disabled || uploading, onChange: (event) => {
           onChange(event.target.value);
           setError(validUrl(event.target.value) ? "" : "URL \u1EA3nh ph\u1EA3i b\u1EAFt \u0111\u1EA7u b\u1EB1ng http:// ho\u1EB7c https://.");
         } })
       ] }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime41.jsx)("small", { role: "alert", children: error })
+      error && /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("small", { role: "alert", children: error })
     ] });
   }
 
@@ -31011,14 +39704,14 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
 
   // src/pages/merchant/RestaurantImageEditor.tsx
-  var import_jsx_runtime42 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime49 = __toESM(require_jsx_runtime(), 1);
   function RestaurantImageEditor({ restaurant }) {
     const { saving, setSaving, setDirty, updateRestaurant } = useMerchant();
-    const [imageUrl, setImageUrl] = (0, import_react33.useState)(restaurant.imageUrl || "");
-    const [error, setError] = (0, import_react33.useState)("");
-    const [message, setMessage] = (0, import_react33.useState)("");
+    const [imageUrl, setImageUrl] = (0, import_react39.useState)(restaurant.imageUrl || "");
+    const [error, setError] = (0, import_react39.useState)("");
+    const [message, setMessage] = (0, import_react39.useState)("");
     const dirty = imageUrl !== (restaurant.imageUrl || "");
-    (0, import_react33.useEffect)(() => {
+    (0, import_react39.useEffect)(() => {
       setDirty(dirty);
       return () => setDirty(false);
     }, [dirty, setDirty]);
@@ -31036,90 +39729,90 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setSaving(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime42.jsxs)("section", { className: "item-card rb-restaurant-image-editor", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime42.jsx)(ImageUploader, { label: "\u1EA2nh \u0111\u1EA1i di\u1EC7n qu\xE1n", value: imageUrl, onChange: setImageUrl, disabled: saving, onBusyChange: setSaving }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
-      message && /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("p", { role: "status", children: message }),
-      /* @__PURE__ */ (0, import_jsx_runtime42.jsx)("button", { className: "btn primary", type: "button", disabled: saving || !dirty, onClick: save, children: saving ? "\u0110ang x\u1EED l\xFD\u2026" : "L\u01B0u \u1EA3nh qu\xE1n" })
+    return /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("section", { className: "item-card rb-restaurant-image-editor", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(ImageUploader, { label: "\u1EA2nh \u0111\u1EA1i di\u1EC7n qu\xE1n", value: imageUrl, onChange: setImageUrl, disabled: saving, onBusyChange: setSaving }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+      message && /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { role: "status", children: message }),
+      /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("button", { className: "btn primary", type: "button", disabled: saving || !dirty, onClick: save, children: saving ? "\u0110ang x\u1EED l\xFD\u2026" : "L\u01B0u \u1EA3nh qu\xE1n" })
     ] });
   }
 
   // src/pages/merchant/DashboardPage.tsx
-  var import_jsx_runtime43 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime50 = __toESM(require_jsx_runtime(), 1);
   function DashboardPage() {
     const { restaurant } = useMerchant();
-    const { orders, loading, error, refresh } = useMerchantOrders(restaurant?.id);
+    const { orders, loading: loading2, error, refresh } = useMerchantOrders(restaurant?.id);
     const complete = orders.filter((o) => o.status === "COMPLETED");
-    return /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("section", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("div", { className: "rb-merchant-page-head", children: /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("p", { className: "rb-eyebrow", children: "KH\xD4NG GIAN CH\u1EE6 QU\xC1N" }),
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("h1", { children: "T\u1ED5ng quan" }),
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("p", { children: restaurant?.name })
+    return /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("section", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("div", { className: "rb-merchant-page-head", children: /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { className: "rb-eyebrow", children: "KH\xD4NG GIAN CH\u1EE6 QU\xC1N" }),
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("h1", { children: "T\u1ED5ng quan" }),
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { children: restaurant?.name })
       ] }) }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("p", { className: "auth-alert", role: "alert", children: [
+      error && /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("p", { className: "auth-alert", role: "alert", children: [
         error,
         " ",
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("button", { onClick: refresh, children: "Th\u1EED l\u1EA1i" })
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("button", { onClick: refresh, children: "Th\u1EED l\u1EA1i" })
       ] }),
-      loading ? /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i th\u1ED1ng k\xEA\u2026" }) : !error && /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "rb-merchant-metrics", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("article", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("span", { children: "\u0110\u01A1n \u0111ang x\u1EED l\xFD" }),
-          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("strong", { children: orders.filter((o) => ["PENDING", "CONFIRMED", "PREPARING", "READY"].includes(o.status)).length })
+      loading2 ? /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i th\u1ED1ng k\xEA\u2026" }) : !error && /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("div", { className: "rb-merchant-metrics", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("article", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("span", { children: "\u0110\u01A1n \u0111ang x\u1EED l\xFD" }),
+          /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("strong", { children: orders.filter((o) => ["PENDING", "CONFIRMED", "PREPARING", "READY"].includes(o.status)).length })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("article", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("span", { children: "\u0110\u01A1n ho\xE0n th\xE0nh" }),
-          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("strong", { children: complete.length })
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("article", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("span", { children: "\u0110\u01A1n ho\xE0n th\xE0nh" }),
+          /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("strong", { children: complete.length })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("article", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("span", { children: "Doanh thu \u0111\u01A1n ho\xE0n th\xE0nh" }),
-          /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("strong", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("article", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("span", { children: "Doanh thu \u0111\u01A1n ho\xE0n th\xE0nh" }),
+          /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("strong", { children: [
             complete.filter((o) => o.paymentStatus === "PAID").reduce((sum, o) => sum + Number(o.totalAmount), 0).toLocaleString("vi-VN"),
             "\u0111"
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("article", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("span", { children: "M\xF3n \u0111ang b\xE1n" }),
-          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("strong", { children: restaurant?.menuItems.filter((i) => i.available).length || 0 })
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("article", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("span", { children: "M\xF3n \u0111ang b\xE1n" }),
+          /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("strong", { children: restaurant?.menuItems.filter((i) => i.available).length || 0 })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "item-card rb-merchant-shop", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("h2", { children: "Th\xF4ng tin qu\xE1n" }),
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("p", { children: restaurant?.address }),
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("p", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("div", { className: "item-card rb-merchant-shop", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("h2", { children: "Th\xF4ng tin qu\xE1n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { children: restaurant?.address }),
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("p", { children: [
           "Gi\u1EDD m\u1EDF c\u1EEDa: ",
           restaurant?.openingHours
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("p", { children: restaurant?.suspendedAt != null || restaurant?.suspendedReason != null ? "B\u1ECB Admin \u0111\xECnh ch\u1EC9" : restaurant?.active ? "\u0110ang ho\u1EA1t \u0111\u1ED9ng" : "\u0110ang t\u1EA1m ng\u1EEBng" }),
-        /* @__PURE__ */ (0, import_jsx_runtime43.jsxs)("div", { className: "btn-row", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(Link, { className: "btn primary", to: "/merchant/orders", children: "X\u1EED l\xFD \u0111\u01A1n h\xE0ng" }),
-          /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(Link, { className: "btn secondary", to: "/merchant/menu", children: "Qu\u1EA3n l\xFD Menu" })
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { children: restaurant?.suspendedAt != null || restaurant?.suspendedReason != null ? "B\u1ECB Admin \u0111\xECnh ch\u1EC9" : restaurant?.active ? "\u0110ang ho\u1EA1t \u0111\u1ED9ng" : "\u0110ang t\u1EA1m ng\u1EEBng" }),
+        /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("div", { className: "btn-row", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(Link, { className: "btn primary", to: "/merchant/orders", children: "X\u1EED l\xFD \u0111\u01A1n h\xE0ng" }),
+          /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(Link, { className: "btn secondary", to: "/merchant/menu", children: "Qu\u1EA3n l\xFD Menu" })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime43.jsx)("p", { className: "rb-merchant-hint", children: "S\u1ED1 li\u1EC7u t\xEDnh t\u1EEB to\xE0n b\u1ED9 \u0111\u01A1n c\u1EE7a qu\xE1n \u0111ang ch\u1ECDn, kh\xF4ng ph\u1EA3i th\u1ED1ng k\xEA ri\xEAng h\xF4m nay." }),
-      restaurant && /* @__PURE__ */ (0, import_jsx_runtime43.jsx)(RestaurantImageEditor, { restaurant }, restaurant.id)
+      /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { className: "rb-merchant-hint", children: "S\u1ED1 li\u1EC7u t\xEDnh t\u1EEB to\xE0n b\u1ED9 \u0111\u01A1n c\u1EE7a qu\xE1n \u0111ang ch\u1ECDn, kh\xF4ng ph\u1EA3i th\u1ED1ng k\xEA ri\xEAng h\xF4m nay." }),
+      restaurant && /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(RestaurantImageEditor, { restaurant }, restaurant.id)
     ] });
   }
 
   // src/pages/merchant/MenuManagementPage.tsx
-  var import_react34 = __toESM(require_react(), 1);
-  var import_jsx_runtime44 = __toESM(require_jsx_runtime(), 1);
+  var import_react40 = __toESM(require_react(), 1);
+  var import_jsx_runtime51 = __toESM(require_jsx_runtime(), 1);
   var clean = (items) => items.map((item) => ({ ...item.id ? { id: item.id } : {}, name: item.name, price: Number(item.price), description: item.description || "", available: item.available !== false, imageUrl: item.imageUrl || "" }));
   function MenuManagementPage() {
     const { restaurant } = useMerchant();
-    return restaurant ? /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(MenuEditor, { restaurant }, restaurant.id) : null;
+    return restaurant ? /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(MenuEditor, { restaurant }, restaurant.id) : null;
   }
   function MenuEditor({ restaurant }) {
     const { updateRestaurant, setDirty, saving, setSaving } = useMerchant();
-    const [baseline, setBaseline] = (0, import_react34.useState)(() => clean(restaurant.menuItems || []));
-    const [draft, setDraft] = (0, import_react34.useState)(() => clean(restaurant.menuItems || []));
-    const [error, setError] = (0, import_react34.useState)("");
-    const [message, setMessage] = (0, import_react34.useState)("");
+    const [baseline, setBaseline] = (0, import_react40.useState)(() => clean(restaurant.menuItems || []));
+    const [draft, setDraft] = (0, import_react40.useState)(() => clean(restaurant.menuItems || []));
+    const [error, setError] = (0, import_react40.useState)("");
+    const [message, setMessage] = (0, import_react40.useState)("");
     const dirty = JSON.stringify(draft) !== JSON.stringify(baseline);
-    (0, import_react34.useEffect)(() => {
+    (0, import_react40.useEffect)(() => {
       setDirty(dirty);
       return () => setDirty(false);
     }, [dirty, setDirty]);
-    (0, import_react34.useEffect)(() => {
+    (0, import_react40.useEffect)(() => {
       if (!dirty) return;
       const warn = (event) => {
         event.preventDefault();
@@ -31178,51 +39871,51 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setSaving(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("section", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { className: "rb-merchant-page-head", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { className: "rb-eyebrow", children: "QU\xC1N C\u1EE6A B\u1EA0N" }),
-          /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("h1", { children: "Qu\u1EA3n l\xFD Menu" }),
-          /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { children: restaurant.name })
+    return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("section", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("div", { className: "rb-merchant-page-head", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("p", { className: "rb-eyebrow", children: "QU\xC1N C\u1EE6A B\u1EA0N" }),
+          /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("h1", { children: "Qu\u1EA3n l\xFD Menu" }),
+          /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("p", { children: restaurant.name })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { className: "btn primary", type: "button", disabled: saving, onClick: () => setDraft((old) => [...old, { name: "", price: "", description: "", available: true }]), children: "+ Th\xEAm m\xF3n m\u1EDBi" })
+        /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("button", { className: "btn primary", type: "button", disabled: saving, onClick: () => setDraft((old) => [...old, { name: "", price: "", description: "", available: true }]), children: "+ Th\xEAm m\xF3n m\u1EDBi" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { className: "rb-merchant-hint", children: "Th\xEAm, s\u1EEDa, x\xF3a m\xF3n r\u1ED3i b\u1EA5m L\u01B0u thay \u0111\u1ED5i. C\xF2n h\xE0ng/H\u1EBFt h\xE0ng c\u1EE7a m\xF3n \u0111\xE3 c\xF3 s\u1EBD \u0111\u01B0\u1EE3c l\u01B0u ngay." }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
-      message && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { role: "status", className: "rb-merchant-feedback", children: message }),
-      /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("fieldset", { disabled: saving, className: "rb-menu-editor", children: [
-        draft.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { className: "rb-menu-edit-row", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime44.jsx)(ImageUploader, { label: `\u1EA2nh m\xF3n ${index + 1}`, value: item.imageUrl, onChange: (url2) => update(index, "imageUrl", url2), disabled: saving, onBusyChange: setSaving }),
-          /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("label", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("p", { className: "rb-merchant-hint", children: "Th\xEAm, s\u1EEDa, x\xF3a m\xF3n r\u1ED3i b\u1EA5m L\u01B0u thay \u0111\u1ED5i. C\xF2n h\xE0ng/H\u1EBFt h\xE0ng c\u1EE7a m\xF3n \u0111\xE3 c\xF3 s\u1EBD \u0111\u01B0\u1EE3c l\u01B0u ngay." }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+      message && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("p", { role: "status", className: "rb-merchant-feedback", children: message }),
+      /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("fieldset", { disabled: saving, className: "rb-menu-editor", children: [
+        draft.map((item, index) => /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("div", { className: "rb-menu-edit-row", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(ImageUploader, { label: `\u1EA2nh m\xF3n ${index + 1}`, value: item.imageUrl, onChange: (url2) => update(index, "imageUrl", url2), disabled: saving, onBusyChange: setSaving }),
+          /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("label", { children: [
             "T\xEAn m\xF3n",
-            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("input", { "aria-label": `T\xEAn m\xF3n ${index + 1}`, maxLength: 160, value: item.name, onChange: (event) => update(index, "name", event.target.value), placeholder: "T\xEAn m\xF3n" })
+            /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("input", { "aria-label": `T\xEAn m\xF3n ${index + 1}`, maxLength: 160, value: item.name, onChange: (event) => update(index, "name", event.target.value), placeholder: "T\xEAn m\xF3n" })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("label", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("label", { children: [
             "Gi\xE1 (\u0111)",
-            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("input", { "aria-label": `Gi\xE1 m\xF3n ${index + 1}`, type: "number", min: "0", max: "99999999999999", step: "1", value: item.price, onChange: (event) => update(index, "price", event.target.value === "" ? "" : Number(event.target.value)) })
+            /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("input", { "aria-label": `Gi\xE1 m\xF3n ${index + 1}`, type: "number", min: "0", max: "99999999999999", step: "1", value: item.price, onChange: (event) => update(index, "price", event.target.value === "" ? "" : Number(event.target.value)) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("label", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("label", { children: [
             "M\xF4 t\u1EA3",
-            /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("input", { "aria-label": `M\xF4 t\u1EA3 m\xF3n ${index + 1}`, value: item.description, onChange: (event) => update(index, "description", event.target.value) })
+            /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("input", { "aria-label": `M\xF4 t\u1EA3 m\xF3n ${index + 1}`, value: item.description, onChange: (event) => update(index, "description", event.target.value) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { className: `rb-stock-toggle ${item.available ? "available" : ""}`, type: "button", "aria-label": `Tr\u1EA1ng th\xE1i ${item.name || "m\xF3n m\u1EDBi"}`, "aria-pressed": item.available, onClick: () => toggle(index), children: item.available ? "C\xF2n h\xE0ng" : "H\u1EBFt h\xE0ng" }),
-          /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { type: "button", className: "rb-danger-button", "aria-label": `X\xF3a ${item.name || "m\xF3n m\u1EDBi"}`, onClick: () => setDraft((old) => old.filter((_, i) => i !== index)), children: "X\xF3a" })
+          /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("button", { className: `rb-stock-toggle ${item.available ? "available" : ""}`, type: "button", "aria-label": `Tr\u1EA1ng th\xE1i ${item.name || "m\xF3n m\u1EDBi"}`, "aria-pressed": item.available, onClick: () => toggle(index), children: item.available ? "C\xF2n h\xE0ng" : "H\u1EBFt h\xE0ng" }),
+          /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("button", { type: "button", className: "rb-danger-button", "aria-label": `X\xF3a ${item.name || "m\xF3n m\u1EDBi"}`, onClick: () => setDraft((old) => old.filter((_, i) => i !== index)), children: "X\xF3a" })
         ] }, item.id || `new-${index}`)),
-        !draft.length && /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("p", { className: "rb-empty", children: "Ch\u01B0a c\xF3 m\xF3n n\xE0o, b\u1EA5m \u201CTh\xEAm m\xF3n m\u1EDBi\u201D \u0111\u1EC3 b\u1EAFt \u0111\u1EA7u." })
+        !draft.length && /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("p", { className: "rb-empty", children: "Ch\u01B0a c\xF3 m\xF3n n\xE0o, b\u1EA5m \u201CTh\xEAm m\xF3n m\u1EDBi\u201D \u0111\u1EC3 b\u1EAFt \u0111\u1EA7u." })
       ] }),
-      dirty && /* @__PURE__ */ (0, import_jsx_runtime44.jsxs)("div", { className: "rb-menu-save-bar", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("span", { children: "C\xF3 thay \u0111\u1ED5i ch\u01B0a l\u01B0u" }),
-        /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { type: "button", className: "btn secondary", disabled: saving, onClick: () => {
+      dirty && /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("div", { className: "rb-menu-save-bar", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { children: "C\xF3 thay \u0111\u1ED5i ch\u01B0a l\u01B0u" }),
+        /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("button", { type: "button", className: "btn secondary", disabled: saving, onClick: () => {
           if (window.confirm("B\u1ECF c\xE1c thay \u0111\u1ED5i menu ch\u01B0a l\u01B0u?")) setDraft(baseline);
         }, children: "B\u1ECF thay \u0111\u1ED5i" }),
-        /* @__PURE__ */ (0, import_jsx_runtime44.jsx)("button", { type: "button", className: "btn primary", disabled: saving, onClick: save, children: saving ? "\u0110ang l\u01B0u\u2026" : "L\u01B0u thay \u0111\u1ED5i" })
+        /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("button", { type: "button", className: "btn primary", disabled: saving, onClick: save, children: saving ? "\u0110ang l\u01B0u\u2026" : "L\u01B0u thay \u0111\u1ED5i" })
       ] })
     ] });
   }
 
   // src/pages/merchant/OrdersKanbanPage.tsx
-  var import_react35 = __toESM(require_react(), 1);
-  var import_jsx_runtime45 = __toESM(require_jsx_runtime(), 1);
+  var import_react41 = __toESM(require_react(), 1);
+  var import_jsx_runtime52 = __toESM(require_jsx_runtime(), 1);
   var columns = [{ status: "PENDING", label: "Ch\u1EDD x\xE1c nh\u1EADn / \u0110\xE3 x\xE1c nh\u1EADn" }, { status: "PREPARING", label: "\u0110ang chu\u1EA9n b\u1ECB" }, { status: "READY", label: "S\u1EB5n s\xE0ng" }];
   var next = {
     PENDING: { status: "CONFIRMED", label: "X\xE1c nh\u1EADn \u2192" },
@@ -31232,16 +39925,16 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   };
   function OrdersKanbanPage() {
     const { restaurant } = useMerchant();
-    const { orders, loading, error, refresh } = useMerchantOrders(restaurant?.id);
-    const [busy, setBusy] = (0, import_react35.useState)("");
-    const [actionError, setActionError] = (0, import_react35.useState)("");
-    const [cancelled, setCancelled] = (0, import_react35.useState)(false);
-    const [completed, setCompleted] = (0, import_react35.useState)(false);
-    const [chatOrder, setChatOrder] = (0, import_react35.useState)(null);
-    (0, import_react35.useEffect)(() => {
+    const { orders, loading: loading2, error, refresh } = useMerchantOrders(restaurant?.id);
+    const [busy, setBusy] = (0, import_react41.useState)("");
+    const [actionError, setActionError] = (0, import_react41.useState)("");
+    const [cancelled, setCancelled] = (0, import_react41.useState)(false);
+    const [completed, setCompleted] = (0, import_react41.useState)(false);
+    const [chatOrder, setChatOrder] = (0, import_react41.useState)(null);
+    (0, import_react41.useEffect)(() => {
       setChatOrder(null);
     }, [restaurant?.id]);
-    (0, import_react35.useEffect)(() => {
+    (0, import_react41.useEffect)(() => {
       setCompleted(false);
       setCancelled(false);
       setActionError("");
@@ -31262,82 +39955,82 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     const renderCard = (order) => {
       const action = next[order.status];
       const awaitingPayment = order.paymentMethod === "vnpay" && order.paymentStatus !== "PAID";
-      return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("article", { className: "rb-kanban-card", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(Link, { to: "/merchant/orders/" + order.id, className: "rb-order-code", children: order.orderCode }),
-        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(OrderStatusBadge, { status: order.status }),
-        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("strong", { children: order.customerName || "Kh\xE1ch h\xE0ng" }),
-        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("span", { children: order.customerPhone }),
-        /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("p", { children: [
+      return /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("article", { className: "rb-kanban-card", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(Link, { to: "/merchant/orders/" + order.id, className: "rb-order-code", children: order.orderCode }),
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(OrderStatusBadge, { status: order.status }),
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("strong", { children: order.customerName || "Kh\xE1ch h\xE0ng" }),
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("span", { children: order.customerPhone }),
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("p", { children: [
           order.items?.reduce((sum, item) => sum + item.quantity, 0) || 0,
           " m\xF3n \xB7 ",
           Number(order.totalAmount).toLocaleString("vi-VN"),
           "\u0111"
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { children: order.paymentMethod === "cash" ? order.paymentStatus === "PAID" ? "Ti\u1EC1n m\u1EB7t \xB7 \u0110\xE3 thu" : "Ti\u1EC1n m\u1EB7t \xB7 Thu khi gh\xE9 l\u1EA5y" : awaitingPayment ? "VNPAY \xB7 Ch\u01B0a thanh to\xE1n" : "VNPAY \xB7 \u0110\xE3 thanh to\xE1n" }),
-        !["CANCELLED", "COMPLETED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }),
-        action && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("button", { className: "btn primary", type: "button", disabled: !!busy || awaitingPayment, onClick: () => advance(order, action.status), children: busy === order.id ? "\u0110ang c\u1EADp nh\u1EADt\u2026" : action.label }),
-        ["PENDING", "CONFIRMED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("button", { className: "rb-danger-button", type: "button", disabled: !!busy, onClick: () => advance(order, "CANCELLED"), children: "H\u1EE7y \u0111\u01A1n" }),
-        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("button", { className: "btn secondary", type: "button", onClick: () => setChatOrder(order), children: "Nh\u1EAFn tin v\u1EDBi kh\xE1ch" })
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { children: order.paymentMethod === "cash" ? order.paymentStatus === "PAID" ? "Ti\u1EC1n m\u1EB7t \xB7 \u0110\xE3 thu" : "Ti\u1EC1n m\u1EB7t \xB7 Thu khi gh\xE9 l\u1EA5y" : awaitingPayment ? "VNPAY \xB7 Ch\u01B0a thanh to\xE1n" : "VNPAY \xB7 \u0110\xE3 thanh to\xE1n" }),
+        !["CANCELLED", "COMPLETED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }),
+        action && /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("button", { className: "btn primary", type: "button", disabled: !!busy || awaitingPayment, onClick: () => advance(order, action.status), children: busy === order.id ? "\u0110ang c\u1EADp nh\u1EADt\u2026" : action.label }),
+        ["PENDING", "CONFIRMED"].includes(order.status) && /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("button", { className: "rb-danger-button", type: "button", disabled: !!busy, onClick: () => advance(order, "CANCELLED"), children: "H\u1EE7y \u0111\u01A1n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("button", { className: "btn secondary", type: "button", onClick: () => setChatOrder(order), children: "Nh\u1EAFn tin v\u1EDBi kh\xE1ch" })
       ] }, order.id);
     };
-    return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("section", { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { className: "rb-merchant-page-head", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { className: "rb-eyebrow", children: "\u0110I\u1EC0U PH\u1ED0I GH\xC9 L\u1EA4Y" }),
-          /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("h1", { children: "\u0110\u01A1n h\xE0ng" }),
-          /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { children: restaurant?.name })
+    return /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("section", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { className: "rb-merchant-page-head", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { className: "rb-eyebrow", children: "\u0110I\u1EC0U PH\u1ED0I GH\xC9 L\u1EA4Y" }),
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("h1", { children: "\u0110\u01A1n h\xE0ng" }),
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { children: restaurant?.name })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("button", { className: "btn secondary", onClick: refresh, children: "L\xE0m m\u1EDBi" })
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("button", { className: "btn secondary", onClick: refresh, children: "L\xE0m m\u1EDBi" })
       ] }),
-      (error || actionError) && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { role: "alert", className: "auth-alert", children: actionError || error }),
-      loading ? /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i \u0111\u01A1n h\xE0ng\u2026" }) : /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { className: "rb-kanban-board", children: columns.map((column) => {
+      (error || actionError) && /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { role: "alert", className: "auth-alert", children: actionError || error }),
+      loading2 ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i \u0111\u01A1n h\xE0ng\u2026" }) : /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("div", { className: "rb-kanban-board", children: columns.map((column) => {
         const items = orders.filter((o) => column.status === "PENDING" ? ["PENDING", "CONFIRMED"].includes(o.status) : o.status === column.status);
-        return /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("section", { className: "rb-kanban-column", "aria-label": column.label, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("h2", { children: [
+        return /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("section", { className: "rb-kanban-column", "aria-label": column.label, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("h2", { children: [
             column.label,
             " ",
-            /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("span", { children: items.length })
+            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("span", { children: items.length })
           ] }),
-          items.length ? items.map(renderCard) : /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { className: "rb-empty", children: "Ch\u01B0a c\xF3 \u0111\u01A1n" })
+          items.length ? items.map(renderCard) : /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { className: "rb-empty", children: "Ch\u01B0a c\xF3 \u0111\u01A1n" })
         ] }, column.status);
       }) }),
-      !loading && /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)(import_jsx_runtime45.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("div", { className: "rb-order-archive-toggles", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("button", { className: "btn secondary", type: "button", "aria-expanded": completed, "aria-controls": "merchant-completed-orders", onClick: () => setCompleted(!completed), children: [
+      !loading2 && /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)(import_jsx_runtime52.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { className: "rb-order-archive-toggles", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("button", { className: "btn secondary", type: "button", "aria-expanded": completed, "aria-controls": "merchant-completed-orders", onClick: () => setCompleted(!completed), children: [
             "Ho\xE0n th\xE0nh (",
             orders.filter((o) => o.status === "COMPLETED").length,
             ")"
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("button", { className: "btn secondary", type: "button", "aria-expanded": cancelled, "aria-controls": "merchant-cancelled-orders", onClick: () => setCancelled(!cancelled), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("button", { className: "btn secondary", type: "button", "aria-expanded": cancelled, "aria-controls": "merchant-cancelled-orders", onClick: () => setCancelled(!cancelled), children: [
             "\u0110\xE3 h\u1EE7y (",
             orders.filter((o) => o.status === "CANCELLED").length,
             ")"
           ] })
         ] }),
-        completed && /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("section", { id: "merchant-completed-orders", "aria-label": "\u0110\u01A1n \u0111\xE3 ho\xE0n th\xE0nh", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("h2", { className: "rb-archive-heading", children: "\u0110\u01A1n \u0111\xE3 ho\xE0n th\xE0nh" }),
-          /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { className: "rb-cancelled-orders", children: orders.some((o) => o.status === "COMPLETED") ? orders.filter((o) => o.status === "COMPLETED").map(renderCard) : /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { children: "Ch\u01B0a c\xF3 \u0111\u01A1n ho\xE0n th\xE0nh." }) })
+        completed && /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("section", { id: "merchant-completed-orders", "aria-label": "\u0110\u01A1n \u0111\xE3 ho\xE0n th\xE0nh", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("h2", { className: "rb-archive-heading", children: "\u0110\u01A1n \u0111\xE3 ho\xE0n th\xE0nh" }),
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("div", { className: "rb-cancelled-orders", children: orders.some((o) => o.status === "COMPLETED") ? orders.filter((o) => o.status === "COMPLETED").map(renderCard) : /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { children: "Ch\u01B0a c\xF3 \u0111\u01A1n ho\xE0n th\xE0nh." }) })
         ] }),
-        cancelled && /* @__PURE__ */ (0, import_jsx_runtime45.jsxs)("section", { id: "merchant-cancelled-orders", "aria-label": "\u0110\u01A1n \u0111\xE3 h\u1EE7y", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("h2", { className: "rb-archive-heading", children: "\u0110\u01A1n \u0111\xE3 h\u1EE7y" }),
-          /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("div", { className: "rb-cancelled-orders", children: orders.some((o) => o.status === "CANCELLED") ? orders.filter((o) => o.status === "CANCELLED").map(renderCard) : /* @__PURE__ */ (0, import_jsx_runtime45.jsx)("p", { children: "Ch\u01B0a c\xF3 \u0111\u01A1n \u0111\xE3 h\u1EE7y." }) })
+        cancelled && /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("section", { id: "merchant-cancelled-orders", "aria-label": "\u0110\u01A1n \u0111\xE3 h\u1EE7y", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("h2", { className: "rb-archive-heading", children: "\u0110\u01A1n \u0111\xE3 h\u1EE7y" }),
+          /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("div", { className: "rb-cancelled-orders", children: orders.some((o) => o.status === "CANCELLED") ? orders.filter((o) => o.status === "CANCELLED").map(renderCard) : /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { children: "Ch\u01B0a c\xF3 \u0111\u01A1n \u0111\xE3 h\u1EE7y." }) })
         ] })
       ] }),
-      chatOrder && /* @__PURE__ */ (0, import_jsx_runtime45.jsx)(ChatDrawer, { orderId: chatOrder.id, orderCode: chatOrder.orderCode, onClose: () => setChatOrder(null) }, chatOrder.id)
+      chatOrder && /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(ChatDrawer, { orderId: chatOrder.id, orderCode: chatOrder.orderCode, onClose: () => setChatOrder(null) }, chatOrder.id)
     ] });
   }
 
   // src/pages/merchant/OnboardingPage.tsx
-  var import_react36 = __toESM(require_react(), 1);
-  var import_jsx_runtime46 = __toESM(require_jsx_runtime(), 1);
+  var import_react42 = __toESM(require_react(), 1);
+  var import_jsx_runtime53 = __toESM(require_jsx_runtime(), 1);
   function OnboardingPage() {
     const { updateRestaurant } = useMerchant();
     const navigate = useNavigate();
-    const [form, setForm] = (0, import_react36.useState)({ name: "", address: "", category: "com", latitude: "", longitude: "", openingHours: "08:00-22:00", imageUrl: "" });
-    const [uploading, setUploading] = (0, import_react36.useState)(false);
-    const [error, setError] = (0, import_react36.useState)("");
-    const [busy, setBusy] = (0, import_react36.useState)(false);
-    const [locating, setLocating] = (0, import_react36.useState)(false);
+    const [form, setForm] = (0, import_react42.useState)({ name: "", address: "", category: "com", latitude: "", longitude: "", openingHours: "08:00-22:00", imageUrl: "" });
+    const [uploading, setUploading] = (0, import_react42.useState)(false);
+    const [error, setError] = (0, import_react42.useState)("");
+    const [busy, setBusy] = (0, import_react42.useState)(false);
+    const [locating, setLocating] = (0, import_react42.useState)(false);
     const field = (key, value2) => setForm((old) => ({ ...old, [key]: value2 }));
     async function submit(event) {
       event.preventDefault();
@@ -31376,53 +40069,53 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         { timeout: 1e4 }
       );
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("section", { className: "rb-onboarding", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("p", { className: "rb-eyebrow", children: "B\u1EAET \u0110\u1EA6U B\xC1N H\xC0NG" }),
-      /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("h1", { children: "\u0110\u0103ng k\xFD qu\xE1n c\u1EE7a b\u1EA1n" }),
-      /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("p", { children: "T\u1EA1o th\xF4ng tin qu\xE1n tr\u01B0\u1EDBc, sau \u0111\xF3 th\xEAm m\xF3n \u1EDF trang Qu\u1EA3n l\xFD Menu." }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
-      /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("form", { onSubmit: submit, children: /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("fieldset", { disabled: busy || uploading, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)(ImageUploader, { label: "\u1EA2nh \u0111\u1EA1i di\u1EC7n qu\xE1n", value: form.imageUrl, onChange: (url2) => field("imageUrl", url2), onBusyChange: setUploading }),
-        /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("label", { children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("section", { className: "rb-onboarding", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { className: "rb-eyebrow", children: "B\u1EAET \u0110\u1EA6U B\xC1N H\xC0NG" }),
+      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("h1", { children: "\u0110\u0103ng k\xFD qu\xE1n c\u1EE7a b\u1EA1n" }),
+      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { children: "T\u1EA1o th\xF4ng tin qu\xE1n tr\u01B0\u1EDBc, sau \u0111\xF3 th\xEAm m\xF3n \u1EDF trang Qu\u1EA3n l\xFD Menu." }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("form", { onSubmit: submit, children: /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("fieldset", { disabled: busy || uploading, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(ImageUploader, { label: "\u1EA2nh \u0111\u1EA1i di\u1EC7n qu\xE1n", value: form.imageUrl, onChange: (url2) => field("imageUrl", url2), onBusyChange: setUploading }),
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
           "T\xEAn qu\xE1n",
-          /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("input", { required: true, value: form.name, onChange: (e) => field("name", e.target.value) })
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, value: form.name, onChange: (e) => field("name", e.target.value) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
           "\u0110\u1ECBa ch\u1EC9 qu\xE1n",
-          /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("input", { required: true, value: form.address, onChange: (e) => field("address", e.target.value) })
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, value: form.address, onChange: (e) => field("address", e.target.value) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
           "Danh m\u1EE5c",
-          /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("select", { value: form.category, onChange: (e) => field("category", e.target.value), children: [
-            /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("option", { value: "com", children: "C\u01A1m" }),
-            /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("option", { value: "bun-pho", children: "B\xFAn/Ph\u1EDF" }),
-            /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("option", { value: "ca-phe", children: "C\xE0 ph\xEA" }),
-            /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("option", { value: "do-uong", children: "\u0110\u1ED3 u\u1ED1ng" }),
-            /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("option", { value: "an-vat", children: "\u0102n v\u1EB7t" })
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("select", { value: form.category, onChange: (e) => field("category", e.target.value), children: [
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("option", { value: "com", children: "C\u01A1m" }),
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("option", { value: "bun-pho", children: "B\xFAn/Ph\u1EDF" }),
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("option", { value: "ca-phe", children: "C\xE0 ph\xEA" }),
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("option", { value: "do-uong", children: "\u0110\u1ED3 u\u1ED1ng" }),
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("option", { value: "an-vat", children: "\u0102n v\u1EB7t" })
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
           "Gi\u1EDD m\u1EDF c\u1EEDa",
-          /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("input", { required: true, value: form.openingHours, onChange: (e) => field("openingHours", e.target.value), placeholder: "08:00-22:00" })
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, value: form.openingHours, onChange: (e) => field("openingHours", e.target.value), placeholder: "08:00-22:00" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("div", { className: "rb-onboarding-coords", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("div", { className: "rb-onboarding-coords", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
             "V\u0129 \u0111\u1ED9",
-            /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("input", { type: "number", step: "any", min: "-90", max: "90", required: true, value: form.latitude, onChange: (e) => field("latitude", e.target.value) })
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { type: "number", step: "any", min: "-90", max: "90", required: true, value: form.latitude, onChange: (e) => field("latitude", e.target.value) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime46.jsxs)("label", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
             "Kinh \u0111\u1ED9",
-            /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("input", { type: "number", step: "any", min: "-180", max: "180", required: true, value: form.longitude, onChange: (e) => field("longitude", e.target.value) })
+            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { type: "number", step: "any", min: "-180", max: "180", required: true, value: form.longitude, onChange: (e) => field("longitude", e.target.value) })
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("button", { className: "btn secondary", type: "button", disabled: locating, onClick: locate, children: locating ? "\u0110ang \u0111\u1ECBnh v\u1ECB\u2026" : "D\xF9ng v\u1ECB tr\xED hi\u1EC7n t\u1EA1i l\xE0m v\u1ECB tr\xED qu\xE1n" }),
-        /* @__PURE__ */ (0, import_jsx_runtime46.jsx)("button", { className: "btn primary", type: "submit", disabled: locating, children: busy ? "\u0110ang t\u1EA1o qu\xE1n\u2026" : "T\u1EA1o qu\xE1n v\xE0 th\xEAm m\xF3n" })
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { className: "btn secondary", type: "button", disabled: locating, onClick: locate, children: locating ? "\u0110ang \u0111\u1ECBnh v\u1ECB\u2026" : "D\xF9ng v\u1ECB tr\xED hi\u1EC7n t\u1EA1i l\xE0m v\u1ECB tr\xED qu\xE1n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { className: "btn primary", type: "submit", disabled: locating, children: busy ? "\u0110ang t\u1EA1o qu\xE1n\u2026" : "T\u1EA1o qu\xE1n v\xE0 th\xEAm m\xF3n" })
       ] }) })
     ] });
   }
 
   // src/layouts/AdminLayout.tsx
-  var import_jsx_runtime47 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime54 = __toESM(require_jsx_runtime(), 1);
   var ADMIN_NAV = [
     { path: "/admin/overview", label: "T\u1ED5ng quan" },
     { path: "/admin/restaurants", label: "Qu\xE1n \u0103n" },
@@ -31433,65 +40126,68 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   function AdminLayout() {
     const { currentUser, logout } = useAuth();
     const navigate = useNavigate();
-    return /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "rb-admin-shell rb-merchant-shell", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("aside", { className: "rb-merchant-sidebar", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("div", { className: "rb-merchant-brand", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("strong", { children: "RouteBite" }),
-          /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("span", { children: "Qu\u1EA3n tr\u1ECB h\u1EC7 th\u1ED1ng" })
+    return /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("div", { className: "rb-admin-shell rb-merchant-shell", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("aside", { className: "rb-merchant-sidebar", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("div", { className: "rb-merchant-brand", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("strong", { children: "RouteBite" }),
+          /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("span", { children: "Qu\u1EA3n tr\u1ECB h\u1EC7 th\u1ED1ng" })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("nav", { "aria-label": "\u0110i\u1EC1u h\u01B0\u1EDBng admin", children: ADMIN_NAV.map((item) => /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("nav", { "aria-label": "\u0110i\u1EC1u h\u01B0\u1EDBng admin", children: ADMIN_NAV.map((item) => /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)(
           NavLink,
           {
             to: item.path,
             className: ({ isActive }) => isActive ? "active" : "",
-            children: item.label
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(MaterialIcon, { name: item.path.endsWith("overview") ? "dashboard" : item.path.endsWith("restaurants") ? "shop" : item.path.endsWith("users") ? "users" : item.path.endsWith("vouchers") ? "voucher" : "documents" }),
+              /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("span", { children: item.label })
+            ]
           },
           item.path
         )) }),
-        /* @__PURE__ */ (0, import_jsx_runtime47.jsxs)("footer", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("strong", { children: currentUser?.fullName || "Qu\u1EA3n tr\u1ECB vi\xEAn" }),
-          /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("button", { type: "button", onClick: () => {
+        /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("footer", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("strong", { children: currentUser?.fullName || "Qu\u1EA3n tr\u1ECB vi\xEAn" }),
+          /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("button", { type: "button", onClick: () => {
             logout();
             navigate("/login", { replace: true });
           }, children: "\u0110\u0103ng xu\u1EA5t" })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime47.jsx)("main", { className: "rb-admin-content rb-merchant-content", children: /* @__PURE__ */ (0, import_jsx_runtime47.jsx)(Outlet, {}) })
+      /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("main", { className: "rb-admin-content rb-merchant-content", children: /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(Outlet, {}) })
     ] });
   }
 
   // src/pages/admin/AdminShared.tsx
-  var import_jsx_runtime48 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime55 = __toESM(require_jsx_runtime(), 1);
   function LoadError({ error, retry }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("div", { className: "rb-admin-error", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("p", { role: "alert", children: error }),
-      /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("button", { className: "btn secondary", onClick: retry, children: "Th\u1EED l\u1EA1i" })
+    return /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("div", { className: "rb-admin-error", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("p", { role: "alert", children: error }),
+      /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("button", { className: "btn secondary", onClick: retry, children: "Th\u1EED l\u1EA1i" })
     ] });
   }
   function Pagination({ page, total, limit, onPage, disabled = false }) {
     const pages = Math.max(1, Math.ceil(total / limit));
-    return /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("nav", { className: "rb-admin-pagination", "aria-label": "Ph\xE2n trang", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime48.jsxs)("span", { children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("nav", { className: "rb-admin-pagination", "aria-label": "Ph\xE2n trang", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("span", { children: [
         total.toLocaleString("vi-VN"),
         " k\u1EBFt qu\u1EA3 \xB7 Trang ",
         page,
         "/",
         pages
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("button", { className: "btn secondary", disabled: disabled || page <= 1, onClick: () => onPage(page - 1), children: "Trang tr\u01B0\u1EDBc" }),
-      /* @__PURE__ */ (0, import_jsx_runtime48.jsx)("button", { className: "btn secondary", disabled: disabled || page >= pages, onClick: () => onPage(page + 1), children: "Trang sau" })
+      /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("button", { className: "btn secondary", disabled: disabled || page <= 1, onClick: () => onPage(page - 1), children: "Trang tr\u01B0\u1EDBc" }),
+      /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("button", { className: "btn secondary", disabled: disabled || page >= pages, onClick: () => onPage(page + 1), children: "Trang sau" })
     ] });
   }
 
   // src/pages/admin/adminData.ts
-  var import_react37 = __toESM(require_react(), 1);
+  var import_react43 = __toESM(require_react(), 1);
   var ROLE_LABELS3 = { customer: "Kh\xE1ch h\xE0ng", merchant: "Ch\u1EE7 qu\xE1n", admin: "Qu\u1EA3n tr\u1ECB vi\xEAn" };
   var numberText = (value2) => Number(value2).toLocaleString("vi-VN");
   function useAdminData(path) {
-    const [result, setResult] = (0, import_react37.useState)({ path, data: null, error: "", loading: true });
-    const [revision, setRevision] = (0, import_react37.useState)(0);
-    const refresh = (0, import_react37.useCallback)(() => setRevision((value2) => value2 + 1), []);
-    (0, import_react37.useEffect)(() => {
+    const [result, setResult] = (0, import_react43.useState)({ path, data: null, error: "", loading: true });
+    const [revision, setRevision] = (0, import_react43.useState)(0);
+    const refresh = (0, import_react43.useCallback)(() => setRevision((value2) => value2 + 1), []);
+    (0, import_react43.useEffect)(() => {
       let current = true;
       setResult({ path, data: null, error: "", loading: true });
       request(path).then((data2) => {
@@ -31507,7 +40203,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
 
   // src/pages/admin/AdminOverviewPage.tsx
-  var import_jsx_runtime49 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime56 = __toESM(require_jsx_runtime(), 1);
   function AdminOverviewPage() {
     const overview = useAdminData("/admin/dashboard/overview");
     const analytics = useAdminData("/admin/search-analytics");
@@ -31519,78 +40215,78 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       { label: "T\u1ED5ng gi\xE1 tr\u1ECB giao d\u1ECBch (GMV)", value: numberText(data2.gmv) + "\u0111" },
       { label: "Ng\u01B0\u1EDDi d\xF9ng m\u1EDBi th\xE1ng n\xE0y", value: numberText(data2.newUsersThisMonth) }
     ] : [];
-    return /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(import_jsx_runtime49.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("header", { className: "rb-admin-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
-        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("h1", { children: "T\u1ED5ng quan h\u1EC7 th\u1ED1ng" }),
-        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("span", { children: "S\u1ED1 li\u1EC7u ho\u1EA1t \u0111\u1ED9ng tr\xEAn to\xE0n b\u1ED9 RouteBite." })
+    return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(import_jsx_runtime56.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("header", { className: "rb-admin-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h1", { children: "T\u1ED5ng quan h\u1EC7 th\u1ED1ng" }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("span", { children: "S\u1ED1 li\u1EC7u ho\u1EA1t \u0111\u1ED9ng tr\xEAn to\xE0n b\u1ED9 RouteBite." })
       ] }),
-      overview.loading ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i t\u1ED5ng quan\u2026" }) : overview.error ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(LoadError, { error: overview.error, retry: overview.refresh }) : data2 && /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(import_jsx_runtime49.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("section", { className: "rb-admin-metrics", "aria-label": "S\u1ED1 li\u1EC7u t\u1ED5ng quan", children: stats.map((stat) => /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("article", { className: "item-card", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { children: stat.label }),
-          /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("strong", { children: stat.value })
+      overview.loading ? /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i t\u1ED5ng quan\u2026" }) : overview.error ? /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(LoadError, { error: overview.error, retry: overview.refresh }) : data2 && /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(import_jsx_runtime56.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("section", { className: "rb-admin-metrics", "aria-label": "S\u1ED1 li\u1EC7u t\u1ED5ng quan", children: stats.map((stat) => /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("article", { className: "item-card", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { children: stat.label }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("strong", { children: stat.value })
         ] }, stat.label)) }),
-        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { className: "rb-admin-hint", children: "GMV l\xE0 t\u1ED5ng gi\xE1 tr\u1ECB \u0111\u01A1n \u0111\xE3 thanh to\xE1n, kh\xF4ng ph\u1EA3i doanh thu hoa h\u1ED3ng c\u1EE7a n\u1EC1n t\u1EA3ng." }),
-        /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("div", { className: "rb-admin-panels", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("section", { className: "item-card", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("h2", { children: "Ng\u01B0\u1EDDi d\xF9ng theo vai tr\xF2" }),
-            /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("dl", { className: "rb-admin-summary", children: Object.entries(ROLE_LABELS3).map(([role, label]) => /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("dt", { children: label }),
-              /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("dd", { children: numberText(data2.usersByRole.find((item) => item.role === role)?.count ?? 0) })
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { className: "rb-admin-hint", children: "GMV l\xE0 t\u1ED5ng gi\xE1 tr\u1ECB \u0111\u01A1n \u0111\xE3 thanh to\xE1n, kh\xF4ng ph\u1EA3i doanh thu hoa h\u1ED3ng c\u1EE7a n\u1EC1n t\u1EA3ng." }),
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-admin-panels", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("section", { className: "item-card", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h2", { children: "Ng\u01B0\u1EDDi d\xF9ng theo vai tr\xF2" }),
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("dl", { className: "rb-admin-summary", children: Object.entries(ROLE_LABELS3).map(([role, label]) => /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("dt", { children: label }),
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("dd", { children: numberText(data2.usersByRole.find((item) => item.role === role)?.count ?? 0) })
             ] }, role)) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("section", { className: "item-card", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("h2", { children: "Qu\xE1n c\xF3 nhi\u1EC1u \u0111\u01A1n nh\u1EA5t" }),
-            data2.topRestaurants.length ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("ol", { className: "rb-admin-ranking", children: data2.topRestaurants.map((shop) => /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("li", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("span", { children: shop.name }),
-              /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("strong", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("section", { className: "item-card", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h2", { children: "Qu\xE1n c\xF3 nhi\u1EC1u \u0111\u01A1n nh\u1EA5t" }),
+            data2.topRestaurants.length ? /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("ol", { className: "rb-admin-ranking", children: data2.topRestaurants.map((shop) => /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("li", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("span", { children: shop.name }),
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("strong", { children: [
                 numberText(shop.orderCount),
                 " \u0111\u01A1n"
               ] })
-            ] }, shop.id)) }) : /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { children: "Ch\u01B0a c\xF3 d\u1EEF li\u1EC7u \u0111\u01A1n h\xE0ng." })
+            ] }, shop.id)) }) : /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { children: "Ch\u01B0a c\xF3 d\u1EEF li\u1EC7u \u0111\u01A1n h\xE0ng." })
           ] })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("section", { className: "item-card rb-admin-analytics", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("h2", { children: "Th\u1ED1ng k\xEA t\xECm ki\u1EBFm theo l\u1ED9 tr\xECnh" }),
-        analytics.loading ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i th\u1ED1ng k\xEA t\xECm ki\u1EBFm\u2026" }) : analytics.error ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)(LoadError, { error: analytics.error, retry: analytics.refresh }) : analytics.data && /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)(import_jsx_runtime49.Fragment, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("p", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("section", { className: "item-card rb-admin-analytics", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h2", { children: "Th\u1ED1ng k\xEA t\xECm ki\u1EBFm theo l\u1ED9 tr\xECnh" }),
+        analytics.loading ? /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i th\u1ED1ng k\xEA t\xECm ki\u1EBFm\u2026" }) : analytics.error ? /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(LoadError, { error: analytics.error, retry: analytics.refresh }) : analytics.data && /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(import_jsx_runtime56.Fragment, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("p", { children: [
             "T\u1ED5ng l\u01B0\u1EE3t t\xECm ki\u1EBFm \u0111\xE3 ghi nh\u1EADn: ",
-            /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("strong", { children: numberText(analytics.data.totalSearches) })
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("strong", { children: numberText(analytics.data.totalSearches) })
           ] }),
-          analytics.data.popularOriginAreas.length ? /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("div", { className: "rb-admin-table-wrap", tabIndex: 0, "aria-label": "\u0110i\u1EC3m xu\u1EA5t ph\xE1t ph\u1ED5 bi\u1EBFn", children: /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("table", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("tr", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("th", { children: "V\u0129 \u0111\u1ED9 \u0111i\u1EC3m \u0111i" }),
-              /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("th", { children: "Kinh \u0111\u1ED9 \u0111i\u1EC3m \u0111i" }),
-              /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("th", { children: "L\u01B0\u1EE3t t\xECm" })
+          analytics.data.popularOriginAreas.length ? /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("div", { className: "rb-admin-table-wrap", tabIndex: 0, "aria-label": "\u0110i\u1EC3m xu\u1EA5t ph\xE1t ph\u1ED5 bi\u1EBFn", children: /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("table", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("tr", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("th", { children: "V\u0129 \u0111\u1ED9 \u0111i\u1EC3m \u0111i" }),
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("th", { children: "Kinh \u0111\u1ED9 \u0111i\u1EC3m \u0111i" }),
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("th", { children: "L\u01B0\u1EE3t t\xECm" })
             ] }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("tbody", { children: analytics.data.popularOriginAreas.map((area, index) => /* @__PURE__ */ (0, import_jsx_runtime49.jsxs)("tr", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("td", { children: area.latitude.toFixed(5) }),
-              /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("td", { children: area.longitude.toFixed(5) }),
-              /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("td", { children: numberText(area.count) })
+            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("tbody", { children: analytics.data.popularOriginAreas.map((area, index) => /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("tr", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("td", { children: area.latitude.toFixed(5) }),
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("td", { children: area.longitude.toFixed(5) }),
+              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("td", { children: numberText(area.count) })
             ] }, index)) })
-          ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { children: "Ch\u01B0a c\xF3 d\u1EEF li\u1EC7u t\xECm ki\u1EBFm." }),
-          /* @__PURE__ */ (0, import_jsx_runtime49.jsx)("p", { className: "rb-admin-hint", children: "API hi\u1EC7n ch\u1EC9 cung c\u1EA5p t\u1ECDa \u0111\u1ED9 \u0111i\u1EC3m xu\u1EA5t ph\xE1t v\xE0 s\u1ED1 l\u01B0\u1EE3t t\xECm, ch\u01B0a c\xF3 t\xEAn khu v\u1EF1c ho\u1EB7c t\u1EF7 l\u1EC7 chuy\u1EC3n \u0111\u1ED5i th\xE0nh \u0111\u01A1n." })
+          ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { children: "Ch\u01B0a c\xF3 d\u1EEF li\u1EC7u t\xECm ki\u1EBFm." }),
+          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { className: "rb-admin-hint", children: "API hi\u1EC7n ch\u1EC9 cung c\u1EA5p t\u1ECDa \u0111\u1ED9 \u0111i\u1EC3m xu\u1EA5t ph\xE1t v\xE0 s\u1ED1 l\u01B0\u1EE3t t\xECm, ch\u01B0a c\xF3 t\xEAn khu v\u1EF1c ho\u1EB7c t\u1EF7 l\u1EC7 chuy\u1EC3n \u0111\u1ED5i th\xE0nh \u0111\u01A1n." })
         ] })
       ] })
     ] });
   }
 
   // src/pages/admin/AdminRestaurantsPage.tsx
-  var import_react38 = __toESM(require_react(), 1);
-  var import_jsx_runtime50 = __toESM(require_jsx_runtime(), 1);
+  var import_react44 = __toESM(require_react(), 1);
+  var import_jsx_runtime57 = __toESM(require_jsx_runtime(), 1);
   var SOURCE_LABELS = { osm_import: "Nh\u1EADp t\u1EEB OSM", merchant: "Ch\u1EE7 qu\xE1n", manual: "Nh\u1EADp th\u1EE7 c\xF4ng", demo: "D\u1EEF li\u1EC7u m\u1EABu" };
   function AdminRestaurantsPage() {
-    const [page, setPage] = (0, import_react38.useState)(1);
+    const [page, setPage] = (0, import_react44.useState)(1);
     const resource = useAdminData(`/admin/restaurants?page=${page}&limit=20`);
-    const [target, setTarget] = (0, import_react38.useState)(null);
-    const [reason, setReason] = (0, import_react38.useState)("");
-    const [busy, setBusy] = (0, import_react38.useState)(false);
-    const inFlight = (0, import_react38.useRef)(false);
-    const [error, setError] = (0, import_react38.useState)("");
-    const [message, setMessage] = (0, import_react38.useState)("");
-    const dialog = (0, import_react38.useRef)(null);
-    (0, import_react38.useEffect)(() => {
+    const [target, setTarget] = (0, import_react44.useState)(null);
+    const [reason, setReason] = (0, import_react44.useState)("");
+    const [busy, setBusy] = (0, import_react44.useState)(false);
+    const inFlight = (0, import_react44.useRef)(false);
+    const [error, setError] = (0, import_react44.useState)("");
+    const [message, setMessage] = (0, import_react44.useState)("");
+    const dialog = (0, import_react44.useRef)(null);
+    (0, import_react44.useEffect)(() => {
       if (target) dialog.current?.showModal();
     }, [target]);
     const close = () => {
@@ -31626,33 +40322,33 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setBusy(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)(import_jsx_runtime50.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("header", { className: "rb-admin-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
-        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("h1", { children: "Qu\u1EA3n l\xFD qu\xE1n \u0103n" }),
-        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("span", { children: "Theo d\xF5i ngu\u1ED3n d\u1EEF li\u1EC7u v\xE0 tr\u1EA1ng th\xE1i ho\u1EA1t \u0111\u1ED9ng c\u1EE7a c\xE1c qu\xE1n." })
+    return /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)(import_jsx_runtime57.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)("header", { className: "rb-admin-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("h1", { children: "Qu\u1EA3n l\xFD qu\xE1n \u0103n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("span", { children: "Theo d\xF5i ngu\u1ED3n d\u1EEF li\u1EC7u v\xE0 tr\u1EA1ng th\xE1i ho\u1EA1t \u0111\u1ED9ng c\u1EE7a c\xE1c qu\xE1n." })
       ] }),
-      message && /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { className: "rb-merchant-feedback", role: "status", children: message }),
-      error && !target && /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { className: "rb-admin-error", role: "alert", children: error }),
-      resource.loading ? /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i qu\xE1n \u0103n\u2026" }) : resource.error ? /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(LoadError, { error: resource.error, retry: resource.refresh }) : resource.data && /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)(import_jsx_runtime50.Fragment, { children: [
-        resource.data.data.length ? /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("div", { className: "item-card rb-admin-table-wrap", tabIndex: 0, "aria-label": "Danh s\xE1ch qu\xE1n \u0103n", children: /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("table", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("tr", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("th", { children: "T\xEAn qu\xE1n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("th", { children: "Ngu\u1ED3n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("th", { children: "Tr\u1EA1ng th\xE1i" }),
-            /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("th", { children: "H\xE0nh \u0111\u1ED9ng" })
+      message && /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("p", { className: "rb-merchant-feedback", role: "status", children: message }),
+      error && !target && /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("p", { className: "rb-admin-error", role: "alert", children: error }),
+      resource.loading ? /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i qu\xE1n \u0103n\u2026" }) : resource.error ? /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(LoadError, { error: resource.error, retry: resource.refresh }) : resource.data && /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)(import_jsx_runtime57.Fragment, { children: [
+        resource.data.data.length ? /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("div", { className: "item-card rb-admin-table-wrap", tabIndex: 0, "aria-label": "Danh s\xE1ch qu\xE1n \u0103n", children: /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)("table", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)("tr", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("th", { children: "T\xEAn qu\xE1n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("th", { children: "Ngu\u1ED3n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("th", { children: "Tr\u1EA1ng th\xE1i" }),
+            /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("th", { children: "H\xE0nh \u0111\u1ED9ng" })
           ] }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("tbody", { children: resource.data.data.map((shop) => /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("tr", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("td", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("strong", { children: shop.name }),
-              shop.owner && /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("small", { children: shop.owner.fullName || shop.owner.email })
+          /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("tbody", { children: resource.data.data.map((shop) => /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)("tr", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)("td", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("strong", { children: shop.name }),
+              shop.owner && /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("small", { children: shop.owner.fullName || shop.owner.email })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("td", { children: SOURCE_LABELS[shop.source || ""] || shop.source || "Ch\u01B0a x\xE1c \u0111\u1ECBnh" }),
-            /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("td", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("span", { className: `rb-admin-status ${shop.active ? "active" : ""}`, children: shop.active ? "\u0110ang ho\u1EA1t \u0111\u1ED9ng" : "T\u1EA1m ng\u01B0ng" }),
-              !shop.active && /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("small", { children: shop.suspendedReason || "Ch\u01B0a c\xF3 l\xFD do t\u1EA1m ng\u01B0ng \u0111\u01B0\u1EE3c l\u01B0u." })
+            /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("td", { children: SOURCE_LABELS[shop.source || ""] || shop.source || "Ch\u01B0a x\xE1c \u0111\u1ECBnh" }),
+            /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)("td", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("span", { className: `rb-admin-status ${shop.active ? "active" : ""}`, children: shop.active ? "\u0110ang ho\u1EA1t \u0111\u1ED9ng" : "T\u1EA1m ng\u01B0ng" }),
+              !shop.active && /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("small", { children: shop.suspendedReason || "Ch\u01B0a c\xF3 l\xFD do t\u1EA1m ng\u01B0ng \u0111\u01B0\u1EE3c l\u01B0u." })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("button", { type: "button", className: `btn secondary ${shop.active ? "rb-admin-danger" : ""}`, disabled: busy, onClick: () => {
+            /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("button", { type: "button", className: `btn secondary ${shop.active ? "rb-admin-danger" : ""}`, disabled: busy, onClick: () => {
               if (shop.active) {
                 setTarget(shop);
                 setReason("");
@@ -31660,75 +40356,75 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
               } else void update(shop, "activate");
             }, children: shop.active ? "T\u1EA1m ng\u01B0ng" : "K\xEDch ho\u1EA1t l\u1EA1i" }) })
           ] }, shop.id)) })
-        ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("section", { className: "item-card", children: "Ch\u01B0a c\xF3 qu\xE1n \u0103n." }),
-        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)(Pagination, { page, total: resource.data.total, limit: 20, onPage: setPage, disabled: busy })
+        ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("section", { className: "item-card", children: "Ch\u01B0a c\xF3 qu\xE1n \u0103n." }),
+        /* @__PURE__ */ (0, import_jsx_runtime57.jsx)(Pagination, { page, total: resource.data.total, limit: 20, onPage: setPage, disabled: busy })
       ] }),
-      target && /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("dialog", { className: "rb-admin-dialog", ref: dialog, "aria-labelledby": "suspend-title", onCancel: (event) => {
+      target && /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("dialog", { className: "rb-admin-dialog", ref: dialog, "aria-labelledby": "suspend-title", onCancel: (event) => {
         event.preventDefault();
         close();
-      }, children: /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("form", { onSubmit: (event) => {
+      }, children: /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)("form", { onSubmit: (event) => {
         event.preventDefault();
         void update(target, "suspend");
       }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("h2", { id: "suspend-title", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)("h2", { id: "suspend-title", children: [
           "T\u1EA1m ng\u01B0ng \u201C",
           target.name,
           "\u201D"
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { children: "Qu\xE1n s\u1EBD kh\xF4ng c\xF2n xu\u1EA5t hi\u1EC7n trong danh s\xE1ch c\xF4ng khai v\xE0 k\u1EBFt qu\u1EA3 t\xECm ki\u1EBFm." }),
-        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("label", { htmlFor: "suspend-reason", children: "L\xFD do t\u1EA1m ng\u01B0ng (b\u1EAFt bu\u1ED9c)" }),
-        /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("textarea", { id: "suspend-reason", autoFocus: true, rows: 4, maxLength: 500, value: reason, disabled: busy, onChange: (event) => setReason(event.target.value), "aria-describedby": "suspend-hint" }),
-        /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("small", { id: "suspend-hint", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("p", { children: "Qu\xE1n s\u1EBD kh\xF4ng c\xF2n xu\u1EA5t hi\u1EC7n trong danh s\xE1ch c\xF4ng khai v\xE0 k\u1EBFt qu\u1EA3 t\xECm ki\u1EBFm." }),
+        /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("label", { htmlFor: "suspend-reason", children: "L\xFD do t\u1EA1m ng\u01B0ng (b\u1EAFt bu\u1ED9c)" }),
+        /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("textarea", { id: "suspend-reason", autoFocus: true, rows: 4, maxLength: 500, value: reason, disabled: busy, onChange: (event) => setReason(event.target.value), "aria-describedby": "suspend-hint" }),
+        /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)("small", { id: "suspend-hint", children: [
           "T\u1EEB 5 \u0111\u1EBFn 500 k\xFD t\u1EF1 \xB7 ",
           reason.trim().length,
           "/500"
         ] }),
-        error && /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("p", { role: "alert", className: "rb-admin-error", children: error }),
-        /* @__PURE__ */ (0, import_jsx_runtime50.jsxs)("div", { className: "rb-admin-dialog-actions", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("button", { type: "button", className: "btn secondary", disabled: busy, onClick: close, children: "H\u1EE7y" }),
-          /* @__PURE__ */ (0, import_jsx_runtime50.jsx)("button", { type: "submit", className: "btn primary", disabled: busy, children: busy ? "\u0110ang c\u1EADp nh\u1EADt\u2026" : "X\xE1c nh\u1EADn t\u1EA1m ng\u01B0ng" })
+        error && /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("p", { role: "alert", className: "rb-admin-error", children: error }),
+        /* @__PURE__ */ (0, import_jsx_runtime57.jsxs)("div", { className: "rb-admin-dialog-actions", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("button", { type: "button", className: "btn secondary", disabled: busy, onClick: close, children: "H\u1EE7y" }),
+          /* @__PURE__ */ (0, import_jsx_runtime57.jsx)("button", { type: "submit", className: "btn primary", disabled: busy, children: busy ? "\u0110ang c\u1EADp nh\u1EADt\u2026" : "X\xE1c nh\u1EADn t\u1EA1m ng\u01B0ng" })
         ] })
       ] }) })
     ] });
   }
 
   // src/pages/admin/AdminUsersPage.tsx
-  var import_react39 = __toESM(require_react(), 1);
-  var import_jsx_runtime51 = __toESM(require_jsx_runtime(), 1);
+  var import_react45 = __toESM(require_react(), 1);
+  var import_jsx_runtime58 = __toESM(require_jsx_runtime(), 1);
   function AdminUsersPage() {
-    const [role, setRole] = (0, import_react39.useState)("all");
-    const [page, setPage] = (0, import_react39.useState)(1);
+    const [role, setRole] = (0, import_react45.useState)("all");
+    const [page, setPage] = (0, import_react45.useState)(1);
     const resource = useAdminData(`/admin/users?page=${page}&limit=20${role === "all" ? "" : "&role=" + role}`);
-    return /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("header", { className: "rb-admin-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
-        /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("h1", { children: "Ng\u01B0\u1EDDi d\xF9ng" }),
-        /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("span", { children: "Tra c\u1EE9u t\xE0i kho\u1EA3n theo vai tr\xF2. Danh s\xE1ch ch\u1EC9 \u0111\u1ECDc." })
+    return /* @__PURE__ */ (0, import_jsx_runtime58.jsxs)(import_jsx_runtime58.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime58.jsxs)("header", { className: "rb-admin-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("h1", { children: "Ng\u01B0\u1EDDi d\xF9ng" }),
+        /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("span", { children: "Tra c\u1EE9u t\xE0i kho\u1EA3n theo vai tr\xF2. Danh s\xE1ch ch\u1EC9 \u0111\u1ECDc." })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("div", { className: "rb-admin-filters", role: "group", "aria-label": "L\u1ECDc vai tr\xF2", children: ["all", "customer", "merchant", "admin"].map((value2) => /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("button", { type: "button", "aria-pressed": value2 === role, onClick: () => {
+      /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("div", { className: "rb-admin-filters", role: "group", "aria-label": "L\u1ECDc vai tr\xF2", children: ["all", "customer", "merchant", "admin"].map((value2) => /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("button", { type: "button", "aria-pressed": value2 === role, onClick: () => {
         setRole(value2);
         setPage(1);
       }, children: value2 === "all" ? "T\u1EA5t c\u1EA3" : ROLE_LABELS3[value2] }, value2)) }),
-      resource.loading ? /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i ng\u01B0\u1EDDi d\xF9ng\u2026" }) : resource.error ? /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(LoadError, { error: resource.error, retry: resource.refresh }) : resource.data && /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)(import_jsx_runtime51.Fragment, { children: [
-        resource.data.data.length ? /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("div", { className: "item-card rb-admin-table-wrap", tabIndex: 0, "aria-label": "Danh s\xE1ch ng\u01B0\u1EDDi d\xF9ng", children: /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("table", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("tr", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("th", { children: "H\u1ECD t\xEAn" }),
-            /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("th", { children: "Email" }),
-            /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("th", { children: "Vai tr\xF2" })
+      resource.loading ? /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i ng\u01B0\u1EDDi d\xF9ng\u2026" }) : resource.error ? /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(LoadError, { error: resource.error, retry: resource.refresh }) : resource.data && /* @__PURE__ */ (0, import_jsx_runtime58.jsxs)(import_jsx_runtime58.Fragment, { children: [
+        resource.data.data.length ? /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("div", { className: "item-card rb-admin-table-wrap", tabIndex: 0, "aria-label": "Danh s\xE1ch ng\u01B0\u1EDDi d\xF9ng", children: /* @__PURE__ */ (0, import_jsx_runtime58.jsxs)("table", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime58.jsxs)("tr", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("th", { children: "H\u1ECD t\xEAn" }),
+            /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("th", { children: "Email" }),
+            /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("th", { children: "Vai tr\xF2" })
           ] }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("tbody", { children: resource.data.data.map((user) => /* @__PURE__ */ (0, import_jsx_runtime51.jsxs)("tr", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("td", { children: user.fullName || "Ch\u01B0a c\u1EADp nh\u1EADt" }),
-            /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("td", { children: user.email }),
-            /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("td", { children: ROLE_LABELS3[user.role] || user.role })
+          /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("tbody", { children: resource.data.data.map((user) => /* @__PURE__ */ (0, import_jsx_runtime58.jsxs)("tr", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("td", { children: user.fullName || "Ch\u01B0a c\u1EADp nh\u1EADt" }),
+            /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("td", { children: user.email }),
+            /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("td", { children: ROLE_LABELS3[user.role] || user.role })
           ] }, user.id)) })
-        ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime51.jsx)("section", { className: "item-card", children: role === "all" ? "Ch\u01B0a c\xF3 ng\u01B0\u1EDDi d\xF9ng." : "Kh\xF4ng c\xF3 ng\u01B0\u1EDDi d\xF9ng thu\u1ED9c vai tr\xF2 n\xE0y." }),
-        /* @__PURE__ */ (0, import_jsx_runtime51.jsx)(Pagination, { page, total: resource.data.total, limit: 20, onPage: setPage })
+        ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime58.jsx)("section", { className: "item-card", children: role === "all" ? "Ch\u01B0a c\xF3 ng\u01B0\u1EDDi d\xF9ng." : "Kh\xF4ng c\xF3 ng\u01B0\u1EDDi d\xF9ng thu\u1ED9c vai tr\xF2 n\xE0y." }),
+        /* @__PURE__ */ (0, import_jsx_runtime58.jsx)(Pagination, { page, total: resource.data.total, limit: 20, onPage: setPage })
       ] })
     ] });
   }
 
   // src/pages/admin/AdminMerchantApplicationsPage.tsx
-  var import_react40 = __toESM(require_react(), 1);
+  var import_react46 = __toESM(require_react(), 1);
 
   // src/pages/partner/partnerData.ts
   var DOCUMENT_LABELS = { identity_front: "CCCD m\u1EB7t tr\u01B0\u1EDBc", identity_back: "CCCD m\u1EB7t sau", business_license: "Gi\u1EA5y ph\xE9p kinh doanh", food_safety: "Gi\u1EA5y t\u1EDD VSATTP" };
@@ -31745,11 +40441,11 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
 
   // src/pages/admin/AdminMerchantApplicationsPage.tsx
-  var import_jsx_runtime52 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime59 = __toESM(require_jsx_runtime(), 1);
   function ApplicationDetail({ id, onBack }) {
     const data2 = useAdminData("/admin/merchant-applications/" + id);
-    const [busy, setBusy] = (0, import_react40.useState)(false), [error, setError] = (0, import_react40.useState)(""), [reason, setReason] = (0, import_react40.useState)("");
-    const [checked, setChecked] = (0, import_react40.useState)(false);
+    const [busy, setBusy] = (0, import_react46.useState)(false), [error, setError] = (0, import_react46.useState)(""), [reason, setReason] = (0, import_react46.useState)("");
+    const [checked, setChecked] = (0, import_react46.useState)(false);
     const app = data2.data;
     async function review(approve) {
       if (busy) return;
@@ -31769,59 +40465,59 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setBusy(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)(import_jsx_runtime52.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("button", { className: "btn secondary", disabled: busy, onClick: onBack, children: "\u2190 Danh s\xE1ch h\u1ED3 s\u01A1" }),
-      data2.loading ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i h\u1ED3 s\u01A1\u2026" }) : data2.error ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(LoadError, { error: data2.error, retry: data2.refresh }) : app && /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("section", { className: "item-card rb-partner-form", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("h2", { children: app.shop.name }),
-        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { children: /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("strong", { children: APPLICATION_LABELS[app.status] }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("dl", { className: "rb-admin-summary", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dt", { children: "Ng\u01B0\u1EDDi \u0111\u1EA1i di\u1EC7n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dd", { children: app.user.fullName })
+    return /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)(import_jsx_runtime59.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("button", { className: "btn secondary", disabled: busy, onClick: onBack, children: "\u2190 Danh s\xE1ch h\u1ED3 s\u01A1" }),
+      data2.loading ? /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i h\u1ED3 s\u01A1\u2026" }) : data2.error ? /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(LoadError, { error: data2.error, retry: data2.refresh }) : app && /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("section", { className: "item-card rb-partner-form", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("h2", { children: app.shop.name }),
+        /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("p", { children: /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("strong", { children: APPLICATION_LABELS[app.status] }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("dl", { className: "rb-admin-summary", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("dt", { children: "Ng\u01B0\u1EDDi \u0111\u1EA1i di\u1EC7n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("dd", { children: app.user.fullName })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dt", { children: "Email" }),
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dd", { children: app.user.email })
+          /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("dt", { children: "Email" }),
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("dd", { children: app.user.email })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dt", { children: "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i" }),
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dd", { children: app.user.phone || "Ch\u01B0a c\u1EADp nh\u1EADt" })
+          /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("dt", { children: "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i" }),
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("dd", { children: app.user.phone || "Ch\u01B0a c\u1EADp nh\u1EADt" })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dt", { children: "\u0110\u1ECBa ch\u1EC9 qu\xE1n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dd", { children: app.shop.address })
+          /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("dt", { children: "\u0110\u1ECBa ch\u1EC9 qu\xE1n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("dd", { children: app.shop.address })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dt", { children: "V\u1ECB tr\xED" }),
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("dd", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("dt", { children: "V\u1ECB tr\xED" }),
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("dd", { children: [
               app.shop.latitude,
               ", ",
               app.shop.longitude
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dt", { children: "Gi\u1EDD m\u1EDF c\u1EEDa" }),
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dd", { children: app.shop.openingHours })
+          /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("dt", { children: "Gi\u1EDD m\u1EDF c\u1EEDa" }),
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("dd", { children: app.shop.openingHours })
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("h3", { children: "T\xE0i kho\u1EA3n ng\xE2n h\xE0ng" }),
-        app.bank ? /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("dl", { className: "rb-admin-summary", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dt", { children: "Ng\xE2n h\xE0ng" }),
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dd", { children: app.bank.bankName })
+        /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("h3", { children: "T\xE0i kho\u1EA3n ng\xE2n h\xE0ng" }),
+        app.bank ? /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("dl", { className: "rb-admin-summary", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("dt", { children: "Ng\xE2n h\xE0ng" }),
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("dd", { children: app.bank.bankName })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dt", { children: "S\u1ED1 t\xE0i kho\u1EA3n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dd", { children: app.bank.accountNumber })
+          /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("dt", { children: "S\u1ED1 t\xE0i kho\u1EA3n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("dd", { children: app.bank.accountNumber })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dt", { children: "Ch\u1EE7 t\xE0i kho\u1EA3n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("dd", { children: app.bank.accountHolder })
+          /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("div", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("dt", { children: "Ch\u1EE7 t\xE0i kho\u1EA3n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("dd", { children: app.bank.accountHolder })
           ] })
-        ] }) : /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { children: "Ch\u01B0a b\u1ED5 sung th\xF4ng tin ng\xE2n h\xE0ng." }),
-        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("h3", { children: "Gi\u1EA5y t\u1EDD \u0111\xE3 n\u1ED9p" }),
-        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { children: "Ch\u1EC9 t\u1EA3i xu\u1ED1ng \u0111\u1EC3 ph\u1EE5c v\u1EE5 x\xE9t duy\u1EC7t. Kh\xF4ng chia s\u1EBB h\u1ED3 s\u01A1 c\xE1 nh\xE2n ra ngo\xE0i h\u1EC7 th\u1ED1ng." }),
-        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("div", { className: "btn-row", children: app.documents.map((doc) => /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("button", { type: "button", className: "btn secondary", disabled: busy, onClick: async () => {
+        ] }) : /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("p", { children: "Ch\u01B0a b\u1ED5 sung th\xF4ng tin ng\xE2n h\xE0ng." }),
+        /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("h3", { children: "Gi\u1EA5y t\u1EDD \u0111\xE3 n\u1ED9p" }),
+        /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("p", { children: "Ch\u1EC9 t\u1EA3i xu\u1ED1ng \u0111\u1EC3 ph\u1EE5c v\u1EE5 x\xE9t duy\u1EC7t. Kh\xF4ng chia s\u1EBB h\u1ED3 s\u01A1 c\xE1 nh\xE2n ra ngo\xE0i h\u1EC7 th\u1ED1ng." }),
+        /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("div", { className: "btn-row", children: app.documents.map((doc) => /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("button", { type: "button", className: "btn secondary", disabled: busy, onClick: async () => {
           setBusy(true);
           setError("");
           try {
@@ -31835,91 +40531,91 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           "T\u1EA3i ",
           DOCUMENT_LABELS[doc.kind]
         ] }, doc.id)) }),
-        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("h3", { children: "X\xE1c nh\u1EADn c\u1EE7a ng\u01B0\u1EDDi \u0111\u0103ng k\xFD" }),
-        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { children: app.acceptedAt ? `\u0110\xE3 x\xE1c nh\u1EADn l\xFAc ${new Date(app.acceptedAt).toLocaleString("vi-VN")} \xB7 ${app.termsVersion}` : "Ch\u01B0a x\xE1c nh\u1EADn \u0111i\u1EC1u kho\u1EA3n." }),
-        /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("ul", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("li", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("h3", { children: "X\xE1c nh\u1EADn c\u1EE7a ng\u01B0\u1EDDi \u0111\u0103ng k\xFD" }),
+        /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("p", { children: app.acceptedAt ? `\u0110\xE3 x\xE1c nh\u1EADn l\xFAc ${new Date(app.acceptedAt).toLocaleString("vi-VN")} \xB7 ${app.termsVersion}` : "Ch\u01B0a x\xE1c nh\u1EADn \u0111i\u1EC1u kho\u1EA3n." }),
+        /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("ul", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("li", { children: [
             "Th\xF4ng tin ch\xEDnh x\xE1c: ",
             app.agreements?.accuracy ? "\u0110\xE3 x\xE1c nh\u1EADn" : "Ch\u01B0a x\xE1c nh\u1EADn"
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("li", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("li", { children: [
             "\u0110\u1ED3ng \xFD \u0111i\u1EC1u kho\u1EA3n: ",
             app.agreements?.terms ? "\u0110\xE3 x\xE1c nh\u1EADn" : "Ch\u01B0a x\xE1c nh\u1EADn"
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("li", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("li", { children: [
             "\u0110\u1ED3ng \xFD cung c\u1EA5p h\u1ED3 s\u01A1 x\xE9t duy\u1EC7t: ",
             app.agreements?.documentReview ? "\u0110\xE3 x\xE1c nh\u1EADn" : "Ch\u01B0a x\xE1c nh\u1EADn"
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { className: "rb-partner-notice", children: "\u0110\xE2y l\xE0 x\xE1c nh\u1EADn \u0111i\u1EC1u kho\u1EA3n t\u1EA1m th\u1EDDi, kh\xF4ng ph\u1EA3i h\u1EE3p \u0111\u1ED3ng \u0111\xE3 k\xFD \u0111i\u1EC7n t\u1EED." }),
-        app.rejectionReason && /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("p", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("p", { className: "rb-partner-notice", children: "\u0110\xE2y l\xE0 x\xE1c nh\u1EADn \u0111i\u1EC1u kho\u1EA3n t\u1EA1m th\u1EDDi, kh\xF4ng ph\u1EA3i h\u1EE3p \u0111\u1ED3ng \u0111\xE3 k\xFD \u0111i\u1EC7n t\u1EED." }),
+        app.rejectionReason && /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("p", { children: [
           "L\xFD do t\u1EEB ch\u1ED1i: ",
           app.rejectionReason
         ] }),
-        error && /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
-        app.status === "SUBMITTED" && /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("fieldset", { disabled: busy, className: "rb-partner-agreements", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("label", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("input", { type: "checkbox", checked, onChange: (e) => setChecked(e.target.checked) }),
+        error && /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+        app.status === "SUBMITTED" && /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("fieldset", { disabled: busy, className: "rb-partner-agreements", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("input", { type: "checkbox", checked, onChange: (e) => setChecked(e.target.checked) }),
             "T\xF4i \u0111\xE3 ki\u1EC3m tra th\xF4ng tin qu\xE1n, gi\u1EA5y t\u1EDD v\xE0 c\xE1c x\xE1c nh\u1EADn c\u1EE7a ng\u01B0\u1EDDi \u0111\u0103ng k\xFD."
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("button", { className: "btn primary", disabled: !checked, onClick: () => review(true), children: "Duy\u1EC7t v\xE0 c\u1EA5p quy\u1EC1n Merchant" }),
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("label", { className: "rb-partner-reason", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("button", { className: "btn primary", disabled: !checked, onClick: () => review(true), children: "Duy\u1EC7t v\xE0 c\u1EA5p quy\u1EC1n Merchant" }),
+          /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("label", { className: "rb-partner-reason", children: [
             "L\xFD do t\u1EEB ch\u1ED1i / y\xEAu c\u1EA7u b\u1ED5 sung",
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("textarea", { rows: 3, maxLength: 500, value: reason, onChange: (e) => setReason(e.target.value) })
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("textarea", { rows: 3, maxLength: 500, value: reason, onChange: (e) => setReason(e.target.value) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("button", { className: "btn secondary rb-admin-danger", onClick: () => review(false), children: "T\u1EEB ch\u1ED1i v\xE0 y\xEAu c\u1EA7u b\u1ED5 sung" })
+          /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("button", { className: "btn secondary rb-admin-danger", onClick: () => review(false), children: "T\u1EEB ch\u1ED1i v\xE0 y\xEAu c\u1EA7u b\u1ED5 sung" })
         ] })
       ] })
     ] });
   }
   function AdminMerchantApplicationsPage() {
-    const [status, setStatus] = (0, import_react40.useState)("SUBMITTED"), [page, setPage] = (0, import_react40.useState)(1), [selected, setSelected] = (0, import_react40.useState)(null);
+    const [status, setStatus] = (0, import_react46.useState)("SUBMITTED"), [page, setPage] = (0, import_react46.useState)(1), [selected, setSelected] = (0, import_react46.useState)(null);
     const resource = useAdminData(`/admin/merchant-applications?page=${page}&limit=20${status ? "&status=" + status : ""}`);
-    return /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)(import_jsx_runtime52.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("header", { className: "rb-admin-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
-        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("h1", { children: "H\u1ED3 s\u01A1 \u0111\u1ED1i t\xE1c Merchant" }),
-        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("span", { children: "Ki\u1EC3m tra h\u1ED3 s\u01A1 tr\u01B0\u1EDBc khi c\u1EA5p quy\u1EC1n qu\u1EA3n l\xFD qu\xE1n." })
+    return /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)(import_jsx_runtime59.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("header", { className: "rb-admin-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("p", { children: "QU\u1EA2N TR\u1ECA H\u1EC6 TH\u1ED0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("h1", { children: "H\u1ED3 s\u01A1 \u0111\u1ED1i t\xE1c Merchant" }),
+        /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("span", { children: "Ki\u1EC3m tra h\u1ED3 s\u01A1 tr\u01B0\u1EDBc khi c\u1EA5p quy\u1EC1n qu\u1EA3n l\xFD qu\xE1n." })
       ] }),
-      selected ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(ApplicationDetail, { id: selected, onBack: () => {
+      selected ? /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(ApplicationDetail, { id: selected, onBack: () => {
         setSelected(null);
         resource.refresh();
-      } }) : /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)(import_jsx_runtime52.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("div", { className: "rb-admin-filters", role: "group", "aria-label": "L\u1ECDc tr\u1EA1ng th\xE1i h\u1ED3 s\u01A1", children: [["", "T\u1EA5t c\u1EA3"], ...Object.entries(APPLICATION_LABELS)].map(([value2, label]) => /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("button", { "aria-pressed": status === value2, onClick: () => {
+      } }) : /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)(import_jsx_runtime59.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("div", { className: "rb-admin-filters", role: "group", "aria-label": "L\u1ECDc tr\u1EA1ng th\xE1i h\u1ED3 s\u01A1", children: [["", "T\u1EA5t c\u1EA3"], ...Object.entries(APPLICATION_LABELS)].map(([value2, label]) => /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("button", { "aria-pressed": status === value2, onClick: () => {
           setStatus(value2);
           setPage(1);
         }, children: label }, value2)) }),
-        resource.loading ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i h\u1ED3 s\u01A1\u2026" }) : resource.error ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(LoadError, { error: resource.error, retry: resource.refresh }) : resource.data && /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)(import_jsx_runtime52.Fragment, { children: [
-          resource.data.data.length ? /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("div", { className: "item-card rb-admin-table-wrap", tabIndex: 0, children: /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("table", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("tr", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("th", { children: "Qu\xE1n \u0111\u0103ng k\xFD" }),
-              /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("th", { children: "Ng\u01B0\u1EDDi \u0111\u0103ng k\xFD" }),
-              /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("th", { children: "Tr\u1EA1ng th\xE1i" }),
-              /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("th", { children: "H\xE0nh \u0111\u1ED9ng" })
+        resource.loading ? /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i h\u1ED3 s\u01A1\u2026" }) : resource.error ? /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(LoadError, { error: resource.error, retry: resource.refresh }) : resource.data && /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)(import_jsx_runtime59.Fragment, { children: [
+          resource.data.data.length ? /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("div", { className: "item-card rb-admin-table-wrap", tabIndex: 0, children: /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("table", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("thead", { children: /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("tr", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("th", { children: "Qu\xE1n \u0111\u0103ng k\xFD" }),
+              /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("th", { children: "Ng\u01B0\u1EDDi \u0111\u0103ng k\xFD" }),
+              /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("th", { children: "Tr\u1EA1ng th\xE1i" }),
+              /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("th", { children: "H\xE0nh \u0111\u1ED9ng" })
             ] }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("tbody", { children: resource.data.data.map((app) => /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("tr", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("td", { children: app.shop.name }),
-              /* @__PURE__ */ (0, import_jsx_runtime52.jsxs)("td", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("tbody", { children: resource.data.data.map((app) => /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("tr", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("td", { children: app.shop.name }),
+              /* @__PURE__ */ (0, import_jsx_runtime59.jsxs)("td", { children: [
                 app.user.fullName,
-                /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("small", { children: app.user.email })
+                /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("small", { children: app.user.email })
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("td", { children: APPLICATION_LABELS[app.status] }),
-              /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("button", { className: "btn secondary", onClick: () => setSelected(app.id), children: "Xem h\u1ED3 s\u01A1" }) })
+              /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("td", { children: APPLICATION_LABELS[app.status] }),
+              /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("td", { children: /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("button", { className: "btn secondary", onClick: () => setSelected(app.id), children: "Xem h\u1ED3 s\u01A1" }) })
             ] }, app.id)) })
-          ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime52.jsx)("section", { className: "item-card", children: "Kh\xF4ng c\xF3 h\u1ED3 s\u01A1 \u1EDF tr\u1EA1ng th\xE1i n\xE0y." }),
-          /* @__PURE__ */ (0, import_jsx_runtime52.jsx)(Pagination, { page, total: resource.data.total, limit: 20, onPage: setPage })
+          ] }) }) : /* @__PURE__ */ (0, import_jsx_runtime59.jsx)("section", { className: "item-card", children: "Kh\xF4ng c\xF3 h\u1ED3 s\u01A1 \u1EDF tr\u1EA1ng th\xE1i n\xE0y." }),
+          /* @__PURE__ */ (0, import_jsx_runtime59.jsx)(Pagination, { page, total: resource.data.total, limit: 20, onPage: setPage })
         ] })
       ] })
     ] });
   }
 
   // src/pages/partner/PartnerRegistrationPage.tsx
-  var import_react41 = __toESM(require_react(), 1);
-  var import_jsx_runtime53 = __toESM(require_jsx_runtime(), 1);
+  var import_react47 = __toESM(require_react(), 1);
+  var import_jsx_runtime60 = __toESM(require_jsx_runtime(), 1);
   function PartnerAccount() {
     const { setSession } = useAuth();
-    const [form, setForm] = (0, import_react41.useState)({ fullName: "", email: "", phone: "", password: "", confirmPassword: "" });
-    const [busy, setBusy] = (0, import_react41.useState)(false), [error, setError] = (0, import_react41.useState)("");
+    const [form, setForm] = (0, import_react47.useState)({ fullName: "", email: "", phone: "", password: "", confirmPassword: "" });
+    const [busy, setBusy] = (0, import_react47.useState)(false), [error, setError] = (0, import_react47.useState)("");
     async function submit(event) {
       event.preventDefault();
       if (busy) return;
@@ -31938,34 +40634,34 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setBusy(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("section", { className: "item-card rb-partner-account", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("h2", { children: "T\u1EA1o t\xE0i kho\u1EA3n n\u1ED9p h\u1ED3 s\u01A1" }),
-      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { children: "T\xE0i kho\u1EA3n ch\u01B0a c\xF3 quy\u1EC1n Merchant cho \u0111\u1EBFn khi \u0111\u01B0\u1EE3c Admin duy\u1EC7t." }),
-      /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("p", { children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("section", { className: "item-card rb-partner-account", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("h2", { children: "T\u1EA1o t\xE0i kho\u1EA3n n\u1ED9p h\u1ED3 s\u01A1" }),
+      /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("p", { children: "T\xE0i kho\u1EA3n ch\u01B0a c\xF3 quy\u1EC1n Merchant cho \u0111\u1EBFn khi \u0111\u01B0\u1EE3c Admin duy\u1EC7t." }),
+      /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("p", { children: [
         "\u0110\xE3 c\xF3 t\xE0i kho\u1EA3n? ",
-        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(Link, { to: "/login", state: { from: "/partner/register" }, children: "\u0110\u0103ng nh\u1EADp \u0111\u1EC3 ti\u1EBFp t\u1EE5c" })
+        /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(Link, { to: "/login", state: { from: "/partner/register" }, children: "\u0110\u0103ng nh\u1EADp \u0111\u1EC3 ti\u1EBFp t\u1EE5c" })
       ] }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { role: "alert", className: "auth-alert", children: error }),
-      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("form", { className: "auth-form", onSubmit: submit, children: /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("fieldset", { disabled: busy, children: [
-        [{ key: "fullName", label: "H\u1ECD t\xEAn ng\u01B0\u1EDDi \u0111\u1EA1i di\u1EC7n", type: "text" }, { key: "email", label: "Email", type: "email" }, { key: "phone", label: "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i", type: "tel" }, { key: "password", label: "M\u1EADt kh\u1EA9u", type: "password" }, { key: "confirmPassword", label: "X\xE1c nh\u1EADn m\u1EADt kh\u1EA9u", type: "password" }].map((field) => /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
+      error && /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("p", { role: "alert", className: "auth-alert", children: error }),
+      /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("form", { className: "auth-form", onSubmit: submit, children: /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("fieldset", { disabled: busy, children: [
+        [{ key: "fullName", label: "H\u1ECD t\xEAn ng\u01B0\u1EDDi \u0111\u1EA1i di\u1EC7n", type: "text" }, { key: "email", label: "Email", type: "email" }, { key: "phone", label: "S\u1ED1 \u0111i\u1EC7n tho\u1EA1i", type: "tel" }, { key: "password", label: "M\u1EADt kh\u1EA9u", type: "password" }, { key: "confirmPassword", label: "X\xE1c nh\u1EADn m\u1EADt kh\u1EA9u", type: "password" }].map((field) => /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("label", { children: [
           field.label,
-          /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, minLength: field.type === "password" ? 6 : void 0, type: field.type, value: form[field.key], onChange: (event) => setForm({ ...form, [field.key]: event.target.value }) })
+          /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("input", { required: true, minLength: field.type === "password" ? 6 : void 0, type: field.type, value: form[field.key], onChange: (event) => setForm({ ...form, [field.key]: event.target.value }) })
         ] }, field.key)),
-        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { className: "btn primary", type: "submit", children: busy ? "\u0110ang t\u1EA1o t\xE0i kho\u1EA3n\u2026" : "T\u1EA1o t\xE0i kho\u1EA3n v\xE0 \u0111i\u1EC1n th\xF4ng tin qu\xE1n" })
+        /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("button", { className: "btn primary", type: "submit", children: busy ? "\u0110ang t\u1EA1o t\xE0i kho\u1EA3n\u2026" : "T\u1EA1o t\xE0i kho\u1EA3n v\xE0 \u0111i\u1EC1n th\xF4ng tin qu\xE1n" })
       ] }) })
     ] });
   }
   function PartnerForm() {
     const { logout } = useAuth();
     const navigate = useNavigate();
-    const [app, setApp] = (0, import_react41.useState)(null), [terms, setTerms] = (0, import_react41.useState)(null);
-    const [loading, setLoading] = (0, import_react41.useState)(true), [loadError, setLoadError] = (0, import_react41.useState)(""), [revision, setRevision] = (0, import_react41.useState)(0);
-    const [step, setStep] = (0, import_react41.useState)(1), [busy, setBusy] = (0, import_react41.useState)(false), [error, setError] = (0, import_react41.useState)("");
-    const lock = (0, import_react41.useRef)(false);
-    const [shop, setShop] = (0, import_react41.useState)({ name: "", address: "", latitude: "", longitude: "", category: "com", openingHours: "08:00-22:00" });
-    const [bank, setBank] = (0, import_react41.useState)({ bankName: "", accountNumber: "", accountHolder: "" });
-    const [agree, setAgree] = (0, import_react41.useState)({ accuracy: false, terms: false, documentReview: false });
-    (0, import_react41.useEffect)(() => {
+    const [app, setApp] = (0, import_react47.useState)(null), [terms, setTerms] = (0, import_react47.useState)(null);
+    const [loading2, setLoading] = (0, import_react47.useState)(true), [loadError, setLoadError] = (0, import_react47.useState)(""), [revision, setRevision] = (0, import_react47.useState)(0);
+    const [step, setStep] = (0, import_react47.useState)(1), [busy, setBusy] = (0, import_react47.useState)(false), [error, setError] = (0, import_react47.useState)("");
+    const lock = (0, import_react47.useRef)(false);
+    const [shop, setShop] = (0, import_react47.useState)({ name: "", address: "", latitude: "", longitude: "", category: "com", openingHours: "08:00-22:00" });
+    const [bank, setBank] = (0, import_react47.useState)({ bankName: "", accountNumber: "", accountHolder: "" });
+    const [agree, setAgree] = (0, import_react47.useState)({ accuracy: false, terms: false, documentReview: false });
+    (0, import_react47.useEffect)(() => {
       let current = true;
       setLoading(true);
       setLoadError("");
@@ -32001,39 +40697,39 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setBusy(false);
       }
     }
-    if (loading) return /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i h\u1ED3 s\u01A1 \u0111\u1ED1i t\xE1c\u2026" });
-    if (loadError) return /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(LoadError, { error: loadError, retry: () => setRevision((value2) => value2 + 1) });
-    if (app?.status === "SUBMITTED" || app?.status === "APPROVED") return /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("section", { className: "item-card rb-partner-status", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("h2", { children: app.status === "APPROVED" ? "H\u1ED3 s\u01A1 \u0111\xE3 \u0111\u01B0\u1EE3c ph\xEA duy\u1EC7t" : "H\u1ED3 s\u01A1 \u0111ang ch\u1EDD Admin duy\u1EC7t" }),
-      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { children: app.shop.name }),
-      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { children: app.status === "APPROVED" ? "\u0110\u0103ng nh\u1EADp l\u1EA1i \u0111\u1EC3 nh\u1EADn quy\u1EC1n Merchant v\xE0 qu\u1EA3n l\xFD qu\xE1n \u0111\xE3 \u0111\u0103ng k\xFD." : "B\u1EA1n ch\u01B0a \u0111\u01B0\u1EE3c c\u1EA5p quy\u1EC1n Merchant. C\xF3 th\u1EC3 quay l\u1EA1i trang n\xE0y \u0111\u1EC3 xem k\u1EBFt qu\u1EA3 x\xE9t duy\u1EC7t." }),
-      /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("p", { children: [
+    if (loading2) return /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("p", { role: "status", children: "\u0110ang t\u1EA3i h\u1ED3 s\u01A1 \u0111\u1ED1i t\xE1c\u2026" });
+    if (loadError) return /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(LoadError, { error: loadError, retry: () => setRevision((value2) => value2 + 1) });
+    if (app?.status === "SUBMITTED" || app?.status === "APPROVED") return /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("section", { className: "item-card rb-partner-status", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("h2", { children: app.status === "APPROVED" ? "H\u1ED3 s\u01A1 \u0111\xE3 \u0111\u01B0\u1EE3c ph\xEA duy\u1EC7t" : "H\u1ED3 s\u01A1 \u0111ang ch\u1EDD Admin duy\u1EC7t" }),
+      /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("p", { children: app.shop.name }),
+      /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("p", { children: app.status === "APPROVED" ? "\u0110\u0103ng nh\u1EADp l\u1EA1i \u0111\u1EC3 nh\u1EADn quy\u1EC1n Merchant v\xE0 qu\u1EA3n l\xFD qu\xE1n \u0111\xE3 \u0111\u0103ng k\xFD." : "B\u1EA1n ch\u01B0a \u0111\u01B0\u1EE3c c\u1EA5p quy\u1EC1n Merchant. C\xF3 th\u1EC3 quay l\u1EA1i trang n\xE0y \u0111\u1EC3 xem k\u1EBFt qu\u1EA3 x\xE9t duy\u1EC7t." }),
+      /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("p", { children: [
         "\u0110\xE3 x\xE1c nh\u1EADn \u0111i\u1EC1u kho\u1EA3n ",
         app.termsVersion,
         ". Ch\u01B0a k\xFD h\u1EE3p \u0111\u1ED3ng \u0111i\u1EC7n t\u1EED."
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("div", { className: "btn-row", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { className: "btn secondary", onClick: () => setRevision((value2) => value2 + 1), children: "Ki\u1EC3m tra tr\u1EA1ng th\xE1i" }),
-        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { className: "btn primary", onClick: () => {
+      /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("div", { className: "btn-row", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("button", { className: "btn secondary", onClick: () => setRevision((value2) => value2 + 1), children: "Ki\u1EC3m tra tr\u1EA1ng th\xE1i" }),
+        /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("button", { className: "btn primary", onClick: () => {
           logout();
           navigate("/login", { state: { from: "/partner/register" } });
         }, children: "\u0110\u0103ng nh\u1EADp l\u1EA1i" })
       ] })
     ] });
     const completeDocs = app && Object.keys(DOCUMENT_LABELS).every((kind) => app.documents.some((doc) => doc.kind === kind));
-    return /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)(import_jsx_runtime53.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("ol", { className: "rb-partner-steps", children: ["Th\xF4ng tin qu\xE1n", "H\u1ED3 s\u01A1 & ng\xE2n h\xE0ng", "\u0110i\u1EC1u kho\u1EA3n & x\xE1c nh\u1EADn"].map((label, index) => /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("li", { "aria-current": step === index + 1 ? "step" : void 0, children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)(import_jsx_runtime60.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("ol", { className: "rb-partner-steps", children: ["Th\xF4ng tin qu\xE1n", "H\u1ED3 s\u01A1 & ng\xE2n h\xE0ng", "\u0110i\u1EC1u kho\u1EA3n & x\xE1c nh\u1EADn"].map((label, index) => /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("li", { "aria-current": step === index + 1 ? "step" : void 0, children: [
         index + 1,
         ". ",
         label
       ] }, label)) }),
-      app?.status === "REJECTED" && /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("p", { className: "auth-alert", role: "status", children: [
+      app?.status === "REJECTED" && /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("p", { className: "auth-alert", role: "status", children: [
         "Admin y\xEAu c\u1EA7u b\u1ED5 sung: ",
         app.rejectionReason,
         ". Ch\u1EC9nh s\u1EEDa v\xE0 g\u1EEDi l\u1EA1i h\u1ED3 s\u01A1 b\xEAn d\u01B0\u1EDBi."
       ] }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
-      step === 1 && /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("form", { className: "item-card rb-partner-form", onSubmit: (event) => {
+      error && /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("p", { className: "auth-alert", role: "alert", children: error }),
+      step === 1 && /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("form", { className: "item-card rb-partner-form", onSubmit: (event) => {
         event.preventDefault();
         void run(async () => {
           const data2 = await request("/merchant-applications/me", { method: "PUT", body: { shop: { ...shop, latitude: Number(shop.latitude), longitude: Number(shop.longitude) } } });
@@ -32042,53 +40738,53 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
           setStep(2);
         });
       }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("h2", { children: "1. \u0110i\u1EC1n th\xF4ng tin qu\xE1n" }),
-        /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("fieldset", { disabled: busy, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("h2", { children: "1. \u0110i\u1EC1n th\xF4ng tin qu\xE1n" }),
+        /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("fieldset", { disabled: busy, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("label", { children: [
             "T\xEAn qu\xE1n",
-            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, minLength: 2, maxLength: 150, value: shop.name, onChange: (e) => setShop({ ...shop, name: e.target.value }) })
+            /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("input", { required: true, minLength: 2, maxLength: 150, value: shop.name, onChange: (e) => setShop({ ...shop, name: e.target.value }) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("label", { children: [
             "\u0110\u1ECBa ch\u1EC9 qu\xE1n",
-            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, minLength: 5, maxLength: 300, value: shop.address, onChange: (e) => setShop({ ...shop, address: e.target.value }) })
+            /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("input", { required: true, minLength: 5, maxLength: 300, value: shop.address, onChange: (e) => setShop({ ...shop, address: e.target.value }) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("div", { className: "rb-partner-columns", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("div", { className: "rb-partner-columns", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("label", { children: [
               "Danh m\u1EE5c",
-              /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("select", { value: shop.category, onChange: (e) => setShop({ ...shop, category: e.target.value }), children: [["com", "C\u01A1m"], ["bun-pho", "B\xFAn/Ph\u1EDF"], ["ca-phe", "C\xE0 ph\xEA"], ["do-uong", "\u0110\u1ED3 u\u1ED1ng"], ["an-vat", "\u0102n v\u1EB7t"], ["khac", "Kh\xE1c"]].map(([value2, label]) => /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("option", { value: value2, children: label }, value2)) })
+              /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("select", { value: shop.category, onChange: (e) => setShop({ ...shop, category: e.target.value }), children: [["com", "C\u01A1m"], ["bun-pho", "B\xFAn/Ph\u1EDF"], ["ca-phe", "C\xE0 ph\xEA"], ["do-uong", "\u0110\u1ED3 u\u1ED1ng"], ["an-vat", "\u0102n v\u1EB7t"], ["khac", "Kh\xE1c"]].map(([value2, label]) => /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("option", { value: value2, children: label }, value2)) })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("label", { children: [
               "Gi\u1EDD m\u1EDF c\u1EEDa",
-              /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, minLength: 3, maxLength: 100, value: shop.openingHours, onChange: (e) => setShop({ ...shop, openingHours: e.target.value }) })
+              /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("input", { required: true, minLength: 3, maxLength: 100, value: shop.openingHours, onChange: (e) => setShop({ ...shop, openingHours: e.target.value }) })
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("div", { className: "rb-partner-columns", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("div", { className: "rb-partner-columns", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("label", { children: [
               "V\u0129 \u0111\u1ED9 qu\xE1n",
-              /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, type: "number", step: "any", min: -90, max: 90, value: shop.latitude, onChange: (e) => setShop({ ...shop, latitude: e.target.value }) })
+              /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("input", { required: true, type: "number", step: "any", min: -90, max: 90, value: shop.latitude, onChange: (e) => setShop({ ...shop, latitude: e.target.value }) })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("label", { children: [
               "Kinh \u0111\u1ED9 qu\xE1n",
-              /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, type: "number", step: "any", min: -180, max: 180, value: shop.longitude, onChange: (e) => setShop({ ...shop, longitude: e.target.value }) })
+              /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("input", { required: true, type: "number", step: "any", min: -180, max: 180, value: shop.longitude, onChange: (e) => setShop({ ...shop, longitude: e.target.value }) })
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { className: "btn secondary", type: "button", onClick: () => void run(async () => {
+          /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("button", { className: "btn secondary", type: "button", onClick: () => void run(async () => {
             if (!navigator.geolocation) throw new Error("Tr\xECnh duy\u1EC7t kh\xF4ng h\u1ED7 tr\u1EE3 \u0111\u1ECBnh v\u1ECB.");
             const result = await new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, () => reject(new Error("Kh\xF4ng l\u1EA5y \u0111\u01B0\u1EE3c v\u1ECB tr\xED. H\xE3y cho ph\xE9p \u0111\u1ECBnh v\u1ECB ho\u1EB7c nh\u1EADp t\u1ECDa \u0111\u1ED9.")), { timeout: 1e4 }));
             setShop({ ...shop, latitude: String(result.coords.latitude), longitude: String(result.coords.longitude) });
           }), children: "D\xF9ng v\u1ECB tr\xED hi\u1EC7n t\u1EA1i c\u1EE7a qu\xE1n" }),
-          /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { className: "btn primary", type: "submit", children: busy ? "\u0110ang l\u01B0u\u2026" : "L\u01B0u v\xE0 ti\u1EBFp t\u1EE5c" })
+          /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("button", { className: "btn primary", type: "submit", children: busy ? "\u0110ang l\u01B0u\u2026" : "L\u01B0u v\xE0 ti\u1EBFp t\u1EE5c" })
         ] })
       ] }),
-      step === 2 && /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("section", { className: "item-card rb-partner-form", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("h2", { children: "2. N\u1ED9p h\u1ED3 s\u01A1 v\xE0 t\xE0i kho\u1EA3n ng\xE2n h\xE0ng" }),
-        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { children: "JPG, PNG ho\u1EB7c PDF, t\u1ED1i \u0111a 5 MB/t\xE0i li\u1EC7u. Kh\xF4ng t\u1EA3i h\u1ED3 s\u01A1 l\xEAn d\u1ECBch v\u1EE5 \u1EA3nh c\xF4ng khai." }),
-        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("fieldset", { disabled: busy, children: Object.entries(DOCUMENT_LABELS).map(([kind, label]) => {
+      step === 2 && /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("section", { className: "item-card rb-partner-form", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("h2", { children: "2. N\u1ED9p h\u1ED3 s\u01A1 v\xE0 t\xE0i kho\u1EA3n ng\xE2n h\xE0ng" }),
+        /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("p", { children: "JPG, PNG ho\u1EB7c PDF, t\u1ED1i \u0111a 5 MB/t\xE0i li\u1EC7u. Kh\xF4ng t\u1EA3i h\u1ED3 s\u01A1 l\xEAn d\u1ECBch v\u1EE5 \u1EA3nh c\xF4ng khai." }),
+        /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("fieldset", { disabled: busy, children: Object.entries(DOCUMENT_LABELS).map(([kind, label]) => {
           const doc = app?.documents.find((item) => item.kind === kind);
-          return /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("div", { className: "rb-partner-document", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
+          return /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("div", { className: "rb-partner-document", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("label", { children: [
               label,
-              /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { type: "file", accept: "image/jpeg,image/png,application/pdf", onChange: (event) => {
+              /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("input", { type: "file", accept: "image/jpeg,image/png,application/pdf", onChange: (event) => {
                 const file = event.target.files?.[0];
                 event.target.value = "";
                 if (!file) return;
@@ -32100,101 +40796,101 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
                 });
               } })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("span", { children: doc ? "\u0110\xE3 l\u01B0u t\xE0i li\u1EC7u" : "Ch\u01B0a c\xF3 t\xE0i li\u1EC7u" }),
-            doc && /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("button", { type: "button", className: "btn secondary", onClick: () => void run(() => downloadDocument(app, doc)), children: [
+            /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("span", { children: doc ? "\u0110\xE3 l\u01B0u t\xE0i li\u1EC7u" : "Ch\u01B0a c\xF3 t\xE0i li\u1EC7u" }),
+            doc && /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("button", { type: "button", className: "btn secondary", onClick: () => void run(() => downloadDocument(app, doc)), children: [
               "T\u1EA3i ",
               label
             ] })
           ] }, kind);
         }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("form", { onSubmit: (event) => {
+        /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("form", { onSubmit: (event) => {
           event.preventDefault();
           void run(async () => {
             if (!completeDocs) throw new Error("Vui l\xF2ng t\u1EA3i \u0111\u1EE7 b\u1ED1n t\xE0i li\u1EC7u tr\u01B0\u1EDBc khi ti\u1EBFp t\u1EE5c.");
             setApp(await request("/merchant-applications/me/bank", { method: "PUT", body: bank }));
             setStep(3);
           });
-        }, children: /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("fieldset", { disabled: busy, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
+        }, children: /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("fieldset", { disabled: busy, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("label", { children: [
             "Ng\xE2n h\xE0ng",
-            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, minLength: 2, maxLength: 100, value: bank.bankName, onChange: (e) => setBank({ ...bank, bankName: e.target.value }) })
+            /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("input", { required: true, minLength: 2, maxLength: 100, value: bank.bankName, onChange: (e) => setBank({ ...bank, bankName: e.target.value }) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("label", { children: [
             "S\u1ED1 t\xE0i kho\u1EA3n",
-            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, inputMode: "numeric", pattern: "[0-9]{6,30}", autoComplete: "off", value: bank.accountNumber, onChange: (e) => setBank({ ...bank, accountNumber: e.target.value }) })
+            /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("input", { required: true, inputMode: "numeric", pattern: "[0-9]{6,30}", autoComplete: "off", value: bank.accountNumber, onChange: (e) => setBank({ ...bank, accountNumber: e.target.value }) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("label", { children: [
             "Ch\u1EE7 t\xE0i kho\u1EA3n",
-            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { required: true, minLength: 2, maxLength: 120, autoComplete: "off", value: bank.accountHolder, onChange: (e) => setBank({ ...bank, accountHolder: e.target.value }) })
+            /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("input", { required: true, minLength: 2, maxLength: 120, autoComplete: "off", value: bank.accountHolder, onChange: (e) => setBank({ ...bank, accountHolder: e.target.value }) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("div", { className: "btn-row", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { type: "button", className: "btn secondary", onClick: () => setStep(1), children: "Quay l\u1EA1i" }),
-            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { className: "btn primary", type: "submit", children: "L\u01B0u h\u1ED3 s\u01A1 v\xE0 \u0111\u1ECDc \u0111i\u1EC1u kho\u1EA3n" })
+          /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("div", { className: "btn-row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("button", { type: "button", className: "btn secondary", onClick: () => setStep(1), children: "Quay l\u1EA1i" }),
+            /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("button", { className: "btn primary", type: "submit", children: "L\u01B0u h\u1ED3 s\u01A1 v\xE0 \u0111\u1ECDc \u0111i\u1EC1u kho\u1EA3n" })
           ] })
         ] }) })
       ] }),
-      step === 3 && terms && /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("section", { className: "item-card rb-partner-form", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("h2", { children: [
+      step === 3 && terms && /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("section", { className: "item-card rb-partner-form", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("h2", { children: [
           "3. ",
           terms.title
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { className: "rb-partner-notice", children: terms.notice }),
-        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("div", { className: "rb-partner-terms", children: terms.sections.map((section) => /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("section", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("h3", { children: section.title }),
-          /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { children: section.text })
+        /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("p", { className: "rb-partner-notice", children: terms.notice }),
+        /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("div", { className: "rb-partner-terms", children: terms.sections.map((section) => /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("section", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("h3", { children: section.title }),
+          /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("p", { children: section.text })
         ] }, section.title)) }),
-        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("form", { onSubmit: (event) => {
+        /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("form", { onSubmit: (event) => {
           event.preventDefault();
           void run(async () => {
             setApp(await request("/merchant-applications/me/submit", { method: "POST", body: { termsVersion: terms.version, agreements: agree } }));
           });
-        }, children: /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("fieldset", { disabled: busy, className: "rb-partner-agreements", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { type: "checkbox", required: true, checked: agree.accuracy, onChange: (e) => setAgree({ ...agree, accuracy: e.target.checked }) }),
+        }, children: /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("fieldset", { disabled: busy, className: "rb-partner-agreements", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("input", { type: "checkbox", required: true, checked: agree.accuracy, onChange: (e) => setAgree({ ...agree, accuracy: e.target.checked }) }),
             "T\xF4i x\xE1c nh\u1EADn th\xF4ng tin v\xE0 h\u1ED3 s\u01A1 \u0111\xE3 cung c\u1EA5p l\xE0 ch\xEDnh x\xE1c, t\xF4i c\xF3 quy\u1EC1n cung c\u1EA5p c\xE1c gi\u1EA5y t\u1EDD n\xE0y."
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { type: "checkbox", required: true, checked: agree.terms, onChange: (e) => setAgree({ ...agree, terms: e.target.checked }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("input", { type: "checkbox", required: true, checked: agree.terms, onChange: (e) => setAgree({ ...agree, terms: e.target.checked }) }),
             "T\xF4i \u0111\xE3 \u0111\u1ECDc v\xE0 \u0111\u1ED3ng \xFD v\u1EDBi \u0111i\u1EC1u kho\u1EA3n \u0111\u0103ng k\xFD \u0111\u1ED1i t\xE1c n\xEAu tr\xEAn."
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("label", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("input", { type: "checkbox", required: true, checked: agree.documentReview, onChange: (e) => setAgree({ ...agree, documentReview: e.target.checked }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("label", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("input", { type: "checkbox", required: true, checked: agree.documentReview, onChange: (e) => setAgree({ ...agree, documentReview: e.target.checked }) }),
             "T\xF4i \u0111\u1ED3ng \xFD cung c\u1EA5p h\u1ED3 s\u01A1 cho RouteBite \u0111\u1EC3 x\xE9t duy\u1EC7t v\xE0 hi\u1EC3u r\u1EB1ng quy\u1EC1n Merchant ch\u1EC9 \u0111\u01B0\u1EE3c c\u1EA5p khi Admin ph\xEA duy\u1EC7t."
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("p", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("p", { children: [
             "Phi\xEAn b\u1EA3n: ",
             terms.version,
             ". Th\u1EDDi \u0111i\u1EC3m x\xE1c nh\u1EADn \u0111\u01B0\u1EE3c l\u01B0u khi b\u1EA1n g\u1EEDi h\u1ED3 s\u01A1."
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("div", { className: "btn-row", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { type: "button", className: "btn secondary", onClick: () => setStep(2), children: "Quay l\u1EA1i" }),
-            /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("button", { type: "submit", className: "btn primary", disabled: !Object.values(agree).every(Boolean), children: "G\u1EEDi h\u1ED3 s\u01A1 cho Admin duy\u1EC7t" })
+          /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("div", { className: "btn-row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("button", { type: "button", className: "btn secondary", onClick: () => setStep(2), children: "Quay l\u1EA1i" }),
+            /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("button", { type: "submit", className: "btn primary", disabled: !Object.values(agree).every(Boolean), children: "G\u1EEDi h\u1ED3 s\u01A1 cho Admin duy\u1EC7t" })
           ] })
         ] }) })
       ] }),
-      busy && /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { role: "status", children: "\u0110ang x\u1EED l\xFD, vui l\xF2ng ch\u1EDD\u2026" })
+      busy && /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("p", { role: "status", children: "\u0110ang x\u1EED l\xFD, vui l\xF2ng ch\u1EDD\u2026" })
     ] });
   }
   function PartnerRegistrationPage() {
     const { currentUser } = useAuth();
-    if (currentUser?.role === "merchant") return /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(Navigate, { to: "/merchant/dashboard", replace: true });
-    if (currentUser?.role === "admin") return /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(Navigate, { to: "/admin/merchant-applications", replace: true });
-    return /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("main", { className: "app-page rb-partner-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(Link, { to: "/login", children: "\u2190 Trang \u0111\u0103ng nh\u1EADp" }),
-      /* @__PURE__ */ (0, import_jsx_runtime53.jsxs)("header", { className: "rb-admin-heading", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("p", { children: "\u0110\u1ED2NG H\xC0NH C\xD9NG ROUTEBITE" }),
-        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("h1", { children: "\u0110\u0103ng k\xFD \u0111\u1ED1i t\xE1c Merchant" }),
-        /* @__PURE__ */ (0, import_jsx_runtime53.jsx)("span", { children: "Th\xF4ng tin qu\xE1n \u2192 H\u1ED3 s\u01A1 \u2192 X\xE1c nh\u1EADn \u0111i\u1EC1u kho\u1EA3n \u2192 Admin x\xE9t duy\u1EC7t." })
+    if (currentUser?.role === "merchant") return /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(Navigate, { to: "/merchant/dashboard", replace: true });
+    if (currentUser?.role === "admin") return /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(Navigate, { to: "/admin/merchant-applications", replace: true });
+    return /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("main", { className: "app-page rb-partner-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(Link, { to: "/login", children: "\u2190 Trang \u0111\u0103ng nh\u1EADp" }),
+      /* @__PURE__ */ (0, import_jsx_runtime60.jsxs)("header", { className: "rb-admin-heading", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("p", { children: "\u0110\u1ED2NG H\xC0NH C\xD9NG ROUTEBITE" }),
+        /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("h1", { children: "\u0110\u0103ng k\xFD \u0111\u1ED1i t\xE1c Merchant" }),
+        /* @__PURE__ */ (0, import_jsx_runtime60.jsx)("span", { children: "Th\xF4ng tin qu\xE1n \u2192 H\u1ED3 s\u01A1 \u2192 X\xE1c nh\u1EADn \u0111i\u1EC1u kho\u1EA3n \u2192 Admin x\xE9t duy\u1EC7t." })
       ] }),
-      currentUser ? /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(PartnerForm, {}) : /* @__PURE__ */ (0, import_jsx_runtime53.jsx)(PartnerAccount, {})
+      currentUser ? /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(PartnerForm, {}) : /* @__PURE__ */ (0, import_jsx_runtime60.jsx)(PartnerAccount, {})
     ] });
   }
 
   // src/pages/MyPointsPage.tsx
-  var import_react43 = __toESM(require_react(), 1);
+  var import_react49 = __toESM(require_react(), 1);
 
   // src/loyalty.ts
-  var import_react42 = __toESM(require_react(), 1);
+  var import_react48 = __toESM(require_react(), 1);
   var money = (value2) => `${Number(value2).toLocaleString("vi-VN")}\u0111`;
   function discountFor(voucher, subtotal) {
     if (!voucher?.active || subtotal < voucher.minOrderAmount) return 0;
@@ -32205,12 +40901,12 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
   function useCheckoutVouchers(subtotal, restaurantId) {
     const { currentUser } = useAuth();
-    const [rows, setRows] = (0, import_react42.useState)([]);
-    const [selectedId, setSelectedId] = (0, import_react42.useState)("");
-    const [error, setError] = (0, import_react42.useState)("");
-    const [loading, setLoading] = (0, import_react42.useState)(false);
-    const [revision, setRevision] = (0, import_react42.useState)(0);
-    (0, import_react42.useEffect)(() => {
+    const [rows, setRows] = (0, import_react48.useState)([]);
+    const [selectedId, setSelectedId] = (0, import_react48.useState)("");
+    const [error, setError] = (0, import_react48.useState)("");
+    const [loading2, setLoading] = (0, import_react48.useState)(false);
+    const [revision, setRevision] = (0, import_react48.useState)(0);
+    (0, import_react48.useEffect)(() => {
       let alive = true;
       setRows([]);
       setError("");
@@ -32233,7 +40929,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     }, [currentUser?.id, currentUser?.role, restaurantId, revision]);
     const available = rows.filter((row) => !row.usedInOrderId && row.voucher.active);
     const selected = available.find((row) => row.id === selectedId && subtotal >= row.voucher.minOrderAmount);
-    (0, import_react42.useEffect)(() => {
+    (0, import_react48.useEffect)(() => {
       if (!selected) setSelectedId("");
     }, [selected?.id]);
     return {
@@ -32243,26 +40939,26 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
       setSelectedId,
       discount: discountFor(selected?.voucher, subtotal),
       error,
-      loading,
+      loading: loading2,
       enabled: currentUser?.role === "customer",
       retry: () => setRevision((n) => n + 1)
     };
   }
 
   // src/pages/MyPointsPage.tsx
-  var import_jsx_runtime54 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime61 = __toESM(require_jsx_runtime(), 1);
   function MyPointsPage() {
     const { currentUser } = useAuth();
-    return /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(PointsContent, {}, currentUser.id);
+    return /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(PointsContent, {}, currentUser.id);
   }
   function PointsContent() {
-    const [points, setPoints] = (0, import_react43.useState)(null);
-    const [vouchers, setVouchers] = (0, import_react43.useState)([]);
-    const [owned, setOwned] = (0, import_react43.useState)([]);
-    const [error, setError] = (0, import_react43.useState)("");
-    const [message, setMessage] = (0, import_react43.useState)("");
-    const [busy, setBusy] = (0, import_react43.useState)(false);
-    const lock = (0, import_react43.useRef)(false), alive = (0, import_react43.useRef)(true), sequence = (0, import_react43.useRef)(0);
+    const [points, setPoints] = (0, import_react49.useState)(null);
+    const [vouchers, setVouchers] = (0, import_react49.useState)([]);
+    const [owned, setOwned] = (0, import_react49.useState)([]);
+    const [error, setError] = (0, import_react49.useState)("");
+    const [message, setMessage] = (0, import_react49.useState)("");
+    const [busy, setBusy] = (0, import_react49.useState)(false);
+    const lock = (0, import_react49.useRef)(false), alive = (0, import_react49.useRef)(true), sequence = (0, import_react49.useRef)(0);
     async function load() {
       const seq = ++sequence.current;
       try {
@@ -32277,7 +40973,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         if (alive.current && seq === sequence.current) setError(e.message || "Kh\xF4ng t\u1EA3i \u0111\u01B0\u1EE3c \u0111i\u1EC3m v\xE0 voucher.");
       }
     }
-    (0, import_react43.useEffect)(() => {
+    (0, import_react49.useEffect)(() => {
       alive.current = true;
       void load();
       const focus = () => {
@@ -32311,77 +41007,77 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         if (alive.current) setBusy(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("main", { className: "app-page rb-loyalty-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("header", { className: "page-intro", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { className: "rb-eyebrow", children: "\u01AFU \u0110\xC3I ROUTEBITE" }),
-        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("h1", { children: "\u0110i\u1EC3m c\u1EE7a t\xF4i" }),
-        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { children: "T\xEDch xu t\u1EEB \u0111\u01A1n \u0111\xE3 ho\xE0n th\xE0nh, \u0111\u1ED5i voucher cho l\u1EA7n gh\xE9 l\u1EA5y ti\u1EBFp theo." })
+    return /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)("main", { className: "app-page rb-loyalty-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)("header", { className: "page-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("p", { className: "rb-eyebrow", children: "\u01AFU \u0110\xC3I ROUTEBITE" }),
+        /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("h1", { children: "\u0110i\u1EC3m c\u1EE7a t\xF4i" }),
+        /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("p", { children: "T\xEDch xu t\u1EEB \u0111\u01A1n \u0111\xE3 ho\xE0n th\xE0nh, \u0111\u1ED5i voucher cho l\u1EA7n gh\xE9 l\u1EA5y ti\u1EBFp theo." })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("section", { className: "item-card rb-points-balance", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("span", { children: "S\u1ED1 d\u01B0 hi\u1EC7n t\u1EA1i" }),
-        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("strong", { children: points ? `${points.pointsBalance.toLocaleString("vi-VN")} xu` : "\u0110ang t\u1EA3i\u2026" }),
-        points && /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("span", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)("section", { className: "item-card rb-points-balance", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("span", { children: "S\u1ED1 d\u01B0 hi\u1EC7n t\u1EA1i" }),
+        /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("strong", { children: points ? `${points.pointsBalance.toLocaleString("vi-VN")} xu` : "\u0110ang t\u1EA3i\u2026" }),
+        points && /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)("span", { children: [
           "\u2248 ",
           money(points.pointsBalance * 1e3),
           " gi\xE1 tr\u1ECB \u0111\u1ED5i \u01B0u \u0111\xE3i"
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { children: "M\u1ED7i 100.000\u0111 th\u1EF1c tr\u1EA3 \u0111\u01B0\u1EE3c 1 xu (1.000\u0111 \u01B0u \u0111\xE3i). Ch\u1EC9 c\u1ED9ng khi \u0111\u01A1n ho\xE0n th\xE0nh; ph\u1EA7n l\u1EBB d\u01B0\u1EDBi 1 xu \u0111\u01B0\u1EE3c l\xE0m tr\xF2n xu\u1ED1ng. Xu kh\xF4ng quy \u0111\u1ED5i th\xE0nh ti\u1EC1n m\u1EB7t." })
+        /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("p", { children: "M\u1ED7i 100.000\u0111 th\u1EF1c tr\u1EA3 \u0111\u01B0\u1EE3c 1 xu (1.000\u0111 \u01B0u \u0111\xE3i). Ch\u1EC9 c\u1ED9ng khi \u0111\u01A1n ho\xE0n th\xE0nh; ph\u1EA7n l\u1EBB d\u01B0\u1EDBi 1 xu \u0111\u01B0\u1EE3c l\xE0m tr\xF2n xu\u1ED1ng. Xu kh\xF4ng quy \u0111\u1ED5i th\xE0nh ti\u1EC1n m\u1EB7t." })
       ] }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("p", { role: "alert", children: [
+      error && /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)("p", { role: "alert", children: [
         error,
         " ",
-        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("button", { className: "btn secondary", disabled: busy, onClick: load, children: "Th\u1EED l\u1EA1i" })
+        /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("button", { className: "btn secondary", disabled: busy, onClick: load, children: "Th\u1EED l\u1EA1i" })
       ] }),
-      message && /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { role: "status", className: "item-card", children: message }),
-      /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("h2", { children: "Voucher c\u1EE7a t\xF4i" }),
-      /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("div", { className: "rb-voucher-grid", children: [
-        owned.map((row) => /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("article", { className: "item-card", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("h3", { children: row.voucher.title }),
-          /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { children: voucherTerms(row.voucher) }),
-          /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("code", { children: row.voucher.code }),
-          /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { children: row.usedInOrderId ? /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(Link, { to: `/orders/${row.usedInOrderId}`, children: "\u0110\xE3 d\xF9ng \xB7 Xem \u0111\u01A1n" }) : row.voucher.active ? "S\u1EB5n s\xE0ng d\xF9ng khi thanh to\xE1n" : "\u0110\xE3 ng\u1EEBng ho\u1EA1t \u0111\u1ED9ng" })
+      message && /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("p", { role: "status", className: "item-card", children: message }),
+      /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("h2", { children: "Voucher c\u1EE7a t\xF4i" }),
+      /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)("div", { className: "rb-voucher-grid", children: [
+        owned.map((row) => /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)("article", { className: "item-card", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("h3", { children: row.voucher.title }),
+          /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("p", { children: voucherTerms(row.voucher) }),
+          /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("code", { children: row.voucher.code }),
+          /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("p", { children: row.usedInOrderId ? /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(Link, { to: `/orders/${row.usedInOrderId}`, children: "\u0110\xE3 d\xF9ng \xB7 Xem \u0111\u01A1n" }) : row.voucher.active ? "S\u1EB5n s\xE0ng d\xF9ng khi thanh to\xE1n" : "\u0110\xE3 ng\u1EEBng ho\u1EA1t \u0111\u1ED9ng" })
         ] }, row.id)),
-        points && !owned.length && /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { children: "B\u1EA1n ch\u01B0a c\xF3 voucher. \u0110\u1ED5i xu ho\u1EB7c nh\u1EADn \u01B0u \u0111\xE3i b\xEAn d\u01B0\u1EDBi." })
+        points && !owned.length && /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("p", { children: "B\u1EA1n ch\u01B0a c\xF3 voucher. \u0110\u1ED5i xu ho\u1EB7c nh\u1EADn \u01B0u \u0111\xE3i b\xEAn d\u01B0\u1EDBi." })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("h2", { children: "\u0110\u1ED5i xu v\xE0 nh\u1EADn \u01B0u \u0111\xE3i" }),
-      /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("div", { className: "rb-voucher-grid", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("h2", { children: "\u0110\u1ED5i xu v\xE0 nh\u1EADn \u01B0u \u0111\xE3i" }),
+      /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)("div", { className: "rb-voucher-grid", children: [
         vouchers.map((v) => {
           const claimed = v.pointsCost === null && owned.some((o) => o.voucherId === v.id && o.publicClaim);
-          return /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("article", { className: "item-card", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("h3", { children: v.title }),
-            /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { children: voucherTerms(v) }),
-            /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("code", { children: v.code }),
-            /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("button", { className: "btn primary", type: "button", disabled: busy || !points || claimed || v.pointsCost !== null && points.pointsBalance < v.pointsCost, onClick: () => obtain(v), children: claimed ? "\u0110\xE3 nh\u1EADn" : v.pointsCost === null ? "Nh\u1EADn mi\u1EC5n ph\xED" : `\u0110\u1ED5i ${v.pointsCost} xu` })
+          return /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)("article", { className: "item-card", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("h3", { children: v.title }),
+            /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("p", { children: voucherTerms(v) }),
+            /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("code", { children: v.code }),
+            /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("button", { className: "btn primary", type: "button", disabled: busy || !points || claimed || v.pointsCost !== null && points.pointsBalance < v.pointsCost, onClick: () => obtain(v), children: claimed ? "\u0110\xE3 nh\u1EADn" : v.pointsCost === null ? "Nh\u1EADn mi\u1EC5n ph\xED" : `\u0110\u1ED5i ${v.pointsCost} xu` })
           ] }, v.id);
         }),
-        points && !vouchers.length && /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { children: "Hi\u1EC7n ch\u01B0a c\xF3 \u01B0u \u0111\xE3i \u0111ang ph\xE1t h\xE0nh." })
+        points && !vouchers.length && /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("p", { children: "Hi\u1EC7n ch\u01B0a c\xF3 \u01B0u \u0111\xE3i \u0111ang ph\xE1t h\xE0nh." })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { className: "rb-loyalty-note", children: "M\u1ED7i \u0111\u01A1n d\xF9ng t\u1ED1i \u0111a m\u1ED9t voucher. Voucher \u0111\u01B0\u1EE3c s\u1EED d\u1EE5ng khi t\u1EA1o \u0111\u01A1n th\xE0nh c\xF4ng, kh\xF4ng t\u1EF1 ho\xE0n l\u1EA1i khi h\u1EE7y \u0111\u01A1n. \u01AFu \u0111\xE3i mi\u1EC5n ph\xED ch\u1EC9 \u0111\u01B0\u1EE3c nh\u1EADn m\u1ED9t l\u1EA7n m\u1ED7i t\xE0i kho\u1EA3n." }),
-      /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("section", { className: "item-card", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("h2", { children: "L\u1ECBch s\u1EED xu" }),
-        points?.transactions.length ? /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("ul", { className: "rb-points-history", children: points.transactions.map((tx) => /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("li", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("span", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("p", { className: "rb-loyalty-note", children: "M\u1ED7i \u0111\u01A1n d\xF9ng t\u1ED1i \u0111a m\u1ED9t voucher. Voucher \u0111\u01B0\u1EE3c s\u1EED d\u1EE5ng khi t\u1EA1o \u0111\u01A1n th\xE0nh c\xF4ng, kh\xF4ng t\u1EF1 ho\xE0n l\u1EA1i khi h\u1EE7y \u0111\u01A1n. \u01AFu \u0111\xE3i mi\u1EC5n ph\xED ch\u1EC9 \u0111\u01B0\u1EE3c nh\u1EADn m\u1ED9t l\u1EA7n m\u1ED7i t\xE0i kho\u1EA3n." }),
+      /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)("section", { className: "item-card", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("h2", { children: "L\u1ECBch s\u1EED xu" }),
+        points?.transactions.length ? /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("ul", { className: "rb-points-history", children: points.transactions.map((tx) => /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)("li", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)("span", { children: [
             tx.type === "earn" ? "T\xEDch xu t\u1EEB \u0111\u01A1n ho\xE0n th\xE0nh" : "\u0110\u1ED5i voucher",
-            /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("small", { children: new Date(tx.createdAt).toLocaleString("vi-VN") }),
-            tx.orderId && /* @__PURE__ */ (0, import_jsx_runtime54.jsx)(Link, { to: `/orders/${tx.orderId}`, children: "Xem \u0111\u01A1n" })
+            /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("small", { children: new Date(tx.createdAt).toLocaleString("vi-VN") }),
+            tx.orderId && /* @__PURE__ */ (0, import_jsx_runtime61.jsx)(Link, { to: `/orders/${tx.orderId}`, children: "Xem \u0111\u01A1n" })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime54.jsxs)("strong", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime61.jsxs)("strong", { children: [
             tx.amount > 0 ? "+" : "",
             tx.amount,
             " xu"
           ] })
-        ] }, tx.id)) }) : /* @__PURE__ */ (0, import_jsx_runtime54.jsx)("p", { children: points ? "Ch\u01B0a c\xF3 giao d\u1ECBch xu." : "\u0110ang t\u1EA3i\u2026" })
+        ] }, tx.id)) }) : /* @__PURE__ */ (0, import_jsx_runtime61.jsx)("p", { children: points ? "Ch\u01B0a c\xF3 giao d\u1ECBch xu." : "\u0110ang t\u1EA3i\u2026" })
       ] })
     ] });
   }
 
   // src/pages/admin/AdminVouchersPage.tsx
-  var import_react44 = __toESM(require_react(), 1);
-  var import_jsx_runtime55 = __toESM(require_jsx_runtime(), 1);
+  var import_react50 = __toESM(require_react(), 1);
+  var import_jsx_runtime62 = __toESM(require_jsx_runtime(), 1);
   function AdminVouchersPage() {
-    const [rows, setRows] = (0, import_react44.useState)([]), [error, setError] = (0, import_react44.useState)(""), [busy, setBusy] = (0, import_react44.useState)(false);
-    const lock = (0, import_react44.useRef)(false);
-    const [form, setForm] = (0, import_react44.useState)({ code: "", title: "", discountType: "fixed", discountValue: 1e4, minOrderAmount: 1e5 });
+    const [rows, setRows] = (0, import_react50.useState)([]), [error, setError] = (0, import_react50.useState)(""), [busy, setBusy] = (0, import_react50.useState)(false);
+    const lock = (0, import_react50.useRef)(false);
+    const [form, setForm] = (0, import_react50.useState)({ code: "", title: "", discountType: "fixed", discountValue: 1e4, minOrderAmount: 1e5 });
     async function load() {
       try {
         setRows(await request("/admin/vouchers"));
@@ -32390,7 +41086,7 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setError(e.message);
       }
     }
-    (0, import_react44.useEffect)(() => {
+    (0, import_react50.useEffect)(() => {
       void load();
     }, []);
     async function mutate(path, method, body) {
@@ -32408,66 +41104,66 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setBusy(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("section", { className: "rb-loyalty-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("header", { className: "page-intro", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("p", { className: "rb-eyebrow", children: "QU\u1EA2N TR\u1ECA \u01AFU \u0110\xC3I" }),
-        /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("h1", { children: "Voucher" })
+    return /* @__PURE__ */ (0, import_jsx_runtime62.jsxs)("section", { className: "rb-loyalty-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime62.jsxs)("header", { className: "page-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("p", { className: "rb-eyebrow", children: "QU\u1EA2N TR\u1ECA \u01AFU \u0110\xC3I" }),
+        /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("h1", { children: "Voucher" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("p", { children: "Ph\xE1t h\xE0nh voucher mi\u1EC5n ph\xED cho kh\xE1ch h\xE0ng. B\u1EA3ng \u0111\u1ED5i xu c\u1ED1 \u0111\u1ECBnh \u0111\u01B0\u1EE3c qu\u1EA3n l\xFD ri\xEAng; kh\xF4ng s\u1EEDa gi\xE1 tr\u1ECB voucher \u0111\xE3 ph\xE1t h\xE0nh." }),
-      error && /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("p", { role: "alert", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("p", { children: "Ph\xE1t h\xE0nh voucher mi\u1EC5n ph\xED cho kh\xE1ch h\xE0ng. B\u1EA3ng \u0111\u1ED5i xu c\u1ED1 \u0111\u1ECBnh \u0111\u01B0\u1EE3c qu\u1EA3n l\xFD ri\xEAng; kh\xF4ng s\u1EEDa gi\xE1 tr\u1ECB voucher \u0111\xE3 ph\xE1t h\xE0nh." }),
+      error && /* @__PURE__ */ (0, import_jsx_runtime62.jsxs)("p", { role: "alert", children: [
         error,
         " ",
-        /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("button", { className: "btn secondary", onClick: load, disabled: busy, children: "Th\u1EED l\u1EA1i" })
+        /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("button", { className: "btn secondary", onClick: load, disabled: busy, children: "Th\u1EED l\u1EA1i" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("form", { className: "item-card rb-voucher-form", onSubmit: (event) => {
+      /* @__PURE__ */ (0, import_jsx_runtime62.jsxs)("form", { className: "item-card rb-voucher-form", onSubmit: (event) => {
         event.preventDefault();
         void mutate("/admin/vouchers", "POST", form);
       }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime62.jsxs)("label", { children: [
           "M\xE3 voucher",
-          /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("input", { required: true, pattern: "[A-Za-z0-9_-]{3,40}", maxLength: 40, value: form.code, disabled: busy, onChange: (e) => setForm({ ...form, code: e.target.value.toUpperCase() }) })
+          /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("input", { required: true, pattern: "[A-Za-z0-9_-]{3,40}", maxLength: 40, value: form.code, disabled: busy, onChange: (e) => setForm({ ...form, code: e.target.value.toUpperCase() }) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime62.jsxs)("label", { children: [
           "T\xEAn \u01B0u \u0111\xE3i",
-          /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("input", { required: true, maxLength: 160, value: form.title, disabled: busy, onChange: (e) => setForm({ ...form, title: e.target.value }) })
+          /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("input", { required: true, maxLength: 160, value: form.title, disabled: busy, onChange: (e) => setForm({ ...form, title: e.target.value }) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime62.jsxs)("label", { children: [
           "Lo\u1EA1i gi\u1EA3m",
-          /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("select", { value: form.discountType, disabled: busy, onChange: (e) => setForm({ ...form, discountType: e.target.value, discountValue: e.target.value === "percent" ? 10 : 1e4 }), children: [
-            /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("option", { value: "fixed", children: "S\u1ED1 ti\u1EC1n (\u0111)" }),
-            /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("option", { value: "percent", children: "Ph\u1EA7n tr\u0103m (%)" })
+          /* @__PURE__ */ (0, import_jsx_runtime62.jsxs)("select", { value: form.discountType, disabled: busy, onChange: (e) => setForm({ ...form, discountType: e.target.value, discountValue: e.target.value === "percent" ? 10 : 1e4 }), children: [
+            /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("option", { value: "fixed", children: "S\u1ED1 ti\u1EC1n (\u0111)" }),
+            /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("option", { value: "percent", children: "Ph\u1EA7n tr\u0103m (%)" })
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime62.jsxs)("label", { children: [
           "Gi\xE1 tr\u1ECB gi\u1EA3m",
-          /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("input", { required: true, type: "number", min: 1, max: form.discountType === "percent" ? 100 : 1e9, step: 1, disabled: busy, value: form.discountValue, onChange: (e) => setForm({ ...form, discountValue: Number(e.target.value) }) })
+          /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("input", { required: true, type: "number", min: 1, max: form.discountType === "percent" ? 100 : 1e9, step: 1, disabled: busy, value: form.discountValue, onChange: (e) => setForm({ ...form, discountValue: Number(e.target.value) }) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("label", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime62.jsxs)("label", { children: [
           "\u0110\u01A1n t\u1ED1i thi\u1EC3u (\u0111)",
-          /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("input", { required: true, type: "number", min: 0, max: 99999999999999, step: 1, disabled: busy, value: form.minOrderAmount, onChange: (e) => setForm({ ...form, minOrderAmount: Number(e.target.value) }) })
+          /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("input", { required: true, type: "number", min: 0, max: 99999999999999, step: 1, disabled: busy, value: form.minOrderAmount, onChange: (e) => setForm({ ...form, minOrderAmount: Number(e.target.value) }) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("button", { className: "btn primary", disabled: busy, children: "Ph\xE1t h\xE0nh voucher mi\u1EC5n ph\xED" })
+        /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("button", { className: "btn primary", disabled: busy, children: "Ph\xE1t h\xE0nh voucher mi\u1EC5n ph\xED" })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("h2", { children: "Danh s\xE1ch voucher" }),
-      /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("div", { className: "rb-voucher-grid", children: rows.map((v) => /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("article", { className: "item-card", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("h3", { children: v.title }),
-        /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("code", { children: v.code }),
-        /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("p", { children: voucherTerms(v) }),
-        /* @__PURE__ */ (0, import_jsx_runtime55.jsxs)("p", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("h2", { children: "Danh s\xE1ch voucher" }),
+      /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("div", { className: "rb-voucher-grid", children: rows.map((v) => /* @__PURE__ */ (0, import_jsx_runtime62.jsxs)("article", { className: "item-card", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("h3", { children: v.title }),
+        /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("code", { children: v.code }),
+        /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("p", { children: voucherTerms(v) }),
+        /* @__PURE__ */ (0, import_jsx_runtime62.jsxs)("p", { children: [
           v.pointsCost === null ? "Nh\u1EADn mi\u1EC5n ph\xED" : `${v.pointsCost} xu`,
           " \xB7 ",
           v.active ? "\u0110ang ho\u1EA1t \u0111\u1ED9ng" : "\u0110\xE3 t\u1EAFt"
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime55.jsx)("button", { className: "btn secondary", disabled: busy, onClick: () => mutate(`/admin/vouchers/${v.id}`, "PATCH", { active: !v.active }), children: v.active ? "Ng\u1EEBng ho\u1EA1t \u0111\u1ED9ng" : "K\xEDch ho\u1EA1t" })
+        /* @__PURE__ */ (0, import_jsx_runtime62.jsx)("button", { className: "btn secondary", disabled: busy, onClick: () => mutate(`/admin/vouchers/${v.id}`, "PATCH", { active: !v.active }), children: v.active ? "Ng\u1EEBng ho\u1EA1t \u0111\u1ED9ng" : "K\xEDch ho\u1EA1t" })
       ] }, v.id)) })
     ] });
   }
 
   // src/hooks/usePublicRestaurant.js
-  var import_react45 = __toESM(require_react(), 1);
+  var import_react51 = __toESM(require_react(), 1);
   function usePublicRestaurant(id, enabled = true) {
-    const [state, setState] = (0, import_react45.useState)({ id: null, restaurant: null, error: "", loading: true });
-    (0, import_react45.useEffect)(() => {
+    const [state, setState] = (0, import_react51.useState)({ id: null, restaurant: null, error: "", loading: true });
+    (0, import_react51.useEffect)(() => {
       let active = true;
       let pending = false;
       setState({ id, restaurant: null, error: "", loading: enabled });
@@ -32505,32 +41201,38 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   }
 
   // src/App.jsx
-  var import_jsx_runtime56 = __toESM(require_jsx_runtime(), 1);
+  var import_jsx_runtime63 = __toESM(require_jsx_runtime(), 1);
   var formatMoney = (value2) => `${Number(value2 || 0).toLocaleString("vi-VN")}\u0111`;
   function Header() {
     const { carts } = useCart();
     const navItems2 = [
-      { path: "/", label: "Trang ch\u1EE7" },
-      { path: "/kham-pha", label: "Kh\xE1m ph\xE1" },
-      { path: "/my-orders", label: "\u0110\u01A1n c\u1EE7a t\xF4i" },
-      { path: "/my-carts", label: `Gi\u1ECF c\u1EE7a t\xF4i${carts.length ? ` (${carts.length})` : ""}` }
+      { path: "/", label: "Trang ch\u1EE7", icon: "home" },
+      { path: "/kham-pha", label: "Kh\xE1m ph\xE1", icon: "explore" },
+      { path: "/my-orders", label: "\u0110\u01A1n c\u1EE7a t\xF4i", icon: "orders" },
+      { path: "/my-carts", label: `Gi\u1ECF c\u1EE7a t\xF4i${carts.length ? ` (${carts.length})` : ""}`, icon: "cart" }
     ];
-    return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("header", { className: "consumer-header", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Link, { className: "consumer-logo", to: "/", children: "RouteBite" }),
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("nav", { "aria-label": "\u0110i\u1EC1u h\u01B0\u1EDBng ch\xEDnh", children: navItems2.map((item) => /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
+    return /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("header", { className: "consumer-header", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)(Link, { className: "consumer-logo", to: "/", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(MaterialIcon, { name: "shop" }),
+        "RouteBite"
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("nav", { "aria-label": "\u0110i\u1EC1u h\u01B0\u1EDBng ch\xEDnh", children: navItems2.map((item) => /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)(
         NavLink,
         {
           to: item.path,
           end: item.path === "/",
           className: ({ isActive }) => `consumer-nav${isActive ? " active" : ""}`,
-          children: item.label
+          children: [
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(MaterialIcon, { name: item.icon }),
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("span", { children: item.label })
+          ]
         },
         item.path
       )) }),
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "account-menu", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(NotificationBell, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ChatBell, {}),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AvatarDropdown, {})
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { className: "account-menu", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(NotificationBell, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(ChatBell, {}),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(AvatarDropdown, {})
       ] })
     ] });
   }
@@ -32541,52 +41243,52 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     const navigate = useNavigate();
     const { cart, add, change } = useCart();
     const { restaurant, error } = usePublicRestaurant(id);
-    const [pickup, setPickup] = (0, import_react46.useState)("15");
-    if (error) return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(Page, { title: "Kh\xF4ng m\u1EDF \u0111\u01B0\u1EE3c menu", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { role: "alert", children: error }),
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Link, { to: "/kham-pha", children: "Kh\xE1m ph\xE1 qu\xE1n kh\xE1c" })
+    const [pickup, setPickup] = (0, import_react52.useState)("15");
+    if (error) return /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)(Page, { title: "Kh\xF4ng m\u1EDF \u0111\u01B0\u1EE3c menu", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("p", { role: "alert", children: error }),
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Link, { to: "/kham-pha", children: "Kh\xE1m ph\xE1 qu\xE1n kh\xE1c" })
     ] });
-    if (!restaurant) return /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Page, { title: "Menu qu\xE1n", children: "\u0110ang t\u1EA3i menu\u2026" });
+    if (!restaurant) return /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Page, { title: "Menu qu\xE1n", children: "\u0110ang t\u1EA3i menu\u2026" });
     const menu = (restaurant.menuItems || []).filter((item) => item.available);
     const selected = cart.filter((item) => item.restaurantId === restaurant.id);
     const count = selected.reduce((sum, item) => sum + item.quantity, 0);
     const total = selected.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
-    return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("main", { className: "app-page rb-commerce-page rb-menu-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("button", { type: "button", className: "back-link", onClick: () => navigate(-1), children: "\u2190 Quay l\u1EA1i" }),
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("section", { className: "item-card rb-restaurant-intro", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(FoodThumbnail, { src: restaurant.imageUrl, name: restaurant.name, className: "rb-restaurant-image" }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { className: "rb-eyebrow", children: "GH\xC9 L\u1EA4Y MANG \u0110I" }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h1", { children: restaurant.name }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { children: restaurant.address }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("span", { children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("main", { className: "app-page rb-commerce-page rb-menu-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("button", { type: "button", className: "back-link", onClick: () => navigate(-1), children: "\u2190 Quay l\u1EA1i" }),
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("section", { className: "item-card rb-restaurant-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(FoodThumbnail, { src: restaurant.imageUrl, name: restaurant.name, className: "rb-restaurant-image" }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("p", { className: "rb-eyebrow", children: "GH\xC9 L\u1EA4Y MANG \u0110I" }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("h1", { children: restaurant.name }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("p", { children: restaurant.address }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("span", { children: [
             "\u2B50 ",
             restaurant.rating || "M\u1EDBi"
           ] })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-restaurant-actions", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("a", { className: "btn secondary", target: "_blank", rel: "noreferrer", href: "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(restaurant.address), children: "Ch\u1EC9 \u0111\u01B0\u1EDDng" }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ShareRestaurantButton, { restaurantId: restaurant.id, restaurantName: restaurant.name }, restaurant.id)
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { className: "rb-restaurant-actions", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("a", { className: "btn secondary", target: "_blank", rel: "noreferrer", href: "https://www.google.com/maps/dir/?api=1&destination=" + encodeURIComponent(restaurant.address), children: "Ch\u1EC9 \u0111\u01B0\u1EDDng" }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(ShareRestaurantButton, { restaurantId: restaurant.id, restaurantName: restaurant.name }, restaurant.id)
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("section", { className: "item-card rb-pickup-choice", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("label", { htmlFor: "menu-pickup", children: "Th\u1EDDi gian gh\xE9 l\u1EA5y" }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("select", { id: "menu-pickup", value: pickup, onChange: (e) => setPickup(e.target.value), children: [
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("option", { value: "15", children: "Sau 15 ph\xFAt" }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("option", { value: "30", children: "Sau 30 ph\xFAt" }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("option", { value: "45", children: "Sau 45 ph\xFAt" })
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("section", { className: "item-card rb-pickup-choice", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("label", { htmlFor: "menu-pickup", children: "Th\u1EDDi gian gh\xE9 l\u1EA5y" }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("select", { id: "menu-pickup", value: pickup, onChange: (e) => setPickup(e.target.value), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("option", { value: "15", children: "Sau 15 ph\xFAt" }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("option", { value: "30", children: "Sau 30 ph\xFAt" }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("option", { value: "45", children: "Sau 45 ph\xFAt" })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("section", { className: "rb-menu-list", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h2", { children: "Menu m\xF3n \u0103n" }),
-        menu.length ? menu.map((item) => /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("article", { className: "item-card rb-product-row", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(FoodThumbnail, { src: item.imageUrl, name: item.name }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-product-copy", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h3", { children: item.name }),
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { children: item.description || "M\xF3n ngon c\u1EE7a qu\xE1n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("strong", { children: formatMoney(item.price) })
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("section", { className: "rb-menu-list", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("h2", { children: "Menu m\xF3n \u0103n" }),
+        menu.length ? menu.map((item) => /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("article", { className: "item-card rb-product-row", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(FoodThumbnail, { src: item.imageUrl, name: item.name }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { className: "rb-product-copy", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("h3", { children: item.name }),
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("p", { children: item.description || "M\xF3n ngon c\u1EE7a qu\xE1n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("strong", { children: formatMoney(item.price) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(
             QuantityStepper,
             {
               name: item.name,
@@ -32595,16 +41297,16 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
               onDecrease: () => change(restaurant.id, item.id, -1)
             }
           )
-        ] }, item.id)) : /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("div", { className: "item-card rb-empty", children: "Qu\xE1n ch\u01B0a c\xF3 m\xF3n \u0111ang b\xE1n." })
+        ] }, item.id)) : /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("div", { className: "item-card rb-empty", children: "Qu\xE1n ch\u01B0a c\xF3 m\xF3n \u0111ang b\xE1n." })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ReviewsSection, { embeddedReviews: restaurant.reviews }, restaurant.id),
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(Link, { className: "rb-menu-cart", to: "/restaurants/" + restaurant.id + "/cart" + routeQuery(origin), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("span", { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(ReviewsSection, { embeddedReviews: restaurant.reviews }, restaurant.id),
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)(Link, { className: "rb-menu-cart", to: "/restaurants/" + restaurant.id + "/cart" + routeQuery(origin), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("span", { children: [
           "Xem gi\u1ECF h\xE0ng \xB7 ",
           count,
           " m\xF3n"
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("strong", { children: formatMoney(total) })
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("strong", { children: formatMoney(total) })
       ] })
     ] });
   }
@@ -32617,19 +41319,19 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     const savedCart = carts.find((entry) => entry.restaurantId === id);
     const cart = savedCart?.items || [];
     const { restaurant, error: restaurantError, loading: restaurantLoading } = usePublicRestaurant(id, !!savedCart);
-    (0, import_react46.useEffect)(() => {
+    (0, import_react52.useEffect)(() => {
       const origin = readRouteOrigin(params);
       if (origin) rememberOrigin(id, origin);
     }, [id, params, rememberOrigin]);
-    const [createdOrder, setCreatedOrder] = (0, import_react46.useState)(null);
+    const [createdOrder, setCreatedOrder] = (0, import_react52.useState)(null);
     const showConfirmation = createdOrder && createdOrder.checkoutRestaurantId === id && createdOrder.checkoutUserId === currentUser?.id;
     const routeEta = Math.max(1, Number(localStorage.getItem("routebite_route_eta_minutes")) || 15);
     const [method, setMethod] = usePaymentMethod();
-    const [pickupType, setPickupType] = (0, import_react46.useState)("asap");
-    const [minutes, setMinutes] = (0, import_react46.useState)(cart[0]?.pickupMinutes || routeEta);
-    const [scheduledTime, setScheduledTime] = (0, import_react46.useState)("");
-    const [busy, setBusy] = (0, import_react46.useState)(false);
-    const [message, setMessage] = (0, import_react46.useState)("");
+    const [pickupType, setPickupType] = (0, import_react52.useState)("asap");
+    const [minutes, setMinutes] = (0, import_react52.useState)(cart[0]?.pickupMinutes || routeEta);
+    const [scheduledTime, setScheduledTime] = (0, import_react52.useState)("");
+    const [busy, setBusy] = (0, import_react52.useState)(false);
+    const [message, setMessage] = (0, import_react52.useState)("");
     const total = cart.reduce((sum, item) => sum + Number(item.price) * item.quantity, 0);
     const vouchers = useCheckoutVouchers(total, id);
     const payable = total - vouchers.discount;
@@ -32670,34 +41372,34 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setBusy(false);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("main", { className: "app-page rb-commerce-page rb-cart-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Link, { className: "back-link", to: "/my-carts", children: "\u2190 Gi\u1ECF h\xE0ng c\u1EE7a t\xF4i" }),
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "page-intro", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { className: "rb-eyebrow", children: "GI\u1ECE H\xC0NG" }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h1", { children: "Gh\xE9 l\u1EA5y mang \u0111i" }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { children: "Ki\u1EC3m tra m\xF3n, ch\u1ECDn gi\u1EDD l\u1EA5y v\xE0 ph\u01B0\u01A1ng th\u1EE9c thanh to\xE1n." })
+    return /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("main", { className: "app-page rb-commerce-page rb-cart-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Link, { className: "back-link", to: "/my-carts", children: "\u2190 Gi\u1ECF h\xE0ng c\u1EE7a t\xF4i" }),
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { className: "page-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("p", { className: "rb-eyebrow", children: "GI\u1ECE H\xC0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("h1", { children: "Gh\xE9 l\u1EA5y mang \u0111i" }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("p", { children: "Ki\u1EC3m tra m\xF3n, ch\u1ECDn gi\u1EDD l\u1EA5y v\xE0 ph\u01B0\u01A1ng th\u1EE9c thanh to\xE1n." })
       ] }),
-      message && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { className: "item-card rb-feedback", role: "status", children: message }),
-      !!savedCart && restaurantError && /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("p", { className: "item-card rb-feedback", role: "alert", children: [
+      message && /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("p", { className: "item-card rb-feedback", role: "status", children: message }),
+      !!savedCart && restaurantError && /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("p", { className: "item-card rb-feedback", role: "alert", children: [
         restaurantError,
         " Gi\u1ECF h\xE0ng \u0111\u01B0\u1EE3c gi\u1EEF l\u1EA1i; b\u1EA1n c\xF3 th\u1EC3 quay l\u1EA1i ch\u1ECDn qu\xE1n kh\xE1c."
       ] }),
-      !!savedCart && restaurantLoading && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { role: "status", children: "\u0110ang ki\u1EC3m tra tr\u1EA1ng th\xE1i qu\xE1n\u2026" }),
-      showConfirmation && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(PlacedOrderConfirmation, { initialOrder: createdOrder }, createdOrder.id + ":" + currentUser?.id),
-      cart.length ? /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-cart-layout", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("section", { className: "item-card rb-cart-items", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h2", { children: cart[0].restaurantName || "M\xF3n \u0111\xE3 ch\u1ECDn" }),
-          cart.map((item) => /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("article", { className: "rb-product-row rb-cart-row", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(FoodThumbnail, { src: item.imageUrl, name: item.name }),
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-product-copy", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h3", { children: item.name }),
-              /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("p", { children: [
+      !!savedCart && restaurantLoading && /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("p", { role: "status", children: "\u0110ang ki\u1EC3m tra tr\u1EA1ng th\xE1i qu\xE1n\u2026" }),
+      showConfirmation && /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(PlacedOrderConfirmation, { initialOrder: createdOrder }, createdOrder.id + ":" + currentUser?.id),
+      cart.length ? /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { className: "rb-cart-layout", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("section", { className: "item-card rb-cart-items", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("h2", { children: cart[0].restaurantName || "M\xF3n \u0111\xE3 ch\u1ECDn" }),
+          cart.map((item) => /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("article", { className: "rb-product-row rb-cart-row", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(FoodThumbnail, { src: item.imageUrl, name: item.name }),
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { className: "rb-product-copy", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("h3", { children: item.name }),
+              /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("p", { children: [
                 formatMoney(item.price),
                 " / m\xF3n"
               ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("strong", { children: formatMoney(Number(item.price) * item.quantity) })
+              /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("strong", { children: formatMoney(Number(item.price) * item.quantity) })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(
               QuantityStepper,
               {
                 name: item.name,
@@ -32709,8 +41411,8 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
             )
           ] }, item.id))
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("aside", { className: "item-card rb-cart-summary", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("aside", { className: "item-card rb-cart-summary", children: [
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(
             RouteSummaryCard,
             {
               restaurantName: savedCart.restaurantName,
@@ -32719,70 +41421,70 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
               origin: savedCart.routeOrigin
             }
           ),
-          vouchers.enabled && /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-checkout-voucher", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("label", { htmlFor: "checkout-voucher", children: "Voucher gi\u1EA3m gi\xE1" }),
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("select", { id: "checkout-voucher", value: vouchers.selectedId, disabled: busy || vouchers.loading, onChange: (e) => vouchers.setSelectedId(e.target.value), children: [
-              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("option", { value: "", children: vouchers.loading ? "\u0110ang t\u1EA3i voucher\u2026" : "Kh\xF4ng d\xF9ng voucher" }),
-              vouchers.available.map((row) => /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("option", { value: row.id, disabled: total < row.voucher.minOrderAmount, children: [
+          vouchers.enabled && /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { className: "rb-checkout-voucher", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("label", { htmlFor: "checkout-voucher", children: "Voucher gi\u1EA3m gi\xE1" }),
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("select", { id: "checkout-voucher", value: vouchers.selectedId, disabled: busy || vouchers.loading, onChange: (e) => vouchers.setSelectedId(e.target.value), children: [
+              /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("option", { value: "", children: vouchers.loading ? "\u0110ang t\u1EA3i voucher\u2026" : "Kh\xF4ng d\xF9ng voucher" }),
+              vouchers.available.map((row) => /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("option", { value: row.id, disabled: total < row.voucher.minOrderAmount, children: [
                 row.voucher.title,
                 " \xB7 ",
                 voucherTerms(row.voucher)
               ] }, row.id))
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Link, { to: "/my-points", children: "\u0110\u1ED5i xu / Nh\u1EADn voucher" }),
-            vouchers.error && /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("p", { role: "status", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Link, { to: "/my-points", children: "\u0110\u1ED5i xu / Nh\u1EADn voucher" }),
+            vouchers.error && /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("p", { role: "status", children: [
               vouchers.error,
               " ",
-              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("button", { type: "button", disabled: busy, onClick: vouchers.retry, children: "Th\u1EED l\u1EA1i" })
+              /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("button", { type: "button", disabled: busy, onClick: vouchers.retry, children: "Th\u1EED l\u1EA1i" })
             ] }),
-            vouchers.selected && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("small", { children: "Voucher s\u1EBD \u0111\u01B0\u1EE3c d\xF9ng khi t\u1EA1o \u0111\u01A1n th\xE0nh c\xF4ng, kh\xF4ng t\u1EF1 ho\xE0n khi h\u1EE7y." })
+            vouchers.selected && /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("small", { children: "Voucher s\u1EBD \u0111\u01B0\u1EE3c d\xF9ng khi t\u1EA1o \u0111\u01A1n th\xE0nh c\xF4ng, kh\xF4ng t\u1EF1 ho\xE0n khi h\u1EE7y." })
           ] }),
-          vouchers.discount > 0 && /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(import_jsx_runtime56.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-discount-row", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("span", { children: "T\u1EA1m t\xEDnh" }),
-              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("span", { children: formatMoney(total) })
+          vouchers.discount > 0 && /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)(import_jsx_runtime63.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { className: "rb-discount-row", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("span", { children: "T\u1EA1m t\xEDnh" }),
+              /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("span", { children: formatMoney(total) })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-discount-row saving", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("span", { children: "Gi\u1EA3m voucher" }),
-              /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("strong", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { className: "rb-discount-row saving", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("span", { children: "Gi\u1EA3m voucher" }),
+              /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("strong", { children: [
                 "\u2212",
                 formatMoney(vouchers.discount)
               ] })
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-cart-total", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h2", { children: "T\u1ED5ng c\u1ED9ng" }),
-              /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("span", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { className: "rb-cart-total", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("h2", { children: "T\u1ED5ng c\u1ED9ng" }),
+              /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("span", { children: [
                 count,
                 " m\xF3n"
               ] })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("strong", { children: formatMoney(payable) })
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("strong", { children: formatMoney(payable) })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("fieldset", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("legend", { children: "Gi\u1EDD l\u1EA5y h\xE0ng" }),
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("label", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("input", { name: "pickup-type", type: "radio", disabled: busy, checked: pickupType === "asap", onChange: () => setPickupType("asap") }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("fieldset", { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("legend", { children: "Gi\u1EDD l\u1EA5y h\xE0ng" }),
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("label", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("input", { name: "pickup-type", type: "radio", disabled: busy, checked: pickupType === "asap", onChange: () => setPickupType("asap") }),
               " L\u1EA5y s\u1EDBm nh\u1EA5t"
             ] }),
-            pickupType === "asap" && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("select", { "aria-label": "Th\u1EDDi gian l\u1EA5y m\xF3n", disabled: busy, value: minutes, onChange: (e) => setMinutes(Number(e.target.value)), children: minuteOptions.map((value2) => /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("option", { value: value2, children: [
+            pickupType === "asap" && /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("select", { "aria-label": "Th\u1EDDi gian l\u1EA5y m\xF3n", disabled: busy, value: minutes, onChange: (e) => setMinutes(Number(e.target.value)), children: minuteOptions.map((value2) => /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("option", { value: value2, children: [
               value2 === routeEta ? "Theo l\u1ED9 tr\xECnh: kho\u1EA3ng " : "Sau kho\u1EA3ng ",
               value2,
               " ph\xFAt"
             ] }, value2)) }),
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("label", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("input", { name: "pickup-type", type: "radio", disabled: busy, checked: pickupType === "scheduled", onChange: () => setPickupType("scheduled") }),
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("label", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("input", { name: "pickup-type", type: "radio", disabled: busy, checked: pickupType === "scheduled", onChange: () => setPickupType("scheduled") }),
               " H\u1EB9n gi\u1EDD l\u1EA5y m\xF3n"
             ] }),
-            pickupType === "scheduled" && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("input", { "aria-label": "Gi\u1EDD h\u1EB9n l\u1EA5y m\xF3n", type: "datetime-local", disabled: busy, value: scheduledTime, onChange: (e) => setScheduledTime(e.target.value), required: true })
+            pickupType === "scheduled" && /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("input", { "aria-label": "Gi\u1EDD h\u1EB9n l\u1EA5y m\xF3n", type: "datetime-local", disabled: busy, value: scheduledTime, onChange: (e) => setScheduledTime(e.target.value), required: true })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(PaymentMethodSelector, { value: method, onChange: setMethod, disabled: busy }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("button", { type: "button", className: "rb-checkout-button", disabled: busy || restaurantLoading || !!restaurantError || pickupType === "scheduled" && !scheduledTime, onClick: checkout, children: busy ? "\u0110ang t\u1EA1o \u0111\u01A1n\u2026" : method === "vnpay" && payable > 0 ? "Ti\u1EBFp t\u1EE5c \u0111\u1EBFn VNPAY" : "\u0110\u1EB7t h\xE0ng" })
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(PaymentMethodSelector, { value: method, onChange: setMethod, disabled: busy }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("button", { type: "button", className: "rb-checkout-button", disabled: busy || restaurantLoading || !!restaurantError || pickupType === "scheduled" && !scheduledTime, onClick: checkout, children: busy ? "\u0110ang t\u1EA1o \u0111\u01A1n\u2026" : method === "vnpay" && payable > 0 ? "Ti\u1EBFp t\u1EE5c \u0111\u1EBFn VNPAY" : "\u0110\u1EB7t h\xE0ng" })
         ] })
-      ] }) : !showConfirmation && /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("section", { className: "item-card rb-empty", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { children: "Gi\u1ECF h\xE0ng \u0111ang tr\u1ED1ng. H\xE3y ch\u1ECDn m\xF3n t\u1EEB menu qu\xE1n." }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Link, { to: "/", children: "Kh\xE1m ph\xE1 qu\xE1n" })
+      ] }) : !showConfirmation && /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("section", { className: "item-card rb-empty", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("p", { children: "Gi\u1ECF h\xE0ng \u0111ang tr\u1ED1ng. H\xE3y ch\u1ECDn m\xF3n t\u1EEB menu qu\xE1n." }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Link, { to: "/", children: "Kh\xE1m ph\xE1 qu\xE1n" })
       ] })
     ] });
   }
@@ -32795,15 +41497,15 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
   function OrdersPage() {
     const navigate = useNavigate();
     const { currentUser } = useAuth();
-    const [activeFilter, setActiveFilter] = (0, import_react46.useState)("all");
-    const [cancelling, setCancelling] = (0, import_react46.useState)(null);
-    const [cancelError, setCancelError] = (0, import_react46.useState)("");
-    const [orders, setOrders] = (0, import_react46.useState)(null);
-    const [error, setError] = (0, import_react46.useState)("");
-    const [reviewTarget, setReviewTarget] = (0, import_react46.useState)(null);
-    const [reviewMessage, setReviewMessage] = (0, import_react46.useState)("");
+    const [activeFilter, setActiveFilter] = (0, import_react52.useState)("all");
+    const [cancelling, setCancelling] = (0, import_react52.useState)(null);
+    const [cancelError, setCancelError] = (0, import_react52.useState)("");
+    const [orders, setOrders] = (0, import_react52.useState)(null);
+    const [error, setError] = (0, import_react52.useState)("");
+    const [reviewTarget, setReviewTarget] = (0, import_react52.useState)(null);
+    const [reviewMessage, setReviewMessage] = (0, import_react52.useState)("");
     const token = localStorage.getItem(TOKEN_KEY);
-    (0, import_react46.useEffect)(() => {
+    (0, import_react52.useEffect)(() => {
       let active = true;
       setError("");
       if (!token) {
@@ -32819,13 +41521,13 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         active = false;
       };
     }, [token]);
-    if (!token) return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: [
+    if (!token) return /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: [
       "Vui l\xF2ng ",
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Link, { to: "/login", children: "\u0111\u0103ng nh\u1EADp" }),
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Link, { to: "/login", children: "\u0111\u0103ng nh\u1EADp" }),
       " \u0111\u1EC3 xem \u0111\u01A1n h\xE0ng."
     ] });
-    if (error) return /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: error });
-    if (!orders) return /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: "\u0110ang t\u1EA3i\u2026" });
+    if (error) return /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: error });
+    if (!orders) return /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Page, { title: "\u0110\u01A1n c\u1EE7a t\xF4i", children: "\u0110ang t\u1EA3i\u2026" });
     const matches = (filter2, order) => filter2.key === "all" || filter2.statuses.includes(String(order.status).toUpperCase());
     const filter = ORDER_FILTERS.find((entry) => entry.key === activeFilter);
     const filteredOrders = orders.filter((order) => matches(filter, order));
@@ -32842,45 +41544,45 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
         setCancelling(null);
       }
     }
-    return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("main", { className: "app-page rb-commerce-page rb-orders-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "page-intro", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { className: "rb-eyebrow", children: "\u0110\u01A0N H\xC0NG" }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h1", { children: "\u0110\u01A1n c\u1EE7a t\xF4i" }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { children: "Theo d\xF5i tr\u1EA1ng th\xE1i v\xE0 ti\u1EBFn \u0111\u1ED9 \u0111\u01A1n h\xE0ng c\u1EE7a b\u1EA1n." })
+    return /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("main", { className: "app-page rb-commerce-page rb-orders-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { className: "page-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("p", { className: "rb-eyebrow", children: "\u0110\u01A0N H\xC0NG" }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("h1", { children: "\u0110\u01A1n c\u1EE7a t\xF4i" }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("p", { children: "Theo d\xF5i tr\u1EA1ng th\xE1i v\xE0 ti\u1EBFn \u0111\u1ED9 \u0111\u01A1n h\xE0ng c\u1EE7a b\u1EA1n." })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("div", { className: "rb-order-filters", "aria-label": "L\u1ECDc tr\u1EA1ng th\xE1i \u0111\u01A1n", children: ORDER_FILTERS.map((entry) => /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("button", { type: "button", "aria-pressed": entry.key === activeFilter, onClick: () => setActiveFilter(entry.key), children: [
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("div", { className: "rb-order-filters", "aria-label": "L\u1ECDc tr\u1EA1ng th\xE1i \u0111\u01A1n", children: ORDER_FILTERS.map((entry) => /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("button", { type: "button", "aria-pressed": entry.key === activeFilter, onClick: () => setActiveFilter(entry.key), children: [
         entry.label,
         " (",
         orders.filter((order) => matches(entry, order)).length,
         ")"
       ] }, entry.key)) }),
-      cancelError && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { className: "auth-alert", role: "alert", children: cancelError }),
-      reviewMessage && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { className: "rb-pickup-due", role: "status", children: reviewMessage }),
-      filteredOrders.length ? /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("section", { className: "rb-orders-list", children: filteredOrders.map((order) => {
+      cancelError && /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("p", { className: "auth-alert", role: "alert", children: cancelError }),
+      reviewMessage && /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("p", { className: "rb-pickup-due", role: "status", children: reviewMessage }),
+      filteredOrders.length ? /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("section", { className: "rb-orders-list", children: filteredOrders.map((order) => {
         const status = String(order.status).toUpperCase();
         const first = order.items?.[0];
-        return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("article", { className: "item-card rb-order-card rb-clickable-order", onClick: () => navigate("/orders/" + order.id), children: [
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-order-heading", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(FoodThumbnail, { src: first?.imageUrl || order.restaurant?.imageUrl, name: first?.itemName || first?.name || "M\xF3n trong \u0111\u01A1n" }),
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-order-copy", children: [
-              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("small", { children: new Date(order.createdAt).toLocaleString("vi-VN") }),
-              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { className: "rb-order-code", children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Link, { to: "/orders/" + order.id, children: order.orderCode }) }),
-              /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h3", { children: order.restaurant?.name || order.restaurantName || "Qu\xE1n \u0103n" }),
-              /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("p", { children: [
+        return /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("article", { className: "item-card rb-order-card rb-clickable-order", onClick: () => navigate("/orders/" + order.id), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { className: "rb-order-heading", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(FoodThumbnail, { src: first?.imageUrl || order.restaurant?.imageUrl, name: first?.itemName || first?.name || "M\xF3n trong \u0111\u01A1n" }),
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { className: "rb-order-copy", children: [
+              /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("small", { children: new Date(order.createdAt).toLocaleString("vi-VN") }),
+              /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("p", { className: "rb-order-code", children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Link, { to: "/orders/" + order.id, children: order.orderCode }) }),
+              /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("h3", { children: order.restaurant?.name || order.restaurantName || "Qu\xE1n \u0103n" }),
+              /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("p", { children: [
                 first?.itemName || first?.name || "M\xF3n \u0111\xE3 \u0111\u1EB7t",
                 order.items?.length > 1 ? " v\xE0 " + (order.items.length - 1) + " m\xF3n kh\xE1c" : ""
               ] })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(OrderStatusBadge, { status: order.status })
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(OrderStatusBadge, { status: order.status })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "rb-order-footer", children: [
-            /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("strong", { children: formatMoney(order.totalAmount) }),
-            status === "COMPLETED" ? /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("span", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { className: "rb-order-footer", children: [
+            /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("strong", { children: formatMoney(order.totalAmount) }),
+            status === "COMPLETED" ? /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("span", { children: [
               (order.items || []).reduce((sum, item) => sum + item.quantity, 0),
               " m\xF3n"
-            ] }) : status === "CANCELLED" ? null : status === "READY" ? /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("span", { className: "rb-pickup-due", children: "M\xF3n \u0111\xE3 s\u1EB5n s\xE0ng, gh\xE9 l\u1EA5y nh\xE9!" }) : ["PENDING", "CONFIRMED", "PREPARING"].includes(status) ? /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }) : null
+            ] }) : status === "CANCELLED" ? null : status === "READY" ? /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("span", { className: "rb-pickup-due", children: "M\xF3n \u0111\xE3 s\u1EB5n s\xE0ng, gh\xE9 l\u1EA5y nh\xE9!" }) : ["PENDING", "CONFIRMED", "PREPARING"].includes(status) ? /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(PickupCountdown, { estimatedPickupAt: order.estimatedPickupAt, pickupType: order.pickupType }) : null
           ] }),
-          status === "PENDING" && currentUser?.role === "customer" && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
+          status === "PENDING" && currentUser?.role === "customer" && /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(
             "button",
             {
               type: "button",
@@ -32893,14 +41595,14 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
               children: cancelling === order.id ? "\u0110ang h\u1EE7y\u2026" : "H\u1EE7y \u0111\u01A1n"
             }
           ),
-          status === "COMPLETED" && currentUser?.role === "customer" && order.userId === currentUser.id && (order.hasReview || order.review ? /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("span", { className: "rb-reviewed-label", children: "\u0110\xE3 \u0111\xE1nh gi\xE1" }) : /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("button", { type: "button", className: "rb-review-now", onClick: (event) => {
+          status === "COMPLETED" && currentUser?.role === "customer" && order.userId === currentUser.id && (order.hasReview || order.review ? /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("span", { className: "rb-reviewed-label", children: "\u0110\xE3 \u0111\xE1nh gi\xE1" }) : /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("button", { type: "button", className: "rb-review-now", onClick: (event) => {
             event.stopPropagation();
             setReviewMessage("");
             setReviewTarget(order);
           }, children: "\u2605 \u0110\xE1nh gi\xE1 ngay" }))
         ] }, order.id);
-      }) }) : /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("section", { className: "item-card rb-empty", children: filter.empty }),
-      reviewTarget && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(
+      }) }) : /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("section", { className: "item-card rb-empty", children: filter.empty }),
+      reviewTarget && /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(
         ReviewModal,
         {
           orderId: reviewTarget.id,
@@ -32917,65 +41619,66 @@ Please change the parent <Route path="${parentPath}"> to <Route path="${parentPa
     ] });
   }
   function Page({ title, children }) {
-    return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("main", { className: "app-page", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)("div", { className: "page-intro", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("p", { children: "ROUTEBITE" }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("h1", { children: title })
+    return /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("main", { className: "app-page", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)("div", { className: "page-intro", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("p", { children: "ROUTEBITE" }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("h1", { children: title })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)("section", { className: "orders-empty-v2", children: children || "T\xEDnh n\u0103ng \u0111ang \u0111\u01B0\u1EE3c \u0111\u1ED3ng b\u1ED9." })
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsx)("section", { className: "orders-empty-v2", children: children || "T\xEDnh n\u0103ng \u0111ang \u0111\u01B0\u1EE3c \u0111\u1ED3ng b\u1ED9." })
     ] });
   }
   function AppShell() {
     const { pathname } = useLocation();
     const merchantRoute = pathname === "/merchant" || pathname.startsWith("/merchant/");
     const adminRoute = pathname === "/admin" || pathname.startsWith("/admin/");
-    return /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(CartProvider, { children: [
-      !merchantRoute && !adminRoute && /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Header, {}),
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(Routes, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Home, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/login", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(LoginPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/register", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(RegisterPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/profile", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ProfilePage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/partner/register", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(PartnerRegistrationPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/restaurant/:id", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(RestaurantMenu, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/my-carts", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(MyCartsPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/restaurants/:id/cart", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(CartPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/my-orders", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(OrdersPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/orders/:id", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(OrderDetailPage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(Route, { path: "/merchant", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ProtectedRoute, { allowedRoles: ["merchant"], children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(MerchantProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(MerchantLayout, {}) }) }), children: [
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { index: true, element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Navigate, { to: "dashboard", replace: true }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "dashboard", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(DashboardPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "menu", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(MenuManagementPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "reviews", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(MerchantReviewsPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "orders", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(OrdersKanbanPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "orders/:id", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(OrderDetailPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "onboarding", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(OnboardingPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "profile", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ProfilePage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "*", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Navigate, { to: "/merchant/dashboard", replace: true }) })
+    return /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)(CartProvider, { children: [
+      !merchantRoute && !adminRoute && /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Header, {}),
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)(Routes, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "/", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Home, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "/login", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(LoginPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "/register", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(RegisterPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "/profile", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(ProfilePage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "/partner/register", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(PartnerRegistrationPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "/payment/vnpay-return", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(VnpayReturnPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "/restaurant/:id", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(RestaurantMenu, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "/my-carts", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(MyCartsPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "/restaurants/:id/cart", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(CartPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "/my-orders", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(OrdersPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "/orders/:id", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(OrderDetailPage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)(Route, { path: "/merchant", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(ProtectedRoute, { allowedRoles: ["merchant"], children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(MerchantProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(MerchantLayout, {}) }) }), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { index: true, element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Navigate, { to: "dashboard", replace: true }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "dashboard", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(DashboardPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "menu", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(MenuManagementPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "reviews", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(MerchantReviewsPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "orders", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(OrdersKanbanPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "orders/:id", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(OrderDetailPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "onboarding", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(OnboardingPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "profile", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(ProfilePage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "*", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Navigate, { to: "/merchant/dashboard", replace: true }) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsxs)(Route, { path: "/admin", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ProtectedRoute, { allowedRoles: ["admin"], children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AdminLayout, {}) }), children: [
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { index: true, element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Navigate, { to: "overview", replace: true }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "overview", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AdminOverviewPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "restaurants", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AdminRestaurantsPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "users", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AdminUsersPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "vouchers", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AdminVouchersPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "merchant-applications", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AdminMerchantApplicationsPage, {}) }),
-          /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "*", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Navigate, { to: "/admin/overview", replace: true }) })
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsxs)(Route, { path: "/admin", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(ProtectedRoute, { allowedRoles: ["admin"], children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(AdminLayout, {}) }), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { index: true, element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Navigate, { to: "overview", replace: true }) }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "overview", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(AdminOverviewPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "restaurants", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(AdminRestaurantsPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "users", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(AdminUsersPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "vouchers", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(AdminVouchersPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "merchant-applications", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(AdminMerchantApplicationsPage, {}) }),
+          /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "*", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Navigate, { to: "/admin/overview", replace: true }) })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/kham-pha", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ExplorePage, {}) }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/my-favorites", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ProtectedRoute, { allowedRoles: ["customer", "merchant", "admin"], children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(MyFavoritesPage, {}) }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(Route, { path: "/my-points", element: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ProtectedRoute, { allowedRoles: ["customer"], children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(MyPointsPage, {}) }) })
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "/kham-pha", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(ExplorePage, {}) }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "/my-favorites", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(ProtectedRoute, { allowedRoles: ["customer", "merchant", "admin"], children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(MyFavoritesPage, {}) }) }),
+        /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(Route, { path: "/my-points", element: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(ProtectedRoute, { allowedRoles: ["customer"], children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(MyPointsPage, {}) }) })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AiSupportWidget, {})
+      /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(AiSupportWidget, {})
     ] });
   }
   function App() {
-    return /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AuthProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(BrowserRouter, { children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(SocketProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(NotificationsProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(ChatInboxProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(FavoritesProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime56.jsx)(AppShell, {}) }) }) }) }) }) });
+    return /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(AuthProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(BrowserRouter, { children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(SocketProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(NotificationsProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(ChatInboxProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(FavoritesProvider, { children: /* @__PURE__ */ (0, import_jsx_runtime63.jsx)(AppShell, {}) }) }) }) }) }) });
   }
 
   // src/entry.jsx
-  var import_jsx_runtime57 = __toESM(require_jsx_runtime(), 1);
-  import_client.default.createRoot(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime57.jsx)(App, {}));
+  var import_jsx_runtime64 = __toESM(require_jsx_runtime(), 1);
+  import_client.default.createRoot(document.getElementById("root")).render(/* @__PURE__ */ (0, import_jsx_runtime64.jsx)(App, {}));
 })();
 /*! Bundled license information:
 
@@ -33045,5 +41748,631 @@ react-router/dist/development/index.mjs:
    * LICENSE.md file in the root directory of this source tree.
    *
    * @license MIT
+   *)
+
+@firebase/util/dist/index.esm.js:
+@firebase/util/dist/index.esm.js:
+@firebase/util/dist/index.esm.js:
+@firebase/util/dist/index.esm.js:
+@firebase/util/dist/index.esm.js:
+@firebase/util/dist/index.esm.js:
+@firebase/util/dist/index.esm.js:
+@firebase/util/dist/index.esm.js:
+@firebase/util/dist/index.esm.js:
+@firebase/util/dist/index.esm.js:
+@firebase/logger/dist/esm/index.esm.js:
+  (**
+   * @license
+   * Copyright 2017 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+
+@firebase/util/dist/index.esm.js:
+@firebase/util/dist/index.esm.js:
+  (**
+   * @license
+   * Copyright 2022 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+
+@firebase/util/dist/index.esm.js:
+  (**
+   * @license
+   * Copyright 2017 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+  (**
+   * @license
+   * Copyright 2021 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+
+@firebase/util/dist/index.esm.js:
+@firebase/component/dist/esm/index.esm.js:
+@firebase/app/dist/esm/index.esm.js:
+@firebase/app/dist/esm/index.esm.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+  (**
+   * @license
+   * Copyright 2019 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+
+@firebase/util/dist/index.esm.js:
+firebase/app/dist/esm/index.esm.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+  (**
+   * @license
+   * Copyright 2020 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+
+@firebase/util/dist/index.esm.js:
+  (**
+   * @license
+   * Copyright 2021 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+  (**
+   * @license
+   * Copyright 2025 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+
+@firebase/app/dist/esm/index.esm.js:
+  (**
+   * @license
+   * Copyright 2019 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+  (**
+   * @license
+   * Copyright 2023 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+
+@firebase/app/dist/esm/index.esm.js:
+  (**
+   * @license
+   * Copyright 2021 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+  (**
+   * @license
+   * Copyright 2019 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+  (**
+   * @license
+   * Copyright 2021 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+  (**
+   * @license
+   * Copyright 2020 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+  (**
+   * @license
+   * Copyright 2019 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+  (**
+   * @license
+   * Copyright 2020 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+  (**
+   * @license
+   * Copyright 2022 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+  (**
+   * @license
+   * Copyright 2023 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+  (**
+   * @license
+   * Copyright 2022 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+  (**
+   * @license
+   * Copyright 2020 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+  (**
+   * @license
+   * Copyright 2019 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+  (**
+   * @license
+   * Copyright 2020 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+  (**
+   * @license
+   * Copyright 2019 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+  (**
+   * @license
+   * Copyright 2020 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+  (**
+   * @license
+   * Copyright 2025 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+  (**
+   * @license
+   * Copyright 2020 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+  (**
+   * @license
+   * Copyright 2019 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+  (**
+   * @license
+   * Copyright 2020 Google LLC.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+  (**
+   * @license
+   * Copyright 2020 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+  (**
+   * @license
+   * Copyright 2021 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+  (**
+   * @license
+   * Copyright 2019 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+
+@firebase/auth/dist/esm/index-4NFEPWkC.js:
+  (**
+   * @license
+   * Copyright 2020 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+  (**
+   * @license
+   * Copyright 2020 Google LLC.
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
+   *)
+  (**
+   * @license
+   * Copyright 2021 Google LLC
+   *
+   * Licensed under the Apache License, Version 2.0 (the "License");
+   * you may not use this file except in compliance with the License.
+   * You may obtain a copy of the License at
+   *
+   *   http://www.apache.org/licenses/LICENSE-2.0
+   *
+   * Unless required by applicable law or agreed to in writing, software
+   * distributed under the License is distributed on an "AS IS" BASIS,
+   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   * See the License for the specific language governing permissions and
+   * limitations under the License.
    *)
 */
